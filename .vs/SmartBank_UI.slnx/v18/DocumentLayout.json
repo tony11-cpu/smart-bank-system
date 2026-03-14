@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{32FA0DF8-B722-A3E6-688B-5D55E23B1A69}|SmartBank_DLL\\SmartBank_DAL.csproj|c:\\users\\tonyg\\onedrive\\desktop\\smart_bank_proejct\\smartbank_dll\\app.config.example||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{32FA0DF8-B722-A3E6-688B-5D55E23B1A69}|SmartBank_DLL\\SmartBank_DAL.csproj|solutionrelative:smartbank_dll\\app.config.example||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACB052E5-58A0-457B-9847-2FE33CA194F6}|SmartBank_UI\\SmartBank_UI.csproj|c:\\users\\tonyg\\onedrive\\desktop\\smart_bank_proejct\\smartbank_ui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{ACB052E5-58A0-457B-9847-2FE33CA194F6}|SmartBank_UI\\SmartBank_UI.csproj|solutionrelative:smartbank_ui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C1BF61B-036A-8D32-3756-704EB8396D1D}|SmartBank_BLL\\SmartBank_BLL.csproj|c:\\users\\tonyg\\onedrive\\desktop\\smart_bank_proejct\\smartbank_bll\\smartbank_bll.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2C1BF61B-036A-8D32-3756-704EB8396D1D}|SmartBank_BLL\\SmartBank_BLL.csproj|solutionrelative:smartbank_bll\\smartbank_bll.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "app.config.example",
+              "DocumentMoniker": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_DLL\\app.config.example",
+              "RelativeDocumentMoniker": "SmartBank_DLL\\app.config.example",
+              "ToolTip": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_DLL\\app.config.example",
+              "RelativeToolTip": "SmartBank_DLL\\app.config.example",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-03-14T19:42:57.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_UI\\Form1.cs",
+              "RelativeDocumentMoniker": "SmartBank_UI\\Form1.cs",
+              "ToolTip": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_UI\\Form1.cs [Design]",
+              "RelativeToolTip": "SmartBank_UI\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-14T19:30:50.211Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SmartBank_BLL.csproj",
+              "DocumentMoniker": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_BLL\\SmartBank_BLL.csproj",
+              "RelativeDocumentMoniker": "SmartBank_BLL\\SmartBank_BLL.csproj",
+              "ToolTip": "C:\\Users\\Tonyg\\OneDrive\\Desktop\\Smart_Bank_Proejct\\SmartBank_BLL\\SmartBank_BLL.csproj",
+              "RelativeToolTip": "SmartBank_BLL\\SmartBank_BLL.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-14T19:30:44.224Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
