@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 
-namespace SmartBank_BLL
+namespace SmartBank
 {
     public static class clsUsers_DAL
     {
@@ -54,8 +54,8 @@ namespace SmartBank_BLL
 
         public static bool GetUserByUsername(string username, ref int userID, ref string passwordHash,
                                          ref string passwordSalt, ref int permissions,
-                                         ref string fullName, ref bool isActive, ref bool isLocked,  
-                                         ref DateTime creationDate , ref DateTime? lastLogInDate)
+                                         ref string fullName, ref bool isActive, ref bool isLocked,
+                                         ref DateTime creationDate, ref DateTime? lastLogInDate)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace SmartBank_BLL
                     isActive = (bool)pIsActive.Value;
                     isLocked = (bool)pIsLocked.Value;
                     creationDate = (DateTime)pCreationDate.Value;
-                    lastLogInDate = pLastLogInDate.Value == DBNull.Value? (DateTime?) null : Convert.ToDateTime(pLastLogInDate.Value);
+                    lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
 
                     return true;
                 }
@@ -114,9 +114,9 @@ namespace SmartBank_BLL
             return false;
         }
 
-        public static int CreateUser(int userInActionID, string username, string hashedPassword,
-                                     string salt, int permissions, string fullName,
-                                     bool isActive, bool isLocked)
+        public static int CreateUser(int? userInActionID, string username, string hashedPassword,
+                                      string salt, int permissions, string fullName,
+                                      bool isActive, bool isLocked)
         {
             try
             {
@@ -177,72 +177,47 @@ namespace SmartBank_BLL
             }
         }
 
-        public static bool LockUser(int userID)
+        public static bool UpdateUser(int? adminUserID, int userID, string username,
+                                      string passwordHash, string passwordSalt, int permissions,
+                                      string fullName, bool isActive, bool isLocked,
+                                      DateTime? lastLoginDate)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("sp_LockUser", conn))
+                using (SqlCommand cmd = new SqlCommand("sp_UpdateUser", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
                     cmd.Parameters.AddWithValue("@UserID", userID);
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@PasswordHash", passwordHash);
+                    cmd.Parameters.AddWithValue("@PasswordSalt", passwordSalt);
+                    cmd.Parameters.AddWithValue("@Permissions", permissions);
+                    cmd.Parameters.AddWithValue("@FullName", fullName);
+                    cmd.Parameters.AddWithValue("@IsActive", isActive);
+                    cmd.Parameters.AddWithValue("@IsLocked", isLocked);
+                    cmd.Parameters.AddWithValue("@LastLoginDate", lastLoginDate.HasValue ? (object)lastLoginDate.Value : DBNull.Value);
+
+                    SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(pIsUpdated);
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
 
-                    return true;
+                    return Convert.ToBoolean(pIsUpdated.Value);
                 }
             }
             catch (SqlException ex)
             {
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                return false;
             }
-        }
 
-        public static bool UnlockUser(int targetUserID, int adminUserID)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("sp_UnlockUser", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@TargetUserID", targetUserID);
-                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-            catch (SqlException ex)
-            {
-                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                return false;
-            }
-        }
-
-        public static bool DeactivateUser(int targetUserID, int adminUserID)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("sp_DeactivateUser", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@TargetUserID", targetUserID);
-                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-            catch (SqlException ex)
-            {
-                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                return false;
-            }
+            return false;
         }
     }
 }

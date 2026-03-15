@@ -4,44 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartBank_BLL
+namespace SmartBank
 {
     public class clsPermissions
     {
-        public enum enPermission
-        {
-            CanDeposit = 1,
-            CanWithdraw = 2,
-            CanTransfer = 4,
-            CanScheduleTransfer = 8,
-            CanOpenAccount = 16,
-            CanFreezeAccount = 32,
-            CanCloseAccount = 64,
-            CanViewStatement = 128,
-            CanViewFraudFlags = 256,
-            CanResolveFraudFlags = 512,
-            CanViewAuditLog = 1024,
-            CanExportAuditLog = 2048,
-            CanManageUsers = 4096,
-            CanUnlockUsers = 8192,
-            CanChangePermissions = 16384,
-            CanEditSystemConfig = 32768
-        }
-
-        public enum enPermissionPresenter { Admin , Manager , Teller}
-
-        private int _permissions;
-
-        public int Permissions => _permissions;
-
         public clsPermissions(int permissions) => this._permissions = permissions;
 
-        public clsPermissions(enPermissionPresenter presenter) => _getPresenterPermissions(presenter);
-
-        private void _getPresenterPermissions(enPermissionPresenter presenter)
+        public clsPermissions(enPermissionPresenter presenter)
         {
-            _permissions = 0;
-
             switch (presenter)
             {
                 case enPermissionPresenter.Teller:
@@ -64,6 +34,32 @@ namespace SmartBank_BLL
                     break;
             }
         }
+
+        public enum enPermissionPresenter { Admin, Manager, Teller }
+
+        public enum enPermission
+        {
+            CanDeposit = 1,
+            CanWithdraw = 2,
+            CanTransfer = 4,
+            CanScheduleTransfer = 8,
+            CanOpenAccount = 16,
+            CanFreezeAccount = 32,
+            CanCloseAccount = 64,
+            CanViewStatement = 128,
+            CanViewFraudFlags = 256,
+            CanResolveFraudFlags = 512,
+            CanViewAuditLog = 1024,
+            CanExportAuditLog = 2048,
+            CanManageUsers = 4096,
+            CanUnlockUsers = 8192,
+            CanChangePermissions = 16384,
+            CanEditSystemConfig = 32768
+        }
+         
+        private int _permissions;
+
+        public int Permissions => _permissions;
 
         public bool Has(enPermission permission) => ((int)permission & _permissions) == (int)permission;
     }
