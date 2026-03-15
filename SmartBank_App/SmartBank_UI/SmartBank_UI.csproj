@@ -92,5 +92,11 @@
   <ItemGroup>
     <None Include="Resources\icons8-lock-641.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartBank_BLL\SmartBank_BLL.csproj">
+      <Project>{7eb20a84-f330-47f1-ba63-5f7c94cce5cb}</Project>
+      <Name>SmartBank_BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

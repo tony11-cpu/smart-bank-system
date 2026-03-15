@@ -1,7 +1,10 @@
-﻿using System;
+﻿using SmartBank;
+using SmartBank_BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,5 +23,11 @@ namespace SmartBank_UI.Login
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
 
         private void btnShowPassword_Click(object sender, EventArgs e) => tbPassword.PasswordChar = tbPassword.PasswordChar == default ? '*' : default;
+
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+
+
+        }
     }
 }

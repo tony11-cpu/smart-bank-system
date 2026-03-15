@@ -63,7 +63,7 @@ namespace SmartBank
 
         public void RecordLoginAttemp(bool wasSuccessful) => clsUsers_DAL.RecordLoginAttempt(Username, wasSuccessful);
 
-        public clsUsers Find(string username)
+        public static clsUsers Find(string username)
         {
             int userID = -1;
             string passwordHash = null;
@@ -79,8 +79,8 @@ namespace SmartBank
                                                          ref isActive, ref isLocked, ref creationDate, ref lastLogInDate)) 
             {
                 return new clsUsers(userID, username, new clsPermissions(permissions), 
-                                    fullName, isActive, isLocked,CreatedDate, 
-                                    lastLogInDate, passwordSalt , HashedPassword);
+                                    fullName, isActive, isLocked, creationDate, 
+                                    lastLogInDate, passwordSalt , passwordHash);
             }
 
             return null;

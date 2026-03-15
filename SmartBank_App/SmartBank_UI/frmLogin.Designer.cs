@@ -81,8 +81,9 @@
             btnWrongAttempWarning.Name = "btnWrongAttempWarning";
             btnWrongAttempWarning.Size = new System.Drawing.Size(474, 106);
             btnWrongAttempWarning.TabIndex = 11;
-            btnWrongAttempWarning.Text = "Warning - 2 of 5 attempts used.";
+            btnWrongAttempWarning.Text = "Warning - 1 of 5 attempts used.";
             btnWrongAttempWarning.UseVisualStyleBackColor = false;
+            btnWrongAttempWarning.Visible = false;
             // 
             // splitter1
             // 
@@ -333,6 +334,7 @@
             this.btnSignIn.TabIndex = 18;
             this.btnSignIn.Text = "Sign in";
             this.btnSignIn.UseVisualStyleBackColor = true;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
             // 
             // label14
             // 

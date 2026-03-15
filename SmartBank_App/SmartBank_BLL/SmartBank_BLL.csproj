@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsConfigurations.cs" />
     <Compile Include="clsGlobal.cs" />
     <Compile Include="clsPermissions.cs" />
     <Compile Include="clsUsers.cs" />
+    <Compile Include="clsUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

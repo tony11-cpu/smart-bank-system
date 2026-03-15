@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsConfigurations.cs" />
     <Compile Include="clsDB_Util.cs" />
     <Compile Include="clsUsers_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

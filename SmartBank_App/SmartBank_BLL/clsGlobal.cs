@@ -1,4 +1,5 @@
 ﻿using SmartBank;
+using SmartBank_BLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace SmartBank
 {
     public class clsGlobal
     {
-        public static clsUsers ActiveUser { get;  set; } = new clsUsers();
+        public static clsUsers ActiveUser { get;  set; }
     }
 }
