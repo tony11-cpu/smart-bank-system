@@ -1,4 +1,0 @@
-﻿namespace SmartBank_DLL
-{
-  
-}
