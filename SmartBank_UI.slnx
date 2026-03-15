@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="SmartBank_BLL/SmartBank_BLL.csproj" />
-  <Project Path="SmartBank_DLL/SmartBank_DAL.csproj" />
-  <Project Path="SmartBank_UI/SmartBank_UI.csproj" Id="acb052e5-58a0-457b-9847-2fe33ca194f6" />
-</Solution>
