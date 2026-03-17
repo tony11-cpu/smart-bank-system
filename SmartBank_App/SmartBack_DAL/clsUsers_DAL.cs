@@ -1,5 +1,6 @@
 ﻿using SmartBack_DAL;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -189,7 +190,7 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID == null ? (object)DBNull.Value : adminUserID);
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     cmd.Parameters.AddWithValue("@Username", username);
                     cmd.Parameters.AddWithValue("@PasswordHash", passwordHash);

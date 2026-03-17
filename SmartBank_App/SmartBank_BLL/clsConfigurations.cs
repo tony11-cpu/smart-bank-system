@@ -8,19 +8,24 @@ namespace SmartBank_BLL
 {
     public class clsConfigurations
     {
-        private static Dictionary<string, string> _sysConfigurations = SmartBack_DAL.clsConfigurations.GetAllConfig();
+        private static bool _isLoaded = false;
+        private static Dictionary<string, string> _sysConfigurations;
 
-        public static int MaxLoginAttempts => 
-            int.TryParse(_sysConfigurations["MaxLoginAttempts"], out int result) ? result : 5;
-        public static int LargeWithdrawalThreshold =>
-            int.TryParse(_sysConfigurations["LargeWithdrawalThreshold"], out int result) ? result : 10000;
-        public static int MaxScheduledTransferRetries => 
-            int.TryParse(_sysConfigurations["MaxScheduledTransferRetries"], out int result) ? result : 3;
-        public static int RapidTransactionMaxCount => 
-            int.TryParse(_sysConfigurations["RapidTransactionMaxCount"], out int result) ? result : 5;
-        public static int RapidTransactionWindowMinutes => 
-            int.TryParse(_sysConfigurations["RapidTransactionWindowMinutes"], out int result) ? result : 10;
-        public static int ScheduledTransferCheckIntervalSeconds => 
-            int.TryParse(_sysConfigurations["ScheduledTransferCheckIntervalSeconds"], out int result) ? result : 60;
+        private static int _fetchConfigValue(string key, int defaultValue)
+        {
+            if (!_isLoaded)
+            {
+                _sysConfigurations = SmartBack_DAL.clsConfigurations.GetAllConfig();
+                _isLoaded = true;
+            }
+
+            return int.TryParse(_sysConfigurations[key], out int result) ? result : defaultValue;
+        }
+        public static int MaxLoginAttempts => _fetchConfigValue("MaxLoginAttempts", 5);
+        public static int LargeWithdrawalThreshold => _fetchConfigValue("LargeWithdrawalThreshold", 1000);
+        public static int MaxScheduledTransferRetries => _fetchConfigValue("MaxScheduledTransferRetries", 3);
+        public static int RapidTransactionMaxCount => _fetchConfigValue("RapidTransactionMaxCount", 5);
+        public static int RapidTransactionWindowMinutes => _fetchConfigValue("RapidTransactionWindowMinutes", 10);
+        public static int ScheduledTransferCheckIntervalSeconds => _fetchConfigValue("ScheduledTransferCheckIntervalSeconds", 60);
     }
 }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button btnWrongAttempWarning;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
+            this.btnWrongAttempWarning = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,7 +58,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            btnWrongAttempWarning = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -69,21 +68,21 @@
             // 
             // btnWrongAttempWarning
             // 
-            btnWrongAttempWarning.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            btnWrongAttempWarning.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
-            btnWrongAttempWarning.FlatAppearance.BorderSize = 4;
-            btnWrongAttempWarning.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            btnWrongAttempWarning.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            btnWrongAttempWarning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnWrongAttempWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            btnWrongAttempWarning.ForeColor = System.Drawing.Color.Red;
-            btnWrongAttempWarning.Location = new System.Drawing.Point(1075, 179);
-            btnWrongAttempWarning.Name = "btnWrongAttempWarning";
-            btnWrongAttempWarning.Size = new System.Drawing.Size(474, 106);
-            btnWrongAttempWarning.TabIndex = 11;
-            btnWrongAttempWarning.Text = "Warning - 1 of 5 attempts used.";
-            btnWrongAttempWarning.UseVisualStyleBackColor = false;
-            btnWrongAttempWarning.Visible = false;
+            this.btnWrongAttempWarning.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnWrongAttempWarning.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
+            this.btnWrongAttempWarning.FlatAppearance.BorderSize = 4;
+            this.btnWrongAttempWarning.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnWrongAttempWarning.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnWrongAttempWarning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWrongAttempWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWrongAttempWarning.ForeColor = System.Drawing.Color.Red;
+            this.btnWrongAttempWarning.Location = new System.Drawing.Point(1075, 179);
+            this.btnWrongAttempWarning.Name = "btnWrongAttempWarning";
+            this.btnWrongAttempWarning.Size = new System.Drawing.Size(474, 106);
+            this.btnWrongAttempWarning.TabIndex = 11;
+            this.btnWrongAttempWarning.Text = "Warning - 0 of 5 attempts used.";
+            this.btnWrongAttempWarning.UseVisualStyleBackColor = false;
+            this.btnWrongAttempWarning.Visible = false;
             // 
             // splitter1
             // 
@@ -380,15 +379,14 @@
             // 
             // btnClose
             // 
-            this.btnClose.BackColor = System.Drawing.Color.Blue;
+            this.btnClose.BackColor = System.Drawing.Color.DarkBlue;
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnClose.FlatAppearance.BorderSize = 3;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.Image = global::SmartBank_UI.Properties.Resources.icons8_close_40;
-            this.btnClose.Location = new System.Drawing.Point(12, 12);
+            this.btnClose.Location = new System.Drawing.Point(1522, 0);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(106, 100);
+            this.btnClose.Size = new System.Drawing.Size(93, 85);
             this.btnClose.TabIndex = 8;
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -418,7 +416,7 @@
             this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
-            this.Controls.Add(btnWrongAttempWarning);
+            this.Controls.Add(this.btnWrongAttempWarning);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.btnClose);
@@ -481,5 +479,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox2;
+        public System.Windows.Forms.Button btnWrongAttempWarning;
     }
 }

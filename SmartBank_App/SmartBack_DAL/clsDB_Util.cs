@@ -15,6 +15,10 @@ namespace SmartBack_DAL
 
         public static class clsLogger
         {
+            /// <summary>
+            /// Log Message With Message Type To Event Viewer
+            /// </summary>
+            /// <param name="type">Event Viewer Type Enum</param>
             public static void Log(string message, EventLogEntryType type = EventLogEntryType.Error)
             {
                 string source = "SmartBank_Project";

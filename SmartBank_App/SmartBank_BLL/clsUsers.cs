@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -95,7 +96,7 @@ namespace SmartBank
             return UserID != -1;
         }
 
-        private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser.UserID, UserID.Value, Username, HashedPassword, PasswordSalt,
+        private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID, UserID.Value, Username, HashedPassword, PasswordSalt,
                                                           Permissions.Permissions, FullName, IsActive, IsLocked , LastLoginDate);
 
         public bool Save()

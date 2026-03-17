@@ -11,26 +11,30 @@ namespace SmartBank_BLL
     {
         public static class clsSecurity
         {
-            private const int SaltSize = 32;
-
-            public static string GenerateSalt()
+            public static class clsHash
             {
-                byte[] saltBytes = new byte[SaltSize];
-                using (var rng = new RNGCryptoServiceProvider()) rng.GetBytes(saltBytes);
-                return Convert.ToBase64String(saltBytes);
-            }
+                private const int SaltSize = 32;
 
-            public static string Hash(string password, string salt)
-            {
-                using (var sha256 = SHA256.Create())
+                public static string GenerateSalt()
                 {
-                    byte[] combined = Encoding.UTF8.GetBytes(password + salt);
-                    byte[] hashBytes = sha256.ComputeHash(combined);
-                    return Convert.ToBase64String(hashBytes);
+                    byte[] saltBytes = new byte[SaltSize];
+                    using (var rng = new RNGCryptoServiceProvider())
+                        rng.GetBytes(saltBytes);
+                    return Convert.ToBase64String(saltBytes);
+                }
+
+                public static string Hash(string password, string salt)
+                {
+                    using (SHA256 sha256 = SHA256.Create())
+                    {
+                        byte[] combinedBytes = Encoding.UTF8.GetBytes(password + salt);
+                        byte[] hashBytes = sha256.ComputeHash(combinedBytes);
+                        return Convert.ToBase64String(hashBytes);
+                    }
                 }
             }
 
-            public static bool Verify(string password, string hash, string salt) => Hash(password, salt) == hash;
+            public static bool Verify(string password, string storedHash, string storedSalt) => clsHash.Hash(password, storedSalt) == storedHash;
         }
     }
 }
