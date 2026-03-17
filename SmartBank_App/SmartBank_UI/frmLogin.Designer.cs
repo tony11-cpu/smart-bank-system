@@ -50,7 +50,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
-            this.btnShowPassword = new System.Windows.Forms.Button();
             this.btnSignIn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -74,11 +73,11 @@
             this.btnWrongAttempWarning.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnWrongAttempWarning.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnWrongAttempWarning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWrongAttempWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWrongAttempWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnWrongAttempWarning.ForeColor = System.Drawing.Color.Red;
             this.btnWrongAttempWarning.Location = new System.Drawing.Point(1075, 179);
             this.btnWrongAttempWarning.Name = "btnWrongAttempWarning";
-            this.btnWrongAttempWarning.Size = new System.Drawing.Size(474, 106);
+            this.btnWrongAttempWarning.Size = new System.Drawing.Size(416, 106);
             this.btnWrongAttempWarning.TabIndex = 11;
             this.btnWrongAttempWarning.Text = "Warning - 0 of 5 attempts used.";
             this.btnWrongAttempWarning.UseVisualStyleBackColor = false;
@@ -241,7 +240,7 @@
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label10.Location = new System.Drawing.Point(1119, 110);
+            this.label10.Location = new System.Drawing.Point(1101, 110);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(348, 30);
             this.label10.TabIndex = 10;
@@ -253,7 +252,7 @@
             this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.label11.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(1117, 68);
+            this.label11.Location = new System.Drawing.Point(1144, 68);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(258, 42);
             this.label11.TabIndex = 9;
@@ -290,7 +289,7 @@
             this.tbUsername.ForeColor = System.Drawing.Color.White;
             this.tbUsername.Location = new System.Drawing.Point(1075, 411);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(392, 53);
+            this.tbUsername.Size = new System.Drawing.Size(416, 53);
             this.tbUsername.TabIndex = 14;
             // 
             // tbPassword
@@ -301,23 +300,8 @@
             this.tbPassword.Location = new System.Drawing.Point(1080, 529);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(392, 53);
+            this.tbPassword.Size = new System.Drawing.Size(411, 53);
             this.tbPassword.TabIndex = 16;
-            // 
-            // btnShowPassword
-            // 
-            this.btnShowPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnShowPassword.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnShowPassword.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.btnShowPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPassword.ForeColor = System.Drawing.Color.White;
-            this.btnShowPassword.Location = new System.Drawing.Point(1478, 529);
-            this.btnShowPassword.Name = "btnShowPassword";
-            this.btnShowPassword.Size = new System.Drawing.Size(71, 57);
-            this.btnShowPassword.TabIndex = 17;
-            this.btnShowPassword.Text = "Show";
-            this.btnShowPassword.UseVisualStyleBackColor = false;
-            this.btnShowPassword.Click += new System.EventHandler(this.btnShowPassword_Click);
             // 
             // btnSignIn
             // 
@@ -329,7 +313,7 @@
             this.btnSignIn.ForeColor = System.Drawing.Color.White;
             this.btnSignIn.Location = new System.Drawing.Point(1080, 669);
             this.btnSignIn.Name = "btnSignIn";
-            this.btnSignIn.Size = new System.Drawing.Size(387, 77);
+            this.btnSignIn.Size = new System.Drawing.Size(411, 77);
             this.btnSignIn.TabIndex = 18;
             this.btnSignIn.Text = "Sign in";
             this.btnSignIn.UseVisualStyleBackColor = true;
@@ -340,20 +324,20 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label14.Location = new System.Drawing.Point(1093, 762);
+            this.label14.Location = new System.Drawing.Point(1092, 762);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(365, 26);
+            this.label14.Size = new System.Drawing.Size(357, 26);
             this.label14.TabIndex = 19;
-            this.label14.Text = "------------------- OR -------------------";
+            this.label14.Text = "------------------- OR ------------------";
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Indigo;
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.pictureBox2);
-            this.panel4.Location = new System.Drawing.Point(1075, 811);
+            this.panel4.Location = new System.Drawing.Point(1088, 805);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(397, 118);
+            this.panel4.Size = new System.Drawing.Size(403, 118);
             this.panel4.TabIndex = 20;
             // 
             // label4
@@ -407,11 +391,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1617, 983);
+            this.ClientSize = new System.Drawing.Size(1616, 983);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.btnSignIn);
-            this.Controls.Add(this.btnShowPassword);
             this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.label13);
@@ -434,6 +417,7 @@
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Log in";
+            this.Load += new System.EventHandler(this.frmLogin_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -473,7 +457,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.Button btnShowPassword;
         private System.Windows.Forms.Button btnSignIn;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel4;

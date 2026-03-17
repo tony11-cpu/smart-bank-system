@@ -7,24 +7,22 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static SmartBank_BLL.clsUtil.clsSecurity;
 
 namespace SmartBank_UI.Login
 {
     public partial class frmLogin : Form
     {
-        private int _userFailedLoginAttempsCounter = 1;
+        private int _userFailedLoginAttempsCounter = 0;
 
         public frmLogin() => InitializeComponent();
 
         private enum enErrorState { None, AcountNotFound, InvalidCredentials, AccountLocked, AccountDeactivated }
 
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
-
-        private void btnShowPassword_Click(object sender, EventArgs e) => tbPassword.PasswordChar = tbPassword.PasswordChar == default ? '*' : default;
 
         private enErrorState _validateUser(clsUsers user , string password)
         {
@@ -44,7 +42,7 @@ namespace SmartBank_UI.Login
                     user.RecordLoginAttemp(false);
                     MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnWrongAttempWarning.Visible = true;
-                    btnWrongAttempWarning.Text = $"Warning - {_userFailedLoginAttempsCounter++} of 5 attempts used.";
+                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
                     _checkUserLoginAttemps(user);
                     return false;
 
@@ -62,7 +60,7 @@ namespace SmartBank_UI.Login
 
                 case enErrorState.None:
                     user.RecordLoginAttemp(true);
-                    MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    clsUtil.clsLogger.SaveUserDataToRegistry(user.Username, tbPassword.Text.Trim());
                     return true;
             }
 
@@ -76,7 +74,8 @@ namespace SmartBank_UI.Login
             if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
                 return;
 
-            // Log To Win Reg For Automatic Login Before Showing Main Form...
+            MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             frmMain mainForm = new frmMain(user);
             mainForm.Show();
         }
@@ -89,6 +88,14 @@ namespace SmartBank_UI.Login
                 MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.","Account Locked", 
                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+            (string Username, string Password) userEntry = clsUtil.clsLogger.ReadUserDataFromRegistry();
+             
+            tbPassword.Text = userEntry.Password;
+            tbUsername.Text = userEntry.Username;
         }
     }
 }
