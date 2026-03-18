@@ -8,7 +8,11 @@ namespace SmartBank
 {
     public class clsPermissions
     {
-        public clsPermissions(int permissions) => this._permissions = permissions;
+        public clsPermissions(int permissions)
+        {
+            this._permissions = permissions;
+            this.PermissionPresenter = _loadPermissionPresenter();
+        }
 
         public clsPermissions(enPermissionPresenter presenter)
         {
@@ -33,9 +37,38 @@ namespace SmartBank
                                          enPermission.CanChangePermissions | enPermission.CanEditSystemConfig);
                     break;
             }
+
+            this.PermissionPresenter = presenter;
         }
 
-        public enum enPermissionPresenter { Admin, Manager, Teller }
+        private enPermissionPresenter _loadPermissionPresenter()
+        {
+            if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
+                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
+                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog |
+                                         enPermission.CanExportAuditLog | enPermission.CanManageUsers | enPermission.CanUnlockUsers |
+                                         enPermission.CanChangePermissions | enPermission.CanEditSystemConfig))
+            {
+                return enPermissionPresenter.Admin;
+            }
+            else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
+                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
+                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog | enPermission.CanExportAuditLog))
+            {
+                return enPermissionPresenter.Manager;
+            }
+            else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
+                                         enPermission.CanOpenAccount | enPermission.CanViewStatement))
+            {
+                return enPermissionPresenter.Teller;
+            }
+
+            return enPermissionPresenter.Custom;
+        }
+
+        public enum enPermissionPresenter { Admin, Manager, Teller , Custom }
+
+        public enPermissionPresenter PermissionPresenter { get; private set; }
 
         public enum enPermission
         {

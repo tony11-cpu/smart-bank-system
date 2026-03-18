@@ -63,9 +63,59 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_account_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-account-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_admin_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-admin-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_administrative_tools_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-administrative-tools-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_close_40 {
             get {
                 object obj = ResourceManager.GetObject("icons8-close-40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_customers_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-customers-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_dashboard_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-dashboard-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -86,6 +136,66 @@ namespace SmartBank_UI.Properties {
         internal static System.Drawing.Bitmap icons8_lock_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-lock-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_log_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-log-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_merchant_account_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-merchant-account-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_scheduled_delivery_58 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-scheduled-delivery-58", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_sign_out_30 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-sign-out-30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_transaction_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-transaction-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_user_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-user-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

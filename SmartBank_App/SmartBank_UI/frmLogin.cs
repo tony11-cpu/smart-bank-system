@@ -29,9 +29,8 @@ namespace SmartBank_UI.Login
             if (user == null) return enErrorState.AcountNotFound;
             if (user.IsLocked) return enErrorState.AccountLocked;
             if (!user.IsActive) return enErrorState.AccountDeactivated;
-            if (!clsUtil.clsSecurity.Verify(password, user.HashedPassword, user.PasswordSalt)) return enErrorState.InvalidCredentials;
 
-            return enErrorState.None;
+            return clsUtil.clsSecurity.Verify(password, user.HashedPassword, user.PasswordSalt) ? enErrorState.None : enErrorState.InvalidCredentials;
         }
 
         private bool _handleLogin(enErrorState errorState, clsUsers user)
@@ -40,9 +39,9 @@ namespace SmartBank_UI.Login
             {
                 case enErrorState.InvalidCredentials:
                     user.RecordLoginAttemp(false);
-                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnWrongAttempWarning.Visible = true;
                     btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
+                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _checkUserLoginAttemps(user);
                     return false;
 
@@ -60,6 +59,7 @@ namespace SmartBank_UI.Login
 
                 case enErrorState.None:
                     user.RecordLoginAttemp(true);
+                    clsGlobal.ActiveUser = user;
                     clsUtil.clsLogger.SaveUserDataToRegistry(user.Username, tbPassword.Text.Trim());
                     return true;
             }
@@ -70,14 +70,13 @@ namespace SmartBank_UI.Login
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
-
+            
             if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
                 return;
 
             MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            frmMain mainForm = new frmMain(user);
-            mainForm.Show();
+            frmMain mainForm = new frmMain();
+            mainForm.ShowDialog();
         }
 
         private void _checkUserLoginAttemps(clsUsers user)

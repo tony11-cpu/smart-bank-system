@@ -66,6 +66,9 @@
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -91,22 +94,43 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-lock-50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-close-40.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-lock-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-lock-641.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SmartBank_BLL\SmartBank_BLL.csproj">
       <Project>{7eb20a84-f330-47f1-ba63-5f7c94cce5cb}</Project>
       <Name>SmartBank_BLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-sign-out-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-dashboard-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-customers-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-merchant-account-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-transaction-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-scheduled-delivery-58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-audit-log-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-log-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-admin-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-administrative-tools-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-account-50.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
