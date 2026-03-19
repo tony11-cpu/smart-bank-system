@@ -16,7 +16,7 @@ namespace SmartBank
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
                 using (SqlCommand cmd = new SqlCommand("SELECT dbo.IsUserExist(@Username)", conn))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@Username", username);
                     conn.Open();
 

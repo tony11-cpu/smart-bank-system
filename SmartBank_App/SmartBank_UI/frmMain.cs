@@ -1,4 +1,5 @@
 ﻿using SmartBank;
+using SmartBank_UI.Main_Form_UC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,9 +51,13 @@ namespace SmartBank_UI
 
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
          }
-        
 
+        
         private ctrlDashboard _dashboard = new ctrlDashboard();
         private void btnDashBoard_Click(object sender, EventArgs e) => ShowView(_dashboard);
+
+
+        private ctrlCustomers _customers = new ctrlCustomers();
+        private void btnCustomers_Click(object sender, EventArgs e) => ShowView(_customers);
     }
 }

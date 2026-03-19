@@ -49,10 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ctrlDashboard.cs">
+    <Compile Include="Main Form UC\ctrlCustomers.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ctrlDashboard.Designer.cs">
+    <Compile Include="Main Form UC\ctrlCustomers.Designer.cs">
+      <DependentUpon>ctrlCustomers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main Form UC\ctrlCustomerShortInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main Form UC\ctrlCustomerShortInfo.Designer.cs">
+      <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main Form UC\ctrlDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main Form UC\ctrlDashboard.Designer.cs">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="frmLogin.cs">
@@ -69,7 +81,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ctrlDashboard.resx">
+    <EmbeddedResource Include="Main Form UC\ctrlCustomers.resx">
+      <DependentUpon>ctrlCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main Form UC\ctrlCustomerShortInfo.resx">
+      <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main Form UC\ctrlDashboard.resx">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
@@ -161,6 +179,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-down-642.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-plus-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-plus-24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

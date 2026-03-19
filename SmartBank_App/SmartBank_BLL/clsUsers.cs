@@ -23,22 +23,6 @@ namespace SmartBank
         public string PasswordSalt { get; set; }
         public string HashedPassword { get; set; }
 
-        public clsUsers()
-        {
-            _mode = enMode.Add;
-
-            Permissions = new clsPermissions(0);
-            CreatedDate = DateTime.MinValue;
-            Username = null;
-            PasswordSalt = null;
-            HashedPassword = null;
-            FullName = null;
-            LastLoginDate = null;
-            IsActive = false;
-            IsLocked = true;
-            UserID = null;
-        }
-
         public clsUsers(int userID, string username, clsPermissions permissions, 
                         string fullName, bool isActive, bool isLocked, 
                         DateTime createdDate, DateTime? lastLoginDate, 
@@ -96,7 +80,8 @@ namespace SmartBank
             return UserID != -1;
         }
 
-        private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID, UserID.Value, Username, HashedPassword, PasswordSalt,
+        private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID, 
+                                                          UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, HashedPassword, PasswordSalt,
                                                           Permissions.Permissions, FullName, IsActive, IsLocked , LastLoginDate);
 
         public bool Save()
