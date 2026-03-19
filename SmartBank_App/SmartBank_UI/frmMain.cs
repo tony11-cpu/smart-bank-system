@@ -20,10 +20,19 @@ namespace SmartBank_UI
 
         private void btnSignOut_Click(object sender, EventArgs e) => this.Close();
 
-        private void _loadUser()
+        void ShowView(UserControl control)
         {
+            pMain.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            pMain.Controls.Add(control);
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            btnDashBoard_Click(null, null);
+
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
-            switch(clsGlobal.ActiveUser.Permissions.PermissionPresenter)
+            switch (clsGlobal.ActiveUser.Permissions.PermissionPresenter)
             {
                 case clsPermissions.enPermissionPresenter.Admin:
                     lblUserRole.Text = "Admin";
@@ -38,12 +47,12 @@ namespace SmartBank_UI
                     lblUserRole.Text = "Custom Permissions";
                     break;
             }
-        }
 
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            _loadUser();
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
-        }
+         }
+        
+
+        private ctrlDashboard _dashboard = new ctrlDashboard();
+        private void btnDashBoard_Click(object sender, EventArgs e) => ShowView(_dashboard);
     }
 }

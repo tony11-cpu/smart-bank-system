@@ -30,34 +30,34 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblUserRole = new System.Windows.Forms.Label();
             this.lblUSerFullName = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnSignOut = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.btnCurrentUserAccount = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnSystemConfig = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.btnAuditLog = new System.Windows.Forms.Button();
             this.btnFraudFlags = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnAccounts = new System.Windows.Forms.Button();
             this.btnScheduled = new System.Windows.Forms.Button();
             this.btnTransactions = new System.Windows.Forms.Button();
             this.btnCustomers = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnDashBoard = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnSignOut = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.pMain = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -71,7 +71,7 @@
             this.panel1.Controls.Add(this.btnSignOut);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2338, 107);
+            this.panel1.Size = new System.Drawing.Size(2011, 107);
             this.panel1.TabIndex = 0;
             // 
             // panel2
@@ -80,10 +80,20 @@
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.lblUserRole);
             this.panel2.Controls.Add(this.lblUSerFullName);
-            this.panel2.Location = new System.Drawing.Point(1738, 8);
+            this.panel2.Location = new System.Drawing.Point(1417, 8);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(370, 90);
             this.panel2.TabIndex = 8;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.pictureBox1.Location = new System.Drawing.Point(14, 17);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(65, 54);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // lblUserRole
             // 
@@ -142,6 +152,26 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Smart Bank";
             // 
+            // btnSignOut
+            // 
+            this.btnSignOut.BackColor = System.Drawing.Color.Navy;
+            this.btnSignOut.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnSignOut.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnSignOut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnSignOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSignOut.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSignOut.ForeColor = System.Drawing.Color.LightGray;
+            this.btnSignOut.Image = global::SmartBank_UI.Properties.Resources.icons8_sign_out_30;
+            this.btnSignOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSignOut.Location = new System.Drawing.Point(1811, 8);
+            this.btnSignOut.Name = "btnSignOut";
+            this.btnSignOut.Size = new System.Drawing.Size(197, 87);
+            this.btnSignOut.TabIndex = 0;
+            this.btnSignOut.Text = "  Sign Out";
+            this.btnSignOut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSignOut.UseVisualStyleBackColor = false;
+            this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
@@ -163,50 +193,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(346, 1284);
             this.panel3.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(7, 30);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(153, 26);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "DASHBOARD";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(7, 181);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 29);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "BANKING";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(7, 639);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(161, 29);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "OVER NIGHT";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Gray;
-            this.label6.Location = new System.Drawing.Point(7, 902);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 29);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "ADMIN";
             // 
             // btnCurrentUserAccount
             // 
@@ -258,6 +244,17 @@
             this.btnSystemConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnSystemConfig.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Gray;
+            this.label6.Location = new System.Drawing.Point(7, 902);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 29);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "ADMIN";
+            // 
             // btnAuditLog
             // 
             this.btnAuditLog.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue;
@@ -291,6 +288,17 @@
             this.btnFraudFlags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFraudFlags.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnFraudFlags.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Gray;
+            this.label5.Location = new System.Drawing.Point(7, 639);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(161, 29);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "OVER NIGHT";
             // 
             // btnAccounts
             // 
@@ -360,6 +368,17 @@
             this.btnCustomers.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCustomers.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Gray;
+            this.label4.Location = new System.Drawing.Point(7, 181);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 29);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "BANKING";
+            // 
             // btnDashBoard
             // 
             this.btnDashBoard.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue;
@@ -376,42 +395,24 @@
             this.btnDashBoard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDashBoard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnDashBoard.UseVisualStyleBackColor = true;
+            this.btnDashBoard.Click += new System.EventHandler(this.btnDashBoard_Click);
             // 
-            // pictureBox1
+            // label3
             // 
-            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
-            this.pictureBox1.Location = new System.Drawing.Point(14, 17);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(65, 54);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btnSignOut
-            // 
-            this.btnSignOut.BackColor = System.Drawing.Color.Navy;
-            this.btnSignOut.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnSignOut.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnSignOut.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.btnSignOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSignOut.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSignOut.ForeColor = System.Drawing.Color.LightGray;
-            this.btnSignOut.Image = global::SmartBank_UI.Properties.Resources.icons8_sign_out_30;
-            this.btnSignOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSignOut.Location = new System.Drawing.Point(2126, 17);
-            this.btnSignOut.Name = "btnSignOut";
-            this.btnSignOut.Size = new System.Drawing.Size(197, 75);
-            this.btnSignOut.TabIndex = 0;
-            this.btnSignOut.Text = "  Sign Out";
-            this.btnSignOut.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSignOut.UseVisualStyleBackColor = false;
-            this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Gray;
+            this.label3.Location = new System.Drawing.Point(7, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(153, 26);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "DASHBOARD";
             // 
             // pMain
             // 
-            this.pMain.Location = new System.Drawing.Point(356, 122);
+            this.pMain.Location = new System.Drawing.Point(357, 117);
             this.pMain.Name = "pMain";
-            this.pMain.Size = new System.Drawing.Size(1986, 1262);
+            this.pMain.Size = new System.Drawing.Size(1658, 1272);
             this.pMain.TabIndex = 2;
             // 
             // frmMain
@@ -420,7 +421,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(2347, 1396);
+            this.ClientSize = new System.Drawing.Size(2027, 1396);
             this.Controls.Add(this.pMain);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -432,9 +433,9 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

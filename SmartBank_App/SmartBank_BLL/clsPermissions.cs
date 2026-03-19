@@ -68,8 +68,6 @@ namespace SmartBank
 
         public enum enPermissionPresenter { Admin, Manager, Teller , Custom }
 
-        public enPermissionPresenter PermissionPresenter { get; private set; }
-
         public enum enPermission
         {
             CanDeposit = 1,
@@ -89,7 +87,9 @@ namespace SmartBank
             CanChangePermissions = 16384,
             CanEditSystemConfig = 32768
         }
-         
+
+        public enPermissionPresenter PermissionPresenter { get; private set; }
+
         private int _permissions;
 
         public int Permissions => _permissions;

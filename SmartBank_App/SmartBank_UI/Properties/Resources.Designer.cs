@@ -123,6 +123,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_down_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-down-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_lock_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-lock-50", resourceCulture);
@@ -186,6 +196,16 @@ namespace SmartBank_UI.Properties {
         internal static System.Drawing.Bitmap icons8_transaction_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-transaction-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_up_arrow_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-up-arrow-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
