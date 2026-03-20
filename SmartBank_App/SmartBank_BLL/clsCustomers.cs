@@ -85,6 +85,35 @@ namespace SmartBank_BLL
             return null;
         }
 
+        public static clsCustomers Find(string nationalID)
+        {
+            int customerID = -1;
+            string firstName = null;
+            string lastName = null;
+            DateTime dateOfBirth = DateTime.MinValue;
+            string phone = null;
+            string email = null;
+            string address = null;
+            DateTime registeredDate = DateTime.MinValue;
+            bool isActive = false;
+            int createdByUserID = -1;
+            string ImagePath = null;
+            bool Gender = false;
+
+            if (clsCustomers_DAL.GetCustomerByID(customerID,
+                ref firstName, ref lastName, ref nationalID,
+                ref dateOfBirth, ref phone, ref email,
+                ref address, ref registeredDate,
+                ref isActive, ref createdByUserID, ref ImagePath, ref Gender))
+            {
+                return new clsCustomers(customerID, firstName, lastName,
+                    nationalID, dateOfBirth, phone, email,
+                    address, registeredDate, isActive, createdByUserID, Gender, ImagePath);
+            }
+
+            return null;
+        }
+
         private bool _addNew()
         {
             this.CustomerID = clsCustomers_DAL.CreateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."), 

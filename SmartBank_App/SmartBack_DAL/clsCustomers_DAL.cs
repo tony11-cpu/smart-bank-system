@@ -122,6 +122,76 @@ namespace SmartBank
             return false;
         }
 
+        public static bool GetCustomerByNationalID(string nationalID, ref int customerID, ref string firstName, ref string lastName,
+                                      ref DateTime dateOfBirth, ref string phone, ref string email,
+                                      ref string address, ref DateTime registeredDate,
+                                      ref bool isActive, ref int createdByUserID, ref string imagePath, ref bool Gender)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_GetCustomerByNationalID", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@nationalID", nationalID);
+
+                    SqlParameter pFirstName = new SqlParameter("@FirstName", SqlDbType.NVarChar, 100) { Direction = ParameterDirection.Output };
+                    SqlParameter pLastName = new SqlParameter("@LastName", SqlDbType.NVarChar, 100) { Direction = ParameterDirection.Output };
+                    SqlParameter pCustomerID = new SqlParameter("@CustomerID", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    SqlParameter pDateOfBirth = new SqlParameter("@DateOfBirth", SqlDbType.Date) { Direction = ParameterDirection.Output };
+                    SqlParameter pPhone = new SqlParameter("@Phone", SqlDbType.NVarChar, 20) { Direction = ParameterDirection.Output };
+                    SqlParameter pEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 250) { Direction = ParameterDirection.Output };
+                    SqlParameter pAddress = new SqlParameter("@Address", SqlDbType.NVarChar, 250) { Direction = ParameterDirection.Output };
+                    SqlParameter pRegisteredDate = new SqlParameter("@RegisteredDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
+                    SqlParameter pIsActive = new SqlParameter("@IsActive", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter pCreatedByUserID = new SqlParameter("@CreatedByUserID", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    SqlParameter pImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 250) { Direction = ParameterDirection.Output };
+                    SqlParameter pGender = new SqlParameter("@Gender", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+
+                    cmd.Parameters.Add(pFirstName);
+                    cmd.Parameters.Add(pLastName);
+                    cmd.Parameters.Add(pCustomerID);
+                    cmd.Parameters.Add(pDateOfBirth);
+                    cmd.Parameters.Add(pPhone);
+                    cmd.Parameters.Add(pEmail);
+                    cmd.Parameters.Add(pAddress);
+                    cmd.Parameters.Add(pRegisteredDate);
+                    cmd.Parameters.Add(pIsActive);
+                    cmd.Parameters.Add(pCreatedByUserID);
+                    cmd.Parameters.Add(pImagePath);
+                    cmd.Parameters.Add(pGender);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    if (pFirstName.Value == DBNull.Value)
+                        return false;
+
+                    firstName = (string)pFirstName.Value;
+                    lastName = (string)pLastName.Value;
+                    customerID = (int)pCustomerID.Value;
+                    dateOfBirth = (DateTime)pDateOfBirth.Value;
+                    phone = (string)pPhone.Value;
+                    email = pEmail.Value == DBNull.Value ? null : (string)pEmail.Value;
+                    address = (string)pAddress.Value;
+                    registeredDate = (DateTime)pRegisteredDate.Value;
+                    isActive = (bool)pIsActive.Value;
+                    createdByUserID = (int)pCreatedByUserID.Value;
+                    imagePath = pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value;
+                    Gender = (bool)pGender.Value;
+
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
         public static int CreateCustomer(int userInActionID, string firstName, string lastName, string nationalID,
                                          DateTime dateOfBirth, string phone, string email, string address , string imagePath , bool Gender)
         {

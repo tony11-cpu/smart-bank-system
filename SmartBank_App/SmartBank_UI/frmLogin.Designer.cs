@@ -302,9 +302,11 @@
             this.tbPassword.PasswordChar = '*';
             this.tbPassword.Size = new System.Drawing.Size(411, 53);
             this.tbPassword.TabIndex = 16;
+            this.tbPassword.TextChanged += new System.EventHandler(this.tbPassword_TextChanged);
             // 
             // btnSignIn
             // 
+            this.btnSignIn.Enabled = false;
             this.btnSignIn.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnSignIn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnSignIn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Navy;

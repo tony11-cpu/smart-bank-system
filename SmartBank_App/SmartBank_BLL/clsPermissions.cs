@@ -85,7 +85,7 @@ namespace SmartBank
             CanManageUsers = 4096,
             CanUnlockUsers = 8192,
             CanChangePermissions = 16384,
-            CanEditSystemConfig = 32768
+            CanEditSystemConfig = 32768,
         }
 
         public enPermissionPresenter PermissionPresenter { get; private set; }

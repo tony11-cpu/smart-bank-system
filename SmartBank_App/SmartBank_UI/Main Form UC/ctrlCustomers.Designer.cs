@@ -36,8 +36,8 @@
             this.btnInactiveFilterSearch = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvCustomersData = new System.Windows.Forms.DataGridView();
-            this.pCustomerInfo = new System.Windows.Forms.Panel();
             this.btnAddCustomer = new System.Windows.Forms.Button();
+            this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,8 +79,8 @@
             // 
             this.btnAllFilterSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnAllFilterSearch.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnAllFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CadetBlue;
-            this.btnAllFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnAllFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btnAllFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DimGray;
             this.btnAllFilterSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAllFilterSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAllFilterSearch.ForeColor = System.Drawing.Color.White;
@@ -95,8 +95,8 @@
             // 
             this.btnActiveFilterSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnActiveFilterSearch.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnActiveFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CadetBlue;
-            this.btnActiveFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnActiveFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btnActiveFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DimGray;
             this.btnActiveFilterSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActiveFilterSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActiveFilterSearch.ForeColor = System.Drawing.Color.White;
@@ -111,8 +111,8 @@
             // 
             this.btnInactiveFilterSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnInactiveFilterSearch.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnInactiveFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CadetBlue;
-            this.btnInactiveFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnInactiveFilterSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btnInactiveFilterSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DimGray;
             this.btnInactiveFilterSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInactiveFilterSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInactiveFilterSearch.ForeColor = System.Drawing.Color.White;
@@ -147,22 +147,15 @@
             this.dgvCustomersData.RowHeadersWidth = 62;
             this.dgvCustomersData.RowTemplate.Height = 28;
             this.dgvCustomersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomersData.Size = new System.Drawing.Size(900, 963);
+            this.dgvCustomersData.Size = new System.Drawing.Size(900, 968);
             this.dgvCustomersData.TabIndex = 10;
-            // 
-            // pCustomerInfo
-            // 
-            this.pCustomerInfo.Location = new System.Drawing.Point(964, 275);
-            this.pCustomerInfo.Name = "pCustomerInfo";
-            this.pCustomerInfo.Size = new System.Drawing.Size(652, 963);
-            this.pCustomerInfo.TabIndex = 11;
             // 
             // btnAddCustomer
             // 
             this.btnAddCustomer.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnAddCustomer.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnAddCustomer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CadetBlue;
-            this.btnAddCustomer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnAddCustomer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
+            this.btnAddCustomer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
             this.btnAddCustomer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
@@ -176,12 +169,20 @@
             this.btnAddCustomer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddCustomer.UseVisualStyleBackColor = false;
             // 
+            // ctrlCustomerShortInfo1
+            // 
+            this.ctrlCustomerShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(979, 275);
+            this.ctrlCustomerShortInfo1.Name = "ctrlCustomerShortInfo1";
+            this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(655, 968);
+            this.ctrlCustomerShortInfo1.TabIndex = 11;
+            // 
             // ctrlCustomers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.Controls.Add(this.pCustomerInfo);
+            this.Controls.Add(this.ctrlCustomerShortInfo1);
             this.Controls.Add(this.dgvCustomersData);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnInactiveFilterSearch);
@@ -210,6 +211,6 @@
         private System.Windows.Forms.Button btnInactiveFilterSearch;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvCustomersData;
-        private System.Windows.Forms.Panel pCustomerInfo;
+        private ctrlCustomerShortInfo ctrlCustomerShortInfo1;
     }
 }

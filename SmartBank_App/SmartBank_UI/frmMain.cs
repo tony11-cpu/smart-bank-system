@@ -30,6 +30,8 @@ namespace SmartBank_UI
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) return;
+
             btnDashBoard_Click(null, null);
 
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
