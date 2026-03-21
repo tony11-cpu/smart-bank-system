@@ -8,3 +8,4 @@ obj/
 !**/app.config.example
 *.InstallLog
 *.InstallState
+SmartBankCustomers_Images/

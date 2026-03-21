@@ -25,5 +25,17 @@ namespace SmartBank_UI.Main_Form_UC
                 tbSearchBar.ForeColor = Color.White;
             }
         }
+
+        private void ctrlCustomers_Load(object sender, EventArgs e)
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+        }
+
+        private void btnAddCustomer_Click(object sender, EventArgs e)
+        {
+            frmAddOrUpdateCustomers frmAddOrUpdateCustomers = new frmAddOrUpdateCustomers();
+            frmAddOrUpdateCustomers.ShowDialog();
+        }
     }
 }

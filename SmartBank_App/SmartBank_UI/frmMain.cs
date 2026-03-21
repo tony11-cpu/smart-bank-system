@@ -21,7 +21,7 @@ namespace SmartBank_UI
 
         private void btnSignOut_Click(object sender, EventArgs e) => this.Close();
 
-        void ShowView(UserControl control)
+        private void _showView(UserControl control)
         {
             pMain.Controls.Clear();
             control.Dock = DockStyle.Fill;
@@ -30,7 +30,8 @@ namespace SmartBank_UI
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) return;
+            if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
+                return;
 
             btnDashBoard_Click(null, null);
 
@@ -56,10 +57,10 @@ namespace SmartBank_UI
 
         
         private ctrlDashboard _dashboard = new ctrlDashboard();
-        private void btnDashBoard_Click(object sender, EventArgs e) => ShowView(_dashboard);
+        private void btnDashBoard_Click(object sender, EventArgs e) => _showView(_dashboard);
 
 
         private ctrlCustomers _customers = new ctrlCustomers();
-        private void btnCustomers_Click(object sender, EventArgs e) => ShowView(_customers);
+        private void btnCustomers_Click(object sender, EventArgs e) => _showView(_customers);
     }
 }

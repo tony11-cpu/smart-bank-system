@@ -12,9 +12,21 @@ namespace SmartBank_UI
 {
     public partial class frmAddOrUpdateCustomers : Form
     {
-        public frmAddOrUpdateCustomers()
+        private string _nationalID = null;
+
+        public frmAddOrUpdateCustomers() => InitializeComponent();
+        public frmAddOrUpdateCustomers(string nationalID)
         {
             InitializeComponent();
+            _nationalID = nationalID;
+        }
+
+        private void frmAddOrUpdateCustomers_Load(object sender, EventArgs e)
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            ctrlAddOrUpdateCustomer1.LoadCustomer(_nationalID);
         }
     }
 }

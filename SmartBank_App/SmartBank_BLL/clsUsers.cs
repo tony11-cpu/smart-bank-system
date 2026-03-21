@@ -42,9 +42,9 @@ namespace SmartBank
             _mode = enMode.Update;
         }
 
-        public bool IsUserExists(int userID) => clsUsers_DAL.IsUserExistByID(userID);
+        public static bool IsUserExists(int userID) => clsUsers_DAL.IsUserExistByID(userID);
 
-        public bool IsUserExists(string Username) => clsUsers_DAL.IsUserExistByUsername(Username);
+        public static bool IsUserExists(string Username) => clsUsers_DAL.IsUserExistByUsername(Username);
 
         public void RecordLoginAttemp(bool wasSuccessful) => clsUsers_DAL.RecordLoginAttempt(Username, wasSuccessful);
 

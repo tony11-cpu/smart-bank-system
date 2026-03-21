@@ -43,8 +43,7 @@ namespace SmartBank_BLL
                 }
             }
 
-            public static bool Verify(string password, string storedHash, string storedSalt)
-                => clsHash.Hash(password, storedSalt) == storedHash;
+            public static bool Verify(string password, string storedHash, string storedSalt) => clsHash.Hash(password, storedSalt) == storedHash;
 
             public static class clsCryptography
             {
@@ -90,6 +89,7 @@ namespace SmartBank_BLL
                 }
             }
         }
+
         public static class clsLogger
         {
             static public bool SaveUserDataToRegistry(string username, string password) => 
@@ -103,6 +103,21 @@ namespace SmartBank_BLL
 
                 return result;
             }
+        }
+
+        public static bool CopyImageToProjectImagesFolder(ref string sourceFile)
+        {
+            string DestinationFolder = @"C:\SmartBankCustomers_Images\";
+
+            if (!Directory.Exists(DestinationFolder))
+                Directory.CreateDirectory(DestinationFolder);
+
+            string destinationFile = DestinationFolder + Guid.NewGuid().ToString() + new FileInfo(sourceFile).Extension;
+
+            File.Copy(sourceFile, destinationFile, true);
+
+            sourceFile = destinationFile;
+            return true;
         }
     }
  }

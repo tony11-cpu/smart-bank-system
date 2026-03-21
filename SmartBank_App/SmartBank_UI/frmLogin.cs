@@ -91,6 +91,9 @@ namespace SmartBank_UI.Login
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
             (string Username, string Password) userEntry = clsUtil.clsLogger.ReadUserDataFromRegistry();
              
             tbPassword.Text = userEntry.Password;

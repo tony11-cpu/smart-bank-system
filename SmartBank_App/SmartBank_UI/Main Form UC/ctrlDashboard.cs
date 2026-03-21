@@ -20,8 +20,10 @@ namespace SmartBank_UI
 
         private void ctrlDashboard_Load(object sender, EventArgs e)
         {
+            if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
-            // Load Dashboard data and widgets here...
         }
     }
 }

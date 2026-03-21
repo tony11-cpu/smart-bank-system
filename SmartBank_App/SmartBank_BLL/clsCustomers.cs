@@ -30,6 +30,24 @@ namespace SmartBank_BLL
         /// </summary>
         public bool Gender { get; set; }
 
+        public clsCustomers()
+        {
+            CustomerID = null;
+            FirstName = null; 
+            LastName = null;
+            NationalID = null;
+            DateOfBirth = DateTime.MinValue;
+            Phone = null;
+            Email = null;
+            Address = null;
+            RegisteredDate = DateTime.MinValue;
+            IsActive = false;
+            CreatedByUserID = -1;
+            ImagePath = null;
+
+            _mode = enMode.Add;
+        }
+
         public clsCustomers(int customerID, string firstName, string lastName,
                             string nationalID, DateTime dateOfBirth,
                             string phone, string email, string address,
@@ -52,9 +70,9 @@ namespace SmartBank_BLL
             _mode = enMode.Update;
         }
 
-        public bool IsCustomerExists(int customerID) => clsCustomers_DAL.IsCustomerExistByID(customerID);
+        public static bool IsCustomerExists(int customerID) => clsCustomers_DAL.IsCustomerExistByID(customerID);
 
-        public bool IsCustomerExists(string nationalID) => clsCustomers_DAL.IsCustomerExistByNationalID(nationalID);
+        public static bool IsCustomerExists(string nationalID) => clsCustomers_DAL.IsCustomerExistByNationalID(nationalID);
 
         public static clsCustomers Find(int customerID)
         {
@@ -117,7 +135,8 @@ namespace SmartBank_BLL
         private bool _addNew()
         {
             this.CustomerID = clsCustomers_DAL.CreateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."), 
-                                                              FirstName,LastName, NationalID,DateOfBirth, Phone, Email, Address, ImagePath, Gender);
+                                                              FirstName,LastName, NationalID,DateOfBirth, Phone, Email, Address, DateTime.Now ,true ,
+                                                              ImagePath, Gender);
             return CustomerID != -1;
         }
 

@@ -193,7 +193,8 @@ namespace SmartBank
         }
 
         public static int CreateCustomer(int userInActionID, string firstName, string lastName, string nationalID,
-                                         DateTime dateOfBirth, string phone, string email, string address , string imagePath , bool Gender)
+                                         DateTime dateOfBirth, string phone, string email, string address 
+                                       , DateTime RegisteredDate ,bool IsActive , string imagePath , bool Gender)
         {
             try
             {
@@ -212,6 +213,8 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@Address", address);
                     cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
                     cmd.Parameters.AddWithValue("@Gender", Gender);
+                    cmd.Parameters.AddWithValue("@IsActive", IsActive);
+                    cmd.Parameters.AddWithValue("@RegisteredDate", RegisteredDate);
 
                     SqlParameter newCustomerID = new SqlParameter("@NewCustomerID", SqlDbType.Int)
                     {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ctrlCustomerShortInfo1 = new ctrlCustomerShortInfo(null);
             this.lblMorningToUserWithName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
@@ -37,7 +38,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgvCustomersData = new System.Windows.Forms.DataGridView();
             this.btnAddCustomer = new System.Windows.Forms.Button();
-            this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -168,6 +168,7 @@
             this.btnAddCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAddCustomer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddCustomer.UseVisualStyleBackColor = false;
+            this.btnAddCustomer.Click += new System.EventHandler(this.btnAddCustomer_Click);
             // 
             // ctrlCustomerShortInfo1
             // 
@@ -194,6 +195,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ctrlCustomers";
             this.Size = new System.Drawing.Size(1655, 1279);
+            this.Load += new System.EventHandler(this.ctrlCustomers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

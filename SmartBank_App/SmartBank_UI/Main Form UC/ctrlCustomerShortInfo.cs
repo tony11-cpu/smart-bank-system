@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace SmartBank_UI.Main_Form_UC
 {
     public partial class ctrlCustomerShortInfo : UserControl
     {
+        private string _currentNationalID;
         private bool _isManagerOrAdmin;
         private clsCustomers _customer;
 
-        public ctrlCustomerShortInfo()
+        public ctrlCustomerShortInfo(string nationalID)
         {
             InitializeComponent();
+            _currentNationalID = nationalID;
         }
 
         private void _defaultLoad()
@@ -39,7 +42,7 @@ namespace SmartBank_UI.Main_Form_UC
             {
                 try
                 {
-                    using (var imgStream = new System.IO.FileStream(_customer.ImagePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    using (FileStream imgStream = new FileStream(_customer.ImagePath, FileMode.Open, FileAccess.Read))
                     {
                         pbCustomerPhoto.Image = Image.FromStream(imgStream);
                     }
@@ -114,22 +117,34 @@ namespace SmartBank_UI.Main_Form_UC
                 return;
 
             _isManagerOrAdmin = (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
-                             || clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
+                               ||clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
 
-            _defaultLoad();
+            if(string.IsNullOrEmpty(_currentNationalID))
+            {
+                _defaultLoad();
+                return;
+            }
+
+            LoadCustomerInfo(_currentNationalID);
         }
 
         private void tbNationalID_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
+            if (e.KeyChar == (char)Keys.Enter) 
                 LoadCustomerInfo(tbNationalID.Text.Trim());
-            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            string nationalID = tbNationalID.Text.Trim();
+            if (!clsCustomers.IsCustomerExists(nationalID))
+            {
+                MessageBox.Show("Customer is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(nationalID);
+            addOrUpdateCustomers.ShowDialog();
         }
     }
 }

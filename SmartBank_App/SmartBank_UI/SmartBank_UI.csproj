@@ -210,5 +210,14 @@
   <ItemGroup>
     <None Include="Resources\icons8-person-female-skin-type-1-and-2-80.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-tick-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-done-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-tick-24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
