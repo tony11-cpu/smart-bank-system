@@ -134,8 +134,6 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@nationalID", nationalID);
-
                     SqlParameter pFirstName = new SqlParameter("@FirstName", SqlDbType.NVarChar, 100) { Direction = ParameterDirection.Output };
                     SqlParameter pLastName = new SqlParameter("@LastName", SqlDbType.NVarChar, 100) { Direction = ParameterDirection.Output };
                     SqlParameter pCustomerID = new SqlParameter("@CustomerID", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -149,6 +147,7 @@ namespace SmartBank
                     SqlParameter pImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 250) { Direction = ParameterDirection.Output };
                     SqlParameter pGender = new SqlParameter("@Gender", SqlDbType.Bit) { Direction = ParameterDirection.Output };
 
+                    cmd.Parameters.AddWithValue("@nationalID", nationalID);
                     cmd.Parameters.Add(pFirstName);
                     cmd.Parameters.Add(pLastName);
                     cmd.Parameters.Add(pCustomerID);

@@ -118,8 +118,8 @@ namespace SmartBank_BLL
             string ImagePath = null;
             bool Gender = false;
 
-            if (clsCustomers_DAL.GetCustomerByID(customerID,
-                ref firstName, ref lastName, ref nationalID,
+            if (clsCustomers_DAL.GetCustomerByNationalID(nationalID,
+                ref customerID, ref firstName, ref lastName,
                 ref dateOfBirth, ref phone, ref email,
                 ref address, ref registeredDate,
                 ref isActive, ref createdByUserID, ref ImagePath, ref Gender))
@@ -148,7 +148,13 @@ namespace SmartBank_BLL
         {
             switch (_mode)
             {
-                case enMode.Add: return _addNew();
+                case enMode.Add:
+                    if (_addNew())
+                    {
+                        _mode = enMode.Update;
+                        return true;
+                    }
+                    return false;
                 case enMode.Update: return _update();
                 default:
                     throw new InvalidOperationException("Invalid mode for saving customer.");
@@ -160,13 +166,13 @@ namespace SmartBank_BLL
             if (_mode != enMode.Update)
                 return false;
 
-            if (CustomerID != null && clsGlobal.ActiveUser.UserID != null && 
-                clsCustomers_DAL.DeactivateCustomer(CustomerID.Value,clsGlobal.ActiveUser.UserID.Value))
+            if(CustomerID == null && (clsGlobal.ActiveUser == null || clsGlobal.ActiveUser.UserID == null) &&
+                clsCustomers_DAL.DeactivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = false;
                 return true;
             }
-
+               
             return false;
         }
     }

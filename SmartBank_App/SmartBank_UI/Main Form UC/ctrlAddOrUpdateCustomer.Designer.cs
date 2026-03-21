@@ -176,7 +176,7 @@
             this.mtbDateOfBirth.TabIndex = 17;
             this.mtbDateOfBirth.Tag = "";
             this.mtbDateOfBirth.ValidatingType = typeof(System.DateTime);
-            this.mtbDateOfBirth.Validating += new System.ComponentModel.CancelEventHandler(this.mtb_Validating);
+            this.mtbDateOfBirth.Validating += new System.ComponentModel.CancelEventHandler(this.mtbDateOfBirth_Validating);
             // 
             // label5
             // 
@@ -293,6 +293,7 @@
             this.tbPhone.Tag = "Idle/Phone/e.g. 718-555-0000";
             this.tbPhone.Text = "e.g. 718-555-0000";
             this.tbPhone.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPhone_KeyPress);
             this.tbPhone.Leave += new System.EventHandler(this.tb_Leave);
             this.tbPhone.Validating += new System.ComponentModel.CancelEventHandler(this.tbPhone_Validating);
             // 
@@ -374,6 +375,7 @@
             // 
             // errorProvider1
             // 
+            this.errorProvider1.BlinkRate = 500;
             this.errorProvider1.ContainerControl = this;
             // 
             // btnSaveCustomer

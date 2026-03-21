@@ -15,6 +15,7 @@ namespace SmartBank_UI
         private string _nationalID = null;
 
         public frmAddOrUpdateCustomers() => InitializeComponent();
+
         public frmAddOrUpdateCustomers(string nationalID)
         {
             InitializeComponent();
@@ -23,10 +24,10 @@ namespace SmartBank_UI
 
         private void frmAddOrUpdateCustomers_Load(object sender, EventArgs e)
         {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return;
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) return;
 
-            ctrlAddOrUpdateCustomer1.LoadCustomer(_nationalID);
+            if(_nationalID != null)
+               ctrlAddOrUpdateCustomer1.LoadCustomer(_nationalID);
         }
     }
 }
