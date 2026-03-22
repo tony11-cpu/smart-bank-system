@@ -265,7 +265,7 @@
             this.dgvFraudFlags.Name = "dgvFraudFlags";
             this.dgvFraudFlags.RowHeadersWidth = 62;
             this.dgvFraudFlags.RowTemplate.Height = 28;
-            this.dgvFraudFlags.Size = new System.Drawing.Size(771, 683);
+            this.dgvFraudFlags.Size = new System.Drawing.Size(771, 773);
             this.dgvFraudFlags.TabIndex = 6;
             // 
             // dgvRecentTransactions
@@ -279,7 +279,7 @@
             this.dgvRecentTransactions.ReadOnly = true;
             this.dgvRecentTransactions.RowHeadersWidth = 62;
             this.dgvRecentTransactions.RowTemplate.Height = 28;
-            this.dgvRecentTransactions.Size = new System.Drawing.Size(771, 683);
+            this.dgvRecentTransactions.Size = new System.Drawing.Size(771, 773);
             this.dgvRecentTransactions.TabIndex = 5;
             // 
             // btnNewWithdrawl
@@ -292,9 +292,9 @@
             this.btnNewWithdrawl.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewWithdrawl.ForeColor = System.Drawing.Color.Red;
             this.btnNewWithdrawl.Image = ((System.Drawing.Image)(resources.GetObject("btnNewWithdrawl.Image")));
-            this.btnNewWithdrawl.Location = new System.Drawing.Point(855, 1043);
+            this.btnNewWithdrawl.Location = new System.Drawing.Point(855, 1123);
             this.btnNewWithdrawl.Name = "btnNewWithdrawl";
-            this.btnNewWithdrawl.Size = new System.Drawing.Size(771, 170);
+            this.btnNewWithdrawl.Size = new System.Drawing.Size(771, 135);
             this.btnNewWithdrawl.TabIndex = 9;
             this.btnNewWithdrawl.Text = "New Withdrawal";
             this.btnNewWithdrawl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -311,9 +311,9 @@
             this.btnNewDeposite.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewDeposite.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_50;
-            this.btnNewDeposite.Location = new System.Drawing.Point(58, 1043);
+            this.btnNewDeposite.Location = new System.Drawing.Point(58, 1123);
             this.btnNewDeposite.Name = "btnNewDeposite";
-            this.btnNewDeposite.Size = new System.Drawing.Size(771, 170);
+            this.btnNewDeposite.Size = new System.Drawing.Size(771, 135);
             this.btnNewDeposite.TabIndex = 7;
             this.btnNewDeposite.Text = "New Deposit";
             this.btnNewDeposite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -336,7 +336,7 @@
             this.Controls.Add(this.lblMorningToUserWithName);
             this.Controls.Add(this.label1);
             this.Name = "ctrlDashboard";
-            this.Size = new System.Drawing.Size(1685, 1241);
+            this.Size = new System.Drawing.Size(1685, 1275);
             this.Load += new System.EventHandler(this.ctrlDashboard_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

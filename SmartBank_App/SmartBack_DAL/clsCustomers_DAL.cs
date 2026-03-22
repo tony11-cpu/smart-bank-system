@@ -210,7 +210,7 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@Phone", phone);
                     cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? (object)DBNull.Value : email);
                     cmd.Parameters.AddWithValue("@Address", address);
-                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
+                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : @imagePath);
                     cmd.Parameters.AddWithValue("@Gender", Gender);
                     cmd.Parameters.AddWithValue("@IsActive", IsActive);
                     cmd.Parameters.AddWithValue("@RegisteredDate", RegisteredDate);

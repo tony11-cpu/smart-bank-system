@@ -52,6 +52,7 @@
             // 
             // splitter1
             // 
+            this.splitter1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
@@ -64,7 +65,7 @@
             this.lblCustomerServedDate.AutoSize = true;
             this.lblCustomerServedDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCustomerServedDate.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblCustomerServedDate.Location = new System.Drawing.Point(284, 96);
+            this.lblCustomerServedDate.Location = new System.Drawing.Point(303, 96);
             this.lblCustomerServedDate.Name = "lblCustomerServedDate";
             this.lblCustomerServedDate.Size = new System.Drawing.Size(318, 29);
             this.lblCustomerServedDate.TabIndex = 6;
@@ -75,7 +76,7 @@
             this.lblCustomerName.AutoSize = true;
             this.lblCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCustomerName.ForeColor = System.Drawing.Color.White;
-            this.lblCustomerName.Location = new System.Drawing.Point(282, 48);
+            this.lblCustomerName.Location = new System.Drawing.Point(301, 48);
             this.lblCustomerName.Name = "lblCustomerName";
             this.lblCustomerName.Size = new System.Drawing.Size(251, 37);
             this.lblCustomerName.TabIndex = 5;
@@ -247,9 +248,9 @@
             // pbCustomerPhoto
             // 
             this.pbCustomerPhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_person_female_skin_type_1_and_2_80;
-            this.pbCustomerPhoto.Location = new System.Drawing.Point(34, 32);
+            this.pbCustomerPhoto.Location = new System.Drawing.Point(30, 25);
             this.pbCustomerPhoto.Name = "pbCustomerPhoto";
-            this.pbCustomerPhoto.Size = new System.Drawing.Size(227, 154);
+            this.pbCustomerPhoto.Size = new System.Drawing.Size(265, 182);
             this.pbCustomerPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbCustomerPhoto.TabIndex = 4;
             this.pbCustomerPhoto.TabStop = false;

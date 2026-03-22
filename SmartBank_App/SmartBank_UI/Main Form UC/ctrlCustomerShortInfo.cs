@@ -1,5 +1,6 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
+using SmartBank_UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,14 +16,12 @@ namespace SmartBank_UI.Main_Form_UC
 {
     public partial class ctrlCustomerShortInfo : UserControl
     {
-        private string _currentNationalID;
         private bool _isManagerOrAdmin;
         private clsCustomers _customer;
 
-        public ctrlCustomerShortInfo(string nationalID)
+        public ctrlCustomerShortInfo()
         {
             InitializeComponent();
-            _currentNationalID = nationalID;
         }
 
         private void _defaultLoad()
@@ -35,27 +34,16 @@ namespace SmartBank_UI.Main_Form_UC
             tbEmail.Text = "User Email";
             tbAddress.Text = "User Address";
         }
-
-        private void _loadCustomerPhoto()
+        
+        private void _loadCustomerImage()
         {
-            if (!string.IsNullOrEmpty(_customer.ImagePath))
+            if(string.IsNullOrEmpty(_customer.ImagePath))
             {
-                try
-                {
-                    using (FileStream imgStream = new FileStream(_customer.ImagePath, FileMode.Open, FileAccess.Read))
-                    {
-                        pbCustomerPhoto.Image = Image.FromStream(imgStream);
-                    }
-                }
-                catch
-                {
-                    pbCustomerPhoto.Image = Properties.Resources.icons8_person_80;
-                }
+                pbCustomerPhoto.Image = _customer.Gender ? Resources.icons8_person_80 : Resources.icons8_person_female_skin_type_1_and_2_80;
             }
             else
             {
-                pbCustomerPhoto.Image = _customer.Gender ? Properties.Resources.icons8_person_female_skin_type_1_and_2_80
-                                                         : Properties.Resources.icons8_person_80;
+                pbCustomerPhoto.ImageLocation = _customer.ImagePath;
             }
         }
 
@@ -69,12 +57,13 @@ namespace SmartBank_UI.Main_Form_UC
             mtbDateOfBarth.Text = _customer.DateOfBirth.ToString("MM/dd/yyyy");
             tbNationalID.Text = _customer.NationalID.Length >= 4 ? "***-**-" + _customer.NationalID.Substring(_customer.NationalID.Length - 4) : "***-**-????";
 
-            _loadCustomerPhoto();
+            _loadCustomerImage();
         }
 
         public void LoadCustomerInfo(string nationalID)
         {
             _customer = clsCustomers.Find(nationalID);
+
             if (_customer == null)
             {
                 _defaultLoad();
@@ -119,13 +108,9 @@ namespace SmartBank_UI.Main_Form_UC
             _isManagerOrAdmin = (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
                                ||clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
 
-            if(string.IsNullOrEmpty(_currentNationalID))
-            {
-                _defaultLoad();
-                return;
-            }
-
-            LoadCustomerInfo(_currentNationalID);
+            
+            _defaultLoad();
+            frmAddOrUpdateCustomers.OnAddingOrUpdatingCustomer += LoadCustomerInfo;
         }
 
         private void tbNationalID_KeyPress(object sender, KeyPressEventArgs e)

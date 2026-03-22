@@ -55,12 +55,6 @@
     <Compile Include="frmAddOrUpdate.Designer.cs">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Form UC\ctrlAddOrUpdateCustomer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Main Form UC\ctrlAddOrUpdateCustomer.Designer.cs">
-      <DependentUpon>ctrlAddOrUpdateCustomer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main Form UC\ctrlCustomers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,9 +89,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAddOrUpdateCustomers.resx">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main Form UC\ctrlAddOrUpdateCustomer.resx">
-      <DependentUpon>ctrlAddOrUpdateCustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Form UC\ctrlCustomers.resx">
       <DependentUpon>ctrlCustomers.cs</DependentUpon>

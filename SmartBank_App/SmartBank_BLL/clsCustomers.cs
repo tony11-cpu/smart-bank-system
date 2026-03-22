@@ -23,7 +23,7 @@ namespace SmartBank_BLL
         public DateTime RegisteredDate { get; private set; }
         public bool IsActive { get; private set; }
         public int CreatedByUserID { get; private set; }
-        public string ImagePath { get; set; }
+        public string @ImagePath { get; set; }
 
         /// <summary>
         /// False = Male , True = Female

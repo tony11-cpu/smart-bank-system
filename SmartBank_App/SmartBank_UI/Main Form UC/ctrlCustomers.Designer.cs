@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctrlCustomerShortInfo1 = new ctrlCustomerShortInfo(null);
             this.lblMorningToUserWithName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
@@ -38,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgvCustomersData = new System.Windows.Forms.DataGridView();
             this.btnAddCustomer = new System.Windows.Forms.Button();
+            this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,8 +72,10 @@
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(1254, 44);
             this.tbSearchBar.TabIndex = 5;
+            this.tbSearchBar.Tag = "";
             this.tbSearchBar.Text = "Search by name,phone , or last 4 digits of National ID...";
-            this.tbSearchBar.Click += new System.EventHandler(this.tbSearchBar_Click);
+            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
             // btnAllFilterSearch
             // 
