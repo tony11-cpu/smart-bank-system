@@ -20,7 +20,6 @@ namespace SmartBank_UI
         private clsCustomers _selectedCustomer;
         public static event Action<string> OnAddingOrUpdatingCustomer = null;
         private string _nationalID = null;
-        private string _imagePath = null;
 
         public frmAddOrUpdateCustomers(string nationalID)
         {
@@ -35,7 +34,7 @@ namespace SmartBank_UI
             _mode = enMode.Add;
         }
 
-        private void _loaddDeafultFormValues()
+        private void _loadDeafultFormValues()
         {
             _selectedCustomer = new clsCustomers();
             cbGender.SelectedIndex = 0;
@@ -45,14 +44,23 @@ namespace SmartBank_UI
 
         private void _loadCustomerData()
         {
+            mtbDateOfBirth.Text = _selectedCustomer.DateOfBirth.ToString("MM-dd-yyyy");
+            cbGender.SelectedIndex = _selectedCustomer.Gender ? 1 : 0;
+
+            if (string.IsNullOrEmpty(_selectedCustomer.ImagePath))
+                _chooseImageByGender();
+            else
+                pbCustomerPhoto.ImageLocation = _selectedCustomer.ImagePath;
+
             tbFirstName.Text = _selectedCustomer.FirstName;
             _setTextboxStates(tbFirstName, false, true);
 
             tbLastName.Text = _selectedCustomer.LastName;
             _setTextboxStates(tbLastName, false, true);
 
-            tbEmail.Text = string.IsNullOrEmpty(_selectedCustomer.Email) ? "No Email" : _selectedCustomer.Email;
-            _setTextboxStates(tbEmail, false, true);
+            bool isEmpty = string.IsNullOrEmpty(_selectedCustomer.Email);
+            tbEmail.Text = isEmpty ? string.Empty : _selectedCustomer.Email;
+            _setTextboxStates(tbEmail, isEmpty , !isEmpty);
 
             tbAddress.Text = _selectedCustomer.Address;
             _setTextboxStates(tbAddress, false, true);
@@ -62,9 +70,6 @@ namespace SmartBank_UI
 
             tbNationalID.Text = _selectedCustomer.NationalID;
             _setTextboxStates(tbNationalID, false, true);
-
-            mtbDateOfBirth.Text = _selectedCustomer.DateOfBirth.ToString("MM-dd-yyyy");
-            cbGender.SelectedIndex = _selectedCustomer.Gender ? 1 : 0;
         }
 
         private bool _isIdle(TextBox sender) => sender.Tag.ToString().StartsWith("Idle");
@@ -99,7 +104,7 @@ namespace SmartBank_UI
 
             if (_mode == enMode.Add)
             {
-                _loaddDeafultFormValues();
+                _loadDeafultFormValues();
             }
             else
             {
@@ -108,14 +113,16 @@ namespace SmartBank_UI
                 if (_selectedCustomer == null)
                 {
                     _mode = enMode.Add;
-                    _loaddDeafultFormValues();
+                    _loadDeafultFormValues();
                     return;
                 }
 
+                _loadCustomerData();
+
+                btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbCustomerPhoto.ImageLocation);
                 tbNationalID.ReadOnly = true;
                 lblAddOrUpdate.Text = "Update Customer";
                 lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
-                _loadCustomerData();
             }
         }
 
@@ -137,11 +144,11 @@ namespace SmartBank_UI
             if (!string.IsNullOrWhiteSpace(pbCustomerPhoto.ImageLocation))
             {
                 string newPath = @pbCustomerPhoto.ImageLocation;
-                if (!clsUtil.CopyImageToProjectImagesFolder(ref newPath))
+
+                if (!clsUtil.CopyImageToProjectImagesFolder(ref newPath)) 
                     throw new IOException("Error copying image file");
 
                 pbCustomerPhoto.ImageLocation = newPath;
-                _selectedCustomer.ImagePath = @newPath;
             }
 
             return true;
@@ -160,6 +167,7 @@ namespace SmartBank_UI
             _selectedCustomer.Phone = tbPhone.Text.Trim();
             _selectedCustomer.Email = _isIdle(tbEmail) ? null : tbEmail.Text.Trim();
             _selectedCustomer.Address = tbAddress.Text.Trim();
+            _selectedCustomer.ImagePath = pbCustomerPhoto.ImageLocation ?? null;
             return true;
         }
 
@@ -173,6 +181,7 @@ namespace SmartBank_UI
                 _mode = enMode.Update;
                 tbNationalID.ReadOnly = true;
                 OnAddingOrUpdatingCustomer?.Invoke(_selectedCustomer.NationalID);
+
                 lblAddOrUpdate.Text = "Update Customer";
                 lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
                 MessageBox.Show("Customer info saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

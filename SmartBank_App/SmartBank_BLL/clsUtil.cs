@@ -107,17 +107,29 @@ namespace SmartBank_BLL
 
         public static bool CopyImageToProjectImagesFolder(ref string sourceFile)
         {
-            string DestinationFolder = @"C:\SmartBankCustomers_Images\";
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".bmp" };
+            string ext = new FileInfo(sourceFile).Extension.ToLower();
 
-            if (!Directory.Exists(DestinationFolder))
-                Directory.CreateDirectory(DestinationFolder);
+            if (!allowedExtensions.Contains(ext))
+                return false;
 
-            string destinationFile = DestinationFolder + Guid.NewGuid().ToString() + new FileInfo(sourceFile).Extension;
+            string destinationFolder = @"C:\SmartBankCustomers_Images\";
 
-            File.Copy(sourceFile, destinationFile, true);
+            if (!Directory.Exists(destinationFolder))
+                Directory.CreateDirectory(destinationFolder);
 
-            sourceFile = destinationFile;
-            return true;
+            string destinationFile = Path.Combine(destinationFolder, Guid.NewGuid().ToString() + ext);
+
+            try
+            {
+                File.Copy(sourceFile, destinationFile, true);
+                sourceFile = destinationFile;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
  }

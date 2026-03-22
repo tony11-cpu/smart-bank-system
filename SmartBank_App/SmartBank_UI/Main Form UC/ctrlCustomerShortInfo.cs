@@ -17,60 +17,62 @@ namespace SmartBank_UI.Main_Form_UC
     public partial class ctrlCustomerShortInfo : UserControl
     {
         private bool _isManagerOrAdmin;
-        private clsCustomers _customer;
-
+        public clsCustomers Customer { get; private set; }
+        
         public ctrlCustomerShortInfo()
         {
             InitializeComponent();
         }
-
-        private void _defaultLoad()
-        {
-            lblCustomerName.Text = "Customer Name";
-            lblCustomerServedDate.Text = "Customer Since Jan, 00/00/0000";
-            pbCustomerPhoto.Image = Properties.Resources.icons8_person_80;
-            mtbDateOfBarth.Text = "00/00/0000";
-            mtbPhoneNumber.Text = "0000000000";
-            tbEmail.Text = "User Email";
-            tbAddress.Text = "User Address";
-        }
         
         private void _loadCustomerImage()
         {
-            if(string.IsNullOrEmpty(_customer.ImagePath))
+            if(string.IsNullOrEmpty(Customer.ImagePath))
             {
-                pbCustomerPhoto.Image = _customer.Gender ? Resources.icons8_person_80 : Resources.icons8_person_female_skin_type_1_and_2_80;
+                pbCustomerPhoto.Image = Customer.Gender ? Resources.icons8_person_female_skin_type_1_and_2_80 : Resources.icons8_person_80;
             }
             else
             {
-                pbCustomerPhoto.ImageLocation = _customer.ImagePath;
+                pbCustomerPhoto.ImageLocation = Customer.ImagePath;
             }
         }
 
         private void _loadCustomerInfo()
         {
-            lblCustomerName.Text = $"{_customer.FirstName} {_customer.LastName}";
-            lblCustomerServedDate.Text = $"Customer Since {_customer.RegisteredDate.ToString("MMM, dd/yyyy")}";
-            tbAddress.Text = _customer.Address;
-            tbEmail.Text = _customer.Email;
-            mtbPhoneNumber.Text = _customer.Phone;
-            mtbDateOfBarth.Text = _customer.DateOfBirth.ToString("MM/dd/yyyy");
-            tbNationalID.Text = _customer.NationalID.Length >= 4 ? "***-**-" + _customer.NationalID.Substring(_customer.NationalID.Length - 4) : "***-**-????";
+            lblCustomerName.Text = $"{Customer.FirstName} {Customer.LastName}";
+            lblCustomerServedDate.Text = $"Customer Since {Customer.RegisteredDate.ToString("MMM, dd/yyyy")}";
+            tbAddress.Text = Customer.Address;
+            tbEmail.Text = Customer.Email;
+            mtbPhoneNumber.Text = Customer.Phone;
+            mtbDateOfBarth.Text = Customer.DateOfBirth.ToString("MM/dd/yyyy");
+            tbNationalID.Text = _isManagerOrAdmin ? Customer.NationalID : 
+                (Customer.NationalID.Length >= 4 ? "***-**-" + Customer.NationalID.Substring(Customer.NationalID.Length - 4) : "***-**-????");
 
             _loadCustomerImage();
         }
 
         public void LoadCustomerInfo(string nationalID)
         {
-            _customer = clsCustomers.Find(nationalID);
+            Customer = clsCustomers.Find(nationalID);
 
-            if (_customer == null)
+            if (Customer == null)
             {
-                _defaultLoad();
+                MessageBox.Show("No customer found!" , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                _loadDefault();
                 return;
             }
 
             _loadCustomerInfo();
+        }
+
+        private void _loadDefault()
+        {
+            lblCustomerName.Text = "Customer Name";
+            lblCustomerServedDate.Text = "Customer Since Jan, 00/00/0000";
+            pbCustomerPhoto.Image = Resources.icons8_person_80;
+            mtbDateOfBarth.Text = "00/00/0000";
+            mtbPhoneNumber.Text = "0000000000";
+            tbEmail.Text = "User Email";
+            tbAddress.Text = "User Address";
         }
 
         private void lblLinkToFullID_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -81,23 +83,7 @@ namespace SmartBank_UI.Main_Form_UC
                 return;
             }
 
-            tbNationalID.Text = _customer == null ? tbNationalID.Text : _customer.NationalID;
-        }
-
-        private void btnDeactivate_Click(object sender, EventArgs e)
-        {
-            if (!_isManagerOrAdmin)
-            {
-                MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes && _customer != null && _customer.Deactivate())
-            {
-                MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _loadCustomerInfo();
-            }
+            tbNationalID.Text = Customer.NationalID;
         }
 
         private void ctrlCustomerShortInfo_Load(object sender, EventArgs e)
@@ -108,8 +94,8 @@ namespace SmartBank_UI.Main_Form_UC
             _isManagerOrAdmin = (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
                                ||clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
 
-            
-            _defaultLoad();
+
+            _loadDefault();
             frmAddOrUpdateCustomers.OnAddingOrUpdatingCustomer += LoadCustomerInfo;
         }
 
@@ -117,19 +103,6 @@ namespace SmartBank_UI.Main_Form_UC
         {
             if (e.KeyChar == (char)Keys.Enter) 
                 LoadCustomerInfo(tbNationalID.Text.Trim());
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            string nationalID = tbNationalID.Text.Trim();
-            if (!clsCustomers.IsCustomerExists(nationalID))
-            {
-                MessageBox.Show("Customer is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(nationalID);
-            addOrUpdateCustomers.ShowDialog();
         }
     }
 }

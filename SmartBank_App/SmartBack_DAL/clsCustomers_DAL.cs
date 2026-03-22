@@ -144,7 +144,7 @@ namespace SmartBank
                     SqlParameter pRegisteredDate = new SqlParameter("@RegisteredDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
                     SqlParameter pIsActive = new SqlParameter("@IsActive", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     SqlParameter pCreatedByUserID = new SqlParameter("@CreatedByUserID", SqlDbType.Int) { Direction = ParameterDirection.Output };
-                    SqlParameter pImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 250) { Direction = ParameterDirection.Output };
+                    SqlParameter pImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 300) { Direction = ParameterDirection.Output };
                     SqlParameter pGender = new SqlParameter("@Gender", SqlDbType.Bit) { Direction = ParameterDirection.Output };
 
                     cmd.Parameters.AddWithValue("@nationalID", nationalID);
@@ -210,15 +210,20 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@Phone", phone);
                     cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? (object)DBNull.Value : email);
                     cmd.Parameters.AddWithValue("@Address", address);
-                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : @imagePath);
                     cmd.Parameters.AddWithValue("@Gender", Gender);
                     cmd.Parameters.AddWithValue("@IsActive", IsActive);
                     cmd.Parameters.AddWithValue("@RegisteredDate", RegisteredDate);
-
+                    SqlParameter ImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 300)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath
+                    };
                     SqlParameter newCustomerID = new SqlParameter("@NewCustomerID", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
                     };
+
+                    cmd.Parameters.Add(ImagePath);
                     cmd.Parameters.Add(newCustomerID);
 
                     conn.Open();
@@ -237,7 +242,7 @@ namespace SmartBank
 
         public static bool UpdateCustomer(int adminUserID, int customerID,
                                           string firstName, string lastName, string phone,
-                                          string email, string address, string imagePath , bool gender)
+                                          string email, string address, string imagePath , bool gender , DateTime dateOfBirth)
         {
             try
             {
@@ -255,6 +260,8 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@Address", address);
                     cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
                     cmd.Parameters.AddWithValue("@Gender" , gender);
+                    cmd.Parameters.AddWithValue("@DateOfBrith", dateOfBirth);
+
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -294,6 +301,27 @@ namespace SmartBank
             }
 
             return false;
+        }
+
+        public static DataTable GetAllCustomers()
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllCustomers()", conn))
+                {
+                    conn.Open();
+                    dt.Load(cmd.ExecuteReader());
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return dt;
         }
     }
 }

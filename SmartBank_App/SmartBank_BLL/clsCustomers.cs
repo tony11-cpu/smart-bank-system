@@ -1,6 +1,7 @@
 ﻿using SmartBank;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +75,8 @@ namespace SmartBank_BLL
 
         public static bool IsCustomerExists(string nationalID) => clsCustomers_DAL.IsCustomerExistByNationalID(nationalID);
 
+        public static DataTable GetAllCustomers() => clsCustomers_DAL.GetAllCustomers();
+
         public static clsCustomers Find(int customerID)
         {
             string firstName = null;
@@ -142,7 +145,7 @@ namespace SmartBank_BLL
 
         private bool _update() => clsCustomers_DAL.UpdateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."),
                                                                   CustomerID ?? throw new InvalidOperationException("Customer ID is not set."),
-                                                                  FirstName, LastName,Phone, Email, Address, ImagePath, Gender);
+                                                                  FirstName, LastName,Phone, Email, Address, ImagePath, Gender , DateOfBirth);
 
         public bool Save()
         {
@@ -166,7 +169,7 @@ namespace SmartBank_BLL
             if (_mode != enMode.Update)
                 return false;
 
-            if(CustomerID == null && (clsGlobal.ActiveUser == null || clsGlobal.ActiveUser.UserID == null) &&
+            if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) &&
                 clsCustomers_DAL.DeactivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = false;

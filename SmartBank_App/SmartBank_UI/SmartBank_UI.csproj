@@ -210,5 +210,14 @@
   <ItemGroup>
     <None Include="Resources\icons8-tick-24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-update-user-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-view-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-user-locked-48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

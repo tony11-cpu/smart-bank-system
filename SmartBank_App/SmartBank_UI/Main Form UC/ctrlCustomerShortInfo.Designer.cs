@@ -43,8 +43,6 @@
             this.tbAddress = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDeactivate = new System.Windows.Forms.Button();
             this.pbCustomerPhoto = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCustomerPhoto)).BeginInit();
@@ -217,34 +215,6 @@
             this.panel1.Size = new System.Drawing.Size(652, 622);
             this.panel1.TabIndex = 20;
             // 
-            // btnEdit
-            // 
-            this.btnEdit.FlatAppearance.BorderSize = 2;
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btnEdit.Location = new System.Drawing.Point(24, 877);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(282, 75);
-            this.btnEdit.TabIndex = 21;
-            this.btnEdit.Text = "Edit Info";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnDeactivate
-            // 
-            this.btnDeactivate.FlatAppearance.BorderSize = 2;
-            this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeactivate.ForeColor = System.Drawing.Color.Firebrick;
-            this.btnDeactivate.Location = new System.Drawing.Point(333, 877);
-            this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(282, 75);
-            this.btnDeactivate.TabIndex = 22;
-            this.btnDeactivate.Text = "Deactivate";
-            this.btnDeactivate.UseVisualStyleBackColor = true;
-            this.btnDeactivate.Click += new System.EventHandler(this.btnDeactivate_Click);
-            // 
             // pbCustomerPhoto
             // 
             this.pbCustomerPhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_person_female_skin_type_1_and_2_80;
@@ -260,15 +230,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MidnightBlue;
-            this.Controls.Add(this.btnDeactivate);
-            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblCustomerServedDate);
             this.Controls.Add(this.lblCustomerName);
             this.Controls.Add(this.pbCustomerPhoto);
             this.Controls.Add(this.splitter1);
             this.Name = "ctrlCustomerShortInfo";
-            this.Size = new System.Drawing.Size(655, 968);
+            this.Size = new System.Drawing.Size(655, 864);
             this.Load += new System.EventHandler(this.ctrlCustomerShortInfo_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -296,7 +264,5 @@
         private System.Windows.Forms.TextBox tbAddress;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnDeactivate;
     }
 }
