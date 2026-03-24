@@ -20,13 +20,39 @@ namespace SmartBank_UI.Main_Form_UC
         }
 
         private bool _isManagerOrAdmin = false;
+        private string _defaultSearchBarSTR = "Search by name, phone, or last 4 digits of national ID...";
+        private List<clsCustomers> _allCustomers = new List<clsCustomers>();
 
-        private void _loadDGV()
+        private void _bindGrid(List<clsCustomers> customerView)
         {
-            dgvCustomersData.DataSource = clsCustomers.GetAllCustomers();
+            if (customerView == null) 
+                return;
 
-            if(dgvCustomersData.Rows.Count > 0)
-               lblNumberOfCustomers.Text = dgvCustomersData.Rows.Count.ToString();
+            dgvCustomersData.DataSource = customerView;
+            lblNumberOfCustomers.Text = customerView.Count.ToString();
+
+            dgvCustomersData.Columns["ImagePath"].Visible = false;
+            dgvCustomersData.Columns["CreatedByUserID"].Visible = false;
+            dgvCustomersData.Columns["LastName"].Visible = false;
+            dgvCustomersData.Columns["CustomerID"].Visible = false;
+            dgvCustomersData.Columns["Gender"].Visible = false;
+
+            dgvCustomersData.Columns["FirstName"].HeaderText = "Full Name";
+            dgvCustomersData.Columns["DateOfBirth"].HeaderText = "Date of Birth";
+            dgvCustomersData.Columns["RegisteredDate"].HeaderText = "Join Date";
+            dgvCustomersData.Columns["IsActive"].HeaderText = "Status";
+            dgvCustomersData.Columns["NationalID"].HeaderText = "National ID";
+
+            foreach (DataGridViewRow row in dgvCustomersData.Rows)
+            {
+                row.Cells["FirstName"].Value = $"{row.Cells["FirstName"].Value} {row.Cells["LastName"].Value}".Trim();
+            }
+        }
+
+        private List<clsCustomers> _loadCustomersList()
+        {
+            _allCustomers = clsCustomers.GetAllCustomers();
+            return _allCustomers;
         }
 
         private void ctrlCustomers_Load(object sender, EventArgs e)
@@ -34,33 +60,31 @@ namespace SmartBank_UI.Main_Form_UC
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
                 return;
 
-            _isManagerOrAdmin = (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
-                                || clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
+            _isManagerOrAdmin = clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
+                                || clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
 
-            _loadDGV();
+            _bindGrid(_loadCustomersList());
         }
 
         private void dgvCustomersData_Click(object sender, EventArgs e)
         {
             if (dgvCustomersData.Rows.Count > 0)
-                ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells[2].Value.ToString());
+                ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells[3].Value.ToString());
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
-            string defaultSTR = "Search by name,phone , or last 4 digits of National ID...";
-            bool entering = tbSearchBar.Focused;
-            tbSearchBar.Text = entering && tbSearchBar.Text == defaultSTR ?  string.Empty :
-                !entering && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? defaultSTR : tbSearchBar.Text;
+            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == _defaultSearchBarSTR ? string.Empty :
+                !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? _defaultSearchBarSTR : tbSearchBar.Text;
 
-            tbSearchBar.ForeColor = tbSearchBar.Text == defaultSTR ? Color.DimGray : Color.White;
+            tbSearchBar.ForeColor = tbSearchBar.Text == _defaultSearchBarSTR ? Color.DimGray : Color.White;
         }
 
         private void AddNewCutomer_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateCustomers frmAddOrUpdateCustomers = new frmAddOrUpdateCustomers();
             frmAddOrUpdateCustomers.ShowDialog();
-            _loadDGV();
+            _bindGrid(_loadCustomersList());
         }
 
         private void DeactivateCustomer_Click(object sender, EventArgs e)
@@ -68,16 +92,22 @@ namespace SmartBank_UI.Main_Form_UC
             if (!_isManagerOrAdmin)
             {
                 MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
             }
-
-            if (MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes && ctrlCustomerShortInfo1.Customer != null)
+            else if(dgvCustomersData.Rows.Count <= 0)
+            {
+                MessageBox.Show("No customer exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if(!ctrlCustomerShortInfo1.Customer.IsActive)
+            {
+                MessageBox.Show("Customer is already inactive!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation",
+                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes && ctrlCustomerShortInfo1.Customer != null)
             {
                 if (ctrlCustomerShortInfo1.Customer.Deactivate())
                 {
                     MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    _loadDGV();
+                    _bindGrid(_loadCustomersList());
                 }
                 else
                 {
@@ -96,7 +126,7 @@ namespace SmartBank_UI.Main_Form_UC
 
             frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(ctrlCustomerShortInfo1.Customer.NationalID);
             addOrUpdateCustomers.ShowDialog();
-            _loadDGV();
+            _bindGrid(_loadCustomersList());
         }
 
         private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -112,9 +142,29 @@ namespace SmartBank_UI.Main_Form_UC
                 return;
             }
 
-            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(dgvCustomersData.CurrentRow.Cells[2].Value.ToString());
+            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(dgvCustomersData.CurrentRow.Cells["NationalID"].Value.ToString());
             addOrUpdateCustomers.ShowDialog();
-            _loadDGV();
+            _bindGrid(_loadCustomersList());
+        }
+
+        private void tbSearchBar_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == _defaultSearchBarSTR)
+            {
+                _bindGrid(_allCustomers);
+                return;
+            }
+
+            var filtered = _allCustomers.Where(n =>
+            {
+                string last4 = n.NationalID.Substring(n.NationalID.Length - 4);
+                return last4.StartsWith(tbSearchBar.Text.Trim(), StringComparison.Ordinal) ||
+                       n.FirstName.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) ||
+                       n.LastName.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) ||
+                       n.Phone.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase);
+            }).ToList();
+
+            _bindGrid(filtered);
         }
     }
 }

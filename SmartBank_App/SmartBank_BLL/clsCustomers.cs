@@ -75,7 +75,29 @@ namespace SmartBank_BLL
 
         public static bool IsCustomerExists(string nationalID) => clsCustomers_DAL.IsCustomerExistByNationalID(nationalID);
 
-        public static DataTable GetAllCustomers() => clsCustomers_DAL.GetAllCustomers();
+        public static List<clsCustomers> GetAllCustomers()
+        {
+            List<clsCustomers> customers = new List<clsCustomers>();
+            DataTable values = clsCustomers_DAL.GetAllCustomers();
+            foreach (DataRow row in values.Rows)
+            {
+                customers.Add(new clsCustomers(
+                    (int)row["Customer ID"],
+                    row["Full Name"].ToString().Split(' ')[0],
+                    row["Full Name"].ToString().Split(' ')[1],
+                    row["National ID"].ToString(),
+                    Convert.ToDateTime(row["Date Of Birth"]),
+                    row["Phone"].ToString(),
+                    row["Email"].ToString() == "No Email" ? null : row["Email"].ToString(),
+                    row["Address"].ToString(),
+                    Convert.ToDateTime(row["Join Date"]),
+                    (bool)row["Is Active"],
+                    (int)row["Created By User ID"],
+                    row["Gender"].ToString() == "Female",
+                    row["Image Path"] == DBNull.Value ? null : row["Image Path"].ToString()
+                ));
+            } return customers;
+        }
 
         public static clsCustomers Find(int customerID)
         {

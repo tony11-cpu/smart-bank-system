@@ -54,7 +54,7 @@
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(655, 227);
+            this.splitter1.Size = new System.Drawing.Size(678, 227);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
@@ -96,7 +96,7 @@
             this.tbNationalID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbNationalID.Location = new System.Drawing.Point(23, 58);
             this.tbNationalID.Name = "tbNationalID";
-            this.tbNationalID.Size = new System.Drawing.Size(545, 35);
+            this.tbNationalID.Size = new System.Drawing.Size(597, 35);
             this.tbNationalID.TabIndex = 9;
             this.tbNationalID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNationalID_KeyPress);
             // 
@@ -131,7 +131,7 @@
             this.mtbDateOfBarth.Mask = "00/00/0000";
             this.mtbDateOfBarth.Name = "mtbDateOfBarth";
             this.mtbDateOfBarth.ReadOnly = true;
-            this.mtbDateOfBarth.Size = new System.Drawing.Size(545, 35);
+            this.mtbDateOfBarth.Size = new System.Drawing.Size(597, 35);
             this.mtbDateOfBarth.TabIndex = 12;
             this.mtbDateOfBarth.ValidatingType = typeof(System.DateTime);
             // 
@@ -153,7 +153,7 @@
             this.mtbPhoneNumber.Mask = "(999) 000-0000";
             this.mtbPhoneNumber.Name = "mtbPhoneNumber";
             this.mtbPhoneNumber.ReadOnly = true;
-            this.mtbPhoneNumber.Size = new System.Drawing.Size(545, 35);
+            this.mtbPhoneNumber.Size = new System.Drawing.Size(597, 35);
             this.mtbPhoneNumber.TabIndex = 15;
             // 
             // tbEmail
@@ -162,7 +162,7 @@
             this.tbEmail.Location = new System.Drawing.Point(29, 436);
             this.tbEmail.Name = "tbEmail";
             this.tbEmail.ReadOnly = true;
-            this.tbEmail.Size = new System.Drawing.Size(539, 35);
+            this.tbEmail.Size = new System.Drawing.Size(591, 35);
             this.tbEmail.TabIndex = 17;
             // 
             // label4
@@ -182,7 +182,7 @@
             this.tbAddress.Location = new System.Drawing.Point(29, 552);
             this.tbAddress.Name = "tbAddress";
             this.tbAddress.ReadOnly = true;
-            this.tbAddress.Size = new System.Drawing.Size(539, 35);
+            this.tbAddress.Size = new System.Drawing.Size(591, 35);
             this.tbAddress.TabIndex = 19;
             // 
             // label5
@@ -212,7 +212,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(0, 233);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(652, 622);
+            this.panel1.Size = new System.Drawing.Size(678, 622);
             this.panel1.TabIndex = 20;
             // 
             // pbCustomerPhoto
@@ -236,7 +236,7 @@
             this.Controls.Add(this.pbCustomerPhoto);
             this.Controls.Add(this.splitter1);
             this.Name = "ctrlCustomerShortInfo";
-            this.Size = new System.Drawing.Size(655, 864);
+            this.Size = new System.Drawing.Size(678, 864);
             this.Load += new System.EventHandler(this.ctrlCustomerShortInfo_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
