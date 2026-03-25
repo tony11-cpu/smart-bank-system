@@ -188,7 +188,7 @@ namespace SmartBank_BLL
 
         public bool Deactivate()
         {
-            if (_mode != enMode.Update)
+            if (_mode != enMode.Update || !IsActive)
                 return false;
 
             if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) &&
@@ -198,6 +198,21 @@ namespace SmartBank_BLL
                 return true;
             }
                
+            return false;
+        }
+
+        public bool Activate()
+        {
+            if (_mode != enMode.Update || IsActive)
+                return false;
+
+            if (CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) &&
+                clsCustomers_DAL.ActivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
+            {
+                IsActive = false;
+                return true;
+            }
+
             return false;
         }
     }

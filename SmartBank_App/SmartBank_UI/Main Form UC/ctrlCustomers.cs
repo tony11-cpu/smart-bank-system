@@ -69,7 +69,14 @@ namespace SmartBank_UI.Main_Form_UC
         private void dgvCustomersData_Click(object sender, EventArgs e)
         {
             if (dgvCustomersData.Rows.Count > 0)
+            {
                 ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells[3].Value.ToString());
+                if(ctrlCustomerShortInfo1.Customer != null)
+                {
+                    btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
+                    btnDeactivate.Visible = ctrlCustomerShortInfo1.Customer.IsActive;
+                }
+            }
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
@@ -89,15 +96,15 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void DeactivateCustomer_Click(object sender, EventArgs e)
         {
-            if (!_isManagerOrAdmin)
-            {
-                MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if(dgvCustomersData.Rows.Count <= 0)
+            if (dgvCustomersData.Rows.Count <= 0)
             {
                 MessageBox.Show("No customer exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if(!ctrlCustomerShortInfo1.Customer.IsActive)
+            else if (!_isManagerOrAdmin)
+            {
+                MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (!ctrlCustomerShortInfo1.Customer.IsActive)
             {
                 MessageBox.Show("Customer is already inactive!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -108,6 +115,9 @@ namespace SmartBank_UI.Main_Form_UC
                 {
                     MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _bindGrid(_loadCustomersList());
+
+                    btnDeactivate.Visible = false;
+                    btnActivate.Visible = true;
                 }
                 else
                 {
@@ -165,6 +175,37 @@ namespace SmartBank_UI.Main_Form_UC
             }).ToList();
 
             _bindGrid(filtered);
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomersData.Rows.Count <= 0)
+            {
+                MessageBox.Show("No customer exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (!_isManagerOrAdmin)
+            {
+                MessageBox.Show("You do not have permission to activate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (ctrlCustomerShortInfo1.Customer.IsActive)
+            {
+                MessageBox.Show("Customer is already active!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (ctrlCustomerShortInfo1.Customer != null)
+            {
+                if (ctrlCustomerShortInfo1.Customer.Activate())
+                {
+                    MessageBox.Show("Customer activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _bindGrid(_loadCustomersList());
+
+                    btnDeactivate.Visible = true;
+                    btnActivate.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Error while activating customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

@@ -55,6 +55,12 @@
     <Compile Include="frmAddOrUpdate.Designer.cs">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main Form UC\ctrlAccounts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Main Form UC\ctrlAccounts.Designer.cs">
+      <DependentUpon>ctrlAccounts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main Form UC\ctrlCustomers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAddOrUpdateCustomers.resx">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main Form UC\ctrlAccounts.resx">
+      <DependentUpon>ctrlAccounts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Form UC\ctrlCustomers.resx">
       <DependentUpon>ctrlCustomers.cs</DependentUpon>
@@ -218,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-user-locked-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-merchant-account-100.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

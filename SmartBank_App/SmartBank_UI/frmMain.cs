@@ -33,8 +33,7 @@ namespace SmartBank_UI
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
                 return;
 
-            btnDashBoard_Click(null, null);
-
+            btnDashBoard_Click(sender, null);
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
             switch (clsGlobal.ActiveUser.Permissions.PermissionPresenter)
             {
@@ -54,13 +53,14 @@ namespace SmartBank_UI
 
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
          }
-
         
         private ctrlDashboard _dashboard = new ctrlDashboard();
         private void btnDashBoard_Click(object sender, EventArgs e) => _showView(_dashboard);
 
-
         private ctrlCustomers _customers = new ctrlCustomers();
         private void btnCustomers_Click(object sender, EventArgs e) => _showView(_customers);
+
+        private ctrlAccounts _accounts = new ctrlAccounts();
+        private void btnAccounts_Click(object sender, EventArgs e) => _showView(_accounts);
     }
 }

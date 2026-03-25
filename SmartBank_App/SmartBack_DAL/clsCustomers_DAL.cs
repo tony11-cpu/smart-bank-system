@@ -303,6 +303,32 @@ namespace SmartBank
             return false;
         }
 
+        public static bool ActivateCustomer(int customerID, int adminUserID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_ActivateCustomer", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@CustomerID", customerID);
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
         public static DataTable GetAllCustomers()
         {
             DataTable dt = new DataTable();

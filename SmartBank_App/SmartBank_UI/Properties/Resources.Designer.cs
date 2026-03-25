@@ -163,6 +163,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_merchant_account_100 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-merchant-account-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_merchant_account_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-merchant-account-50", resourceCulture);
