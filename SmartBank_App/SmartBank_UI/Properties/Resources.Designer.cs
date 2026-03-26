@@ -133,6 +133,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_lock_30 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-lock-30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_lock_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-lock-50", resourceCulture);
@@ -213,6 +223,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_right_arrow_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-right-arrow-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_scheduled_delivery_58 {
             get {
                 object obj = ResourceManager.GetObject("icons8-scheduled-delivery-58", resourceCulture);
@@ -286,6 +306,16 @@ namespace SmartBank_UI.Properties {
         internal static System.Drawing.Bitmap icons8_user_locked_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-user-locked-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_users_30 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-users-30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

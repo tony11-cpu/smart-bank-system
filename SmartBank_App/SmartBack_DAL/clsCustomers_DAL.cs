@@ -336,7 +336,7 @@ namespace SmartBank
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllCustomers()", conn))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllCustomers();", conn))
                 {
                     conn.Open();
                     dt.Load(cmd.ExecuteReader());

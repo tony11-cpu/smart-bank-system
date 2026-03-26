@@ -49,75 +49,84 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmAddOrUpdateCustomers.cs">
+    <Compile Include="Customers\frmAddOrUpdateCustomers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddOrUpdate.Designer.cs">
+    <Compile Include="Customers\frmAddOrUpdate.Designer.cs">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Form UC\ctrlAccounts.cs">
+    <Compile Include="Accounts\ctrlAccountsMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main Form UC\ctrlAccounts.Designer.cs">
-      <DependentUpon>ctrlAccounts.cs</DependentUpon>
+    <Compile Include="Accounts\ctrlAccountsMainScreen.Designer.cs">
+      <DependentUpon>ctrlAccountsMainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Form UC\ctrlCustomers.cs">
+    <Compile Include="Customers\Customer User Controls\ctrlCustomersMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main Form UC\ctrlCustomers.Designer.cs">
-      <DependentUpon>ctrlCustomers.cs</DependentUpon>
+    <Compile Include="Customers\Customer User Controls\ctrlCustomersMainScreen.Designer.cs">
+      <DependentUpon>ctrlCustomersMainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Form UC\ctrlCustomerShortInfo.cs">
+    <Compile Include="Customers\Customer User Controls\ctrlCustomerShortInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main Form UC\ctrlCustomerShortInfo.Designer.cs">
+    <Compile Include="Customers\Customer User Controls\ctrlCustomerShortInfo.Designer.cs">
       <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Form UC\ctrlDashboard.cs">
+    <Compile Include="Dashboard\ctrlDashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Main Form UC\ctrlDashboard.Designer.cs">
+    <Compile Include="Dashboard\ctrlDashboard.Designer.cs">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.cs">
+    <Compile Include="Main Forms\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogin.Designer.cs">
+    <Compile Include="Main Forms\frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMain.cs">
+    <Compile Include="Main Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.cs">
+    <Compile Include="Main Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmAddOrUpdateCustomers.resx">
+    <Compile Include="Users\Users User Control\ctrlUsersMainScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Users\Users User Control\ctrlUsersMainScreen.Designer.cs">
+      <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Customers\frmAddOrUpdateCustomers.resx">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Form UC\ctrlAccounts.resx">
-      <DependentUpon>ctrlAccounts.cs</DependentUpon>
+    <EmbeddedResource Include="Accounts\ctrlAccountsMainScreen.resx">
+      <DependentUpon>ctrlAccountsMainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Form UC\ctrlCustomers.resx">
-      <DependentUpon>ctrlCustomers.cs</DependentUpon>
+    <EmbeddedResource Include="Customers\Customer User Controls\ctrlCustomersMainScreen.resx">
+      <DependentUpon>ctrlCustomersMainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Form UC\ctrlCustomerShortInfo.resx">
+    <EmbeddedResource Include="Customers\Customer User Controls\ctrlCustomerShortInfo.resx">
       <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Form UC\ctrlDashboard.resx">
+    <EmbeddedResource Include="Dashboard\ctrlDashboard.resx">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogin.resx">
+    <EmbeddedResource Include="Main Forms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Main Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\Users User Control\ctrlUsersMainScreen.resx">
+      <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -230,6 +239,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-merchant-account-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-users-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-right-arrow-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-lock-30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

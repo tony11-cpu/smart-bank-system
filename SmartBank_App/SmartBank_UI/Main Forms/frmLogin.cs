@@ -76,6 +76,8 @@ namespace SmartBank_UI.Login
 
             MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             frmMain mainForm = new frmMain();
+            this.Hide();
+            mainForm.FormClosed += (s, args) => this.Close();
             mainForm.ShowDialog();
         }
 

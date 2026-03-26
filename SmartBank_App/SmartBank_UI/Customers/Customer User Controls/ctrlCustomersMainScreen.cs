@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace SmartBank_UI.Main_Form_UC
 {
-    public partial class ctrlCustomers : UserControl
+    public partial class ctrlCustomersMainScreen : UserControl
     {
-        public ctrlCustomers()
+        public ctrlCustomersMainScreen()
         {
             InitializeComponent();
         }
@@ -94,38 +94,6 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(_loadCustomersList());
         }
 
-        private void DeactivateCustomer_Click(object sender, EventArgs e)
-        {
-            if (dgvCustomersData.Rows.Count <= 0)
-            {
-                MessageBox.Show("No customer exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (!_isManagerOrAdmin)
-            {
-                MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (!ctrlCustomerShortInfo1.Customer.IsActive)
-            {
-                MessageBox.Show("Customer is already inactive!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation",
-                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes && ctrlCustomerShortInfo1.Customer != null)
-            {
-                if (ctrlCustomerShortInfo1.Customer.Deactivate())
-                {
-                    MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    _bindGrid(_loadCustomersList());
-
-                    btnDeactivate.Visible = false;
-                    btnActivate.Visible = true;
-                }
-                else
-                {
-                    MessageBox.Show("Error while deactivating customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private void btnEditCustomer_Click(object sender, EventArgs e)
         {
             if (ctrlCustomerShortInfo1.Customer == null)
@@ -177,27 +145,65 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(filtered);
         }
 
-        private void btnActivate_Click(object sender, EventArgs e)
+        private enum enCustomerStatesError { RecordNotExists = 1 , CustomerAlreadyActive = 2 , CustomerAlreadyInActive = 3 , CurrentUserNotAdminOrManager = 4 , ReadyToDeactivate = 5 , ReadyToActivate }
+
+        private enCustomerStatesError _checkCutomerStates(clsCustomers customer , bool deactivation)
         {
-            if (dgvCustomersData.Rows.Count <= 0)
+            if(customer == null)
             {
-                MessageBox.Show("No customer exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Customer not exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return enCustomerStatesError.RecordNotExists;
             }
-            else if (!_isManagerOrAdmin)
+
+            if(!_isManagerOrAdmin)
             {
-                MessageBox.Show("You do not have permission to activate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You do not have permission to deactivate customers.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return enCustomerStatesError.CurrentUserNotAdminOrManager;
             }
-            else if (ctrlCustomerShortInfo1.Customer.IsActive)
+
+            if(!ctrlCustomerShortInfo1.Customer.IsActive && deactivation)
+            {
+                MessageBox.Show("Customer is already inactive!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return enCustomerStatesError.CustomerAlreadyInActive;
+            }
+
+            if(ctrlCustomerShortInfo1.Customer.IsActive && !deactivation)
             {
                 MessageBox.Show("Customer is already active!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return enCustomerStatesError.CustomerAlreadyActive;
             }
-            else if (ctrlCustomerShortInfo1.Customer != null)
+
+            return deactivation ? enCustomerStatesError.ReadyToDeactivate : enCustomerStatesError.ReadyToActivate;
+        }
+
+        private void DeactivateCustomer_Click(object sender, EventArgs e)
+        {
+            if (_checkCutomerStates(ctrlCustomerShortInfo1.Customer, true) == enCustomerStatesError.ReadyToDeactivate
+                && MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                if (ctrlCustomerShortInfo1.Customer.Deactivate())
+                {
+                    MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _bindGrid(_loadCustomersList());
+                    btnDeactivate.Visible = false;
+                    btnActivate.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show("Error while deactivating customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            if(_checkCutomerStates(ctrlCustomerShortInfo1.Customer, false) == enCustomerStatesError.ReadyToActivate 
+               && MessageBox.Show("Are you sure you want to activate this customer?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 if (ctrlCustomerShortInfo1.Customer.Activate())
                 {
                     MessageBox.Show("Customer activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _bindGrid(_loadCustomersList());
-
                     btnDeactivate.Visible = true;
                     btnActivate.Visible = false;
                 }

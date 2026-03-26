@@ -96,7 +96,9 @@ namespace SmartBank_BLL
                     row["Gender"].ToString() == "Female",
                     row["Image Path"] == DBNull.Value ? null : row["Image Path"].ToString()
                 ));
-            } return customers;
+            } 
+            
+            return customers;
         }
 
         public static clsCustomers Find(int customerID)

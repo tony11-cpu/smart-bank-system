@@ -1,6 +1,6 @@
 ﻿namespace SmartBank_UI.Main_Form_UC
 {
-    partial class ctrlCustomers
+    partial class ctrlCustomersMainScreen
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,19 +34,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgvCustomersData = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNumberOfCustomers = new System.Windows.Forms.Label();
-            this.btnAddCustomer = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnActivate = new System.Windows.Forms.Button();
             this.btnDeactivate = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.btnActivate = new System.Windows.Forms.Button();
+            this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAddCustomer = new System.Windows.Forms.Button();
             this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -58,7 +58,7 @@
             this.lblMorningToUserWithName.AutoSize = true;
             this.lblMorningToUserWithName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMorningToUserWithName.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblMorningToUserWithName.Location = new System.Drawing.Point(16, 56);
+            this.lblMorningToUserWithName.Location = new System.Drawing.Point(8, 55);
             this.lblMorningToUserWithName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMorningToUserWithName.Name = "lblMorningToUserWithName";
             this.lblMorningToUserWithName.Size = new System.Drawing.Size(383, 18);
@@ -70,7 +70,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 30);
+            this.label1.Location = new System.Drawing.Point(7, 29);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(129, 29);
@@ -82,7 +82,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(17, 116);
+            this.label2.Location = new System.Drawing.Point(9, 97);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
@@ -96,7 +96,7 @@
             this.dgvCustomersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvCustomersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomersData.ContextMenuStrip = this.contextMenuStrip1;
-            this.dgvCustomersData.Location = new System.Drawing.Point(19, 169);
+            this.dgvCustomersData.Location = new System.Drawing.Point(11, 150);
             this.dgvCustomersData.Margin = new System.Windows.Forms.Padding(2);
             this.dgvCustomersData.MultiSelect = false;
             this.dgvCustomersData.Name = "dgvCustomersData";
@@ -104,7 +104,7 @@
             this.dgvCustomersData.RowHeadersWidth = 62;
             this.dgvCustomersData.RowTemplate.Height = 28;
             this.dgvCustomersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomersData.Size = new System.Drawing.Size(600, 595);
+            this.dgvCustomersData.Size = new System.Drawing.Size(862, 613);
             this.dgvCustomersData.TabIndex = 10;
             this.dgvCustomersData.Click += new System.EventHandler(this.dgvCustomersData_Click);
             // 
@@ -118,6 +118,117 @@
             this.deactivateCustomerToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(252, 124);
+            // 
+            // tbSearchBar
+            // 
+            this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tbSearchBar.Location = new System.Drawing.Point(13, 117);
+            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
+            this.tbSearchBar.Name = "tbSearchBar";
+            this.tbSearchBar.Size = new System.Drawing.Size(860, 32);
+            this.tbSearchBar.TabIndex = 5;
+            this.tbSearchBar.Tag = "";
+            this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
+            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lblNumberOfCustomers);
+            this.panel1.Location = new System.Drawing.Point(13, 767);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(860, 36);
+            this.panel1.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(9, 6);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(196, 24);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Number of customers:";
+            // 
+            // lblNumberOfCustomers
+            // 
+            this.lblNumberOfCustomers.AutoSize = true;
+            this.lblNumberOfCustomers.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfCustomers.ForeColor = System.Drawing.Color.White;
+            this.lblNumberOfCustomers.Location = new System.Drawing.Point(207, 6);
+            this.lblNumberOfCustomers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNumberOfCustomers.Name = "lblNumberOfCustomers";
+            this.lblNumberOfCustomers.Size = new System.Drawing.Size(30, 24);
+            this.lblNumberOfCustomers.TabIndex = 13;
+            this.lblNumberOfCustomers.Text = "00";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(343, 32);
+            this.toolStripMenuItem2.Text = " ";
+            // 
+            // btnActivate
+            // 
+            this.btnActivate.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnActivate.FlatAppearance.BorderSize = 2;
+            this.btnActivate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActivate.ForeColor = System.Drawing.Color.LimeGreen;
+            this.btnActivate.Location = new System.Drawing.Point(1108, 728);
+            this.btnActivate.Margin = new System.Windows.Forms.Padding(2);
+            this.btnActivate.Name = "btnActivate";
+            this.btnActivate.Size = new System.Drawing.Size(184, 57);
+            this.btnActivate.TabIndex = 28;
+            this.btnActivate.Tag = "ActivateButton";
+            this.btnActivate.Text = "Activate";
+            this.btnActivate.UseVisualStyleBackColor = false;
+            this.btnActivate.Visible = false;
+            this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
+            // 
+            // btnDeactivate
+            // 
+            this.btnDeactivate.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnDeactivate.FlatAppearance.BorderSize = 2;
+            this.btnDeactivate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeactivate.ForeColor = System.Drawing.Color.Firebrick;
+            this.btnDeactivate.Location = new System.Drawing.Point(1108, 728);
+            this.btnDeactivate.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDeactivate.Name = "btnDeactivate";
+            this.btnDeactivate.Size = new System.Drawing.Size(184, 57);
+            this.btnDeactivate.TabIndex = 27;
+            this.btnDeactivate.Tag = "DeactivateButton";
+            this.btnDeactivate.Text = "Deactivate";
+            this.btnDeactivate.UseVisualStyleBackColor = false;
+            this.btnDeactivate.Click += new System.EventHandler(this.DeactivateCustomer_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnEdit.FlatAppearance.BorderSize = 2;
+            this.btnEdit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSlateBlue;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnEdit.Location = new System.Drawing.Point(900, 728);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(2);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(184, 57);
+            this.btnEdit.TabIndex = 26;
+            this.btnEdit.Text = "Edit Info";
+            this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEditCustomer_Click);
             // 
             // addCustomerToolStripMenuItem
             // 
@@ -148,59 +259,9 @@
             this.deactivateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
             this.deactivateCustomerToolStripMenuItem.Name = "deactivateCustomerToolStripMenuItem";
             this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
             this.deactivateCustomerToolStripMenuItem.Text = "Deactivate Customer";
             this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateCustomer_Click);
-            // 
-            // tbSearchBar
-            // 
-            this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Location = new System.Drawing.Point(21, 136);
-            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
-            this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(598, 32);
-            this.tbSearchBar.TabIndex = 5;
-            this.tbSearchBar.Tag = "";
-            this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
-            this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
-            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
-            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.lblNumberOfCustomers);
-            this.panel1.Location = new System.Drawing.Point(21, 771);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(598, 36);
-            this.panel1.TabIndex = 15;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(9, 6);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(196, 24);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Number of customers:";
-            // 
-            // lblNumberOfCustomers
-            // 
-            this.lblNumberOfCustomers.AutoSize = true;
-            this.lblNumberOfCustomers.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumberOfCustomers.ForeColor = System.Drawing.Color.White;
-            this.lblNumberOfCustomers.Location = new System.Drawing.Point(207, 6);
-            this.lblNumberOfCustomers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblNumberOfCustomers.Name = "lblNumberOfCustomers";
-            this.lblNumberOfCustomers.Size = new System.Drawing.Size(30, 24);
-            this.lblNumberOfCustomers.TabIndex = 13;
-            this.lblNumberOfCustomers.Text = "00";
             // 
             // btnAddCustomer
             // 
@@ -212,7 +273,7 @@
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
             this.btnAddCustomer.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddCustomer.Location = new System.Drawing.Point(921, 116);
+            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 98);
             this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCustomer.Name = "btnAddCustomer";
             this.btnAddCustomer.Size = new System.Drawing.Size(163, 49);
@@ -223,71 +284,16 @@
             this.btnAddCustomer.UseVisualStyleBackColor = false;
             this.btnAddCustomer.Click += new System.EventHandler(this.AddNewCutomer_Click);
             // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(343, 32);
-            this.toolStripMenuItem2.Text = " ";
-            // 
-            // btnDeactivate
-            // 
-            this.btnDeactivate.BackColor = System.Drawing.Color.MidnightBlue;
-            this.btnDeactivate.FlatAppearance.BorderSize = 2;
-            this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeactivate.ForeColor = System.Drawing.Color.Firebrick;
-            this.btnDeactivate.Location = new System.Drawing.Point(864, 742);
-            this.btnDeactivate.Margin = new System.Windows.Forms.Padding(2);
-            this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(184, 49);
-            this.btnDeactivate.TabIndex = 24;
-            this.btnDeactivate.Text = "Deactivate";
-            this.btnDeactivate.UseVisualStyleBackColor = false;
-            this.btnDeactivate.Click += new System.EventHandler(this.DeactivateCustomer_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.BackColor = System.Drawing.Color.MidnightBlue;
-            this.btnEdit.FlatAppearance.BorderSize = 2;
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btnEdit.Location = new System.Drawing.Point(653, 742);
-            this.btnEdit.Margin = new System.Windows.Forms.Padding(2);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(184, 49);
-            this.btnEdit.TabIndex = 23;
-            this.btnEdit.Text = "Edit Info";
-            this.btnEdit.UseVisualStyleBackColor = false;
-            this.btnEdit.Click += new System.EventHandler(this.btnEditCustomer_Click);
-            // 
-            // btnActivate
-            // 
-            this.btnActivate.BackColor = System.Drawing.Color.MidnightBlue;
-            this.btnActivate.FlatAppearance.BorderSize = 2;
-            this.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActivate.ForeColor = System.Drawing.Color.LimeGreen;
-            this.btnActivate.Location = new System.Drawing.Point(864, 742);
-            this.btnActivate.Margin = new System.Windows.Forms.Padding(2);
-            this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(184, 49);
-            this.btnActivate.TabIndex = 25;
-            this.btnActivate.Text = "Activate";
-            this.btnActivate.UseVisualStyleBackColor = false;
-            this.btnActivate.Visible = false;
-            this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
-            // 
             // ctrlCustomerShortInfo1
             // 
             this.ctrlCustomerShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(631, 169);
+            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(876, 150);
             this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlCustomerShortInfo1.Name = "ctrlCustomerShortInfo1";
-            this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(453, 638);
+            this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(445, 653);
             this.ctrlCustomerShortInfo1.TabIndex = 11;
             // 
-            // ctrlCustomers
+            // ctrlCustomersMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -304,8 +310,8 @@
             this.Controls.Add(this.lblMorningToUserWithName);
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "ctrlCustomers";
-            this.Size = new System.Drawing.Size(1100, 831);
+            this.Name = "ctrlCustomersMainScreen";
+            this.Size = new System.Drawing.Size(1329, 819);
             this.Load += new System.EventHandler(this.ctrlCustomers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -334,8 +340,8 @@
         private System.Windows.Forms.ToolStripMenuItem deactivateCustomerToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.Button btnActivate;
         private System.Windows.Forms.Button btnDeactivate;
         private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnActivate;
     }
 }

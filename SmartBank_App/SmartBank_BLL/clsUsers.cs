@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SmartBank;
+using SmartBank_BLL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using SmartBank;
 
 namespace SmartBank
 {
@@ -83,6 +84,30 @@ namespace SmartBank
         private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID, 
                                                           UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, HashedPassword, PasswordSalt,
                                                           Permissions.Permissions, FullName, IsActive, IsLocked , LastLoginDate);
+
+        public static List<clsUsers> GetAllUsers()
+        {
+            DataTable dt = clsUsers_DAL.GetAllUsers();
+            List<clsUsers> users = new List<clsUsers>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                users.Add(new clsUsers(
+                    (int)row["UserID"],
+                    row["Username"].ToString(),
+                    new clsPermissions((int)row["Permissions"]),
+                    row["FullName"].ToString(),
+                    (bool)row["IsActive"],
+                    (bool)row["IsLocked"],
+                    (DateTime)row["CreatedDate"],
+                    row["LastLoginDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["LastLoginDate"],
+                    row["PasswordSalt"].ToString(),
+                    row["PasswordHash"].ToString()
+                ));
+            }
+
+            return users;
+        }
 
         public bool Save()
         {

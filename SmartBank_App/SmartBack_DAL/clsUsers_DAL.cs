@@ -220,5 +220,26 @@ namespace SmartBank
 
             return false;
         }
+
+        public static DataTable GetAllUsers()
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("select * From fn_GetAllUsers();", conn))
+                {
+                    conn.Open();
+                    dt.Load(cmd.ExecuteReader());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return dt;
+        }
     }
 }

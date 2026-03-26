@@ -49,20 +49,24 @@ namespace SmartBank
                                          enPermission.CanExportAuditLog | enPermission.CanManageUsers | enPermission.CanUnlockUsers |
                                          enPermission.CanChangePermissions | enPermission.CanEditSystemConfig))
             {
+                PermissionPresenterString = "Admin";
                 return enPermissionPresenter.Admin;
             }
             else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
                                          enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
                                          enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog | enPermission.CanExportAuditLog))
             {
+                PermissionPresenterString = "Manager";
                 return enPermissionPresenter.Manager;
             }
             else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
                                          enPermission.CanOpenAccount | enPermission.CanViewStatement))
             {
+                PermissionPresenterString = "Teller";
                 return enPermissionPresenter.Teller;
             }
 
+            PermissionPresenterString = "Custom";
             return enPermissionPresenter.Custom;
         }
 
@@ -89,6 +93,9 @@ namespace SmartBank
         }
 
         public enPermissionPresenter PermissionPresenter { get; private set; }
+
+        public string PermissionPresenterString { get; private set; }
+
 
         private int _permissions;
 

@@ -1,5 +1,7 @@
 ﻿using SmartBank;
+using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
+using SmartBank_UI.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +21,16 @@ namespace SmartBank_UI
             InitializeComponent();
         }
 
-        private void btnSignOut_Click(object sender, EventArgs e) => this.Close();
+        private void btnSignOut_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to sign out?", "Sign out", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) 
+                return;
+
+            clsGlobal.ActiveUser = null;
+            frmLogin login = new frmLogin();
+            login.Show();
+            this.Close();
+        }
 
         private void _showView(UserControl control)
         {
@@ -57,10 +68,22 @@ namespace SmartBank_UI
         private ctrlDashboard _dashboard = new ctrlDashboard();
         private void btnDashBoard_Click(object sender, EventArgs e) => _showView(_dashboard);
 
-        private ctrlCustomers _customers = new ctrlCustomers();
+        private ctrlCustomersMainScreen _customers = new ctrlCustomersMainScreen();
         private void btnCustomers_Click(object sender, EventArgs e) => _showView(_customers);
 
         private ctrlAccounts _accounts = new ctrlAccounts();
         private void btnAccounts_Click(object sender, EventArgs e) => _showView(_accounts);
+
+        private ctrlUsersMainScreen _users = new ctrlUsersMainScreen();
+        private void btnUsers_Click(object sender, EventArgs e)
+        {
+            if(!clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers))
+            {
+                MessageBox.Show("You do not have permissions to manage users!" , "Access denied!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                return;
+            }
+
+            _showView(_users);
+        }
     }
 }
