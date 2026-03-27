@@ -20,17 +20,16 @@ namespace SmartBank_UI.Login
 
         public frmLogin() => InitializeComponent();
 
-        private enum enErrorState { None, AcountNotFound, InvalidCredentials, AccountLocked, AccountDeactivated }
-
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
 
-        private enErrorState _validateUser(clsUsers user , string password)
-        {
-            if (user == null) return enErrorState.AcountNotFound;
-            if (user.IsLocked) return enErrorState.AccountLocked;
-            if (!user.IsActive) return enErrorState.AccountDeactivated;
+        private enum enErrorState { None, AcountNotFound, InvalidCredentials, AccountLocked, AccountDeactivated }
 
-            return clsUtil.clsSecurity.Verify(password, user.HashedPassword, user.PasswordSalt) ? enErrorState.None : enErrorState.InvalidCredentials;
+        private enErrorState _validateUser(clsUsers user, string password)
+        {
+            return user == null ? enErrorState.AcountNotFound :
+                (user.IsLocked ? enErrorState.AccountLocked :
+                (!user.IsActive ? enErrorState.AccountDeactivated :
+                clsUtil.clsSecurity.Verify(password, user.HashedPassword, user.PasswordSalt) ? enErrorState.None : enErrorState.InvalidCredentials));
         }
 
         private bool _handleLogin(enErrorState errorState, clsUsers user)
@@ -70,14 +69,14 @@ namespace SmartBank_UI.Login
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
-            
+
             if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
                 return;
 
             MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            frmMain mainForm = new frmMain();
+
             this.Hide();
-            mainForm.FormClosed += (s, args) => this.Close();
+            frmMain mainForm = new frmMain(this);
             mainForm.ShowDialog();
         }
 
@@ -86,7 +85,7 @@ namespace SmartBank_UI.Login
             if (_userFailedLoginAttempsCounter == clsConfigurations.MaxLoginAttempts)
             {
                 user.Lock();
-                MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.","Account Locked", 
+                MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.", "Account Locked",
                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -97,11 +96,19 @@ namespace SmartBank_UI.Login
                 return;
 
             (string Username, string Password) userEntry = clsUtil.clsLogger.ReadUserDataFromRegistry();
-             
+
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
+
+        private void Login_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnSignIn_Click(null, null);
+            }
+        }
     }
 }

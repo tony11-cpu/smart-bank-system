@@ -23,11 +23,12 @@ namespace SmartBank
         public DateTime? LastLoginDate { get; set; } = null;
         public string PasswordSalt { get; set; }
         public string HashedPassword { get; set; }
+        public string CreatedByUserUsername { get; private set; }
 
         public clsUsers(int userID, string username, clsPermissions permissions, 
                         string fullName, bool isActive, bool isLocked, 
                         DateTime createdDate, DateTime? lastLoginDate, 
-                        string passwordSalt, string hashedPassword)
+                        string passwordSalt, string hashedPassword , string CreatedByUserUsername)
         {
             UserID = userID;
             Username = username;
@@ -39,8 +40,24 @@ namespace SmartBank
             LastLoginDate = lastLoginDate;
             PasswordSalt = passwordSalt;
             HashedPassword = hashedPassword;
+            this.CreatedByUserUsername = CreatedByUserUsername;
 
             _mode = enMode.Update;
+        }
+
+        public clsUsers()
+        {
+            UserID = null;
+            Username = null;
+            Permissions = null;
+            FullName = null;
+            IsActive = false;
+            IsLocked = true;
+            CreatedDate = DateTime.MinValue;
+            LastLoginDate = DateTime.MinValue;
+            PasswordSalt = null;
+            HashedPassword = null;
+            CreatedByUserUsername = null;
         }
 
         public static bool IsUserExists(int userID) => clsUsers_DAL.IsUserExistByID(userID);
@@ -60,13 +77,14 @@ namespace SmartBank
             bool isLocked = false;
             DateTime creationDate = DateTime.MinValue;
             DateTime? lastLogInDate = null;
+            string UsernameCreatedCurrentUser = null;
 
             if (clsUsers_DAL.GetUserByUsername(username, ref userID, ref passwordHash, ref passwordSalt, ref permissions, ref fullName,
-                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate)) 
+                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate , ref UsernameCreatedCurrentUser)) 
             {
                 return new clsUsers(userID, username, new clsPermissions(permissions), 
                                     fullName, isActive, isLocked, creationDate, 
-                                    lastLogInDate, passwordSalt , passwordHash);
+                                    lastLogInDate, passwordSalt , passwordHash , UsernameCreatedCurrentUser);
             }
 
             return null;
@@ -102,12 +120,15 @@ namespace SmartBank
                     (DateTime)row["CreatedDate"],
                     row["LastLoginDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["LastLoginDate"],
                     row["PasswordSalt"].ToString(),
-                    row["PasswordHash"].ToString()
+                    row["PasswordHash"].ToString(),
+                    row["CreatedByUserUsername"].ToString()
                 ));
             }
 
             return users;
         }
+
+        public DataTable GetUserLoginRecors() => clsUsers_DAL.GetAllUserLoginAttempts(this.Username);
 
         public bool Save()
         {
@@ -123,9 +144,20 @@ namespace SmartBank
 
         public bool Deactivate()
         {
-            if (UserID != clsGlobal.ActiveUser.UserID && _mode == enMode.Update)
+            if (_mode == enMode.Update)
             {
                 IsActive = false;
+                return _update();
+            }
+
+            return false;
+        }
+
+        public bool Activate()
+        {
+            if (_mode == enMode.Update)
+            {
+                IsActive = true;
                 return _update();
             }
 

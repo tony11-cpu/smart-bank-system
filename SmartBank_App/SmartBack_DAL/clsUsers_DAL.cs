@@ -56,7 +56,7 @@ namespace SmartBank
         public static bool GetUserByUsername(string username, ref int userID, ref string passwordHash,
                                          ref string passwordSalt, ref int permissions,
                                          ref string fullName, ref bool isActive, ref bool isLocked,
-                                         ref DateTime creationDate, ref DateTime? lastLogInDate)
+                                         ref DateTime creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername)
         {
             try
             {
@@ -76,18 +76,18 @@ namespace SmartBank
                     SqlParameter pLastLogInDate = new SqlParameter("@LastLoginDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
                     SqlParameter pIsActive = new SqlParameter("@IsActive", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     SqlParameter pIsLocked = new SqlParameter("@IsLocked", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter pCreatedByUsername = new SqlParameter("@CreatedByUsername", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
 
                     cmd.Parameters.Add(pUserID);
                     cmd.Parameters.Add(pPasswordHash);
                     cmd.Parameters.Add(pPasswordSalt);
                     cmd.Parameters.Add(pPermissions);
                     cmd.Parameters.Add(pFullName);
-
                     cmd.Parameters.Add(pCreationDate);
                     cmd.Parameters.Add(pLastLogInDate);
-
                     cmd.Parameters.Add(pIsActive);
                     cmd.Parameters.Add(pIsLocked);
+                    cmd.Parameters.Add(pCreatedByUsername);
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -103,6 +103,7 @@ namespace SmartBank
                     isLocked = (bool)pIsLocked.Value;
                     creationDate = (DateTime)pCreationDate.Value;
                     lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
+                    createdByUserUsername = pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value;
 
                     return true;
                 }
@@ -240,6 +241,30 @@ namespace SmartBank
             }
 
             return dt;
+        }
+
+        public static DataTable GetAllUserLoginAttempts(string username)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllUserLoginAttempt(@Username)", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    conn.Open();
+                    dt.Load(cmd.ExecuteReader());
+                    return dt;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return null;
         }
     }
 }

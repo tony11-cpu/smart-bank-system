@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblMorningToUserWithName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvUsersData = new System.Windows.Forms.DataGridView();
@@ -46,6 +52,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnActivate = new System.Windows.Forms.Button();
+            this.tbUserFullName = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.btnDeactivate = new System.Windows.Forms.Button();
             this.btnShowPermissions = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -53,20 +62,21 @@
             this.label11 = new System.Windows.Forms.Label();
             this.tbLastLoginDate = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.tbAccountCreatedDaye = new System.Windows.Forms.TextBox();
+            this.tbAccountCreatedDay = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tbUserFullName = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvUserLoginHistory = new System.Windows.Forms.DataGridView();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.btnAddUser = new System.Windows.Forms.Button();
+            this.btnAllFilter = new System.Windows.Forms.Button();
+            this.btnDeactivatedFilter = new System.Windows.Forms.Button();
+            this.btnActiveFilter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsersData)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -78,7 +88,7 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserLoginHistory)).BeginInit();
             this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,17 +121,42 @@
             this.dgvUsersData.AllowUserToAddRows = false;
             this.dgvUsersData.AllowUserToDeleteRows = false;
             this.dgvUsersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUsersData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvUsersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvUsersData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvUsersData.Location = new System.Drawing.Point(15, 152);
             this.dgvUsersData.Margin = new System.Windows.Forms.Padding(2);
             this.dgvUsersData.MultiSelect = false;
             this.dgvUsersData.Name = "dgvUsersData";
             this.dgvUsersData.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUsersData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUsersData.RowHeadersWidth = 62;
             this.dgvUsersData.RowTemplate.Height = 28;
             this.dgvUsersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUsersData.Size = new System.Drawing.Size(862, 600);
+            this.dgvUsersData.Size = new System.Drawing.Size(820, 600);
             this.dgvUsersData.TabIndex = 34;
+            this.dgvUsersData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsersData_CellContentClick);
             // 
             // label2
             // 
@@ -143,9 +178,13 @@
             this.tbSearchBar.Location = new System.Drawing.Point(15, 116);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(862, 32);
+            this.tbSearchBar.Size = new System.Drawing.Size(544, 32);
             this.tbSearchBar.TabIndex = 32;
-            this.tbSearchBar.Tag = "";
+            this.tbSearchBar.Tag = "Search by username, full name ,or user role...";
+            this.tbSearchBar.Text = "Search by username, full name ,or user role...";
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
+            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
             // panel1
             // 
@@ -154,9 +193,9 @@
             this.panel1.Controls.Add(this.lblNumberOfActiveUsers);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(305, 757);
+            this.panel1.Location = new System.Drawing.Point(290, 757);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(282, 58);
+            this.panel1.Size = new System.Drawing.Size(269, 58);
             this.panel1.TabIndex = 35;
             // 
             // lblNumberOfActiveUsers
@@ -198,9 +237,9 @@
             this.panel2.Controls.Add(this.lblNumberOfLockedUsers);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(595, 757);
+            this.panel2.Location = new System.Drawing.Point(565, 757);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(282, 58);
+            this.panel2.Size = new System.Drawing.Size(269, 58);
             this.panel2.TabIndex = 36;
             // 
             // lblNumberOfLockedUsers
@@ -244,7 +283,7 @@
             this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Location = new System.Drawing.Point(15, 757);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(282, 58);
+            this.panel3.Size = new System.Drawing.Size(269, 58);
             this.panel3.TabIndex = 36;
             // 
             // lblNumberOfUsers
@@ -282,6 +321,9 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.MidnightBlue;
+            this.panel4.Controls.Add(this.btnActivate);
+            this.panel4.Controls.Add(this.tbUserFullName);
+            this.panel4.Controls.Add(this.label7);
             this.panel4.Controls.Add(this.btnDeactivate);
             this.panel4.Controls.Add(this.btnShowPermissions);
             this.panel4.Controls.Add(this.btnCancel);
@@ -289,17 +331,53 @@
             this.panel4.Controls.Add(this.label11);
             this.panel4.Controls.Add(this.tbLastLoginDate);
             this.panel4.Controls.Add(this.label10);
-            this.panel4.Controls.Add(this.tbAccountCreatedDaye);
+            this.panel4.Controls.Add(this.tbAccountCreatedDay);
             this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.tbUsername);
             this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.panel6);
-            this.panel4.Controls.Add(this.tbUserFullName);
-            this.panel4.Controls.Add(this.label7);
-            this.panel4.Location = new System.Drawing.Point(882, 152);
+            this.panel4.Location = new System.Drawing.Point(842, 152);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(437, 469);
+            this.panel4.Size = new System.Drawing.Size(477, 469);
             this.panel4.TabIndex = 37;
+            // 
+            // btnActivate
+            // 
+            this.btnActivate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActivate.ForeColor = System.Drawing.Color.LimeGreen;
+            this.btnActivate.Location = new System.Drawing.Point(318, 400);
+            this.btnActivate.Margin = new System.Windows.Forms.Padding(2);
+            this.btnActivate.Name = "btnActivate";
+            this.btnActivate.Size = new System.Drawing.Size(123, 49);
+            this.btnActivate.TabIndex = 32;
+            this.btnActivate.Text = "Activate";
+            this.btnActivate.UseVisualStyleBackColor = true;
+            this.btnActivate.Visible = false;
+            this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
+            // 
+            // tbUserFullName
+            // 
+            this.tbUserFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUserFullName.Location = new System.Drawing.Point(33, 170);
+            this.tbUserFullName.Margin = new System.Windows.Forms.Padding(2);
+            this.tbUserFullName.Name = "tbUserFullName";
+            this.tbUserFullName.ReadOnly = true;
+            this.tbUserFullName.Size = new System.Drawing.Size(408, 26);
+            this.tbUserFullName.TabIndex = 31;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.label7.Location = new System.Drawing.Point(30, 150);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(91, 18);
+            this.label7.TabIndex = 30;
+            this.label7.Text = "FULL NAME";
             // 
             // btnDeactivate
             // 
@@ -307,13 +385,14 @@
             this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeactivate.ForeColor = System.Drawing.Color.Red;
-            this.btnDeactivate.Location = new System.Drawing.Point(296, 410);
+            this.btnDeactivate.Location = new System.Drawing.Point(318, 400);
             this.btnDeactivate.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(123, 40);
+            this.btnDeactivate.Size = new System.Drawing.Size(123, 49);
             this.btnDeactivate.TabIndex = 29;
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
+            this.btnDeactivate.Click += new System.EventHandler(this.DeactivateCustomer_Click);
             // 
             // btnShowPermissions
             // 
@@ -321,10 +400,10 @@
             this.btnShowPermissions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShowPermissions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowPermissions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnShowPermissions.Location = new System.Drawing.Point(158, 410);
+            this.btnShowPermissions.Location = new System.Drawing.Point(176, 400);
             this.btnShowPermissions.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowPermissions.Name = "btnShowPermissions";
-            this.btnShowPermissions.Size = new System.Drawing.Size(123, 40);
+            this.btnShowPermissions.Size = new System.Drawing.Size(123, 49);
             this.btnShowPermissions.TabIndex = 28;
             this.btnShowPermissions.Text = "Permissions";
             this.btnShowPermissions.UseVisualStyleBackColor = true;
@@ -334,10 +413,10 @@
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnCancel.Location = new System.Drawing.Point(20, 410);
+            this.btnCancel.Location = new System.Drawing.Point(33, 400);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(123, 40);
+            this.btnCancel.Size = new System.Drawing.Size(123, 49);
             this.btnCancel.TabIndex = 27;
             this.btnCancel.Text = "Edit Info";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -345,10 +424,11 @@
             // tbCreatedByUsername
             // 
             this.tbCreatedByUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCreatedByUsername.Location = new System.Drawing.Point(20, 362);
+            this.tbCreatedByUsername.Location = new System.Drawing.Point(33, 353);
             this.tbCreatedByUsername.Margin = new System.Windows.Forms.Padding(2);
             this.tbCreatedByUsername.Name = "tbCreatedByUsername";
-            this.tbCreatedByUsername.Size = new System.Drawing.Size(399, 26);
+            this.tbCreatedByUsername.ReadOnly = true;
+            this.tbCreatedByUsername.Size = new System.Drawing.Size(408, 26);
             this.tbCreatedByUsername.TabIndex = 26;
             // 
             // label11
@@ -356,7 +436,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label11.Location = new System.Drawing.Point(17, 343);
+            this.label11.Location = new System.Drawing.Point(30, 333);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(102, 18);
@@ -366,10 +446,11 @@
             // tbLastLoginDate
             // 
             this.tbLastLoginDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLastLoginDate.Location = new System.Drawing.Point(20, 290);
+            this.tbLastLoginDate.Location = new System.Drawing.Point(33, 292);
             this.tbLastLoginDate.Margin = new System.Windows.Forms.Padding(2);
             this.tbLastLoginDate.Name = "tbLastLoginDate";
-            this.tbLastLoginDate.Size = new System.Drawing.Size(399, 26);
+            this.tbLastLoginDate.ReadOnly = true;
+            this.tbLastLoginDate.Size = new System.Drawing.Size(408, 26);
             this.tbLastLoginDate.TabIndex = 24;
             // 
             // label10
@@ -377,28 +458,29 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label10.Location = new System.Drawing.Point(17, 271);
+            this.label10.Location = new System.Drawing.Point(30, 272);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(94, 18);
             this.label10.TabIndex = 23;
             this.label10.Text = "LAST LOGIN";
             // 
-            // tbAccountCreatedDaye
+            // tbAccountCreatedDay
             // 
-            this.tbAccountCreatedDaye.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAccountCreatedDaye.Location = new System.Drawing.Point(20, 224);
-            this.tbAccountCreatedDaye.Margin = new System.Windows.Forms.Padding(2);
-            this.tbAccountCreatedDaye.Name = "tbAccountCreatedDaye";
-            this.tbAccountCreatedDaye.Size = new System.Drawing.Size(399, 26);
-            this.tbAccountCreatedDaye.TabIndex = 22;
+            this.tbAccountCreatedDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbAccountCreatedDay.Location = new System.Drawing.Point(33, 231);
+            this.tbAccountCreatedDay.Margin = new System.Windows.Forms.Padding(2);
+            this.tbAccountCreatedDay.Name = "tbAccountCreatedDay";
+            this.tbAccountCreatedDay.ReadOnly = true;
+            this.tbAccountCreatedDay.Size = new System.Drawing.Size(408, 26);
+            this.tbAccountCreatedDay.TabIndex = 22;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label9.Location = new System.Drawing.Point(17, 205);
+            this.label9.Location = new System.Drawing.Point(30, 211);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(157, 18);
@@ -408,10 +490,10 @@
             // tbUsername
             // 
             this.tbUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbUsername.Location = new System.Drawing.Point(21, 160);
+            this.tbUsername.Location = new System.Drawing.Point(33, 109);
             this.tbUsername.Margin = new System.Windows.Forms.Padding(2);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(399, 26);
+            this.tbUsername.Size = new System.Drawing.Size(408, 26);
             this.tbUsername.TabIndex = 20;
             // 
             // label5
@@ -419,7 +501,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label5.Location = new System.Drawing.Point(18, 141);
+            this.label5.Location = new System.Drawing.Point(30, 89);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(93, 18);
@@ -433,13 +515,13 @@
             this.panel6.Controls.Add(this.label8);
             this.panel6.Location = new System.Drawing.Point(2, 1);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(435, 55);
+            this.panel6.Size = new System.Drawing.Size(472, 55);
             this.panel6.TabIndex = 18;
             // 
             // pictureBox4
             // 
             this.pictureBox4.Image = global::SmartBank_UI.Properties.Resources.icons8_account_50;
-            this.pictureBox4.Location = new System.Drawing.Point(17, 3);
+            this.pictureBox4.Location = new System.Drawing.Point(20, 3);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(41, 50);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -451,53 +533,60 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(63, 11);
+            this.label8.Location = new System.Drawing.Point(73, 11);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(353, 33);
             this.label8.TabIndex = 19;
             this.label8.Text = "User Details — John Teller";
             // 
-            // tbUserFullName
-            // 
-            this.tbUserFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbUserFullName.Location = new System.Drawing.Point(21, 100);
-            this.tbUserFullName.Margin = new System.Windows.Forms.Padding(2);
-            this.tbUserFullName.Name = "tbUserFullName";
-            this.tbUserFullName.Size = new System.Drawing.Size(399, 26);
-            this.tbUserFullName.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label7.Location = new System.Drawing.Point(18, 81);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(91, 18);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "FULL NAME";
-            // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel5.Controls.Add(this.dataGridView1);
+            this.panel5.Controls.Add(this.dgvUserLoginHistory);
             this.panel5.Controls.Add(this.panel7);
-            this.panel5.Location = new System.Drawing.Point(882, 627);
+            this.panel5.Location = new System.Drawing.Point(840, 627);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(437, 192);
+            this.panel5.Size = new System.Drawing.Size(479, 188);
             this.panel5.TabIndex = 38;
             // 
-            // dataGridView1
+            // dgvUserLoginHistory
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 52);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(432, 136);
-            this.dataGridView1.TabIndex = 21;
+            this.dgvUserLoginHistory.AllowUserToAddRows = false;
+            this.dgvUserLoginHistory.AllowUserToDeleteRows = false;
+            this.dgvUserLoginHistory.BackgroundColor = System.Drawing.Color.MidnightBlue;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUserLoginHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvUserLoginHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvUserLoginHistory.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvUserLoginHistory.Location = new System.Drawing.Point(2, 51);
+            this.dgvUserLoginHistory.Name = "dgvUserLoginHistory";
+            this.dgvUserLoginHistory.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUserLoginHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvUserLoginHistory.RowTemplate.Height = 28;
+            this.dgvUserLoginHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvUserLoginHistory.Size = new System.Drawing.Size(474, 137);
+            this.dgvUserLoginHistory.TabIndex = 21;
             // 
             // panel7
             // 
@@ -505,7 +594,7 @@
             this.panel7.Controls.Add(this.label12);
             this.panel7.Location = new System.Drawing.Point(0, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(435, 43);
+            this.panel7.Size = new System.Drawing.Size(477, 43);
             this.panel7.TabIndex = 20;
             // 
             // label12
@@ -513,7 +602,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(140, 11);
+            this.label12.Location = new System.Drawing.Point(160, 12);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(157, 20);
@@ -540,11 +629,59 @@
             this.btnAddUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddUser.UseVisualStyleBackColor = false;
             // 
+            // btnAllFilter
+            // 
+            this.btnAllFilter.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnAllFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAllFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAllFilter.ForeColor = System.Drawing.Color.White;
+            this.btnAllFilter.Location = new System.Drawing.Point(563, 116);
+            this.btnAllFilter.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAllFilter.Name = "btnAllFilter";
+            this.btnAllFilter.Size = new System.Drawing.Size(73, 32);
+            this.btnAllFilter.TabIndex = 30;
+            this.btnAllFilter.Text = "All";
+            this.btnAllFilter.UseVisualStyleBackColor = true;
+            this.btnAllFilter.Click += new System.EventHandler(this.btnAllFilter_Click);
+            // 
+            // btnDeactivatedFilter
+            // 
+            this.btnDeactivatedFilter.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDeactivatedFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeactivatedFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeactivatedFilter.ForeColor = System.Drawing.Color.White;
+            this.btnDeactivatedFilter.Location = new System.Drawing.Point(640, 116);
+            this.btnDeactivatedFilter.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDeactivatedFilter.Name = "btnDeactivatedFilter";
+            this.btnDeactivatedFilter.Size = new System.Drawing.Size(95, 32);
+            this.btnDeactivatedFilter.TabIndex = 40;
+            this.btnDeactivatedFilter.Text = "Deactivated";
+            this.btnDeactivatedFilter.UseVisualStyleBackColor = true;
+            this.btnDeactivatedFilter.Click += new System.EventHandler(this.btnDeactivatedFilter_Click);
+            // 
+            // btnActiveFilter
+            // 
+            this.btnActiveFilter.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnActiveFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnActiveFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActiveFilter.ForeColor = System.Drawing.Color.White;
+            this.btnActiveFilter.Location = new System.Drawing.Point(739, 116);
+            this.btnActiveFilter.Margin = new System.Windows.Forms.Padding(2);
+            this.btnActiveFilter.Name = "btnActiveFilter";
+            this.btnActiveFilter.Size = new System.Drawing.Size(95, 32);
+            this.btnActiveFilter.TabIndex = 41;
+            this.btnActiveFilter.Text = "Active";
+            this.btnActiveFilter.UseVisualStyleBackColor = true;
+            this.btnActiveFilter.Click += new System.EventHandler(this.btnActiveFilter_Click);
+            // 
             // ctrlUsersMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.Controls.Add(this.btnActiveFilter);
+            this.Controls.Add(this.btnDeactivatedFilter);
+            this.Controls.Add(this.btnAllFilter);
             this.Controls.Add(this.btnAddUser);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
@@ -575,7 +712,7 @@
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUserLoginHistory)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             this.ResumeLayout(false);
@@ -605,15 +742,13 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnAddUser;
-        private System.Windows.Forms.TextBox tbUserFullName;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbCreatedByUsername;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbLastLoginDate;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox tbAccountCreatedDaye;
+        private System.Windows.Forms.TextBox tbAccountCreatedDay;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label label5;
@@ -623,6 +758,12 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvUserLoginHistory;
+        private System.Windows.Forms.Button btnAllFilter;
+        private System.Windows.Forms.Button btnDeactivatedFilter;
+        private System.Windows.Forms.Button btnActiveFilter;
+        private System.Windows.Forms.TextBox tbUserFullName;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnActivate;
     }
 }

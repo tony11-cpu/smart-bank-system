@@ -102,5 +102,10 @@ namespace SmartBank
         public int Permissions => _permissions;
 
         public bool Has(enPermission permission) => ((int)permission & _permissions) == (int)permission;
+
+        public override string ToString()
+        {
+            return PermissionPresenterString;
+        }
     }
 }

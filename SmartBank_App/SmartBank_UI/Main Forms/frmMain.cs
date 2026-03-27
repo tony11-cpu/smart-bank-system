@@ -16,20 +16,29 @@ namespace SmartBank_UI
 {
     public partial class frmMain : Form
     {
-        public frmMain()
+        private Form _frmLogin;
+        public frmMain(Form LoginForm)
         {
             InitializeComponent();
+            _frmLogin = LoginForm;
         }
 
         private void btnSignOut_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to sign out?", "Sign out", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) 
-                return;
-
-            clsGlobal.ActiveUser = null;
-            frmLogin login = new frmLogin();
-            login.Show();
+            _signOut();
             this.Close();
+        }
+
+        private void _signOut()
+        {
+            clsGlobal.ActiveUser = null;
+            _frmLogin.Show();
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (clsGlobal.ActiveUser != null)
+                _signOut();
         }
 
         private void _showView(UserControl control)
@@ -43,6 +52,8 @@ namespace SmartBank_UI
         {
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
                 return;
+
+            timer1.Start();
 
             btnDashBoard_Click(sender, null);
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
@@ -63,8 +74,13 @@ namespace SmartBank_UI
             }
 
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
-         }
-        
+            this.FormClosed += (s, args) => btnSignOut_Click(null , null);
+
+            btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e) => lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
+
         private ctrlDashboard _dashboard = new ctrlDashboard();
         private void btnDashBoard_Click(object sender, EventArgs e) => _showView(_dashboard);
 
@@ -75,15 +91,6 @@ namespace SmartBank_UI
         private void btnAccounts_Click(object sender, EventArgs e) => _showView(_accounts);
 
         private ctrlUsersMainScreen _users = new ctrlUsersMainScreen();
-        private void btnUsers_Click(object sender, EventArgs e)
-        {
-            if(!clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers))
-            {
-                MessageBox.Show("You do not have permissions to manage users!" , "Access denied!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
-                return;
-            }
-
-            _showView(_users);
-        }
+        private void btnUsers_Click(object sender, EventArgs e) => _showView(_users);
     }
 }

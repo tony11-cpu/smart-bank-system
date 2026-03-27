@@ -20,7 +20,6 @@ namespace SmartBank_UI.Main_Form_UC
         }
 
         private bool _isManagerOrAdmin = false;
-        private string _defaultSearchBarSTR = "Search by name, phone, or last 4 digits of national ID...";
         private List<clsCustomers> _allCustomers = new List<clsCustomers>();
 
         private void _bindGrid(List<clsCustomers> customerView)
@@ -81,10 +80,11 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
-            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == _defaultSearchBarSTR ? string.Empty :
-                !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? _defaultSearchBarSTR : tbSearchBar.Text;
+            string filterTag = tbSearchBar.Tag.ToString();
+            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty :
+                !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
 
-            tbSearchBar.ForeColor = tbSearchBar.Text == _defaultSearchBarSTR ? Color.DimGray : Color.White;
+            tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
         private void AddNewCutomer_Click(object sender, EventArgs e)
@@ -127,25 +127,24 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void tbSearchBar_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == _defaultSearchBarSTR)
+            if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == tbSearchBar.Tag.ToString())
             {
                 _bindGrid(_allCustomers);
                 return;
             }
 
-            var filtered = _allCustomers.Where(n =>
+            string search = tbSearchBar.Text.Trim();
+            _bindGrid(_allCustomers.Where(n =>
             {
-                string last4 = n.NationalID.Substring(n.NationalID.Length - 4);
-                return last4.StartsWith(tbSearchBar.Text.Trim(), StringComparison.Ordinal) ||
-                       n.FirstName.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) ||
-                       n.LastName.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) ||
-                       n.Phone.StartsWith(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase);
-            }).ToList();
-
-            _bindGrid(filtered);
+                string last4 = n.NationalID.Substring(search.Length - 4);
+                return last4.StartsWith(search, StringComparison.Ordinal) ||
+                       n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
+                       n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
+                       n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);
+            }).ToList());
         }
 
-        private enum enCustomerStatesError { RecordNotExists = 1 , CustomerAlreadyActive = 2 , CustomerAlreadyInActive = 3 , CurrentUserNotAdminOrManager = 4 , ReadyToDeactivate = 5 , ReadyToActivate }
+        private enum enCustomerStatesError { RecordNotExists = 1 , CustomerAlreadyActive = 2 , CustomerAlreadyInActive = 3 , CurrentUserNotAdminOrManager = 4 , ReadyToDeactivate = 5 , ReadyToActivate = 6 }
 
         private enCustomerStatesError _checkCutomerStates(clsCustomers customer , bool deactivation)
         {
@@ -161,13 +160,13 @@ namespace SmartBank_UI.Main_Form_UC
                 return enCustomerStatesError.CurrentUserNotAdminOrManager;
             }
 
-            if(!ctrlCustomerShortInfo1.Customer.IsActive && deactivation)
+            if(!customer.IsActive && deactivation)
             {
                 MessageBox.Show("Customer is already inactive!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return enCustomerStatesError.CustomerAlreadyInActive;
             }
 
-            if(ctrlCustomerShortInfo1.Customer.IsActive && !deactivation)
+            if(customer.IsActive && !deactivation)
             {
                 MessageBox.Show("Customer is already active!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return enCustomerStatesError.CustomerAlreadyActive;
@@ -183,10 +182,10 @@ namespace SmartBank_UI.Main_Form_UC
             {
                 if (ctrlCustomerShortInfo1.Customer.Deactivate())
                 {
-                    MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _bindGrid(_loadCustomersList());
                     btnDeactivate.Visible = false;
                     btnActivate.Visible = true;
+                    MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -202,10 +201,10 @@ namespace SmartBank_UI.Main_Form_UC
             {
                 if (ctrlCustomerShortInfo1.Customer.Activate())
                 {
-                    MessageBox.Show("Customer activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _bindGrid(_loadCustomersList());
                     btnDeactivate.Visible = true;
                     btnActivate.Visible = false;
+                    MessageBox.Show("Customer activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {

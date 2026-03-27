@@ -34,6 +34,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dgvCustomersData = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -42,10 +46,6 @@
             this.btnActivate = new System.Windows.Forms.Button();
             this.btnDeactivate = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddCustomer = new System.Windows.Forms.Button();
             this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
@@ -119,6 +119,39 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(252, 124);
             // 
+            // addCustomerToolStripMenuItem
+            // 
+            this.addCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.addCustomerToolStripMenuItem.Name = "addCustomerToolStripMenuItem";
+            this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.addCustomerToolStripMenuItem.Text = "Add Customer";
+            this.addCustomerToolStripMenuItem.Click += new System.EventHandler(this.AddNewCutomer_Click);
+            // 
+            // updateCustomerToolStripMenuItem
+            // 
+            this.updateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_update_user_48;
+            this.updateCustomerToolStripMenuItem.Name = "updateCustomerToolStripMenuItem";
+            this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.updateCustomerToolStripMenuItem.Text = "Update Customer";
+            this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.updateCustomerToolStripMenuItem_Click);
+            // 
+            // viewCustomerAccountHistoryToolStripMenuItem
+            // 
+            this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
+            this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View Customer Account History";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
+            // 
+            // deactivateCustomerToolStripMenuItem
+            // 
+            this.deactivateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
+            this.deactivateCustomerToolStripMenuItem.Name = "deactivateCustomerToolStripMenuItem";
+            this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
+            this.deactivateCustomerToolStripMenuItem.Text = "Deactivate Customer";
+            this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateCustomer_Click);
+            // 
             // tbSearchBar
             // 
             this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -129,7 +162,7 @@
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(860, 32);
             this.tbSearchBar.TabIndex = 5;
-            this.tbSearchBar.Tag = "";
+            this.tbSearchBar.Tag = "Search by name, phone, or last 4 digits of national ID...";
             this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
             this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
@@ -229,39 +262,6 @@
             this.btnEdit.Text = "Edit Info";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEditCustomer_Click);
-            // 
-            // addCustomerToolStripMenuItem
-            // 
-            this.addCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
-            this.addCustomerToolStripMenuItem.Name = "addCustomerToolStripMenuItem";
-            this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.addCustomerToolStripMenuItem.Text = "Add Customer";
-            this.addCustomerToolStripMenuItem.Click += new System.EventHandler(this.AddNewCutomer_Click);
-            // 
-            // updateCustomerToolStripMenuItem
-            // 
-            this.updateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_update_user_48;
-            this.updateCustomerToolStripMenuItem.Name = "updateCustomerToolStripMenuItem";
-            this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.updateCustomerToolStripMenuItem.Text = "Update Customer";
-            this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.updateCustomerToolStripMenuItem_Click);
-            // 
-            // viewCustomerAccountHistoryToolStripMenuItem
-            // 
-            this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
-            this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View Customer Account History";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
-            // 
-            // deactivateCustomerToolStripMenuItem
-            // 
-            this.deactivateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
-            this.deactivateCustomerToolStripMenuItem.Name = "deactivateCustomerToolStripMenuItem";
-            this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
-            this.deactivateCustomerToolStripMenuItem.Text = "Deactivate Customer";
-            this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateCustomer_Click);
             // 
             // btnAddCustomer
             // 

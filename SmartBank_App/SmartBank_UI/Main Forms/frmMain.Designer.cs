@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -54,6 +55,7 @@
             this.btnDashBoard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.pMain = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -212,7 +214,7 @@
             this.btnCurrentUserAccount.ForeColor = System.Drawing.Color.Silver;
             this.btnCurrentUserAccount.Image = global::SmartBank_UI.Properties.Resources.icons8_account_50;
             this.btnCurrentUserAccount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCurrentUserAccount.Location = new System.Drawing.Point(5, 756);
+            this.btnCurrentUserAccount.Location = new System.Drawing.Point(5, 608);
             this.btnCurrentUserAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnCurrentUserAccount.Name = "btnCurrentUserAccount";
             this.btnCurrentUserAccount.Size = new System.Drawing.Size(217, 68);
@@ -229,7 +231,7 @@
             this.btnUsers.ForeColor = System.Drawing.Color.Silver;
             this.btnUsers.Image = global::SmartBank_UI.Properties.Resources.icons8_admin_64;
             this.btnUsers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUsers.Location = new System.Drawing.Point(5, 684);
+            this.btnUsers.Location = new System.Drawing.Point(5, 762);
             this.btnUsers.Margin = new System.Windows.Forms.Padding(2);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(217, 68);
@@ -248,7 +250,7 @@
             this.btnSystemConfig.ForeColor = System.Drawing.Color.Silver;
             this.btnSystemConfig.Image = global::SmartBank_UI.Properties.Resources.icons8_administrative_tools_50;
             this.btnSystemConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSystemConfig.Location = new System.Drawing.Point(5, 613);
+            this.btnSystemConfig.Location = new System.Drawing.Point(5, 685);
             this.btnSystemConfig.Margin = new System.Windows.Forms.Padding(2);
             this.btnSystemConfig.Name = "btnSystemConfig";
             this.btnSystemConfig.Size = new System.Drawing.Size(217, 68);
@@ -443,6 +445,11 @@
             this.pMain.Size = new System.Drawing.Size(1327, 827);
             this.pMain.TabIndex = 2;
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -457,6 +464,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -498,6 +506,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCurrentUserAccount;
         private System.Windows.Forms.Panel pMain;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Timer timer1;
     }
 }
