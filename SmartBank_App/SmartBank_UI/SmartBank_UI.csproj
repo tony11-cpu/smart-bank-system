@@ -93,6 +93,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users\frmAddOrUpdateUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\frmAddOrUpdateUser.Designer.cs">
+      <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Users User Control\ctrlUserPermissions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Users\Users User Control\ctrlUserPermissions.Designer.cs">
+      <DependentUpon>ctrlUserPermissions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Users\Users User Control\ctrlUsersMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,6 +136,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
+      <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\Users User Control\ctrlUserPermissions.resx">
+      <DependentUpon>ctrlUserPermissions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\Users User Control\ctrlUsersMainScreen.resx">
       <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
@@ -248,6 +266,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-lock-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-dot-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-dot-241.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-dot-24 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-eye-24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

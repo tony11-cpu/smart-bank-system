@@ -14,7 +14,7 @@ namespace SmartBank
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("SELECT dbo.IsUserExist(@Username)", conn))
+                using (SqlCommand cmd = new SqlCommand("SELECT dbo.IsUserExistByUsername(@Username)", conn))
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@Username", username);
@@ -56,7 +56,7 @@ namespace SmartBank
         public static bool GetUserByUsername(string username, ref int userID, ref string passwordHash,
                                          ref string passwordSalt, ref int permissions,
                                          ref string fullName, ref bool isActive, ref bool isLocked,
-                                         ref DateTime creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername)
+                                         ref DateTime creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername , ref string imagePath)
         {
             try
             {
@@ -77,6 +77,7 @@ namespace SmartBank
                     SqlParameter pIsActive = new SqlParameter("@IsActive", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     SqlParameter pIsLocked = new SqlParameter("@IsLocked", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     SqlParameter pCreatedByUsername = new SqlParameter("@CreatedByUsername", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
+                    SqlParameter pImagePath = new SqlParameter("@imagePath", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
 
                     cmd.Parameters.Add(pUserID);
                     cmd.Parameters.Add(pPasswordHash);
@@ -88,6 +89,7 @@ namespace SmartBank
                     cmd.Parameters.Add(pIsActive);
                     cmd.Parameters.Add(pIsLocked);
                     cmd.Parameters.Add(pCreatedByUsername);
+                    cmd.Parameters.Add(pImagePath);
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -104,6 +106,7 @@ namespace SmartBank
                     creationDate = (DateTime)pCreationDate.Value;
                     lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
                     createdByUserUsername = pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value;
+                    imagePath = pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value;
 
                     return true;
                 }
@@ -118,7 +121,7 @@ namespace SmartBank
 
         public static int CreateUser(int? userInActionID, string username, string hashedPassword,
                                       string salt, int permissions, string fullName,
-                                      bool isActive, bool isLocked)
+                                      bool isActive, bool isLocked , DateTime creationDate , string imagePath)
         {
             try
             {
@@ -135,6 +138,8 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@FullName", fullName);
                     cmd.Parameters.AddWithValue("@IsActive", isActive);
                     cmd.Parameters.AddWithValue("@IsLocked", isLocked);
+                    cmd.Parameters.AddWithValue("@CreationDate", creationDate);
+                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
 
                     SqlParameter newUserID = new SqlParameter("@NewUserID", SqlDbType.Int)
                     {
@@ -182,7 +187,7 @@ namespace SmartBank
         public static bool UpdateUser(int? adminUserID, int userID, string username,
                                       string passwordHash, string passwordSalt, int permissions,
                                       string fullName, bool isActive, bool isLocked,
-                                      DateTime? lastLoginDate)
+                                      DateTime? lastLoginDate , string imagePath)
         {
             try
             {
@@ -201,6 +206,7 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@IsActive", isActive);
                     cmd.Parameters.AddWithValue("@IsLocked", isLocked);
                     cmd.Parameters.AddWithValue("@LastLoginDate", lastLoginDate.HasValue ? (object)lastLoginDate.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
 
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit)
                     {

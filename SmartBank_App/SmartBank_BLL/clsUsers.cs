@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using static SmartBank_BLL.clsUtil.clsSecurity.clsHash;
 
 namespace SmartBank
 {
@@ -15,20 +16,22 @@ namespace SmartBank
 
         public int? UserID { get; private set; }
         public string Username { get; set; }
-        public clsPermissions Permissions { get; private set; }
+        public clsPermissions Permissions { get; set; }
         public string FullName { get; set; }
         public bool IsActive { get; private set; }
         public bool IsLocked { get; private set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime? LastLoginDate { get; set; } = null;
-        public string PasswordSalt { get; set; }
-        public string HashedPassword { get; set; }
+        public DateTime CreatedDate { get; private set; }
+        public DateTime? LastLoginDate { get; private set; } = null;
+        public string PasswordSalt { get; private set; }
+        public string HashedPassword { get; private set; }
+        public string Password { get; set; }
         public string CreatedByUserUsername { get; private set; }
+        public string ImagePath { get; set; }
 
         public clsUsers(int userID, string username, clsPermissions permissions, 
                         string fullName, bool isActive, bool isLocked, 
                         DateTime createdDate, DateTime? lastLoginDate, 
-                        string passwordSalt, string hashedPassword , string CreatedByUserUsername)
+                        string passwordSalt, string hashedPassword , string createdByUserUsername , string imagePath)
         {
             UserID = userID;
             Username = username;
@@ -41,6 +44,7 @@ namespace SmartBank
             PasswordSalt = passwordSalt;
             HashedPassword = hashedPassword;
             this.CreatedByUserUsername = CreatedByUserUsername;
+            ImagePath = imagePath;
 
             _mode = enMode.Update;
         }
@@ -58,6 +62,7 @@ namespace SmartBank
             PasswordSalt = null;
             HashedPassword = null;
             CreatedByUserUsername = null;
+            ImagePath = null;
         }
 
         public static bool IsUserExists(int userID) => clsUsers_DAL.IsUserExistByID(userID);
@@ -77,14 +82,15 @@ namespace SmartBank
             bool isLocked = false;
             DateTime creationDate = DateTime.MinValue;
             DateTime? lastLogInDate = null;
-            string UsernameCreatedCurrentUser = null;
+            string usernameCreatedCurrentUser = null;
+            string imagePath = null;
 
             if (clsUsers_DAL.GetUserByUsername(username, ref userID, ref passwordHash, ref passwordSalt, ref permissions, ref fullName,
-                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate , ref UsernameCreatedCurrentUser)) 
+                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate , ref usernameCreatedCurrentUser , ref imagePath)) 
             {
                 return new clsUsers(userID, username, new clsPermissions(permissions), 
                                     fullName, isActive, isLocked, creationDate, 
-                                    lastLogInDate, passwordSalt , passwordHash , UsernameCreatedCurrentUser);
+                                    lastLogInDate, passwordSalt , passwordHash , usernameCreatedCurrentUser , imagePath);
             }
 
             return null;
@@ -92,16 +98,21 @@ namespace SmartBank
 
         private bool _addNew()
         {
-            UserID = clsUsers_DAL.CreateUser(clsGlobal.ActiveUser.UserID, Username, HashedPassword, PasswordSalt,
-                                             Permissions.Permissions, FullName, IsActive, IsLocked);
+            string passwardSalt = GenerateSalt();
+            UserID = clsUsers_DAL.CreateUser(clsGlobal.ActiveUser.UserID, Username, Hash(Password , passwardSalt) , passwardSalt ,
+                                             Permissions.Permissions, FullName, true, false , DateTime.Now , ImagePath);
 
             _mode = enMode.Update;
             return UserID != -1;
         }
 
-        private bool _update() => clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID, 
-                                                          UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, HashedPassword, PasswordSalt,
-                                                          Permissions.Permissions, FullName, IsActive, IsLocked , LastLoginDate);
+        private bool _update()
+        {
+            string passwardSalt = GenerateSalt();
+            return clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID,
+                                                          UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, Hash(Password, passwardSalt), passwardSalt,
+                                                          Permissions.Permissions, FullName, IsActive, IsLocked, LastLoginDate, ImagePath);
+        }
 
         public static List<clsUsers> GetAllUsers()
         {
@@ -121,7 +132,8 @@ namespace SmartBank
                     row["LastLoginDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["LastLoginDate"],
                     row["PasswordSalt"].ToString(),
                     row["PasswordHash"].ToString(),
-                    row["CreatedByUserUsername"].ToString()
+                    row["CreatedByUserUsername"].ToString(),
+                    row["ImagePath"].ToString()
                 ));
             }
 

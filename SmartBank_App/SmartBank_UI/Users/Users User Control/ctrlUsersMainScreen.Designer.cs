@@ -57,7 +57,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.btnDeactivate = new System.Windows.Forms.Button();
             this.btnShowPermissions = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnEditUserInfo = new System.Windows.Forms.Button();
             this.tbCreatedByUsername = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tbLastLoginDate = new System.Windows.Forms.TextBox();
@@ -67,8 +67,8 @@
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.pbUserImage = new System.Windows.Forms.PictureBox();
+            this.lblUserName = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.dgvUserLoginHistory = new System.Windows.Forms.DataGridView();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -86,7 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUserImage)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserLoginHistory)).BeginInit();
             this.panel7.SuspendLayout();
@@ -326,7 +326,7 @@
             this.panel4.Controls.Add(this.label7);
             this.panel4.Controls.Add(this.btnDeactivate);
             this.panel4.Controls.Add(this.btnShowPermissions);
-            this.panel4.Controls.Add(this.btnCancel);
+            this.panel4.Controls.Add(this.btnEditUserInfo);
             this.panel4.Controls.Add(this.tbCreatedByUsername);
             this.panel4.Controls.Add(this.label11);
             this.panel4.Controls.Add(this.tbLastLoginDate);
@@ -359,12 +359,12 @@
             // 
             // tbUserFullName
             // 
-            this.tbUserFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUserFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbUserFullName.Location = new System.Drawing.Point(33, 170);
             this.tbUserFullName.Margin = new System.Windows.Forms.Padding(2);
             this.tbUserFullName.Name = "tbUserFullName";
             this.tbUserFullName.ReadOnly = true;
-            this.tbUserFullName.Size = new System.Drawing.Size(408, 26);
+            this.tbUserFullName.Size = new System.Drawing.Size(408, 24);
             this.tbUserFullName.TabIndex = 31;
             // 
             // label7
@@ -408,27 +408,28 @@
             this.btnShowPermissions.Text = "Permissions";
             this.btnShowPermissions.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
+            // btnEditUserInfo
             // 
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnCancel.Location = new System.Drawing.Point(33, 400);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(123, 49);
-            this.btnCancel.TabIndex = 27;
-            this.btnCancel.Text = "Edit Info";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnEditUserInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditUserInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditUserInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btnEditUserInfo.Location = new System.Drawing.Point(33, 400);
+            this.btnEditUserInfo.Margin = new System.Windows.Forms.Padding(2);
+            this.btnEditUserInfo.Name = "btnEditUserInfo";
+            this.btnEditUserInfo.Size = new System.Drawing.Size(123, 49);
+            this.btnEditUserInfo.TabIndex = 27;
+            this.btnEditUserInfo.Text = "Edit Info";
+            this.btnEditUserInfo.UseVisualStyleBackColor = true;
+            this.btnEditUserInfo.Click += new System.EventHandler(this.btnEditUserInfo_Click);
             // 
             // tbCreatedByUsername
             // 
-            this.tbCreatedByUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbCreatedByUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCreatedByUsername.Location = new System.Drawing.Point(33, 353);
             this.tbCreatedByUsername.Margin = new System.Windows.Forms.Padding(2);
             this.tbCreatedByUsername.Name = "tbCreatedByUsername";
             this.tbCreatedByUsername.ReadOnly = true;
-            this.tbCreatedByUsername.Size = new System.Drawing.Size(408, 26);
+            this.tbCreatedByUsername.Size = new System.Drawing.Size(408, 24);
             this.tbCreatedByUsername.TabIndex = 26;
             // 
             // label11
@@ -445,12 +446,12 @@
             // 
             // tbLastLoginDate
             // 
-            this.tbLastLoginDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbLastLoginDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbLastLoginDate.Location = new System.Drawing.Point(33, 292);
             this.tbLastLoginDate.Margin = new System.Windows.Forms.Padding(2);
             this.tbLastLoginDate.Name = "tbLastLoginDate";
             this.tbLastLoginDate.ReadOnly = true;
-            this.tbLastLoginDate.Size = new System.Drawing.Size(408, 26);
+            this.tbLastLoginDate.Size = new System.Drawing.Size(408, 24);
             this.tbLastLoginDate.TabIndex = 24;
             // 
             // label10
@@ -467,12 +468,12 @@
             // 
             // tbAccountCreatedDay
             // 
-            this.tbAccountCreatedDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbAccountCreatedDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbAccountCreatedDay.Location = new System.Drawing.Point(33, 231);
             this.tbAccountCreatedDay.Margin = new System.Windows.Forms.Padding(2);
             this.tbAccountCreatedDay.Name = "tbAccountCreatedDay";
             this.tbAccountCreatedDay.ReadOnly = true;
-            this.tbAccountCreatedDay.Size = new System.Drawing.Size(408, 26);
+            this.tbAccountCreatedDay.Size = new System.Drawing.Size(408, 24);
             this.tbAccountCreatedDay.TabIndex = 22;
             // 
             // label9
@@ -489,11 +490,11 @@
             // 
             // tbUsername
             // 
-            this.tbUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbUsername.Location = new System.Drawing.Point(33, 109);
             this.tbUsername.Margin = new System.Windows.Forms.Padding(2);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(408, 26);
+            this.tbUsername.Size = new System.Drawing.Size(408, 24);
             this.tbUsername.TabIndex = 20;
             // 
             // label5
@@ -511,34 +512,34 @@
             // panel6
             // 
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.pictureBox4);
-            this.panel6.Controls.Add(this.label8);
+            this.panel6.Controls.Add(this.pbUserImage);
+            this.panel6.Controls.Add(this.lblUserName);
             this.panel6.Location = new System.Drawing.Point(2, 1);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(472, 55);
+            this.panel6.Size = new System.Drawing.Size(472, 71);
             this.panel6.TabIndex = 18;
             // 
-            // pictureBox4
+            // pbUserImage
             // 
-            this.pictureBox4.Image = global::SmartBank_UI.Properties.Resources.icons8_account_50;
-            this.pictureBox4.Location = new System.Drawing.Point(20, 3);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(41, 50);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 4;
-            this.pictureBox4.TabStop = false;
+            this.pbUserImage.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.pbUserImage.Location = new System.Drawing.Point(33, 3);
+            this.pbUserImage.Name = "pbUserImage";
+            this.pbUserImage.Size = new System.Drawing.Size(107, 63);
+            this.pbUserImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbUserImage.TabIndex = 4;
+            this.pbUserImage.TabStop = false;
             // 
-            // label8
+            // lblUserName
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(73, 11);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(353, 33);
-            this.label8.TabIndex = 19;
-            this.label8.Text = "User Details — John Teller";
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserName.ForeColor = System.Drawing.Color.White;
+            this.lblUserName.Location = new System.Drawing.Point(145, 21);
+            this.lblUserName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(243, 29);
+            this.lblUserName.TabIndex = 19;
+            this.lblUserName.Text = " John Teller -- Details";
             // 
             // panel5
             // 
@@ -628,6 +629,7 @@
             this.btnAddUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAddUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddUser.UseVisualStyleBackColor = false;
+            this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
             // 
             // btnAllFilter
             // 
@@ -710,7 +712,7 @@
             this.panel4.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUserImage)).EndInit();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserLoginHistory)).EndInit();
             this.panel7.ResumeLayout(false);
@@ -743,7 +745,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnAddUser;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.TextBox tbCreatedByUsername;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbLastLoginDate;
@@ -754,9 +756,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnDeactivate;
         private System.Windows.Forms.Button btnShowPermissions;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnEditUserInfo;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pbUserImage;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.DataGridView dgvUserLoginHistory;
         private System.Windows.Forms.Button btnAllFilter;

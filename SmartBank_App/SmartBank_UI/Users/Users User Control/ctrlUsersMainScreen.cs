@@ -1,6 +1,7 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
 using SmartBank_UI.Main_Form_UC;
+using SmartBank_UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +41,7 @@ namespace SmartBank_UI.Users
             dgvUsersData.Columns["PasswordSalt"].Visible = false;
             dgvUsersData.Columns["CreatedDate"].Visible = false;
             dgvUsersData.Columns["CreatedByUserUsername"].Visible = false;
+            dgvUsersData.Columns["ImagePath"].Visible = false;
 
             dgvUsersData.Columns["LastLoginDate"].HeaderText = "Last login";
             dgvUsersData.Columns["LastLoginDate"].Width = 155;
@@ -117,17 +119,24 @@ namespace SmartBank_UI.Users
         private void _loadUserInfo(string username)
         {
             _currentUser = clsUsers.Find(username);
+
             if(_currentUser == null)
             {
                 MessageBox.Show("User not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            if (string.IsNullOrEmpty(_currentUser.ImagePath))
+                pbUserImage.Image = Resources.icons8_user_50;
+            else
+                pbUserImage.ImageLocation = _currentUser.ImagePath;
+
             tbUsername.Text = _currentUser.Username;
             tbUserFullName.Text = _currentUser.FullName;
             tbAccountCreatedDay.Text = _currentUser.CreatedDate.ToShortDateString();
             tbLastLoginDate.Text = _currentUser.LastLoginDate.HasValue ? _currentUser.LastLoginDate.Value.ToString() : "No login record for this user yet.";
             tbCreatedByUsername.Text = _currentUser.CreatedByUserUsername;
+            lblUserName.Text = _currentUser.FullName.Split(' ')[0] + " -- Details";
 
             btnActivate.Visible = !_currentUser.IsActive;
             btnDeactivate.Visible = _currentUser.IsActive;
@@ -200,6 +209,25 @@ namespace SmartBank_UI.Users
             }
 
             return deactivation ? enUserStatesError.ReadyToDeactivate : enUserStatesError.ReadyToActivate;
+        }
+
+        private void btnAddUser_Click(object sender, EventArgs e)
+        {
+            frmAddOrUpdateUser frm = new frmAddOrUpdateUser();
+            frm.ShowDialog();
+        }
+
+        private void btnEditUserInfo_Click(object sender, EventArgs e)
+        {
+            if (_currentUser == null)
+            {
+                MessageBox.Show("User is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
+            frm.ShowDialog();
+            _bindGridToMainUsersDGV(_loadUsersList());
         }
     }
 }
