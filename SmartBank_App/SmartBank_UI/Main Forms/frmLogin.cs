@@ -36,14 +36,6 @@ namespace SmartBank_UI.Login
         {
             switch (errorState)
             {
-                case enErrorState.InvalidCredentials:
-                    user.RecordLoginAttemp(false);
-                    btnWrongAttempWarning.Visible = true;
-                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
-                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _checkUserLoginAttemps(user);
-                    return false;
-
                 case enErrorState.AccountLocked:
                     MessageBox.Show("Your account is locked. Please contact support.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -56,10 +48,20 @@ namespace SmartBank_UI.Login
                     MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
 
+                case enErrorState.InvalidCredentials:
+                    user.RecordLoginAttemp(false);
+                    btnWrongAttempWarning.Visible = true;
+                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
+                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _checkUserLoginAttemps(user);
+                    return false;
+
                 case enErrorState.None:
+                    btnWrongAttempWarning.Visible = false;
                     user.RecordLoginAttemp(true);
                     clsGlobal.ActiveUser = user;
                     clsUtil.clsLogger.SaveUserDataToRegistry(user.Username, tbPassword.Text.Trim());
+                    _userFailedLoginAttempsCounter = 0;
                     return true;
             }
 
@@ -69,7 +71,6 @@ namespace SmartBank_UI.Login
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
-
             if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
                 return;
 

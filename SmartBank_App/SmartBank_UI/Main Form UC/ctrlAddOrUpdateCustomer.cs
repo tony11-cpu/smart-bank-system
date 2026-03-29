@@ -1,66 +1,55 @@
-﻿using SmartBank_BLL;
+﻿using SmartBank;
+using SmartBank_BLL;
 using SmartBank_UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Collections;
 
-namespace SmartBank_UI
+namespace SmartBank_UI.Main_Form_UC
 {
-    public partial class frmAddOrUpdateCustomers : Form
+    public partial class ctrlAddOrUpdateCustomer : UserControl
     {
         private enum enMode { Add, Update };
         private enMode _mode;
         private clsCustomers _selectedCustomer;
-        public static event Action<string> OnAddingOrUpdatingCustomer = null;
-        private string _nationalID = null;
 
-        public frmAddOrUpdateCustomers(string nationalID)
+        public ctrlAddOrUpdateCustomer()
         {
             InitializeComponent();
-            _nationalID = nationalID;
-        }
-
-        public frmAddOrUpdateCustomers()
-        {
-            InitializeComponent();
-        }
-
-        private void _loadDeafultFormValues()
-        {
             _mode = enMode.Add;
+        }
 
-            _selectedCustomer = new clsCustomers();
-            cbGender.SelectedIndex = 0;
-            lblAddOrUpdate.Text = "Add New Customers";
-            lblInforamtionAboutForm.Text = "Fill in all required fields and upload a photo to register a new customer.";
+        public void LoadCustomer(string nationalID)
+        {
+            _selectedCustomer = clsCustomers.Find(nationalID);
+            if (_selectedCustomer != null)
+            {
+                _mode = enMode.Update;
+                tbNationalID.ReadOnly = true;
+                lblAddOrUpdate.Text = "Update Customer";
+                lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
+                _loadCustomerData();
+            }
         }
 
         private void _loadCustomerData()
         {
-            mtbDateOfBirth.Text = _selectedCustomer.DateOfBirth.ToString("MM-dd-yyyy");
-            cbGender.SelectedIndex = _selectedCustomer.Gender ? 1 : 0;
-
-            if (string.IsNullOrEmpty(_selectedCustomer.ImagePath))
-                _chooseImageByGender();
-            else
-                pbCustomerPhoto.ImageLocation = _selectedCustomer.ImagePath;
-
             tbFirstName.Text = _selectedCustomer.FirstName;
             _setTextboxStates(tbFirstName, false, true);
 
             tbLastName.Text = _selectedCustomer.LastName;
             _setTextboxStates(tbLastName, false, true);
 
-            bool isEmpty = string.IsNullOrEmpty(_selectedCustomer.Email);
-            tbEmail.Text = isEmpty ? string.Empty : _selectedCustomer.Email;
-            _setTextboxStates(tbEmail, isEmpty , !isEmpty);
+            tbEmail.Text = string.IsNullOrEmpty(_selectedCustomer.Email) ? "No Email" : _selectedCustomer.Email;
+            _setTextboxStates(tbEmail, false, true);
 
             tbAddress.Text = _selectedCustomer.Address;
             _setTextboxStates(tbAddress, false, true);
@@ -70,18 +59,23 @@ namespace SmartBank_UI
 
             tbNationalID.Text = _selectedCustomer.NationalID;
             _setTextboxStates(tbNationalID, false, true);
+
+            mtbDateOfBirth.Text = _selectedCustomer.DateOfBirth.ToString("yyyy-MM-dd");
+            cbGender.SelectedIndex = _selectedCustomer.Gender ? 1 : 0;
         }
 
         private bool _isIdle(TextBox sender) => sender.Tag.ToString().StartsWith("Idle");
 
-        private void tb_Enter(object sender, EventArgs e) => _setTextboxStates((TextBox)sender, _isIdle((TextBox)sender), true);
+        private void tb_Enter(object sender, EventArgs e) => _setTextboxStates((TextBox)sender, _isIdle((TextBox)sender) , true);
 
-        private void _setTextboxStates(TextBox textBox, bool idle, bool entering)
+        private void _setTextboxStates(TextBox textBox ,bool idle , bool entering)
         {
             string[] textBoxField = textBox.Tag.ToString().Split('/');
+
             textBox.Tag = $"{(idle ? "Idle" : "Working")}/{textBoxField[1]}/{textBoxField[2]}";
             textBox.Text = idle ? (entering ? string.Empty : textBoxField[2]) : textBox.Text;
-            textBox.ForeColor = entering ? Color.White : Color.DimGray; 
+            textBox.ForeColor = entering && idle ? Color.White : 
+                               (entering && !idle ? Color.White : Color.DimGray);
         }
 
         private void tb_Leave(object sender, EventArgs e)
@@ -94,7 +88,7 @@ namespace SmartBank_UI
                 return;
             }
 
-            _setTextboxStates(tb, true, false);
+            _setTextboxStates(tb, true , false);
         }
 
         private void ctrlAddOrUpdateCustomer_Load(object sender, EventArgs e)
@@ -102,23 +96,17 @@ namespace SmartBank_UI
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            if (string.IsNullOrEmpty(_nationalID) || !clsCustomers.IsCustomerExists(_nationalID))
+            if(_mode == enMode.Add)
             {
-                _loadDeafultFormValues();
-            }
-            else
-            {
-                _selectedCustomer = clsCustomers.Find(_nationalID);
-                _mode = enMode.Update;
-                _loadCustomerData();
-                btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbCustomerPhoto.ImageLocation);
-                tbNationalID.ReadOnly = true;
-                lblAddOrUpdate.Text = "Update Customer";
-                lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
-            }
+                _selectedCustomer = new clsCustomers();
+                cbGender.SelectedIndex = 0;
+
+                lblAddOrUpdate.Text = "Add New Customers";
+                lblInforamtionAboutForm.Text = "Fill in all required fields and upload a photo to register a new customer.";
+            }         
         }
 
-        private void btnCancel_Click(object sender, EventArgs e) => this.Close();
+        private void btnCancel_Click(object sender, EventArgs e) => this.ParentForm.Close();
 
         private bool _handleCustomerImage()
         {
@@ -135,12 +123,12 @@ namespace SmartBank_UI
 
             if (!string.IsNullOrWhiteSpace(pbCustomerPhoto.ImageLocation))
             {
-                string newPath = @pbCustomerPhoto.ImageLocation;
-
+                string newPath = pbCustomerPhoto.ImageLocation;
                 if (!clsUtil.CopyImageToProjectImagesFolder(ref newPath)) 
                     throw new IOException("Error copying image file");
 
                 pbCustomerPhoto.ImageLocation = newPath;
+                _selectedCustomer.ImagePath = newPath;
             }
 
             return true;
@@ -148,34 +136,31 @@ namespace SmartBank_UI
 
         private bool _fillCustomerData()
         {
-            if (!_handleCustomerImage())
-                return false;
-
             _selectedCustomer.FirstName = tbFirstName.Text.Trim();
             _selectedCustomer.LastName = tbLastName.Text.Trim();
             _selectedCustomer.NationalID = tbNationalID.Text.Trim();
             _selectedCustomer.DateOfBirth = Convert.ToDateTime(mtbDateOfBirth.Text.Trim());
-            _selectedCustomer.Gender = cbGender.SelectedIndex != 0;
+            _selectedCustomer.Gender = cbGender.SelectedIndex == 0 ? false : true;
             _selectedCustomer.Phone = tbPhone.Text.Trim();
             _selectedCustomer.Email = _isIdle(tbEmail) ? null : tbEmail.Text.Trim();
             _selectedCustomer.Address = tbAddress.Text.Trim();
             _selectedCustomer.ImagePath = pbCustomerPhoto.ImageLocation;
-            return true;
+
+            return _handleCustomerImage();
         }
 
         private void btnSaveCustomer_Click(object sender, EventArgs e)
         {
-            if (!ValidateChildren())
+            if (!ValidateChildren()) 
                 return;
 
             if (_fillCustomerData() && _selectedCustomer.Save())
             {
                 _mode = enMode.Update;
                 tbNationalID.ReadOnly = true;
-                OnAddingOrUpdatingCustomer?.Invoke(_selectedCustomer.NationalID);
                 lblAddOrUpdate.Text = "Update Customer";
-                lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
-                MessageBox.Show("Customer info saved successfully.", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfulu")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lblInforamtionAboutForm.Text = "You can update the customer information in this form."; 
+                MessageBox.Show("Customer info saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -183,14 +168,13 @@ namespace SmartBank_UI
             }
         }
 
-        private void _chooseImageByGender() => pbCustomerPhoto.Image = cbGender.SelectedIndex == 0 ? Resources.icons8_person_80 :
+        private void _chooseImageByGender() => pbCustomerPhoto.Image = cbGender.SelectedIndex == 0 ? Resources.icons8_person_80 : 
                                                                                                      Resources.icons8_person_female_skin_type_1_and_2_80;
+
         private void cbGender_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(pbCustomerPhoto.ImageLocation))
-            {
+            if(string.IsNullOrEmpty(pbCustomerPhoto.ImageLocation)) 
                 _chooseImageByGender();
-            }
         }
 
         private void mtbDateOfBirth_Validating(object sender, CancelEventArgs e)
@@ -199,18 +183,19 @@ namespace SmartBank_UI
             {
                 errorProvider1.SetError(mtbDateOfBirth, "Date of birth field cannot be empty!");
                 e.Cancel = true;
+                return;
             }
-            else if (!DateTime.TryParse(mtbDateOfBirth.Text, out DateTime dateOfBirth))
+
+            if (!DateTime.TryParse(mtbDateOfBirth.Text, out DateTime dateOfBirth))
             {
                 errorProvider1.SetError(mtbDateOfBirth, "Invalid date!");
                 e.Cancel = true;
+                return;
             }
-            else
-            {
-                bool isValid = dateOfBirth.CompareTo(DateTime.Now.AddYears(-100)) >= 0 && dateOfBirth.CompareTo(DateTime.Now.AddYears(-18)) <= 0;
-                errorProvider1.SetError(mtbDateOfBirth, isValid ? null : "Age must be between 18 and 100 years!");
-                e.Cancel = !isValid;
-            }
+
+            bool isValid = dateOfBirth.CompareTo(DateTime.Now.AddYears(-100)) >= 0 && dateOfBirth.CompareTo(DateTime.Now.AddYears(-18)) <= 0;
+            errorProvider1.SetError(mtbDateOfBirth, isValid ? null : "Age must be between 18 and 100 years!");
+            e.Cancel = !isValid;
         }
 
         private void tb_Validating(object sender, CancelEventArgs e)
@@ -244,46 +229,41 @@ namespace SmartBank_UI
 
         private void tbPhone_Validating(object sender, CancelEventArgs e)
         {
-            errorProvider1.SetError(tbPhone, null);
+            if (!tbPhone.Text.Trim().All(char.IsDigit))
+            {
+                errorProvider1.SetError(tbPhone, "Phone can allow only digits.");
+                e.Cancel = true;
+                return;
+            }
 
-            if (_isIdle(tbPhone))
+            bool isIdle = _isIdle(tbPhone);
+            errorProvider1.SetError(tbPhone, isIdle ? "Phone must be filled." : null);
+            e.Cancel = isIdle;
+        }
+
+        private void tbPhone_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                errorProvider1.SetError(tbPhone, "Phone must be filled.");
-                e.Cancel = true;
-            }
-            else if (!tbPhone.Text.Trim().All(char.IsDigit))
-            {
+                e.Handled = true;
                 errorProvider1.SetError(tbPhone, "Phone can only contain digits.");
-                e.Cancel = true;
             }
-            else if(tbPhone.Text.Trim().Length < 9)
-            {
-                errorProvider1.SetError(tbPhone, "Phone can not be less than 9 digits.");
-                e.Cancel = true;
-            }
+
+            errorProvider1.SetError(tbPhone, null);
         }
 
         private void tbNationalID_Validating(object sender, CancelEventArgs e)
         {
-            if (_isIdle(tbNationalID))
+            if (clsCustomers.IsCustomerExists(tbNationalID.Text.Trim()) && _mode == enMode.Add)
             {
-                errorProvider1.SetError(tbNationalID, "National id cannot be empty!");
+                errorProvider1.SetError(tbNationalID, "National ID is already in use!");
                 e.Cancel = true;
+                return;
             }
-            else if (clsCustomers.IsCustomerExists(tbNationalID.Text.Trim()) && _mode == enMode.Add)
-            {
-                errorProvider1.SetError(tbNationalID, "National id is already in use!");
-                e.Cancel = true;
-            }
-            else if(tbNationalID.Text.Trim().Length < 9)
-            {
-                errorProvider1.SetError(tbNationalID, "National id cannot be less than 9 letters/digits!");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider1.SetError(tbNationalID, null);
-            }
+
+            bool isIdel = _isIdle(tbNationalID);
+            errorProvider1.SetError(tbNationalID, isIdel ? "National ID is invalid!" : null);
+            e.Cancel = isIdel;
         }
 
         private void btnUploadPhoto_Click(object sender, EventArgs e)

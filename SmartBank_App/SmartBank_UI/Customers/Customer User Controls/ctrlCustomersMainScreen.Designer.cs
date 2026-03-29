@@ -36,8 +36,11 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -114,17 +117,21 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addCustomerToolStripMenuItem,
             this.updateCustomerToolStripMenuItem,
-            this.viewCustomerAccountHistoryToolStripMenuItem,
-            this.deactivateCustomerToolStripMenuItem});
+            this.toolStripMenuItem1,
+            this.deactivateCustomerToolStripMenuItem,
+            this.activateToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.viewCustomerAccountHistoryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(252, 124);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(252, 166);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // addCustomerToolStripMenuItem
             // 
             this.addCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
             this.addCustomerToolStripMenuItem.Name = "addCustomerToolStripMenuItem";
             this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.addCustomerToolStripMenuItem.Text = "Add Customer";
+            this.addCustomerToolStripMenuItem.Text = "Add New Customer";
             this.addCustomerToolStripMenuItem.Click += new System.EventHandler(this.AddNewCutomer_Click);
             // 
             // updateCustomerToolStripMenuItem
@@ -135,13 +142,10 @@
             this.updateCustomerToolStripMenuItem.Text = "Update Customer";
             this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.updateCustomerToolStripMenuItem_Click);
             // 
-            // viewCustomerAccountHistoryToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
-            this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
-            this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View Customer Account History";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(248, 6);
             // 
             // deactivateCustomerToolStripMenuItem
             // 
@@ -151,6 +155,27 @@
             this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
             this.deactivateCustomerToolStripMenuItem.Text = "Deactivate Customer";
             this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateCustomer_Click);
+            // 
+            // activateToolStripMenuItem
+            // 
+            this.activateToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_attendance_50;
+            this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.activateToolStripMenuItem.Text = "Activate Customer";
+            this.activateToolStripMenuItem.Click += new System.EventHandler(this.Activate_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(248, 6);
+            // 
+            // viewCustomerAccountHistoryToolStripMenuItem
+            // 
+            this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
+            this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
+            this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View Customer Account History";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
             // 
             // tbSearchBar
             // 
@@ -226,7 +251,7 @@
             this.btnActivate.Text = "Activate";
             this.btnActivate.UseVisualStyleBackColor = false;
             this.btnActivate.Visible = false;
-            this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
+            this.btnActivate.Click += new System.EventHandler(this.Activate_Click);
             // 
             // btnDeactivate
             // 
@@ -343,5 +368,8 @@
         private System.Windows.Forms.Button btnActivate;
         private System.Windows.Forms.Button btnDeactivate;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem activateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
     }
 }

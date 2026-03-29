@@ -1,6 +1,7 @@
 ﻿using SmartBank;
 using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
+using SmartBank_UI.Properties;
 using SmartBank_UI.Users;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -53,30 +55,20 @@ namespace SmartBank_UI
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
                 return;
 
-            timer1.Start();
+            DayTime.Start();
 
             btnDashBoard_Click(sender, null);
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
-            switch (clsGlobal.ActiveUser.Permissions.PermissionPresenter)
-            {
-                case clsPermissions.enPermissionPresenter.Admin:
-                    lblUserRole.Text = "Admin";
-                    break;
-                case clsPermissions.enPermissionPresenter.Manager:
-                    lblUserRole.Text = "Manager";
-                    break;
-                case clsPermissions.enPermissionPresenter.Teller:
-                    lblUserRole.Text = "Teller";
-                    break;
-                default:
-                    lblUserRole.Text = "Custom Permissions";
-                    break;
-            }
-
+            lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
             this.FormClosed += (s, args) => btnSignOut_Click(null , null);
 
             btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
+
+            if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath))
+                pbUserPhoto.Image = Resources.icons8_user_50;
+            else
+                pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
         }
 
         private void timer1_Tick(object sender, EventArgs e) => lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");

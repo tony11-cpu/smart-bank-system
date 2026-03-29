@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -37,6 +38,14 @@
             this.lblMorningToUserWithName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvUsersData = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.deactivateCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewCustomerAccountHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -73,11 +82,12 @@
             this.dgvUserLoginHistory = new System.Windows.Forms.DataGridView();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
-            this.btnAddUser = new System.Windows.Forms.Button();
             this.btnAllFilter = new System.Windows.Forms.Button();
             this.btnDeactivatedFilter = new System.Windows.Forms.Button();
             this.btnActiveFilter = new System.Windows.Forms.Button();
+            this.btnAddUser = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsersData)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -130,6 +140,7 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUsersData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvUsersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUsersData.ContextMenuStrip = this.contextMenuStrip2;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -156,7 +167,73 @@
             this.dgvUsersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsersData.Size = new System.Drawing.Size(820, 600);
             this.dgvUsersData.TabIndex = 34;
-            this.dgvUsersData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsersData_CellContentClick);
+            this.dgvUsersData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsersData_CellClick);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addCustomerToolStripMenuItem,
+            this.updateCustomerToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.deactivateCustomerToolStripMenuItem,
+            this.activateToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.viewCustomerAccountHistoryToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip1";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(200, 166);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            // 
+            // addCustomerToolStripMenuItem
+            // 
+            this.addCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.addCustomerToolStripMenuItem.Name = "addCustomerToolStripMenuItem";
+            this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
+            this.addCustomerToolStripMenuItem.Text = "Add New User";
+            this.addCustomerToolStripMenuItem.Click += new System.EventHandler(this.btnAddUser_Click);
+            // 
+            // updateCustomerToolStripMenuItem
+            // 
+            this.updateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_update_user_48;
+            this.updateCustomerToolStripMenuItem.Name = "updateCustomerToolStripMenuItem";
+            this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
+            this.updateCustomerToolStripMenuItem.Text = "Update User";
+            this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.btnEditUserInfo_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(196, 6);
+            // 
+            // deactivateCustomerToolStripMenuItem
+            // 
+            this.deactivateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
+            this.deactivateCustomerToolStripMenuItem.Name = "deactivateCustomerToolStripMenuItem";
+            this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
+            this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
+            this.deactivateCustomerToolStripMenuItem.Text = "Deactivate User";
+            this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateUser_Click);
+            // 
+            // activateToolStripMenuItem
+            // 
+            this.activateToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_attendance_50;
+            this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
+            this.activateToolStripMenuItem.Text = "Activate User";
+            this.activateToolStripMenuItem.Click += new System.EventHandler(this.btnActivate_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(196, 6);
+            // 
+            // viewCustomerAccountHistoryToolStripMenuItem
+            // 
+            this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_administrative_tools_50;
+            this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
+            this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View User Permissions";
+            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
             // 
             // label2
             // 
@@ -392,7 +469,7 @@
             this.btnDeactivate.TabIndex = 29;
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
-            this.btnDeactivate.Click += new System.EventHandler(this.DeactivateCustomer_Click);
+            this.btnDeactivate.Click += new System.EventHandler(this.DeactivateUser_Click);
             // 
             // btnShowPermissions
             // 
@@ -610,27 +687,6 @@
             this.label12.TabIndex = 20;
             this.label12.Text = "Recent Login Activity";
             // 
-            // btnAddUser
-            // 
-            this.btnAddUser.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnAddUser.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnAddUser.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
-            this.btnAddUser.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.btnAddUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddUser.ForeColor = System.Drawing.Color.White;
-            this.btnAddUser.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddUser.Location = new System.Drawing.Point(1188, 93);
-            this.btnAddUser.Margin = new System.Windows.Forms.Padding(2);
-            this.btnAddUser.Name = "btnAddUser";
-            this.btnAddUser.Size = new System.Drawing.Size(131, 54);
-            this.btnAddUser.TabIndex = 39;
-            this.btnAddUser.Text = "Add User";
-            this.btnAddUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAddUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAddUser.UseVisualStyleBackColor = false;
-            this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
-            // 
             // btnAllFilter
             // 
             this.btnAllFilter.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -676,6 +732,27 @@
             this.btnActiveFilter.UseVisualStyleBackColor = true;
             this.btnActiveFilter.Click += new System.EventHandler(this.btnActiveFilter_Click);
             // 
+            // btnAddUser
+            // 
+            this.btnAddUser.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnAddUser.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnAddUser.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
+            this.btnAddUser.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnAddUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddUser.ForeColor = System.Drawing.Color.White;
+            this.btnAddUser.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
+            this.btnAddUser.Location = new System.Drawing.Point(1188, 94);
+            this.btnAddUser.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAddUser.Name = "btnAddUser";
+            this.btnAddUser.Size = new System.Drawing.Size(131, 54);
+            this.btnAddUser.TabIndex = 39;
+            this.btnAddUser.Text = "Add User";
+            this.btnAddUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAddUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnAddUser.UseVisualStyleBackColor = false;
+            this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
+            // 
             // ctrlUsersMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -699,6 +776,7 @@
             this.Size = new System.Drawing.Size(1332, 845);
             this.Load += new System.EventHandler(this.ctrlUsersMainScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsersData)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -767,5 +845,13 @@
         private System.Windows.Forms.TextBox tbUserFullName;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnActivate;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem addCustomerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateCustomerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem deactivateCustomerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem activateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem viewCustomerAccountHistoryToolStripMenuItem;
     }
 }

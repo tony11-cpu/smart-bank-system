@@ -87,13 +87,13 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.lblActiveAccounts);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(12, 110);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 99);
+            this.panel1.Size = new System.Drawing.Size(319, 99);
             this.panel1.TabIndex = 2;
             // 
             // label5
@@ -111,12 +111,12 @@
             // lblActiveAccounts
             // 
             this.lblActiveAccounts.AutoSize = true;
-            this.lblActiveAccounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblActiveAccounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblActiveAccounts.ForeColor = System.Drawing.Color.White;
-            this.lblActiveAccounts.Location = new System.Drawing.Point(7, 38);
+            this.lblActiveAccounts.Location = new System.Drawing.Point(7, 35);
             this.lblActiveAccounts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblActiveAccounts.Name = "lblActiveAccounts";
-            this.lblActiveAccounts.Size = new System.Drawing.Size(71, 29);
+            this.lblActiveAccounts.Size = new System.Drawing.Size(82, 31);
             this.lblActiveAccounts.TabIndex = 3;
             this.lblActiveAccounts.Text = "0.000";
             // 
@@ -138,10 +138,10 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.lblTransactionsToday);
             this.panel2.Controls.Add(this.label8);
-            this.panel2.Location = new System.Drawing.Point(336, 110);
+            this.panel2.Location = new System.Drawing.Point(339, 110);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(300, 99);
+            this.panel2.Size = new System.Drawing.Size(319, 99);
             this.panel2.TabIndex = 5;
             // 
             // label6
@@ -159,12 +159,12 @@
             // lblTransactionsToday
             // 
             this.lblTransactionsToday.AutoSize = true;
-            this.lblTransactionsToday.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTransactionsToday.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTransactionsToday.ForeColor = System.Drawing.Color.Lime;
-            this.lblTransactionsToday.Location = new System.Drawing.Point(7, 38);
+            this.lblTransactionsToday.Location = new System.Drawing.Point(10, 35);
             this.lblTransactionsToday.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTransactionsToday.Name = "lblTransactionsToday";
-            this.lblTransactionsToday.Size = new System.Drawing.Size(71, 29);
+            this.lblTransactionsToday.Size = new System.Drawing.Size(82, 31);
             this.lblTransactionsToday.TabIndex = 3;
             this.lblTransactionsToday.Text = "0.000";
             // 
@@ -183,13 +183,13 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.lblFraudFlags);
+            this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.label11);
-            this.panel3.Location = new System.Drawing.Point(688, 110);
+            this.panel3.Location = new System.Drawing.Point(668, 110);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(300, 99);
+            this.panel3.Size = new System.Drawing.Size(319, 99);
             this.panel3.TabIndex = 5;
             // 
             // label9
@@ -197,7 +197,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.DimGray;
-            this.label9.Location = new System.Drawing.Point(9, 70);
+            this.label9.Location = new System.Drawing.Point(16, 70);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(86, 18);
@@ -207,12 +207,12 @@
             // lblFraudFlags
             // 
             this.lblFraudFlags.AutoSize = true;
-            this.lblFraudFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFraudFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFraudFlags.ForeColor = System.Drawing.Color.Red;
-            this.lblFraudFlags.Location = new System.Drawing.Point(7, 38);
+            this.lblFraudFlags.Location = new System.Drawing.Point(13, 35);
             this.lblFraudFlags.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFraudFlags.Name = "lblFraudFlags";
-            this.lblFraudFlags.Size = new System.Drawing.Size(71, 29);
+            this.lblFraudFlags.Size = new System.Drawing.Size(82, 31);
             this.lblFraudFlags.TabIndex = 3;
             this.lblFraudFlags.Text = "0.000";
             // 
@@ -221,7 +221,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.DarkGray;
-            this.label11.Location = new System.Drawing.Point(9, 6);
+            this.label11.Location = new System.Drawing.Point(15, 6);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(124, 20);
@@ -231,13 +231,13 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel4.Controls.Add(this.label12);
-            this.panel4.Controls.Add(this.lblPendingTransfares);
             this.panel4.Controls.Add(this.label14);
-            this.panel4.Location = new System.Drawing.Point(1014, 110);
+            this.panel4.Controls.Add(this.lblPendingTransfares);
+            this.panel4.Controls.Add(this.label12);
+            this.panel4.Location = new System.Drawing.Point(995, 110);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(300, 99);
+            this.panel4.Size = new System.Drawing.Size(319, 99);
             this.panel4.TabIndex = 5;
             // 
             // label12
@@ -245,7 +245,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.DimGray;
-            this.label12.Location = new System.Drawing.Point(9, 70);
+            this.label12.Location = new System.Drawing.Point(12, 70);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(115, 18);
@@ -255,12 +255,12 @@
             // lblPendingTransfares
             // 
             this.lblPendingTransfares.AutoSize = true;
-            this.lblPendingTransfares.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPendingTransfares.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPendingTransfares.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.lblPendingTransfares.Location = new System.Drawing.Point(7, 38);
+            this.lblPendingTransfares.Location = new System.Drawing.Point(9, 35);
             this.lblPendingTransfares.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPendingTransfares.Name = "lblPendingTransfares";
-            this.lblPendingTransfares.Size = new System.Drawing.Size(71, 29);
+            this.lblPendingTransfares.Size = new System.Drawing.Size(82, 31);
             this.lblPendingTransfares.TabIndex = 3;
             this.lblPendingTransfares.Text = "0.000";
             // 
@@ -269,7 +269,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.DarkGray;
-            this.label14.Location = new System.Drawing.Point(9, 6);
+            this.label14.Location = new System.Drawing.Point(11, 6);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(195, 20);
@@ -280,12 +280,12 @@
             // 
             this.dgvFraudFlags.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvFraudFlags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFraudFlags.Location = new System.Drawing.Point(688, 213);
+            this.dgvFraudFlags.Location = new System.Drawing.Point(668, 213);
             this.dgvFraudFlags.Margin = new System.Windows.Forms.Padding(2);
             this.dgvFraudFlags.Name = "dgvFraudFlags";
             this.dgvFraudFlags.RowHeadersWidth = 62;
             this.dgvFraudFlags.RowTemplate.Height = 28;
-            this.dgvFraudFlags.Size = new System.Drawing.Size(626, 502);
+            this.dgvFraudFlags.Size = new System.Drawing.Size(646, 502);
             this.dgvFraudFlags.TabIndex = 6;
             // 
             // dgvRecentTransactions
@@ -300,7 +300,7 @@
             this.dgvRecentTransactions.ReadOnly = true;
             this.dgvRecentTransactions.RowHeadersWidth = 62;
             this.dgvRecentTransactions.RowTemplate.Height = 28;
-            this.dgvRecentTransactions.Size = new System.Drawing.Size(624, 502);
+            this.dgvRecentTransactions.Size = new System.Drawing.Size(646, 502);
             this.dgvRecentTransactions.TabIndex = 5;
             // 
             // btnTransfare
@@ -331,7 +331,7 @@
             this.btnNewWithdrawl.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewWithdrawl.ForeColor = System.Drawing.Color.Red;
             this.btnNewWithdrawl.Image = ((System.Drawing.Image)(resources.GetObject("btnNewWithdrawl.Image")));
-            this.btnNewWithdrawl.Location = new System.Drawing.Point(453, 732);
+            this.btnNewWithdrawl.Location = new System.Drawing.Point(454, 732);
             this.btnNewWithdrawl.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewWithdrawl.Name = "btnNewWithdrawl";
             this.btnNewWithdrawl.Size = new System.Drawing.Size(417, 79);

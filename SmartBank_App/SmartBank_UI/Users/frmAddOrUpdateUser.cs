@@ -20,6 +20,8 @@ namespace SmartBank_UI.Users
         private enMode _mode;
         private clsUsers _selectedUser;
         private string _userName;
+        public event Action<string> OnNewUserAdded;
+        private (bool isPasswordValid , bool is2PasswordsSame) _isPassValid;
 
         public frmAddOrUpdateUser()
         {
@@ -60,7 +62,7 @@ namespace SmartBank_UI.Users
 
         private void btnSaveUser_Click(object sender, EventArgs e)
         {
-            if (!ValidateChildren())
+            if (!ValidateChildren() || !_isPassValid.is2PasswordsSame)
                 return;
 
             _fetchUserInfo();
@@ -68,8 +70,8 @@ namespace SmartBank_UI.Users
             {
                 _mode = enMode.Update;
                 lblAddOrUpdateUser.Text = "Update User";
-
                 MessageBox.Show("User data saved successfuly!", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfulu")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                OnNewUserAdded?.Invoke(_selectedUser.Username);
             }
             else
             {
@@ -85,33 +87,48 @@ namespace SmartBank_UI.Users
             _selectedUser.FullName = tbFullName.Text.Trim();
             _selectedUser.Username = tbUsername.Text.Trim();
             _selectedUser.Password = tbConfirmPassword.Text.Trim();
-            _selectedUser.Permissions = new clsPermissions(ctrlUserPermissions1.Permissions);
+            _selectedUser.Permissions = ctrlUserPermissions1.Permissions;
+            _selectedUser.ImagePath = pbUserPhoto.ImageLocation;
+            _selectedUser.IsLocked = !(rbDefaut.Checked || rbFree.Checked);
         }
 
         private void _loadUserInfo()
         {
             tbFullName.Text = _selectedUser.FullName;
+            _setTextboxStates(tbFullName, false, true);
+
             tbUsername.Text = _selectedUser.Username;
-            pbUserPhoto.ImageLocation = _selectedUser.ImagePath;
+            _setTextboxStates(tbUsername, false, true);
+
+            if(string.IsNullOrEmpty(_selectedUser.ImagePath))
+                pbUserPhoto.Image = Resources.icons8_user_50;
+            else
+                pbUserPhoto.ImageLocation = _selectedUser.ImagePath;
+
+            btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbUserPhoto.ImageLocation);
+
+            rbFree.Checked = !_selectedUser.IsLocked;
+            rbLocked.Checked = _selectedUser.IsLocked;
         }
 
         private void frmAddOrUpdateUser_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userName))
+            if (string.IsNullOrWhiteSpace(_userName) || !clsUsers.IsUserExists(_userName))
             {
                 _selectedUser = new clsUsers();
                 _mode = enMode.Add;
+                rbDefaut.Checked = true;
             }
             else
             {
-                _selectedUser = clsUsers.Find(_userName);
-                if (_selectedUser == null)
-                    return;
+                lblAddOrUpdateUser.Text = "Update User";
+                lblUserAfterEditOrAddDetails.Text = "You can update the user information in this form.";
 
+                _selectedUser = clsUsers.Find(_userName);
                 _mode = enMode.Update;
                 _loadUserInfo();
-
-                lblAddOrUpdateUser.Text = "Update User";
+                _checkPasswordStrength();
+                ctrlUserPermissions1.LoadPermissions(_selectedUser.Permissions.Permissions);
             }
         }
 
@@ -127,6 +144,7 @@ namespace SmartBank_UI.Users
             textBox.Tag = $"{(idle ? "Idle" : "Working")}/{textBoxField[1]}/{textBoxField[2]}";
             textBox.Text = idle ? (entering ? string.Empty : textBoxField[2]) : textBox.Text;
             textBox.ForeColor = entering ? Color.White : Color.DimGray;
+            textBox.PasswordChar = textBoxField[1].Contains("Password") && entering ? '*' : default;
         }
 
         private void tb_Leave(object sender, EventArgs e)
@@ -162,6 +180,7 @@ namespace SmartBank_UI.Users
         {
             btnRemovePhoto.Visible = false;
             pbUserPhoto.ImageLocation = null;
+            pbUserPhoto.Image = Resources.icons8_user_50;
         }
 
         private void tbUsername_Validating(object sender, CancelEventArgs e)
@@ -171,7 +190,7 @@ namespace SmartBank_UI.Users
                 errorProvider1.SetError(tbUsername, "Username cannot be empty!");
                 e.Cancel = true;
             }
-            else if(clsUsers.IsUserExists(tbUsername.Text))
+            else if(clsUsers.IsUserExists(tbUsername.Text) && _mode == enMode.Add)
             {
                 errorProvider1.SetError(tbUsername, "Username already exists, try use other one!");
                 e.Cancel = true;
@@ -182,54 +201,112 @@ namespace SmartBank_UI.Users
             }
         }
 
-        private void tbPassword_Validating(object sender, CancelEventArgs e)
+        private void _setPasswordStrengthProgress(int? StrengthPercent)
         {
-            if(_isIdle(tbPassword))
+            if(StrengthPercent == null)
             {
-                errorProvider1.SetError(tbPassword, "Password cannot be empty!");
-                e.Cancel = true;
-            }
-            else if(tbPassword.Text.Trim().Length < 8)
-            {
-                errorProvider1.SetError(tbPassword, "Password can only be 8 charecters or more!");
-                e.Cancel = true;
+                lblPasswordStrength.Text = "Valid Password";
+                lblPasswordStrength.ForeColor = Color.BlueViolet;
+                StrengthPercent = 100;
             }
             else
             {
+                if (pbPasswordStrength.Maximum < StrengthPercent)
+                    throw new InvalidOperationException("Password Strength Progress Can Only Set For 100 Or Below");
+
+                if (StrengthPercent <= 25)
+                {
+                    lblPasswordStrength.Text = "Low";
+                    lblPasswordStrength.ForeColor = Color.Red;
+                }
+                else if (StrengthPercent <= 50)
+                {
+                    lblPasswordStrength.Text = "Medium";
+                    lblPasswordStrength.ForeColor = Color.Orange;
+                }
+                else if (StrengthPercent <= 75)
+                {
+                    lblPasswordStrength.Text = "Strong";
+                    lblPasswordStrength.ForeColor = Color.DarkGreen;
+                }
+                else
+                {
+                    lblPasswordStrength.Text = "Very Strong";
+                    lblPasswordStrength.ForeColor = Color.Green;
+                }
+            }
+
+            lblPasswordStrength.Refresh();
+            pbPasswordStrength.Value = StrengthPercent ?? 0;
+            pbPasswordStrength.Refresh();
+        }
+
+        private bool _checkPasswordStrength()
+        {
+            if (_isIdle(tbPassword))
+            {
+                if (_mode == enMode.Update)
+                {
+                    _setPasswordStrengthProgress(null);
+                    errorProvider1.SetError(tbPassword, null);
+                    return true;
+                }
+
+                errorProvider1.SetError(tbPassword, "Password cannot be empty!");
+                _setPasswordStrengthProgress(0);
+                return false;
+            }
+            else if (tbPassword.Text.Trim().Length < 8)
+            {
+                errorProvider1.SetError(tbPassword, "Password can only be 8 charecters or more!");
+                _setPasswordStrengthProgress(15);
+                return false;
+            }
+            else if (tbPassword.Text.All(c => char.IsDigit(c) || !tbPassword.Text.Any(n => char.IsDigit(n))))
+            {
+                _setPasswordStrengthProgress(50);
+                errorProvider1.SetError(tbPassword, "Passowrd must be mix of letters and numeric values!");
+                return false;
+            }
+            else if (!tbPassword.Text.Any(n => !char.IsLetterOrDigit(n)))
+            {
+                _setPasswordStrengthProgress(75);
+                errorProvider1.SetError(tbPassword, "Passowrd will be more secured when sepcial chars are added!");
+            }
+            else
+            {
+                _setPasswordStrengthProgress(100);
                 errorProvider1.SetError(tbPassword, null);
             }
+
+            return true;
         }
+
+        private void tbPassword_Validating(object sender, CancelEventArgs e) => _isPassValid.isPasswordValid = _checkPasswordStrength();
 
         private void tbConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
-            if(tbPassword.Text != tbConfirmPassword.Text)
+            if (_mode == enMode.Update && _isIdle(tbConfirmPassword))
             {
-                errorProvider1.SetError(tbConfirmPassword, "Password is not the same");
-                e.Cancel = true;
-                return;
+                _isPassValid.is2PasswordsSame = true;
             }
-
-            errorProvider1.SetError(tbConfirmPassword, null);
-        }
-
-        private void btnShow_Click(object sender, EventArgs e) => tbPassword.PasswordChar = tbPassword.PasswordChar == '*' ? default : '*';
-
-        private void btnShow2_Click(object sender, EventArgs e) => tbConfirmPassword.PasswordChar = tbConfirmPassword.PasswordChar == '*' ? default : '*';
-
-        private void tbPassword_TextChanged(object sender, EventArgs e)
-        {
-            if(string.IsNullOrEmpty(tbPassword.Text))
-                tbPassword.PasswordChar = default;
-            else 
-                tbPassword.PasswordChar = '*';
-        }
-
-        private void tbConfirmPassword_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(tbConfirmPassword.Text))
-                tbConfirmPassword.PasswordChar = default;
+            else if(tbPassword.Text != tbConfirmPassword.Text)
+            {
+                errorProvider1.SetError(tbConfirmPassword, "Password is not the same!");
+                _isPassValid.is2PasswordsSame = false;
+            }
             else
-                tbConfirmPassword.PasswordChar = '*';
+            {
+                errorProvider1.SetError(tbConfirmPassword, null);
+                _isPassValid.is2PasswordsSame = true;
+            }
         }
+
+        private void btnShow_Click(object sender, EventArgs e) => tbPassword.PasswordChar = _isIdle(tbPassword) ? default : (tbPassword.PasswordChar == default ? '*' : default);
+
+        private void btnShow2_Click(object sender, EventArgs e) => tbConfirmPassword.PasswordChar = _isIdle(tbConfirmPassword) ? default : (tbConfirmPassword.PasswordChar == default ? '*' : default);
+
+        private void tbPassword_TextChanged(object sender, EventArgs e) => _checkPasswordStrength();
+
     }
 }

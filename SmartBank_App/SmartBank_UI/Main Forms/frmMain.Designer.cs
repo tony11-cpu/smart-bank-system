@@ -31,14 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbUserPhoto = new System.Windows.Forms.PictureBox();
             this.lblUserRole = new System.Windows.Forms.Label();
             this.lblUSerFullName = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSignOut = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnCurrentUserAccount = new System.Windows.Forms.Button();
             this.btnUsers = new System.Windows.Forms.Button();
@@ -55,10 +54,10 @@
             this.btnDashBoard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.pMain = new System.Windows.Forms.Panel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.DayTime = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).BeginInit();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +79,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.pbUserPhoto);
             this.panel2.Controls.Add(this.lblUserRole);
             this.panel2.Controls.Add(this.lblUSerFullName);
             this.panel2.Location = new System.Drawing.Point(1161, 8);
@@ -89,16 +88,16 @@
             this.panel2.Size = new System.Drawing.Size(247, 58);
             this.panel2.TabIndex = 8;
             // 
-            // pictureBox1
+            // pbUserPhoto
             // 
-            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
-            this.pictureBox1.Location = new System.Drawing.Point(9, 11);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(43, 35);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.pbUserPhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.pbUserPhoto.Location = new System.Drawing.Point(9, 11);
+            this.pbUserPhoto.Margin = new System.Windows.Forms.Padding(2);
+            this.pbUserPhoto.Name = "pbUserPhoto";
+            this.pbUserPhoto.Size = new System.Drawing.Size(43, 35);
+            this.pbUserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbUserPhoto.TabIndex = 2;
+            this.pbUserPhoto.TabStop = false;
             // 
             // lblUserRole
             // 
@@ -445,10 +444,10 @@
             this.pMain.Size = new System.Drawing.Size(1327, 827);
             this.pMain.TabIndex = 2;
             // 
-            // timer1
+            // DayTime
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.DayTime.Interval = 1000;
+            this.DayTime.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // frmMain
             // 
@@ -470,7 +469,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
@@ -488,7 +487,6 @@
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnDashBoard;
         private System.Windows.Forms.Label label3;
@@ -503,9 +501,9 @@
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Button btnSystemConfig;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbUserPhoto;
         private System.Windows.Forms.Button btnCurrentUserAccount;
         private System.Windows.Forms.Panel pMain;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer DayTime;
     }
 }

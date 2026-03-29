@@ -65,25 +65,34 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(_loadCustomersList());
         }
 
-        private void dgvCustomersData_Click(object sender, EventArgs e)
+        private void _loadCustomerFromDGV()
         {
             if (dgvCustomersData.Rows.Count > 0)
             {
-                ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells[3].Value.ToString());
-                if(ctrlCustomerShortInfo1.Customer != null)
+                ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells["NationalID"].Value.ToString());
+                if (ctrlCustomerShortInfo1.Customer != null)
                 {
                     btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
                     btnDeactivate.Visible = ctrlCustomerShortInfo1.Customer.IsActive;
+                    activateToolStripMenuItem.Enabled = !ctrlCustomerShortInfo1.Customer.IsActive;
+                    deactivateCustomerToolStripMenuItem.Enabled = ctrlCustomerShortInfo1.Customer.IsActive;
                 }
             }
+            else
+            {
+                activateToolStripMenuItem.Enabled = false;
+                deactivateCustomerToolStripMenuItem.Enabled = false;
+            }
         }
+
+        private void dgvCustomersData_Click(object sender, EventArgs e) => _loadCustomerFromDGV();
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => _loadCustomerFromDGV();
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string filterTag = tbSearchBar.Tag.ToString();
-            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty :
-                !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
-
+            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
@@ -136,8 +145,7 @@ namespace SmartBank_UI.Main_Form_UC
             string search = tbSearchBar.Text.Trim();
             _bindGrid(_allCustomers.Where(n =>
             {
-                string last4 = n.NationalID.Substring(search.Length - 4);
-                return last4.StartsWith(search, StringComparison.Ordinal) ||
+                return n.NationalID.Substring(n.NationalID.Length - 4).StartsWith(search, StringComparison.Ordinal) ||
                        n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);
@@ -194,7 +202,7 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void btnActivate_Click(object sender, EventArgs e)
+        private void Activate_Click(object sender, EventArgs e)
         {
             if(_checkCutomerStates(ctrlCustomerShortInfo1.Customer, false) == enCustomerStatesError.ReadyToActivate 
                && MessageBox.Show("Are you sure you want to activate this customer?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)

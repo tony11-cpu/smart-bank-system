@@ -56,7 +56,7 @@ namespace SmartBank
         public static bool GetUserByUsername(string username, ref int userID, ref string passwordHash,
                                          ref string passwordSalt, ref int permissions,
                                          ref string fullName, ref bool isActive, ref bool isLocked,
-                                         ref DateTime creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername , ref string imagePath)
+                                         ref DateTime? creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername , ref string imagePath)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@FullName", fullName);
                     cmd.Parameters.AddWithValue("@IsActive", isActive);
                     cmd.Parameters.AddWithValue("@IsLocked", isLocked);
-                    cmd.Parameters.AddWithValue("@CreationDate", creationDate);
+                    cmd.Parameters.AddWithValue("@CreationDate", creationDate == null ? (object)DBNull.Value : creationDate);
                     cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
 
                     SqlParameter newUserID = new SqlParameter("@NewUserID", SqlDbType.Int)

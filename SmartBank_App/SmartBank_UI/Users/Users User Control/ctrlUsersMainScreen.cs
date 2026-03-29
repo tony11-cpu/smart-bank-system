@@ -30,11 +30,9 @@ namespace SmartBank_UI.Users
 
             dgvUsersData.DataSource = usersView;
 
-            int totalUsers = usersView.Count;
-            int ActiveUsers = usersView.Count(n => n.IsActive);
-            lblNumberOfUsers.Text = totalUsers.ToString();
-            lblNumberOfActiveUsers.Text = ActiveUsers.ToString();
-            lblNumberOfLockedUsers.Text = (totalUsers - ActiveUsers).ToString();
+            lblNumberOfUsers.Text = usersView.Count.ToString();
+            lblNumberOfActiveUsers.Text = usersView.Count(n => n.IsActive).ToString();
+            lblNumberOfLockedUsers.Text = usersView.Count(n => n.IsLocked).ToString();
 
             dgvUsersData.Columns["UserID"].Visible = false;
             dgvUsersData.Columns["HashedPassword"].Visible = false;
@@ -54,11 +52,9 @@ namespace SmartBank_UI.Users
 
         private void _reloadCurrentUserLoginHistory()
         {
-            if (_currentUser == null)
-                return;
+            if (_currentUser == null) return;
 
             dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
-
             dgvUserLoginHistory.Columns["Username"].Width = 155;
             dgvUserLoginHistory.Columns["Attempt Date"].Width = 155;
         }
@@ -110,10 +106,25 @@ namespace SmartBank_UI.Users
 
         private void btnActiveFilter_Click(object sender, EventArgs e) => _bindGridToMainUsersDGV(_allUsers.Where(n => n.IsActive).ToList());
 
-        private void dgvUsersData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvUsersData_CellClick(object sender, DataGridViewCellEventArgs e) => _loadUserFromDGV();
+
+        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e) => _loadUserFromDGV();
+
+        private void _loadUserFromDGV()
         {
-            _loadUserInfo(dgvUsersData.CurrentRow.Cells["Username"].Value.ToString());
-            _reloadCurrentUserLoginHistory();
+            if (dgvUsersData.Rows.Count > 0)
+            {
+                _loadUserInfo(dgvUsersData.CurrentRow.Cells["Username"].Value.ToString());
+                if (_currentUser != null)
+                {
+                    btnActivate.Visible = !_currentUser.IsActive;
+                    btnDeactivate.Visible = _currentUser.IsActive;
+                    activateToolStripMenuItem.Enabled = !_currentUser.IsActive;
+                    deactivateCustomerToolStripMenuItem.Enabled = _currentUser.IsActive;
+
+                    _reloadCurrentUserLoginHistory();
+                }
+            }
         }
 
         private void _loadUserInfo(string username)
@@ -133,7 +144,7 @@ namespace SmartBank_UI.Users
 
             tbUsername.Text = _currentUser.Username;
             tbUserFullName.Text = _currentUser.FullName;
-            tbAccountCreatedDay.Text = _currentUser.CreatedDate.ToShortDateString();
+            tbAccountCreatedDay.Text = _currentUser.CreatedDate.HasValue ? _currentUser.CreatedDate.Value.ToShortDateString() : "N/A";
             tbLastLoginDate.Text = _currentUser.LastLoginDate.HasValue ? _currentUser.LastLoginDate.Value.ToString() : "No login record for this user yet.";
             tbCreatedByUsername.Text = _currentUser.CreatedByUserUsername;
             lblUserName.Text = _currentUser.FullName.Split(' ')[0] + " -- Details";
@@ -142,7 +153,7 @@ namespace SmartBank_UI.Users
             btnDeactivate.Visible = _currentUser.IsActive;
         }
 
-        private void DeactivateCustomer_Click(object sender, EventArgs e)
+        private void DeactivateUser_Click(object sender, EventArgs e)
         {
             if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate
                 && MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -174,10 +185,10 @@ namespace SmartBank_UI.Users
             {
                 if (_currentUser.Activate())
                 {
-                    MessageBox.Show("User activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _bindGridToMainUsersDGV(_loadUsersList());
                     btnDeactivate.Visible = true;
                     btnActivate.Visible = false;
+                    MessageBox.Show("User activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -214,7 +225,9 @@ namespace SmartBank_UI.Users
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateUser frm = new frmAddOrUpdateUser();
+            frm.OnNewUserAdded += _loadUserInfo;
             frm.ShowDialog();
+            _bindGridToMainUsersDGV(_loadUsersList());
         }
 
         private void btnEditUserInfo_Click(object sender, EventArgs e)
@@ -226,8 +239,14 @@ namespace SmartBank_UI.Users
             }
 
             frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
+            frm.OnNewUserAdded += _loadUserInfo;
             frm.ShowDialog();
             _bindGridToMainUsersDGV(_loadUsersList());
+        }
+
+        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This feature did not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

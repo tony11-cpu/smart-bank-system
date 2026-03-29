@@ -16,9 +16,10 @@ namespace SmartBank_UI.Main_Form_UC
 {
     public partial class ctrlCustomerShortInfo : UserControl
     {
-        private bool _isManagerOrAdmin;
         public clsCustomers Customer { get; private set; }
         
+        private bool _canSeeCustomerID;
+
         public ctrlCustomerShortInfo()
         {
             InitializeComponent();
@@ -27,13 +28,9 @@ namespace SmartBank_UI.Main_Form_UC
         private void _loadCustomerImage()
         {
             if(string.IsNullOrEmpty(Customer.ImagePath))
-            {
                 pbCustomerPhoto.Image = Customer.Gender ? Resources.icons8_person_female_skin_type_1_and_2_80 : Resources.icons8_person_80;
-            }
             else
-            {
                 pbCustomerPhoto.ImageLocation = Customer.ImagePath;
-            }
         }
 
         private void _loadCustomerInfo()
@@ -44,8 +41,7 @@ namespace SmartBank_UI.Main_Form_UC
             tbEmail.Text = Customer.Email;
             mtbPhoneNumber.Text = Customer.Phone;
             mtbDateOfBarth.Text = Customer.DateOfBirth.ToString("MM/dd/yyyy");
-            tbNationalID.Text = _isManagerOrAdmin ? Customer.NationalID : 
-                (Customer.NationalID.Length >= 4 ? "***-**-" + Customer.NationalID.Substring(Customer.NationalID.Length - 4) : "***-**-????");
+            tbNationalID.Text = _canSeeCustomerID ? Customer.NationalID : (Customer.NationalID.Length >= 4 ? "***-**-" + Customer.NationalID.Substring(Customer.NationalID.Length - 4) : "***-**-????");
 
             _loadCustomerImage();
         }
@@ -58,10 +54,11 @@ namespace SmartBank_UI.Main_Form_UC
             {
                 MessageBox.Show("No customer found!" , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error);
                 _loadDefault();
-                return;
             }
-
-            _loadCustomerInfo();
+            else
+            {
+                _loadCustomerInfo();
+            }
         }
 
         private void _loadDefault()
@@ -77,13 +74,18 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void lblLinkToFullID_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (!_isManagerOrAdmin)
+            if(Customer == null)
             {
-                MessageBox.Show("You do not have permission to view full customer information.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                MessageBox.Show("No customer loaded!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            tbNationalID.Text = Customer.NationalID;
+            else if(!_canSeeCustomerID)
+            {
+                MessageBox.Show("You do not have permission to view full customer information.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                tbNationalID.Text = Customer.NationalID;
+            }
         }
 
         private void ctrlCustomerShortInfo_Load(object sender, EventArgs e)
@@ -91,9 +93,7 @@ namespace SmartBank_UI.Main_Form_UC
             if (DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
-            _isManagerOrAdmin = (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
-                               ||clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
-
+            _canSeeCustomerID = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanViewCustomerNationalId);
 
             _loadDefault();
             frmAddOrUpdateCustomers.OnAddingOrUpdatingCustomer += LoadCustomerInfo;

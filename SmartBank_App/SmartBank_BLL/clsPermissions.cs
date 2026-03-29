@@ -8,6 +8,17 @@ namespace SmartBank
 {
     public class clsPermissions
     {
+        private static readonly int _tellerPerms = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer |
+                                                   enPermission.CanScheduleTransfer | enPermission.CanOpenAccount | enPermission.CanViewStatement);
+
+        private static readonly int _managerPerms = _tellerPerms | (int)(enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
+                                                                          enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags |
+                                                                          enPermission.CanViewAuditLog | enPermission.CanExportAuditLog |
+                                                                          enPermission.CanViewCustomerNationalId);
+
+        private static readonly int _adminPerms = _managerPerms | (int)(enPermission.CanManageUsers | enPermission.CanUnlockUsers |
+                                                                         enPermission.CanChangePermissions | enPermission.CanEditSystemConfig);
+
         public clsPermissions(int permissions)
         {
             this._permissions = permissions;
@@ -19,48 +30,33 @@ namespace SmartBank
             switch (presenter)
             {
                 case enPermissionPresenter.Teller:
-                    _permissions = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement);
+                    _permissions = _tellerPerms;
                     break;
-
                 case enPermissionPresenter.Manager:
-                    _permissions = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
-                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog | enPermission.CanExportAuditLog);
+                    _permissions = _managerPerms;
                     break;
-
                 case enPermissionPresenter.Admin:
-                    _permissions = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
-                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog |
-                                         enPermission.CanExportAuditLog | enPermission.CanManageUsers | enPermission.CanUnlockUsers |
-                                         enPermission.CanChangePermissions | enPermission.CanEditSystemConfig);
+                    _permissions = _adminPerms;
                     break;
             }
 
             this.PermissionPresenter = presenter;
+            this.PermissionPresenterString = presenter.ToString();
         }
 
         private enPermissionPresenter _loadPermissionPresenter()
         {
-            if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
-                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog |
-                                         enPermission.CanExportAuditLog | enPermission.CanManageUsers | enPermission.CanUnlockUsers |
-                                         enPermission.CanChangePermissions | enPermission.CanEditSystemConfig))
+            if (_permissions == _adminPerms)
             {
                 PermissionPresenterString = "Admin";
                 return enPermissionPresenter.Admin;
             }
-            else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement | enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
-                                         enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags | enPermission.CanViewAuditLog | enPermission.CanExportAuditLog))
+            else if (_permissions == _managerPerms)
             {
                 PermissionPresenterString = "Manager";
                 return enPermissionPresenter.Manager;
             }
-            else if(_permissions == (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer | enPermission.CanScheduleTransfer |
-                                         enPermission.CanOpenAccount | enPermission.CanViewStatement))
+            else if (_permissions == _tellerPerms)
             {
                 PermissionPresenterString = "Teller";
                 return enPermissionPresenter.Teller;
@@ -70,8 +66,7 @@ namespace SmartBank
             return enPermissionPresenter.Custom;
         }
 
-        public enum enPermissionPresenter { Admin, Manager, Teller , Custom }
-
+        public enum enPermissionPresenter { Admin, Manager, Teller, Custom }
         public enum enPermission
         {
             CanDeposit = 1,
@@ -90,22 +85,14 @@ namespace SmartBank
             CanUnlockUsers = 8192,
             CanChangePermissions = 16384,
             CanEditSystemConfig = 32768,
+            CanViewCustomerNationalId = 65536
         }
 
+        private int _permissions = 0;
         public enPermissionPresenter PermissionPresenter { get; private set; }
-
         public string PermissionPresenterString { get; private set; }
-
-
-        private int _permissions;
-
         public int Permissions => _permissions;
-
         public bool Has(enPermission permission) => ((int)permission & _permissions) == (int)permission;
-
-        public override string ToString()
-        {
-            return PermissionPresenterString;
-        }
+        public override string ToString() => PermissionPresenterString;
     }
 }

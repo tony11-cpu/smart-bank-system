@@ -42,6 +42,13 @@
             this.tbFullName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rbFree = new System.Windows.Forms.RadioButton();
+            this.rbLocked = new System.Windows.Forms.RadioButton();
+            this.rbDefaut = new System.Windows.Forms.RadioButton();
+            this.lblPasswordStrength = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pbPasswordStrength = new System.Windows.Forms.ProgressBar();
             this.btnShow2 = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
             this.tbConfirmPassword = new System.Windows.Forms.TextBox();
@@ -50,7 +57,7 @@
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.lblMorningToUserWithName = new System.Windows.Forms.Label();
+            this.lblUserAfterEditOrAddDetails = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnSaveUser = new System.Windows.Forms.Button();
@@ -58,6 +65,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,7 +110,7 @@
             this.btnRemovePhoto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemovePhoto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemovePhoto.ForeColor = System.Drawing.Color.Red;
-            this.btnRemovePhoto.Location = new System.Drawing.Point(616, 220);
+            this.btnRemovePhoto.Location = new System.Drawing.Point(626, 219);
             this.btnRemovePhoto.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemovePhoto.Name = "btnRemovePhoto";
             this.btnRemovePhoto.Size = new System.Drawing.Size(183, 39);
@@ -121,7 +129,7 @@
             this.btnUploadPhoto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUploadPhoto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUploadPhoto.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.btnUploadPhoto.Location = new System.Drawing.Point(616, 174);
+            this.btnUploadPhoto.Location = new System.Drawing.Point(626, 173);
             this.btnUploadPhoto.Margin = new System.Windows.Forms.Padding(2);
             this.btnUploadPhoto.Name = "btnUploadPhoto";
             this.btnUploadPhoto.Size = new System.Drawing.Size(183, 39);
@@ -133,10 +141,10 @@
             // pbUserPhoto
             // 
             this.pbUserPhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
-            this.pbUserPhoto.Location = new System.Drawing.Point(616, 25);
+            this.pbUserPhoto.Location = new System.Drawing.Point(626, 24);
             this.pbUserPhoto.Margin = new System.Windows.Forms.Padding(2);
             this.pbUserPhoto.Name = "pbUserPhoto";
-            this.pbUserPhoto.Size = new System.Drawing.Size(184, 139);
+            this.pbUserPhoto.Size = new System.Drawing.Size(184, 135);
             this.pbUserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbUserPhoto.TabIndex = 26;
             this.pbUserPhoto.TabStop = false;
@@ -223,6 +231,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox3);
+            this.groupBox2.Controls.Add(this.lblPasswordStrength);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.pbPasswordStrength);
             this.groupBox2.Controls.Add(this.btnShow2);
             this.groupBox2.Controls.Add(this.btnShow);
             this.groupBox2.Controls.Add(this.tbConfirmPassword);
@@ -232,20 +244,100 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(8, 385);
+            this.groupBox2.Location = new System.Drawing.Point(8, 380);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(837, 128);
+            this.groupBox2.Size = new System.Drawing.Size(837, 197);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Password";
+            this.groupBox2.Text = "Password && Activity";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rbFree);
+            this.groupBox3.Controls.Add(this.rbLocked);
+            this.groupBox3.Controls.Add(this.rbDefaut);
+            this.groupBox3.ForeColor = System.Drawing.Color.DarkGray;
+            this.groupBox3.Location = new System.Drawing.Point(419, 103);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(325, 73);
+            this.groupBox3.TabIndex = 35;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "User States";
+            // 
+            // rbFree
+            // 
+            this.rbFree.AutoSize = true;
+            this.rbFree.ForeColor = System.Drawing.Color.White;
+            this.rbFree.Location = new System.Drawing.Point(236, 36);
+            this.rbFree.Name = "rbFree";
+            this.rbFree.Size = new System.Drawing.Size(60, 24);
+            this.rbFree.TabIndex = 2;
+            this.rbFree.TabStop = true;
+            this.rbFree.Text = "Free";
+            this.rbFree.UseVisualStyleBackColor = true;
+            // 
+            // rbLocked
+            // 
+            this.rbLocked.AutoSize = true;
+            this.rbLocked.ForeColor = System.Drawing.Color.White;
+            this.rbLocked.Location = new System.Drawing.Point(128, 36);
+            this.rbLocked.Name = "rbLocked";
+            this.rbLocked.Size = new System.Drawing.Size(79, 24);
+            this.rbLocked.TabIndex = 1;
+            this.rbLocked.TabStop = true;
+            this.rbLocked.Text = "Locked";
+            this.rbLocked.UseVisualStyleBackColor = true;
+            // 
+            // rbDefaut
+            // 
+            this.rbDefaut.AutoSize = true;
+            this.rbDefaut.ForeColor = System.Drawing.Color.White;
+            this.rbDefaut.Location = new System.Drawing.Point(20, 36);
+            this.rbDefaut.Name = "rbDefaut";
+            this.rbDefaut.Size = new System.Drawing.Size(79, 24);
+            this.rbDefaut.TabIndex = 0;
+            this.rbDefaut.TabStop = true;
+            this.rbDefaut.Text = "Default";
+            this.rbDefaut.UseVisualStyleBackColor = true;
+            // 
+            // lblPasswordStrength
+            // 
+            this.lblPasswordStrength.AutoSize = true;
+            this.lblPasswordStrength.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPasswordStrength.ForeColor = System.Drawing.Color.Red;
+            this.lblPasswordStrength.Location = new System.Drawing.Point(194, 125);
+            this.lblPasswordStrength.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPasswordStrength.Name = "lblPasswordStrength";
+            this.lblPasswordStrength.Size = new System.Drawing.Size(45, 24);
+            this.lblPasswordStrength.TabIndex = 34;
+            this.lblPasswordStrength.Text = "Low";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.DarkGray;
+            this.label7.Location = new System.Drawing.Point(18, 125);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(172, 24);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "Password Strength:";
+            // 
+            // pbPasswordStrength
+            // 
+            this.pbPasswordStrength.Location = new System.Drawing.Point(22, 152);
+            this.pbPasswordStrength.Name = "pbPasswordStrength";
+            this.pbPasswordStrength.Size = new System.Drawing.Size(377, 23);
+            this.pbPasswordStrength.TabIndex = 32;
             // 
             // btnShow2
             // 
             this.btnShow2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShow2.Image = ((System.Drawing.Image)(resources.GetObject("btnShow2.Image")));
-            this.btnShow2.Location = new System.Drawing.Point(750, 60);
+            this.btnShow2.Location = new System.Drawing.Point(758, 57);
             this.btnShow2.Name = "btnShow2";
-            this.btnShow2.Size = new System.Drawing.Size(49, 29);
+            this.btnShow2.Size = new System.Drawing.Size(38, 29);
             this.btnShow2.TabIndex = 31;
             this.btnShow2.Tag = "ShowConfirmPassword";
             this.btnShow2.UseVisualStyleBackColor = true;
@@ -255,9 +347,9 @@
             // 
             this.btnShow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShow.Image = ((System.Drawing.Image)(resources.GetObject("btnShow.Image")));
-            this.btnShow.Location = new System.Drawing.Point(350, 60);
+            this.btnShow.Location = new System.Drawing.Point(361, 57);
             this.btnShow.Name = "btnShow";
-            this.btnShow.Size = new System.Drawing.Size(49, 29);
+            this.btnShow.Size = new System.Drawing.Size(38, 29);
             this.btnShow.TabIndex = 30;
             this.btnShow.Tag = "ShowPassword";
             this.btnShow.UseVisualStyleBackColor = true;
@@ -268,14 +360,13 @@
             this.tbConfirmPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbConfirmPassword.ForeColor = System.Drawing.Color.DimGray;
-            this.tbConfirmPassword.Location = new System.Drawing.Point(420, 60);
+            this.tbConfirmPassword.Location = new System.Drawing.Point(419, 57);
             this.tbConfirmPassword.Margin = new System.Windows.Forms.Padding(2);
             this.tbConfirmPassword.Name = "tbConfirmPassword";
             this.tbConfirmPassword.Size = new System.Drawing.Size(325, 29);
             this.tbConfirmPassword.TabIndex = 29;
             this.tbConfirmPassword.Tag = "Idle/ConfirmPassword/Confirm Password";
             this.tbConfirmPassword.Text = "Confirm Password";
-            this.tbConfirmPassword.TextChanged += new System.EventHandler(this.tbConfirmPassword_TextChanged);
             this.tbConfirmPassword.Enter += new System.EventHandler(this.tb_Enter);
             this.tbConfirmPassword.Leave += new System.EventHandler(this.tb_Leave);
             this.tbConfirmPassword.Validating += new System.ComponentModel.CancelEventHandler(this.tbConfirmPassword_Validating);
@@ -285,7 +376,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.DarkGray;
-            this.label8.Location = new System.Drawing.Point(417, 34);
+            this.label8.Location = new System.Drawing.Point(415, 31);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(162, 24);
@@ -297,7 +388,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkGray;
-            this.label5.Location = new System.Drawing.Point(18, 91);
+            this.label5.Location = new System.Drawing.Point(20, 88);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(368, 16);
@@ -309,7 +400,7 @@
             this.tbPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbPassword.ForeColor = System.Drawing.Color.DimGray;
-            this.tbPassword.Location = new System.Drawing.Point(20, 60);
+            this.tbPassword.Location = new System.Drawing.Point(20, 57);
             this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(325, 29);
@@ -327,7 +418,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.DarkGray;
-            this.label6.Location = new System.Drawing.Point(17, 34);
+            this.label6.Location = new System.Drawing.Point(19, 31);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(92, 24);
@@ -339,7 +430,7 @@
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnCancel.Location = new System.Drawing.Point(535, 854);
+            this.btnCancel.Location = new System.Drawing.Point(535, 945);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(153, 52);
@@ -348,17 +439,17 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // lblMorningToUserWithName
+            // lblUserAfterEditOrAddDetails
             // 
-            this.lblMorningToUserWithName.AutoSize = true;
-            this.lblMorningToUserWithName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMorningToUserWithName.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblMorningToUserWithName.Location = new System.Drawing.Point(13, 52);
-            this.lblMorningToUserWithName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMorningToUserWithName.Name = "lblMorningToUserWithName";
-            this.lblMorningToUserWithName.Size = new System.Drawing.Size(383, 18);
-            this.lblMorningToUserWithName.TabIndex = 5;
-            this.lblMorningToUserWithName.Text = "Search, view, and manage all registered bank customers.";
+            this.lblUserAfterEditOrAddDetails.AutoSize = true;
+            this.lblUserAfterEditOrAddDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserAfterEditOrAddDetails.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblUserAfterEditOrAddDetails.Location = new System.Drawing.Point(13, 52);
+            this.lblUserAfterEditOrAddDetails.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserAfterEditOrAddDetails.Name = "lblUserAfterEditOrAddDetails";
+            this.lblUserAfterEditOrAddDetails.Size = new System.Drawing.Size(410, 18);
+            this.lblUserAfterEditOrAddDetails.TabIndex = 5;
+            this.lblUserAfterEditOrAddDetails.Text = "Fill in all required fields and upload a photo to create new user";
             // 
             // errorProvider1
             // 
@@ -374,7 +465,7 @@
             this.btnSaveUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSaveUser.ForeColor = System.Drawing.Color.White;
             this.btnSaveUser.Image = global::SmartBank_UI.Properties.Resources.icons8_tick_24;
-            this.btnSaveUser.Location = new System.Drawing.Point(692, 854);
+            this.btnSaveUser.Location = new System.Drawing.Point(692, 945);
             this.btnSaveUser.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveUser.Name = "btnSaveUser";
             this.btnSaveUser.Size = new System.Drawing.Size(153, 52);
@@ -388,9 +479,9 @@
             // ctrlUserPermissions1
             // 
             this.ctrlUserPermissions1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ctrlUserPermissions1.Location = new System.Drawing.Point(8, 524);
+            this.ctrlUserPermissions1.Location = new System.Drawing.Point(8, 583);
             this.ctrlUserPermissions1.Name = "ctrlUserPermissions1";
-            this.ctrlUserPermissions1.Size = new System.Drawing.Size(837, 325);
+            this.ctrlUserPermissions1.Size = new System.Drawing.Size(837, 357);
             this.ctrlUserPermissions1.TabIndex = 21;
             // 
             // frmAddOrUpdateUser
@@ -399,13 +490,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(854, 917);
+            this.ClientSize = new System.Drawing.Size(854, 1005);
             this.Controls.Add(this.ctrlUserPermissions1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSaveUser);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblMorningToUserWithName);
+            this.Controls.Add(this.lblUserAfterEditOrAddDetails);
             this.Controls.Add(this.lblAddOrUpdateUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAddOrUpdateUser";
@@ -417,6 +508,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -440,7 +533,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label lblMorningToUserWithName;
+        private System.Windows.Forms.Label lblUserAfterEditOrAddDetails;
         private Users_User_Control.ctrlUserPermissions ctrlUserPermissions1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Button btnRemovePhoto;
@@ -449,5 +542,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnShow2;
         private System.Windows.Forms.Button btnShow;
+        private System.Windows.Forms.Label lblPasswordStrength;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ProgressBar pbPasswordStrength;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton rbFree;
+        private System.Windows.Forms.RadioButton rbLocked;
+        private System.Windows.Forms.RadioButton rbDefaut;
     }
 }

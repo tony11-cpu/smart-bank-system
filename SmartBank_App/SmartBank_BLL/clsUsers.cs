@@ -19,8 +19,8 @@ namespace SmartBank
         public clsPermissions Permissions { get; set; }
         public string FullName { get; set; }
         public bool IsActive { get; private set; }
-        public bool IsLocked { get; private set; }
-        public DateTime CreatedDate { get; private set; }
+        public bool IsLocked { get; set; }
+        public DateTime? CreatedDate { get; private set; }
         public DateTime? LastLoginDate { get; private set; } = null;
         public string PasswordSalt { get; private set; }
         public string HashedPassword { get; private set; }
@@ -30,7 +30,7 @@ namespace SmartBank
 
         public clsUsers(int userID, string username, clsPermissions permissions, 
                         string fullName, bool isActive, bool isLocked, 
-                        DateTime createdDate, DateTime? lastLoginDate, 
+                        DateTime? createdDate, DateTime? lastLoginDate, 
                         string passwordSalt, string hashedPassword , string createdByUserUsername , string imagePath)
         {
             UserID = userID;
@@ -43,7 +43,7 @@ namespace SmartBank
             LastLoginDate = lastLoginDate;
             PasswordSalt = passwordSalt;
             HashedPassword = hashedPassword;
-            this.CreatedByUserUsername = CreatedByUserUsername;
+            this.CreatedByUserUsername = createdByUserUsername;
             ImagePath = imagePath;
 
             _mode = enMode.Update;
@@ -57,8 +57,8 @@ namespace SmartBank
             FullName = null;
             IsActive = false;
             IsLocked = true;
-            CreatedDate = DateTime.MinValue;
-            LastLoginDate = DateTime.MinValue;
+            CreatedDate = null;
+            LastLoginDate = null;
             PasswordSalt = null;
             HashedPassword = null;
             CreatedByUserUsername = null;
@@ -80,7 +80,7 @@ namespace SmartBank
             string fullName = null;
             bool isActive = false;
             bool isLocked = false;
-            DateTime creationDate = DateTime.MinValue;
+            DateTime? creationDate = null;
             DateTime? lastLogInDate = null;
             string usernameCreatedCurrentUser = null;
             string imagePath = null;
@@ -89,7 +89,7 @@ namespace SmartBank
                                                          ref isActive, ref isLocked, ref creationDate, ref lastLogInDate , ref usernameCreatedCurrentUser , ref imagePath)) 
             {
                 return new clsUsers(userID, username, new clsPermissions(permissions), 
-                                    fullName, isActive, isLocked, creationDate, 
+                                    fullName, isActive, isLocked, creationDate , 
                                     lastLogInDate, passwordSalt , passwordHash , usernameCreatedCurrentUser , imagePath);
             }
 
@@ -101,7 +101,6 @@ namespace SmartBank
             string passwardSalt = GenerateSalt();
             UserID = clsUsers_DAL.CreateUser(clsGlobal.ActiveUser.UserID, Username, Hash(Password , passwardSalt) , passwardSalt ,
                                              Permissions.Permissions, FullName, true, false , DateTime.Now , ImagePath);
-
             _mode = enMode.Update;
             return UserID != -1;
         }
