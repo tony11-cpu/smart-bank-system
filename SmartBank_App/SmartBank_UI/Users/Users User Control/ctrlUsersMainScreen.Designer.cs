@@ -65,7 +65,6 @@
             this.tbUserFullName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.btnDeactivate = new System.Windows.Forms.Button();
-            this.btnShowPermissions = new System.Windows.Forms.Button();
             this.btnEditUserInfo = new System.Windows.Forms.Button();
             this.tbCreatedByUsername = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -181,7 +180,7 @@
             this.toolStripMenuItem3,
             this.viewCustomerAccountHistoryToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(200, 166);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(200, 188);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // addCustomerToolStripMenuItem
@@ -198,7 +197,7 @@
             this.updateCustomerToolStripMenuItem.Name = "updateCustomerToolStripMenuItem";
             this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
             this.updateCustomerToolStripMenuItem.Text = "Update User";
-            this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.btnEditUserInfo_Click);
+            this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.EditUserInfo_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -233,7 +232,7 @@
             this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
             this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(199, 30);
             this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View User Permissions";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
+            this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.EditUserInfo_Click);
             // 
             // label2
             // 
@@ -402,7 +401,6 @@
             this.panel4.Controls.Add(this.tbUserFullName);
             this.panel4.Controls.Add(this.label7);
             this.panel4.Controls.Add(this.btnDeactivate);
-            this.panel4.Controls.Add(this.btnShowPermissions);
             this.panel4.Controls.Add(this.btnEditUserInfo);
             this.panel4.Controls.Add(this.tbCreatedByUsername);
             this.panel4.Controls.Add(this.label11);
@@ -424,10 +422,10 @@
             this.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActivate.ForeColor = System.Drawing.Color.LimeGreen;
-            this.btnActivate.Location = new System.Drawing.Point(318, 400);
+            this.btnActivate.Location = new System.Drawing.Point(241, 400);
             this.btnActivate.Margin = new System.Windows.Forms.Padding(2);
             this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(123, 49);
+            this.btnActivate.Size = new System.Drawing.Size(200, 49);
             this.btnActivate.TabIndex = 32;
             this.btnActivate.Text = "Activate";
             this.btnActivate.UseVisualStyleBackColor = true;
@@ -462,28 +460,14 @@
             this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeactivate.ForeColor = System.Drawing.Color.Red;
-            this.btnDeactivate.Location = new System.Drawing.Point(318, 400);
+            this.btnDeactivate.Location = new System.Drawing.Point(241, 400);
             this.btnDeactivate.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(123, 49);
+            this.btnDeactivate.Size = new System.Drawing.Size(200, 49);
             this.btnDeactivate.TabIndex = 29;
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
             this.btnDeactivate.Click += new System.EventHandler(this.DeactivateUser_Click);
-            // 
-            // btnShowPermissions
-            // 
-            this.btnShowPermissions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnShowPermissions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowPermissions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnShowPermissions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnShowPermissions.Location = new System.Drawing.Point(176, 400);
-            this.btnShowPermissions.Margin = new System.Windows.Forms.Padding(2);
-            this.btnShowPermissions.Name = "btnShowPermissions";
-            this.btnShowPermissions.Size = new System.Drawing.Size(123, 49);
-            this.btnShowPermissions.TabIndex = 28;
-            this.btnShowPermissions.Text = "Permissions";
-            this.btnShowPermissions.UseVisualStyleBackColor = true;
             // 
             // btnEditUserInfo
             // 
@@ -493,11 +477,11 @@
             this.btnEditUserInfo.Location = new System.Drawing.Point(33, 400);
             this.btnEditUserInfo.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditUserInfo.Name = "btnEditUserInfo";
-            this.btnEditUserInfo.Size = new System.Drawing.Size(123, 49);
+            this.btnEditUserInfo.Size = new System.Drawing.Size(200, 49);
             this.btnEditUserInfo.TabIndex = 27;
             this.btnEditUserInfo.Text = "Edit Info";
             this.btnEditUserInfo.UseVisualStyleBackColor = true;
-            this.btnEditUserInfo.Click += new System.EventHandler(this.btnEditUserInfo_Click);
+            this.btnEditUserInfo.Click += new System.EventHandler(this.EditUserInfo_Click);
             // 
             // tbCreatedByUsername
             // 
@@ -833,7 +817,6 @@
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnDeactivate;
-        private System.Windows.Forms.Button btnShowPermissions;
         private System.Windows.Forms.Button btnEditUserInfo;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.PictureBox pbUserImage;

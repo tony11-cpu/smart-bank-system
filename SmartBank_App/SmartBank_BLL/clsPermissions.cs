@@ -14,7 +14,7 @@ namespace SmartBank
         private static readonly int _managerPerms = _tellerPerms | (int)(enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
                                                                           enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags |
                                                                           enPermission.CanViewAuditLog | enPermission.CanExportAuditLog |
-                                                                          enPermission.CanViewCustomerNationalId);
+                                                                          enPermission.CanViewCustomerNationalId | enPermission.CanActivateOrDeactivateCustomer);
 
         private static readonly int _adminPerms = _managerPerms | (int)(enPermission.CanManageUsers | enPermission.CanUnlockUsers |
                                                                          enPermission.CanChangePermissions | enPermission.CanEditSystemConfig);
@@ -85,7 +85,8 @@ namespace SmartBank
             CanUnlockUsers = 8192,
             CanChangePermissions = 16384,
             CanEditSystemConfig = 32768,
-            CanViewCustomerNationalId = 65536
+            CanViewCustomerNationalId = 65536,
+            CanActivateOrDeactivateCustomer = 131072
         }
 
         private int _permissions = 0;

@@ -38,7 +38,8 @@ namespace SmartBank_UI.Users.Users_User_Control
             { btnUnlockUsers,         enPermission.CanUnlockUsers },
             { btnChangePermissions,   enPermission.CanChangePermissions },
             { btnSystemConfig,        enPermission.CanEditSystemConfig },
-            { btnViewCustomerId,      enPermission.CanViewCustomerNationalId }
+            { btnViewCustomerId,      enPermission.CanViewCustomerNationalId },
+            { btnCustomerActivity, enPermission.CanActivateOrDeactivateCustomer }
         };
 
         public clsPermissions Permissions { get; private set; }
@@ -97,6 +98,7 @@ namespace SmartBank_UI.Users.Users_User_Control
 
             Button btn = (Button)sender;
             enPermission perm = _permissionMap[btn];
+            btn.Image = Permissions.Has(perm) ? Resources.icons8_dot_24__1_ : Resources.icons8_dot_24;
             Permissions = new clsPermissions(btn.Image == Resources.icons8_dot_24 ? Permissions.Permissions & ~(int)perm : Permissions.Permissions | (int)perm);
         }
 

@@ -53,6 +53,7 @@
             this.btnAdminPresent = new System.Windows.Forms.Button();
             this.btnManagerPresent = new System.Windows.Forms.Button();
             this.btnTellerPresent = new System.Windows.Forms.Button();
+            this.btnCustomerActivity = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.pnlAllPermissionsButton.SuspendLayout();
             this.SuspendLayout();
@@ -76,6 +77,7 @@
             // 
             // pnlAllPermissionsButton
             // 
+            this.pnlAllPermissionsButton.Controls.Add(this.btnCustomerActivity);
             this.pnlAllPermissionsButton.Controls.Add(this.btnViewCustomerId);
             this.pnlAllPermissionsButton.Controls.Add(this.btnChangePermissions);
             this.pnlAllPermissionsButton.Controls.Add(this.btnViewStatement);
@@ -454,6 +456,23 @@
             this.btnTellerPresent.UseVisualStyleBackColor = true;
             this.btnTellerPresent.Click += new System.EventHandler(this.btnTellerPresent_Click);
             // 
+            // btnCustomerActivity
+            // 
+            this.btnCustomerActivity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCustomerActivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCustomerActivity.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.btnCustomerActivity.Image = ((System.Drawing.Image)(resources.GetObject("btnCustomerActivity.Image")));
+            this.btnCustomerActivity.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCustomerActivity.Location = new System.Drawing.Point(203, 177);
+            this.btnCustomerActivity.Name = "btnCustomerActivity";
+            this.btnCustomerActivity.Size = new System.Drawing.Size(193, 38);
+            this.btnCustomerActivity.TabIndex = 49;
+            this.btnCustomerActivity.Text = " Customer Activity";
+            this.btnCustomerActivity.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCustomerActivity.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnCustomerActivity.UseVisualStyleBackColor = true;
+            this.btnCustomerActivity.Click += new System.EventHandler(this.Permission_Click);
+            // 
             // ctrlUserPermissions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -496,5 +515,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel pnlAllPermissionsButton;
         private System.Windows.Forms.Button btnViewCustomerId;
+        private System.Windows.Forms.Button btnCustomerActivity;
     }
 }

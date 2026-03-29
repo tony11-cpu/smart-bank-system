@@ -230,7 +230,7 @@ namespace SmartBank_UI.Users
             _bindGridToMainUsersDGV(_loadUsersList());
         }
 
-        private void btnEditUserInfo_Click(object sender, EventArgs e)
+        private void EditUserInfo_Click(object sender, EventArgs e)
         {
             if (_currentUser == null)
             {
@@ -242,11 +242,6 @@ namespace SmartBank_UI.Users
             frm.OnNewUserAdded += _loadUserInfo;
             frm.ShowDialog();
             _bindGridToMainUsersDGV(_loadUsersList());
-        }
-
-        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("This feature did not implemented yet!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace SmartBank_UI.Login
     public partial class frmLogin : Form
     {
         private int _userFailedLoginAttempsCounter = 0;
+        private string _previouseUsername = string.Empty;
 
         public frmLogin() => InitializeComponent();
 
@@ -49,6 +50,7 @@ namespace SmartBank_UI.Login
                     return false;
 
                 case enErrorState.InvalidCredentials:
+                    _userFailedLoginAttempsCounter = tbUsername.Text != _previouseUsername ? 0 : _userFailedLoginAttempsCounter;
                     user.RecordLoginAttemp(false);
                     btnWrongAttempWarning.Visible = true;
                     btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
@@ -72,7 +74,10 @@ namespace SmartBank_UI.Login
         {
             clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
             if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
+            {
+                _previouseUsername = tbUsername.Text;
                 return;
+            }
 
             MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

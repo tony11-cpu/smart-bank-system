@@ -42,7 +42,7 @@
             this.tbFullName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gbUserStates = new System.Windows.Forms.GroupBox();
             this.rbFree = new System.Windows.Forms.RadioButton();
             this.rbLocked = new System.Windows.Forms.RadioButton();
             this.rbDefaut = new System.Windows.Forms.RadioButton();
@@ -65,7 +65,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbUserStates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -231,7 +231,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.groupBox3);
+            this.groupBox2.Controls.Add(this.gbUserStates);
             this.groupBox2.Controls.Add(this.lblPasswordStrength);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.pbPasswordStrength);
@@ -251,18 +251,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Password && Activity";
             // 
-            // groupBox3
+            // gbUserStates
             // 
-            this.groupBox3.Controls.Add(this.rbFree);
-            this.groupBox3.Controls.Add(this.rbLocked);
-            this.groupBox3.Controls.Add(this.rbDefaut);
-            this.groupBox3.ForeColor = System.Drawing.Color.DarkGray;
-            this.groupBox3.Location = new System.Drawing.Point(419, 103);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(325, 73);
-            this.groupBox3.TabIndex = 35;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "User States";
+            this.gbUserStates.Controls.Add(this.rbFree);
+            this.gbUserStates.Controls.Add(this.rbLocked);
+            this.gbUserStates.Controls.Add(this.rbDefaut);
+            this.gbUserStates.ForeColor = System.Drawing.Color.DarkGray;
+            this.gbUserStates.Location = new System.Drawing.Point(419, 103);
+            this.gbUserStates.Name = "gbUserStates";
+            this.gbUserStates.Size = new System.Drawing.Size(325, 73);
+            this.gbUserStates.TabIndex = 35;
+            this.gbUserStates.TabStop = false;
+            this.gbUserStates.Text = "User States";
             // 
             // rbFree
             // 
@@ -287,6 +287,7 @@
             this.rbLocked.TabStop = true;
             this.rbLocked.Text = "Locked";
             this.rbLocked.UseVisualStyleBackColor = true;
+            this.rbLocked.CheckedChanged += new System.EventHandler(this.rbLocked_CheckedChanged);
             // 
             // rbDefaut
             // 
@@ -508,8 +509,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gbUserStates.ResumeLayout(false);
+            this.gbUserStates.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -545,7 +546,7 @@
         private System.Windows.Forms.Label lblPasswordStrength;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ProgressBar pbPasswordStrength;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gbUserStates;
         private System.Windows.Forms.RadioButton rbFree;
         private System.Windows.Forms.RadioButton rbLocked;
         private System.Windows.Forms.RadioButton rbDefaut;

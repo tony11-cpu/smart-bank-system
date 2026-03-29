@@ -129,6 +129,7 @@ namespace SmartBank_UI.Users
                 _loadUserInfo();
                 _checkPasswordStrength();
                 ctrlUserPermissions1.LoadPermissions(_selectedUser.Permissions.Permissions);
+                gbUserStates.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanUnlockUsers);
             }
         }
 
@@ -308,5 +309,13 @@ namespace SmartBank_UI.Users
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => _checkPasswordStrength();
 
+        private void rbLocked_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rbLocked.Checked && clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
+            {
+                MessageBox.Show("You cannot lock your own account!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                rbDefaut.Checked = true;
+            }
+        }
     }
 }
