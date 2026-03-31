@@ -74,7 +74,7 @@
             this.lblAddOrUpdateUser.AutoSize = true;
             this.lblAddOrUpdateUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAddOrUpdateUser.ForeColor = System.Drawing.Color.White;
-            this.lblAddOrUpdateUser.Location = new System.Drawing.Point(11, 23);
+            this.lblAddOrUpdateUser.Location = new System.Drawing.Point(23, 23);
             this.lblAddOrUpdateUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAddOrUpdateUser.Name = "lblAddOrUpdateUser";
             this.lblAddOrUpdateUser.Size = new System.Drawing.Size(202, 29);
@@ -445,7 +445,7 @@
             this.lblUserAfterEditOrAddDetails.AutoSize = true;
             this.lblUserAfterEditOrAddDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUserAfterEditOrAddDetails.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblUserAfterEditOrAddDetails.Location = new System.Drawing.Point(13, 52);
+            this.lblUserAfterEditOrAddDetails.Location = new System.Drawing.Point(25, 52);
             this.lblUserAfterEditOrAddDetails.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserAfterEditOrAddDetails.Name = "lblUserAfterEditOrAddDetails";
             this.lblUserAfterEditOrAddDetails.Size = new System.Drawing.Size(410, 18);
@@ -483,7 +483,7 @@
             this.ctrlUserPermissions1.Location = new System.Drawing.Point(8, 583);
             this.ctrlUserPermissions1.Name = "ctrlUserPermissions1";
             this.ctrlUserPermissions1.Size = new System.Drawing.Size(837, 357);
-            this.ctrlUserPermissions1.TabIndex = 21;
+            this.ctrlUserPermissions1.TabIndex = 22;
             // 
             // frmAddOrUpdateUser
             // 
@@ -535,7 +535,6 @@
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblUserAfterEditOrAddDetails;
-        private Users_User_Control.ctrlUserPermissions ctrlUserPermissions1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Button btnRemovePhoto;
         private System.Windows.Forms.Button btnUploadPhoto;
@@ -550,5 +549,6 @@
         private System.Windows.Forms.RadioButton rbFree;
         private System.Windows.Forms.RadioButton rbLocked;
         private System.Windows.Forms.RadioButton rbDefaut;
+        private Users_User_Control.ctrlUserPermissions ctrlUserPermissions1;
     }
 }

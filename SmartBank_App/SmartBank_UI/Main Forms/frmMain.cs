@@ -3,6 +3,7 @@ using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
 using SmartBank_UI.Properties;
 using SmartBank_UI.Users;
+using SmartBank_UI.Users.Users_User_Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,5 +85,8 @@ namespace SmartBank_UI
 
         private ctrlUsersMainScreen _users = new ctrlUsersMainScreen();
         private void btnUsers_Click(object sender, EventArgs e) => _showView(_users);
+
+        private ctrlCurrentUserAcount _currentUserAccount = new ctrlCurrentUserAcount();
+        private void btnCurrentUserAccount_Click(object sender, EventArgs e) => _showView(_currentUserAccount);
     }
 }

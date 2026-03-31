@@ -235,13 +235,18 @@ namespace SmartBank_UI.Users
             if (_currentUser == null)
             {
                 MessageBox.Show("User is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
-
-            frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
-            frm.OnNewUserAdded += _loadUserInfo;
-            frm.ShowDialog();
-            _bindGridToMainUsersDGV(_loadUsersList());
+            else if(_currentUser.UserID == clsGlobal.ActiveUser.UserID)
+            {
+                MessageBox.Show("User is already in use and cannot be edited.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
+                frm.OnNewUserAdded += _loadUserInfo;
+                frm.ShowDialog();
+                _bindGridToMainUsersDGV(_loadUsersList());
+            }
         }
     }
 }

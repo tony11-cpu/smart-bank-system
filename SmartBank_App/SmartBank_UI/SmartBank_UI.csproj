@@ -36,7 +36,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -99,16 +101,22 @@
     <Compile Include="Users\frmAddOrUpdateUser.Designer.cs">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Users\Users User Control\ctrlUserPermissions.cs">
+    <Compile Include="Users\Users User Controls\ctrlCurrentUserAcount.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Users\Users User Control\ctrlUserPermissions.Designer.cs">
+    <Compile Include="Users\Users User Controls\ctrlCurrentUserAcount.Designer.cs">
+      <DependentUpon>ctrlCurrentUserAcount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Users User Controls\ctrlUserPermissions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Users\Users User Controls\ctrlUserPermissions.Designer.cs">
       <DependentUpon>ctrlUserPermissions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Users\Users User Control\ctrlUsersMainScreen.cs">
+    <Compile Include="Users\Users User Controls\ctrlUsersMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Users\Users User Control\ctrlUsersMainScreen.Designer.cs">
+    <Compile Include="Users\Users User Controls\ctrlUsersMainScreen.Designer.cs">
       <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Customers\frmAddOrUpdateCustomers.resx">
@@ -140,10 +148,13 @@
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Users\Users User Control\ctrlUserPermissions.resx">
+    <EmbeddedResource Include="Users\Users User Controls\ctrlCurrentUserAcount.resx">
+      <DependentUpon>ctrlCurrentUserAcount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\Users User Controls\ctrlUserPermissions.resx">
       <DependentUpon>ctrlUserPermissions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Users\Users User Control\ctrlUsersMainScreen.resx">
+    <EmbeddedResource Include="Users\Users User Controls\ctrlUsersMainScreen.resx">
       <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
@@ -285,5 +296,6 @@
   <ItemGroup>
     <Content Include="TextFile1.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

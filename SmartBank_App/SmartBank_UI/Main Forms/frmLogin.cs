@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SmartBank_UI.Login
 {
@@ -80,6 +81,10 @@ namespace SmartBank_UI.Login
             }
 
             MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            notifyIcon1.Visible = true;
+            notifyIcon1.Icon = SystemIcons.Application;
+            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {clsGlobal.ActiveUser.FullName.Split(' ')[0]}!", ToolTipIcon.Info);
 
             this.Hide();
             frmMain mainForm = new frmMain(this);

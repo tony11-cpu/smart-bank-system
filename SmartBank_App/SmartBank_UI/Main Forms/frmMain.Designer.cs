@@ -213,14 +213,15 @@
             this.btnCurrentUserAccount.ForeColor = System.Drawing.Color.Silver;
             this.btnCurrentUserAccount.Image = global::SmartBank_UI.Properties.Resources.icons8_account_50;
             this.btnCurrentUserAccount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCurrentUserAccount.Location = new System.Drawing.Point(5, 608);
+            this.btnCurrentUserAccount.Location = new System.Drawing.Point(5, 601);
             this.btnCurrentUserAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnCurrentUserAccount.Name = "btnCurrentUserAccount";
             this.btnCurrentUserAccount.Size = new System.Drawing.Size(217, 68);
             this.btnCurrentUserAccount.TabIndex = 14;
-            this.btnCurrentUserAccount.Text = "  Account";
+            this.btnCurrentUserAccount.Text = " User Account";
             this.btnCurrentUserAccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCurrentUserAccount.UseVisualStyleBackColor = true;
+            this.btnCurrentUserAccount.Click += new System.EventHandler(this.btnCurrentUserAccount_Click);
             // 
             // btnUsers
             // 
@@ -230,7 +231,7 @@
             this.btnUsers.ForeColor = System.Drawing.Color.Silver;
             this.btnUsers.Image = global::SmartBank_UI.Properties.Resources.icons8_admin_64;
             this.btnUsers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUsers.Location = new System.Drawing.Point(5, 762);
+            this.btnUsers.Location = new System.Drawing.Point(5, 755);
             this.btnUsers.Margin = new System.Windows.Forms.Padding(2);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(217, 68);
@@ -249,7 +250,7 @@
             this.btnSystemConfig.ForeColor = System.Drawing.Color.Silver;
             this.btnSystemConfig.Image = global::SmartBank_UI.Properties.Resources.icons8_administrative_tools_50;
             this.btnSystemConfig.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSystemConfig.Location = new System.Drawing.Point(5, 685);
+            this.btnSystemConfig.Location = new System.Drawing.Point(5, 678);
             this.btnSystemConfig.Margin = new System.Windows.Forms.Padding(2);
             this.btnSystemConfig.Name = "btnSystemConfig";
             this.btnSystemConfig.Size = new System.Drawing.Size(217, 68);
@@ -264,7 +265,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Gray;
-            this.label6.Location = new System.Drawing.Point(5, 586);
+            this.label6.Location = new System.Drawing.Point(5, 579);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(61, 20);
@@ -279,7 +280,7 @@
             this.btnAuditLog.ForeColor = System.Drawing.Color.Silver;
             this.btnAuditLog.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
             this.btnAuditLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAuditLog.Location = new System.Drawing.Point(5, 508);
+            this.btnAuditLog.Location = new System.Drawing.Point(5, 501);
             this.btnAuditLog.Margin = new System.Windows.Forms.Padding(2);
             this.btnAuditLog.Name = "btnAuditLog";
             this.btnAuditLog.Size = new System.Drawing.Size(217, 61);
@@ -297,7 +298,7 @@
             this.btnFraudFlags.ForeColor = System.Drawing.Color.Silver;
             this.btnFraudFlags.Image = global::SmartBank_UI.Properties.Resources.icons8_customers_50;
             this.btnFraudFlags.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFraudFlags.Location = new System.Drawing.Point(5, 443);
+            this.btnFraudFlags.Location = new System.Drawing.Point(5, 436);
             this.btnFraudFlags.Margin = new System.Windows.Forms.Padding(2);
             this.btnFraudFlags.Name = "btnFraudFlags";
             this.btnFraudFlags.Size = new System.Drawing.Size(217, 61);
@@ -312,7 +313,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(5, 415);
+            this.label5.Location = new System.Drawing.Point(5, 408);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(109, 20);
@@ -327,7 +328,7 @@
             this.btnAccounts.ForeColor = System.Drawing.Color.Silver;
             this.btnAccounts.Image = global::SmartBank_UI.Properties.Resources.icons8_merchant_account_50;
             this.btnAccounts.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAccounts.Location = new System.Drawing.Point(5, 210);
+            this.btnAccounts.Location = new System.Drawing.Point(5, 203);
             this.btnAccounts.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccounts.Name = "btnAccounts";
             this.btnAccounts.Size = new System.Drawing.Size(217, 61);
@@ -346,7 +347,7 @@
             this.btnScheduled.ForeColor = System.Drawing.Color.Silver;
             this.btnScheduled.Image = global::SmartBank_UI.Properties.Resources.icons8_scheduled_delivery_58;
             this.btnScheduled.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnScheduled.Location = new System.Drawing.Point(5, 340);
+            this.btnScheduled.Location = new System.Drawing.Point(5, 333);
             this.btnScheduled.Margin = new System.Windows.Forms.Padding(2);
             this.btnScheduled.Name = "btnScheduled";
             this.btnScheduled.Size = new System.Drawing.Size(217, 65);
@@ -364,7 +365,7 @@
             this.btnTransactions.ForeColor = System.Drawing.Color.Silver;
             this.btnTransactions.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
             this.btnTransactions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTransactions.Location = new System.Drawing.Point(5, 275);
+            this.btnTransactions.Location = new System.Drawing.Point(5, 268);
             this.btnTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.btnTransactions.Name = "btnTransactions";
             this.btnTransactions.Size = new System.Drawing.Size(217, 61);
@@ -382,7 +383,7 @@
             this.btnCustomers.ForeColor = System.Drawing.Color.Silver;
             this.btnCustomers.Image = global::SmartBank_UI.Properties.Resources.icons8_customers_50;
             this.btnCustomers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCustomers.Location = new System.Drawing.Point(5, 145);
+            this.btnCustomers.Location = new System.Drawing.Point(5, 138);
             this.btnCustomers.Margin = new System.Windows.Forms.Padding(2);
             this.btnCustomers.Name = "btnCustomers";
             this.btnCustomers.Size = new System.Drawing.Size(217, 61);
@@ -398,7 +399,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(5, 118);
+            this.label4.Location = new System.Drawing.Point(5, 111);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(81, 20);
@@ -413,7 +414,7 @@
             this.btnDashBoard.ForeColor = System.Drawing.Color.Silver;
             this.btnDashBoard.Image = global::SmartBank_UI.Properties.Resources.icons8_dashboard_48;
             this.btnDashBoard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDashBoard.Location = new System.Drawing.Point(5, 47);
+            this.btnDashBoard.Location = new System.Drawing.Point(5, 40);
             this.btnDashBoard.Margin = new System.Windows.Forms.Padding(2);
             this.btnDashBoard.Name = "btnDashBoard";
             this.btnDashBoard.Size = new System.Drawing.Size(217, 55);
@@ -429,7 +430,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(5, 20);
+            this.label3.Location = new System.Drawing.Point(5, 13);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(102, 18);

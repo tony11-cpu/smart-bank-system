@@ -9,3 +9,4 @@ obj/
 *.InstallLog
 *.InstallState
 SmartBankCustomers_Images/
+*.copilot.* ScratchCopilot/
