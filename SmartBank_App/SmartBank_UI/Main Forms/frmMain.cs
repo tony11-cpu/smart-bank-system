@@ -51,6 +51,17 @@ namespace SmartBank_UI
             pMain.Controls.Add(control);
         }
 
+        private void _loadUser()
+        {
+            lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
+            lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
+            lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
+            btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
+
+            if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath)) pbUserPhoto.Image = Resources.icons8_user_50;
+            else pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
+        }
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
@@ -59,17 +70,10 @@ namespace SmartBank_UI
             DayTime.Start();
 
             btnDashBoard_Click(sender, null);
-            lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
-            lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
-            lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
-            this.FormClosed += (s, args) => btnSignOut_Click(null , null);
+            _loadUser();
 
-            btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
-
-            if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath))
-                pbUserPhoto.Image = Resources.icons8_user_50;
-            else
-                pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
+            frmAddOrUpdateUser.OnCurrentUserEdit += _loadUser;
+            this.FormClosed += (s, args) => btnSignOut_Click(null, null);
         }
 
         private void timer1_Tick(object sender, EventArgs e) => lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");

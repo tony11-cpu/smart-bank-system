@@ -69,7 +69,7 @@ namespace SmartBank
 
         public static bool IsUserExists(string Username) => clsUsers_DAL.IsUserExistByUsername(Username);
 
-        public void RecordLoginAttemp(bool wasSuccessful) => clsUsers_DAL.RecordLoginAttempt(Username, wasSuccessful);
+        public void RecordLoginAttemp(bool wasSuccessful) => clsUsers_DAL.RecordLoginAttempt(UserID ?? throw new Exception("User ID is not set."), wasSuccessful);
 
         public static clsUsers Find(string username)
         {
@@ -107,10 +107,12 @@ namespace SmartBank
 
         private bool _update()
         {
-            string passwardSalt = GenerateSalt();
-            return clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID,
-                                                          UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, Hash(Password, passwardSalt), passwardSalt,
-                                                          Permissions.Permissions, FullName, IsActive, IsLocked, LastLoginDate, ImagePath);
+            bool isPasswordChanged = !Password.Equals(HashedPassword);
+            string passwardSalt = isPasswordChanged ? GenerateSalt() : PasswordSalt;
+
+            return clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? throw new Exception("No Admin Responsible!") : clsGlobal.ActiveUser.UserID,
+                                           UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, isPasswordChanged ? Hash(Password, passwardSalt) : HashedPassword,
+                                           passwardSalt, Permissions.Permissions, FullName, IsActive, IsLocked, LastLoginDate, ImagePath);
         }
 
         public static List<clsUsers> GetAllUsers()
@@ -139,7 +141,7 @@ namespace SmartBank
             return users;
         }
 
-        public DataTable GetUserLoginRecors() => clsUsers_DAL.GetAllUserLoginAttempts(this.Username);
+        public DataTable GetUserLoginRecors() => clsUsers_DAL.GetAllUserLoginAttempts(this.UserID ?? throw new Exception("User ID is not set."));
 
         public bool Save()
         {

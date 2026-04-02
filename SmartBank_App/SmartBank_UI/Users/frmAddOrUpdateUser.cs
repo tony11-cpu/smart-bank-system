@@ -19,8 +19,9 @@ namespace SmartBank_UI.Users
         private enum enMode { Add, Update };
         private enMode _mode;
         private clsUsers _selectedUser;
-        private string _userName;
+        private string _userName = null;
         public event Action<string> OnNewUserAdded;
+        public static event Action OnCurrentUserEdit = null;
         private (bool isPasswordValid , bool is2PasswordsSame) _isPassValid;
 
         public frmAddOrUpdateUser()
@@ -72,10 +73,16 @@ namespace SmartBank_UI.Users
                 lblAddOrUpdateUser.Text = "Update User";
                 MessageBox.Show("User data saved successfuly!", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfulu")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 OnNewUserAdded?.Invoke(_selectedUser.Username);
+
+                if (_selectedUser.UserID == clsGlobal.ActiveUser.UserID)
+                {
+                    clsGlobal.ActiveUser = _selectedUser;
+                    OnCurrentUserEdit?.Invoke();
+                }
             }
             else
             {
-                MessageBox.Show("Errr while saving user's data please try again!", "Error saving user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error while saving user's data please try again!", "Error saving user", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -86,7 +93,7 @@ namespace SmartBank_UI.Users
 
             _selectedUser.FullName = tbFullName.Text.Trim();
             _selectedUser.Username = tbUsername.Text.Trim();
-            _selectedUser.Password = tbConfirmPassword.Text.Trim();
+            _selectedUser.Password = _isIdle(tbConfirmPassword) ? _selectedUser.HashedPassword : tbConfirmPassword.Text.Trim();
             _selectedUser.Permissions = ctrlUserPermissions1.Permissions;
             _selectedUser.ImagePath = pbUserPhoto.ImageLocation;
             _selectedUser.IsLocked = !(rbDefaut.Checked || rbFree.Checked);

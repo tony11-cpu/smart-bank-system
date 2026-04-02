@@ -180,7 +180,7 @@
             this.toolStripMenuItem3,
             this.viewCustomerAccountHistoryToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(200, 188);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(200, 166);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // addCustomerToolStripMenuItem
@@ -557,6 +557,7 @@
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.Size = new System.Drawing.Size(408, 24);
             this.tbUsername.TabIndex = 20;
+            this.tbUsername.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbUsername_KeyPress);
             // 
             // label5
             // 

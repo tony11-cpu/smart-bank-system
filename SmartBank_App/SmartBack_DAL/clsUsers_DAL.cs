@@ -161,7 +161,7 @@ namespace SmartBank
             return -1;
         }
 
-        public static void RecordLoginAttempt(string username, bool wasSuccessful)
+        public static void RecordLoginAttempt(int userID, bool wasSuccessful)
         {
             try
             {
@@ -170,7 +170,7 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
                     cmd.Parameters.AddWithValue("@WasSuccessful", wasSuccessful);
 
                     conn.Open();
@@ -249,17 +249,17 @@ namespace SmartBank
             return dt;
         }
 
-        public static DataTable GetAllUserLoginAttempts(string username)
+        public static DataTable GetAllUserLoginAttempts(int userID)
         {
             DataTable dt = new DataTable();
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllUserLoginAttempt(@Username)", conn))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllUserLoginAttempt(@UserID)", conn))
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
                     conn.Open();
                     dt.Load(cmd.ExecuteReader());
                     return dt;

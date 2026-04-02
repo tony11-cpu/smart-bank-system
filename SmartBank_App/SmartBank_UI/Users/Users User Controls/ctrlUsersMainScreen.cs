@@ -55,8 +55,8 @@ namespace SmartBank_UI.Users
             if (_currentUser == null) return;
 
             dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
-            dgvUserLoginHistory.Columns["Username"].Width = 155;
-            dgvUserLoginHistory.Columns["Attempt Date"].Width = 155;
+            dgvUserLoginHistory.Columns["Attempt Date"].Width = 215;
+            dgvUserLoginHistory.Columns["Login State"].Width = 215;
         }
 
         private List<clsUsers> _loadUsersList()
@@ -71,7 +71,6 @@ namespace SmartBank_UI.Users
                 return;
 
             _bindGridToMainUsersDGV(_loadUsersList());
-            _reloadCurrentUserLoginHistory();
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
@@ -114,20 +113,18 @@ namespace SmartBank_UI.Users
         {
             if (dgvUsersData.Rows.Count > 0)
             {
-                _loadUserInfo(dgvUsersData.CurrentRow.Cells["Username"].Value.ToString());
+                _loadUser(dgvUsersData.CurrentRow.Cells["Username"].Value.ToString());
                 if (_currentUser != null)
                 {
                     btnActivate.Visible = !_currentUser.IsActive;
                     btnDeactivate.Visible = _currentUser.IsActive;
                     activateToolStripMenuItem.Enabled = !_currentUser.IsActive;
                     deactivateCustomerToolStripMenuItem.Enabled = _currentUser.IsActive;
-
-                    _reloadCurrentUserLoginHistory();
                 }
             }
         }
 
-        private void _loadUserInfo(string username)
+        private void _loadUser(string username)
         {
             _currentUser = clsUsers.Find(username);
 
@@ -137,11 +134,6 @@ namespace SmartBank_UI.Users
                 return;
             }
 
-            if (string.IsNullOrEmpty(_currentUser.ImagePath))
-                pbUserImage.Image = Resources.icons8_user_50;
-            else
-                pbUserImage.ImageLocation = _currentUser.ImagePath;
-
             tbUsername.Text = _currentUser.Username;
             tbUserFullName.Text = _currentUser.FullName;
             tbAccountCreatedDay.Text = _currentUser.CreatedDate.HasValue ? _currentUser.CreatedDate.Value.ToShortDateString() : "N/A";
@@ -149,22 +141,25 @@ namespace SmartBank_UI.Users
             tbCreatedByUsername.Text = _currentUser.CreatedByUserUsername;
             lblUserName.Text = _currentUser.FullName.Split(' ')[0] + " -- Details";
 
-            btnActivate.Visible = !_currentUser.IsActive;
-            btnDeactivate.Visible = _currentUser.IsActive;
+            if (string.IsNullOrEmpty(_currentUser.ImagePath)) pbUserImage.Image = Resources.icons8_user_50;
+            else pbUserImage.ImageLocation = _currentUser.ImagePath;
+
+            if (_currentUser.IsActive) btnDeactivate.Visible = true;
+            else btnActivate.Visible = true;
+
+            if(_currentUser != null)
+               _reloadCurrentUserLoginHistory();
         }
 
         private void DeactivateUser_Click(object sender, EventArgs e)
         {
-            if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate
-                && MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate && MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 if(_currentUser.UserID == clsGlobal.ActiveUser.UserID)
                 {
                     MessageBox.Show("User is already in use and cannot be deactivated.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
                 }
-
-                if (_currentUser.Deactivate())
+                else if (_currentUser.Deactivate())
                 {
                     _bindGridToMainUsersDGV(_loadUsersList());
                     btnDeactivate.Visible = false;
@@ -180,8 +175,7 @@ namespace SmartBank_UI.Users
 
         private void btnActivate_Click(object sender, EventArgs e)
         {
-            if (_checkUserStates(_currentUser, false) == enUserStatesError.ReadyToActivate
-               && MessageBox.Show("Are you sure you want to activate this user?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (_checkUserStates(_currentUser, false) == enUserStatesError.ReadyToActivate  && MessageBox.Show("Are you sure you want to activate this user?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 if (_currentUser.Activate())
                 {
@@ -225,7 +219,7 @@ namespace SmartBank_UI.Users
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateUser frm = new frmAddOrUpdateUser();
-            frm.OnNewUserAdded += _loadUserInfo;
+            frm.OnNewUserAdded += _loadUser;
             frm.ShowDialog();
             _bindGridToMainUsersDGV(_loadUsersList());
         }
@@ -236,16 +230,28 @@ namespace SmartBank_UI.Users
             {
                 MessageBox.Show("User is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if(_currentUser.UserID == clsGlobal.ActiveUser.UserID)
-            {
-                MessageBox.Show("User is already in use and cannot be edited.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             else
             {
                 frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
-                frm.OnNewUserAdded += _loadUserInfo;
+                frm.OnNewUserAdded += _loadUser;
                 frm.ShowDialog();
                 _bindGridToMainUsersDGV(_loadUsersList());
+            }
+        }
+
+        private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
+                if (user == null)
+                {
+                    tbUsername.Text = _currentUser?.Username;
+                    MessageBox.Show("User not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                _loadUser(tbUsername.Text.Trim());
             }
         }
     }

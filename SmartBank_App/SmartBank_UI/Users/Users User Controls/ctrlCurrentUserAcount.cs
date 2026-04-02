@@ -21,43 +21,62 @@ namespace SmartBank_UI.Users.Users_User_Controls
 
         private void _loadCurrentUserData()
         {
+            lblEditUserMessage.Visible = !clsGlobal.ActiveUser.Permissions.Has(enPermission.CanManageUsers);
+            lblUserFullName.Text = $"Hey, {clsGlobal.ActiveUser.FullName}";
+
             tbFullName.Text = clsGlobal.ActiveUser.FullName;
             tbUsername.Text = clsGlobal.ActiveUser.Username;
             tbCreationDate.Text = clsGlobal.ActiveUser.CreatedDate?.ToString("dd MMMM yyyy") ?? "N/A";
 
-            rbActive.Checked = clsGlobal.ActiveUser.IsActive;
-            rbNotActive.Checked = !clsGlobal.ActiveUser.IsActive;
-            rbLocked.Checked = clsGlobal.ActiveUser.IsLocked;
-            rbNotLocked.Checked = !clsGlobal.ActiveUser.IsLocked;
-            rbAdmin.Checked = clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Admin;
-            rbManager.Checked = clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Manager;
-            rbTeller.Checked = clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Teller;
-            rbCustome.Checked = clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Custom;
+            _loadDefaultbtnImages();
 
-            if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath))
-                pbUserPhoto.Image = Properties.Resources.icons8_user_50;
-            else
-                pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
+            if (clsGlobal.ActiveUser.IsActive) btnActive.Image = Properties.Resources.icons8_dot_24;
+            else btnNotActive.Image = Properties.Resources.icons8_dot_24;
+
+            if(clsGlobal.ActiveUser.IsLocked) btnLocked.Image = Properties.Resources.icons8_dot_24;
+            else btnNotLocked.Image= Properties.Resources.icons8_dot_24;
+
+            if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Admin) btnAdmin.Image = Properties.Resources.icons8_dot_24;
+            else if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Manager) btnManager.Image = Properties.Resources.icons8_dot_24;
+            else if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Teller) btnTeller.Image = Properties.Resources.icons8_dot_24;
+            else if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == enPermissionPresenter.Custom) btnCustome.Image = Properties.Resources.icons8_dot_24;
+
+            if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath)) pbUserPhoto.Image = Properties.Resources.icons8_user_50;
+            else pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
         }
 
-        private void _loadDGVs()
+        private void _loadUserLoginsDGV()
         {
             dgvUserLoginHistory.DataSource = clsGlobal.ActiveUser.GetUserLoginRecors();
 
-            dgvUserLoginHistory.Columns["Username"].Width = 175;
-            dgvUserLoginHistory.Columns["Attempt Date"].Width = 180;
-            dgvUserLoginHistory.Columns["Login State"].Width = 200;
+            dgvUserLoginHistory.Columns["Attempt Date"].Width = 280;
+            dgvUserLoginHistory.Columns["Login State"].Width = 277;
+        }
+
+        private void _loadUserTransactionsDGV()
+        {
+            // Get all transactions the current user has made and display them in the dgvUserTransactions
+        }
+
+        private void _loadDefaultbtnImages()
+        {
+            btnActive.Image = Properties.Resources.icons8_dot_24__1_;
+            btnNotLocked.Image = Properties.Resources.icons8_dot_24__1_;
+            btnAdmin.Image = Properties.Resources.icons8_dot_24__1_;
+            btnManager.Image = Properties.Resources.icons8_dot_24__1_;
+            btnTeller.Image = Properties.Resources.icons8_dot_24__1_;
+            btnCustome.Image = Properties.Resources.icons8_dot_24__1_;
+            btnLocked.Image = Properties.Resources.icons8_dot_24__1_;
+            btnNotLocked.Image = Properties.Resources.icons8_dot_24__1_;
         }
 
         private void ctrlCurrentUserAcount_Load(object sender, EventArgs e)
         {
             _loadCurrentUserData();
-            _loadDGVs();
-        }
+            _loadUserLoginsDGV();
+            _loadUserTransactionsDGV();
 
-        private void Perform_Click(object sender, EventArgs e)
-        {
-            return;
+            frmAddOrUpdateUser.OnCurrentUserEdit += _loadCurrentUserData;
         }
     }        
 }
