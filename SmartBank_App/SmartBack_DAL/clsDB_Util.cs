@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -72,6 +73,22 @@ namespace SmartBack_DAL
                 {
                     Log($"Failed to read user from registry: {ex.Message}", EventLogEntryType.Error);
                     return (null, null);
+                }
+            }
+        }
+
+        public static bool IsDatabaseConnected()
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    return true;
+                }
+                catch
+                {
+                    return false;
                 }
             }
         }

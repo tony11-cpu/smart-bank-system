@@ -131,5 +131,7 @@ namespace SmartBank_BLL
                 return false;
             }
         }
+
+        public static bool IsDatabaseConnected() => clsDB_Util.IsDatabaseConnected();
     }
- }
+}

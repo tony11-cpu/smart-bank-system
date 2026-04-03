@@ -8,15 +8,15 @@ namespace SmartBank
 {
     public class clsPermissions
     {
-        private static readonly int _tellerPerms = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer |
+        public static readonly int TellerPermissions = (int)(enPermission.CanDeposit | enPermission.CanWithdraw | enPermission.CanTransfer |
                                                    enPermission.CanScheduleTransfer | enPermission.CanOpenAccount | enPermission.CanViewStatement);
 
-        private static readonly int _managerPerms = _tellerPerms | (int)(enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
+        public static readonly int ManagerPermissions = TellerPermissions | (int)(enPermission.CanFreezeAccount | enPermission.CanCloseAccount |
                                                                           enPermission.CanViewFraudFlags | enPermission.CanResolveFraudFlags |
                                                                           enPermission.CanViewAuditLog | enPermission.CanExportAuditLog |
                                                                           enPermission.CanViewCustomerNationalId | enPermission.CanActivateOrDeactivateCustomer);
 
-        private static readonly int _adminPerms = _managerPerms | (int)(enPermission.CanManageUsers | enPermission.CanUnlockUsers |
+        public static readonly int AdminPermissions = ManagerPermissions | (int)(enPermission.CanManageUsers | enPermission.CanUnlockUsers |
                                                                          enPermission.CanChangePermissions | enPermission.CanEditSystemConfig);
 
         public clsPermissions(int permissions)
@@ -30,13 +30,13 @@ namespace SmartBank
             switch (presenter)
             {
                 case enPermissionPresenter.Teller:
-                    _permissions = _tellerPerms;
+                    _permissions = TellerPermissions;
                     break;
                 case enPermissionPresenter.Manager:
-                    _permissions = _managerPerms;
+                    _permissions = ManagerPermissions;
                     break;
                 case enPermissionPresenter.Admin:
-                    _permissions = _adminPerms;
+                    _permissions = AdminPermissions;
                     break;
             }
 
@@ -46,17 +46,17 @@ namespace SmartBank
 
         private enPermissionPresenter _loadPermissionPresenter()
         {
-            if (_permissions == _adminPerms)
+            if (_permissions == AdminPermissions)
             {
                 PermissionPresenterString = "Admin";
                 return enPermissionPresenter.Admin;
             }
-            else if (_permissions == _managerPerms)
+            else if (_permissions == ManagerPermissions)
             {
                 PermissionPresenterString = "Manager";
                 return enPermissionPresenter.Manager;
             }
-            else if (_permissions == _tellerPerms)
+            else if (_permissions == TellerPermissions)
             {
                 PermissionPresenterString = "Teller";
                 return enPermissionPresenter.Teller;

@@ -95,6 +95,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System Config\ctrlMainSysConfigScree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="System Config\ctrlMainSysConfigScree.Designer.cs">
+      <DependentUpon>ctrlMainSysConfigScree.cs</DependentUpon>
+    </Compile>
     <Compile Include="Users\frmAddOrUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System Config\ctrlMainSysConfigScree.resx">
+      <DependentUpon>ctrlMainSysConfigScree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
