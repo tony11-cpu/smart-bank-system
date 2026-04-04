@@ -2,6 +2,7 @@
 using SmartBack_DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -52,7 +53,7 @@ namespace SmartBank_BLL
                 {
                     using (Aes aes = Aes.Create())
                     {
-                        aes.Key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(clsConfigurations.EncryptionKey));
+                        aes.Key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(clsSecurity.EncryptionKey));
                         aes.GenerateIV();
 
                         using (var ms = new MemoryStream())
@@ -78,7 +79,7 @@ namespace SmartBank_BLL
 
                     using (Aes aes = Aes.Create())
                     {
-                        aes.Key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(clsConfigurations.EncryptionKey));
+                        aes.Key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(EncryptionKey));
                         aes.IV = fullData.Take(16).ToArray();
 
                         using (var ms = new MemoryStream(fullData, 16, fullData.Length - 16))
@@ -88,6 +89,8 @@ namespace SmartBank_BLL
                     }
                 }
             }
+
+            public static string EncryptionKey => ConfigurationManager.AppSettings["EncryptionKey"].ToString();
         }
 
         public static class clsLogger

@@ -4,30 +4,90 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using SmartBank;
+using SmartBack_DAL;
 
 namespace SmartBank_BLL
 {
     public class clsConfigurations
     {
-        private static bool _isLoaded = false;
-        private static Dictionary<string, string> _sysConfigurations;
-        private static int _fetchConfigValue(string key, int defaultValue)
+        public clsConfigurations(enConfigKey config, string configKey, int configValue,
+                                 string description, DateTime lastModifiedDate, clsUsers lastModifiedByUser)
         {
-            if (!_isLoaded)
-            {
-                _sysConfigurations = SmartBack_DAL.clsConfigurations_DAL.GetAllConfig();
-                _isLoaded = true;
-            }
-
-            return int.TryParse(_sysConfigurations[key], out int result) ? result : defaultValue;
+            Config = config;
+            ConfigKey = configKey;
+            ConfigValue = configValue;
+            Description = description;
+            LastModifiedDate = lastModifiedDate;
+            LastModifiedByUser = lastModifiedByUser;
         }
 
-        public static int MaxLoginAttempts => _fetchConfigValue("MaxLoginAttempts", 5);
-        public static int LargeWithdrawalThreshold => _fetchConfigValue("LargeWithdrawalThreshold", 1000);
-        public static int MaxScheduledTransferRetries => _fetchConfigValue("MaxScheduledTransferRetries", 3);
-        public static int RapidTransactionMaxCount => _fetchConfigValue("RapidTransactionMaxCount", 5);
-        public static int RapidTransactionWindowMinutes => _fetchConfigValue("RapidTransactionWindowMinutes", 10);
-        public static int ScheduledTransferCheckIntervalSeconds => _fetchConfigValue("ScheduledTransferCheckIntervalSeconds", 60);
-        public static string EncryptionKey => ConfigurationManager.AppSettings["EncryptionKey"].ToString();
+        public clsConfigurations()
+        {
+            Config = null;
+            ConfigKey = null;
+            ConfigValue = null;
+            Description = null;
+            LastModifiedDate = null;
+            LastModifiedByUser = null;
+        }
+
+        public enum enConfigKey
+        {
+            MaxLoginAttempts = 1,
+            LargeWithdrawalThreshold = 2,
+            MaxScheduledTransferRetries = 3,
+            RapidTransactionMaxCount = 4,
+            RapidTransactionWindowMinutes = 5,
+            ScheduledTransferCheckIntervalSeconds = 6
+        }
+
+        public enConfigKey? Config { get; set; }
+
+        public string ConfigKey { get; set; } = null;
+
+        public int? ConfigValue { get; set; } = null;
+
+        public string Description { get; set; } = null;
+
+        public DateTime? LastModifiedDate { get; set; } = null;
+
+        public clsUsers LastModifiedByUser { get; set; } = null;
+
+        public static clsConfigurations Find(enConfigKey config)
+        {
+            string configKey = null;
+            int? configValue = null;
+            string description = null;
+            DateTime? lastModifiedDate = null;
+            int? lastModifiedByUserID = null;
+
+            if (clsConfigurations_DAL.GetConfig((int)config, ref configKey, ref configValue, ref description, ref lastModifiedDate, ref lastModifiedByUserID))
+            {
+                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, clsUsers.Find(lastModifiedByUserID ?? -1));
+            }
+
+            return null;
+        }
+
+        public bool Update(clsUsers modifiedByUser)
+        {
+            if (Config == null || ConfigValue == null || modifiedByUser.UserID == null)
+                throw new Exception("Config, ConfigValue, and ModifiedByUser must be set before updating.");
+
+            return clsConfigurations_DAL.UpdateSystemConfig(modifiedByUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description, LastModifiedDate, LastModifiedByUser?.UserID);
+        }
+
+        private static Dictionary<string, int> _configCache = new Dictionary<string, int>();
+
+        public static int? GetConfigValue(enConfigKey Config)
+        { 
+            if(_configCache.Count == 0)
+            {
+                _configCache = clsConfigurations_DAL.GetAllConfig();
+            }
+
+            return _configCache.Count == 0 ? (int?)null : _configCache[Config.ToString()];
+        }
     }
 }

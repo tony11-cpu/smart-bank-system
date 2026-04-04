@@ -272,5 +272,187 @@ namespace SmartBank
 
             return null;
         }
+
+        public static bool GetUserByUserID(int userID, ref string username, ref string passwordHash,
+                                   ref string passwordSalt, ref int permissions,
+                                   ref string fullName, ref bool isActive, ref bool isLocked,
+                                   ref DateTime? creationDate, ref DateTime? lastLogInDate, ref string createdByUserUsername, ref string imagePath)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_GetUserByUserID", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    SqlParameter pUsername = new SqlParameter("@Username", SqlDbType.NVarChar, 100) { Direction = ParameterDirection.Output };
+                    SqlParameter pPasswordHash = new SqlParameter("@PasswordHash", SqlDbType.NVarChar, 300) { Direction = ParameterDirection.Output };
+                    SqlParameter pPasswordSalt = new SqlParameter("@PasswordSalt", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
+                    SqlParameter pPermissions = new SqlParameter("@Permissions", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    SqlParameter pFullName = new SqlParameter("@FullName", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
+                    SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
+                    SqlParameter pLastLogInDate = new SqlParameter("@LastLoginDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
+                    SqlParameter pIsActive = new SqlParameter("@IsActive", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter pIsLocked = new SqlParameter("@IsLocked", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter pCreatedByUsername = new SqlParameter("@CreatedByUsername", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
+                    SqlParameter pImagePath = new SqlParameter("@ImagePath", SqlDbType.NVarChar, 200) { Direction = ParameterDirection.Output };
+
+                    cmd.Parameters.Add(pUsername);
+                    cmd.Parameters.Add(pPasswordHash);
+                    cmd.Parameters.Add(pPasswordSalt);
+                    cmd.Parameters.Add(pPermissions);
+                    cmd.Parameters.Add(pFullName);
+                    cmd.Parameters.Add(pCreationDate);
+                    cmd.Parameters.Add(pLastLogInDate);
+                    cmd.Parameters.Add(pIsActive);
+                    cmd.Parameters.Add(pIsLocked);
+                    cmd.Parameters.Add(pCreatedByUsername);
+                    cmd.Parameters.Add(pImagePath);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    if (pUsername.Value == DBNull.Value) return false;
+
+                    username = (string)pUsername.Value;
+                    passwordHash = (string)pPasswordHash.Value;
+                    passwordSalt = (string)pPasswordSalt.Value;
+                    permissions = (int)pPermissions.Value;
+                    fullName = (string)pFullName.Value;
+                    isActive = (bool)pIsActive.Value;
+                    isLocked = (bool)pIsLocked.Value;
+                    creationDate = (DateTime)pCreationDate.Value;
+                    lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
+                    createdByUserUsername = pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value;
+                    imagePath = pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value;
+
+                    return true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
+        public static bool DeactivateUser(int adminUserID, int userID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_DeactivateUser", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(pIsUpdated);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
+        public static bool ActivateUser(int adminUserID, int userID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_ActivateUser", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(pIsUpdated);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
+        public static bool LockUser(int? adminUserID, int userID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_LockUser", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID.HasValue ? (object)adminUserID.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(pIsUpdated);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
+        public static bool UnlockUser(int adminUserID, int userID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_UnlockUser", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AdminUserID", adminUserID);
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(pIsUpdated);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+            
+            return false;
+        }
     }
 }

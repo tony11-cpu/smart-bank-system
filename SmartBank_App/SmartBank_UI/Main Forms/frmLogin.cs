@@ -93,7 +93,7 @@ namespace SmartBank_UI.Login
 
         private void _checkUserLoginAttemps(clsUsers user)
         {
-            if (_userFailedLoginAttempsCounter == clsConfigurations.MaxLoginAttempts)
+            if (_userFailedLoginAttempsCounter == clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts))
             {
                 user.Lock();
                 MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.", "Account Locked",

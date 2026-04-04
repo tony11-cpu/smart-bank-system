@@ -96,6 +96,31 @@ namespace SmartBank
             return null;
         }
 
+        public static clsUsers Find(int userID)
+        {
+            string username = null;
+            string passwordHash = null;
+            string passwordSalt = null;
+            int permissions = 0;
+            string fullName = null;
+            bool isActive = false;
+            bool isLocked = false;
+            DateTime? creationDate = null;
+            DateTime? lastLogInDate = null;
+            string usernameCreatedCurrentUser = null;
+            string imagePath = null;
+
+            if (clsUsers_DAL.GetUserByUserID(userID, ref username, ref passwordHash, ref passwordSalt, ref permissions, ref fullName,
+                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate, ref usernameCreatedCurrentUser, ref imagePath))
+            {
+                return new clsUsers(userID, username, new clsPermissions(permissions),
+                                    fullName, isActive, isLocked, creationDate,
+                                    lastLogInDate, passwordSalt, passwordHash, usernameCreatedCurrentUser, imagePath);
+            }
+
+            return null;
+        }
+
         private bool _addNew()
         {
             string passwardSalt = GenerateSalt();
@@ -157,40 +182,26 @@ namespace SmartBank
 
         public bool Deactivate()
         {
-            if (_mode == enMode.Update)
-            {
-                IsActive = false;
-                return _update();
-            }
-
-            return false;
+            return _mode == enMode.Update && clsUsers_DAL.DeactivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
         }
 
         public bool Activate()
         {
-            if (_mode == enMode.Update)
-            {
-                IsActive = true;
-                return _update();
-            }
-
-            return false;
+            return _mode == enMode.Update && clsUsers_DAL.ActivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
         }
 
         public bool Lock()
         {
-            if (_mode != enMode.Update) return false;
-
-            IsLocked = true;
-            return _update();
+            return _mode == enMode.Update && clsUsers_DAL.LockUser(clsGlobal.ActiveUser == null ? (int?)null : clsGlobal.ActiveUser.UserID, 
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
         }
 
         public bool Unlock()
         {
-            if (_mode != enMode.Update) return false;
-
-            IsLocked = false;
-            return _update();
+            return clsUsers_DAL.UnlockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
         }
     }
 }
