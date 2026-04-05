@@ -34,8 +34,8 @@ namespace SmartBank_BLL
 
         public enum enConfigKey
         {
-            MaxLoginAttempts = 1,
-            LargeWithdrawalThreshold = 2,
+            LargeWithdrawalThreshold = 1,
+            MaxLoginAttempts = 2,
             MaxScheduledTransferRetries = 3,
             RapidTransactionMaxCount = 4,
             RapidTransactionWindowMinutes = 5,
@@ -75,19 +75,36 @@ namespace SmartBank_BLL
             if (Config == null || ConfigValue == null || modifiedByUser.UserID == null)
                 throw new Exception("Config, ConfigValue, and ModifiedByUser must be set before updating.");
 
-            return clsConfigurations_DAL.UpdateSystemConfig(modifiedByUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description, LastModifiedDate, LastModifiedByUser?.UserID);
+            if(clsConfigurations_DAL.UpdateSystemConfig(modifiedByUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description))
+            {
+                _configCache = clsConfigurations_DAL.GetAllConfig();
+                return true;
+            }
+
+            return false;
         }
 
         private static Dictionary<string, int> _configCache = new Dictionary<string, int>();
 
         public static int? GetConfigValue(enConfigKey Config)
-        { 
-            if(_configCache.Count == 0)
+        {
+            if (_configCache.Count == 0)
             {
                 _configCache = clsConfigurations_DAL.GetAllConfig();
             }
 
             return _configCache.Count == 0 ? (int?)null : _configCache[Config.ToString()];
+        }
+
+        public static bool ResetToDefault()
+        {
+            if (clsConfigurations_DAL.ResetToDefault(clsGlobal.ActiveUser.UserID))
+            {
+                _configCache = clsConfigurations_DAL.GetAllConfig();
+                return true;
+            }
+
+            return false;
         }
     }
 }

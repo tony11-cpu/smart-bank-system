@@ -54,7 +54,7 @@ namespace SmartBank_UI.Login
                     _userFailedLoginAttempsCounter = tbUsername.Text != _previouseUsername ? 0 : _userFailedLoginAttempsCounter;
                     user.RecordLoginAttemp(false);
                     btnWrongAttempWarning.Visible = true;
-                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of 5 attempts used.";
+                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of {clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts)} attempts used.";
                     MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _checkUserLoginAttemps(user);
                     return false;

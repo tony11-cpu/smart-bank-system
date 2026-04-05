@@ -76,8 +76,6 @@
             this.lblUnresolvedFlags = new System.Windows.Forms.Label();
             this.lblTotalActiveAccountsCount = new System.Windows.Forms.Label();
             this.lblTotalUsersCount = new System.Windows.Forms.Label();
-            this.lblLastConfigChnagedByUsername = new System.Windows.Forms.Label();
-            this.lblLastConfigChnagedDate = new System.Windows.Forms.Label();
             this.lblIsDataBaseConnected = new System.Windows.Forms.Label();
             this.lblIsWindowsServiceRunning = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -85,10 +83,6 @@
             this.label41 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
@@ -98,8 +92,6 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.nupServiceCheckIntervel = new System.Windows.Forms.NumericUpDown();
-            this.pnlChnages = new System.Windows.Forms.Panel();
-            this.lblNumberOfChnages = new System.Windows.Forms.Label();
             this.btnResetToDefault = new System.Windows.Forms.Button();
             this.btnSaveConfigs = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -108,6 +100,8 @@
             this.label15 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label46 = new System.Windows.Forms.Label();
+            this.pnlChnages = new System.Windows.Forms.Panel();
+            this.lblNumberOfChnages = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupNumberOfLogin)).BeginInit();
             this.panel6.SuspendLayout();
@@ -121,9 +115,9 @@
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupServiceCheckIntervel)).BeginInit();
-            this.pnlChnages.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.pnlChnages.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblInforamtionAboutForm
@@ -218,6 +212,7 @@
             0,
             0,
             0});
+            this.nupNumberOfLogin.ValueChanged += new System.EventHandler(this.nupNumberOfLogin_ValueChanged);
             // 
             // lblNumberOfLoginDefaultAttemps
             // 
@@ -300,6 +295,7 @@
             0,
             0,
             0});
+            this.nupWithdrawalThreshold.ValueChanged += new System.EventHandler(this.nupWithdrawalThreshold_ValueChanged);
             // 
             // label45
             // 
@@ -347,6 +343,7 @@
             0,
             0,
             0});
+            this.nupRapidTransaction.ValueChanged += new System.EventHandler(this.nupRapidTransaction_ValueChanged);
             // 
             // label21
             // 
@@ -382,6 +379,7 @@
             0,
             0,
             0});
+            this.nupRapidTransactionMax.ValueChanged += new System.EventHandler(this.nupRapidTransactionMax_ValueChanged);
             // 
             // label3
             // 
@@ -704,8 +702,6 @@
             this.panel5.Controls.Add(this.lblUnresolvedFlags);
             this.panel5.Controls.Add(this.lblTotalActiveAccountsCount);
             this.panel5.Controls.Add(this.lblTotalUsersCount);
-            this.panel5.Controls.Add(this.lblLastConfigChnagedByUsername);
-            this.panel5.Controls.Add(this.lblLastConfigChnagedDate);
             this.panel5.Controls.Add(this.lblIsDataBaseConnected);
             this.panel5.Controls.Add(this.lblIsWindowsServiceRunning);
             this.panel5.Controls.Add(this.label43);
@@ -713,17 +709,13 @@
             this.panel5.Controls.Add(this.label41);
             this.panel5.Controls.Add(this.label38);
             this.panel5.Controls.Add(this.label39);
-            this.panel5.Controls.Add(this.label36);
-            this.panel5.Controls.Add(this.label37);
-            this.panel5.Controls.Add(this.label34);
-            this.panel5.Controls.Add(this.label35);
             this.panel5.Controls.Add(this.label32);
             this.panel5.Controls.Add(this.label33);
             this.panel5.Controls.Add(this.label31);
             this.panel5.Controls.Add(this.label29);
             this.panel5.Location = new System.Drawing.Point(798, 351);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(501, 392);
+            this.panel5.Size = new System.Drawing.Size(501, 403);
             this.panel5.TabIndex = 19;
             // 
             // lblUnresolvedFlags
@@ -731,67 +723,43 @@
             this.lblUnresolvedFlags.AutoSize = true;
             this.lblUnresolvedFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUnresolvedFlags.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblUnresolvedFlags.Location = new System.Drawing.Point(174, 351);
+            this.lblUnresolvedFlags.Location = new System.Drawing.Point(186, 361);
             this.lblUnresolvedFlags.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUnresolvedFlags.Name = "lblUnresolvedFlags";
-            this.lblUnresolvedFlags.Size = new System.Drawing.Size(20, 24);
+            this.lblUnresolvedFlags.Size = new System.Drawing.Size(30, 24);
             this.lblUnresolvedFlags.TabIndex = 76;
-            this.lblUnresolvedFlags.Text = "3";
+            this.lblUnresolvedFlags.Text = "00";
             // 
             // lblTotalActiveAccountsCount
             // 
             this.lblTotalActiveAccountsCount.AutoSize = true;
             this.lblTotalActiveAccountsCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalActiveAccountsCount.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblTotalActiveAccountsCount.Location = new System.Drawing.Point(161, 306);
+            this.lblTotalActiveAccountsCount.Location = new System.Drawing.Point(174, 289);
             this.lblTotalActiveAccountsCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalActiveAccountsCount.Name = "lblTotalActiveAccountsCount";
-            this.lblTotalActiveAccountsCount.Size = new System.Drawing.Size(55, 24);
+            this.lblTotalActiveAccountsCount.Size = new System.Drawing.Size(30, 24);
             this.lblTotalActiveAccountsCount.TabIndex = 75;
-            this.lblTotalActiveAccountsCount.Text = "2,847";
+            this.lblTotalActiveAccountsCount.Text = "00";
             // 
             // lblTotalUsersCount
             // 
             this.lblTotalUsersCount.AutoSize = true;
             this.lblTotalUsersCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalUsersCount.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblTotalUsersCount.Location = new System.Drawing.Point(127, 261);
+            this.lblTotalUsersCount.Location = new System.Drawing.Point(133, 221);
             this.lblTotalUsersCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalUsersCount.Name = "lblTotalUsersCount";
             this.lblTotalUsersCount.Size = new System.Drawing.Size(30, 24);
             this.lblTotalUsersCount.TabIndex = 74;
-            this.lblTotalUsersCount.Text = "14";
-            // 
-            // lblLastConfigChnagedByUsername
-            // 
-            this.lblLastConfigChnagedByUsername.AutoSize = true;
-            this.lblLastConfigChnagedByUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastConfigChnagedByUsername.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblLastConfigChnagedByUsername.Location = new System.Drawing.Point(174, 216);
-            this.lblLastConfigChnagedByUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblLastConfigChnagedByUsername.Name = "lblLastConfigChnagedByUsername";
-            this.lblLastConfigChnagedByUsername.Size = new System.Drawing.Size(131, 24);
-            this.lblLastConfigChnagedByUsername.TabIndex = 73;
-            this.lblLastConfigChnagedByUsername.Text = "System Admin";
-            // 
-            // lblLastConfigChnagedDate
-            // 
-            this.lblLastConfigChnagedDate.AutoSize = true;
-            this.lblLastConfigChnagedDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastConfigChnagedDate.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblLastConfigChnagedDate.Location = new System.Drawing.Point(193, 171);
-            this.lblLastConfigChnagedDate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblLastConfigChnagedDate.Name = "lblLastConfigChnagedDate";
-            this.lblLastConfigChnagedDate.Size = new System.Drawing.Size(115, 24);
-            this.lblLastConfigChnagedDate.TabIndex = 72;
-            this.lblLastConfigChnagedDate.Text = "Apr 01, 2026";
+            this.lblTotalUsersCount.Text = "00";
             // 
             // lblIsDataBaseConnected
             // 
             this.lblIsDataBaseConnected.AutoSize = true;
             this.lblIsDataBaseConnected.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblIsDataBaseConnected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblIsDataBaseConnected.Location = new System.Drawing.Point(106, 127);
+            this.lblIsDataBaseConnected.Location = new System.Drawing.Point(119, 151);
             this.lblIsDataBaseConnected.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIsDataBaseConnected.Name = "lblIsDataBaseConnected";
             this.lblIsDataBaseConnected.Size = new System.Drawing.Size(137, 24);
@@ -803,7 +771,7 @@
             this.lblIsWindowsServiceRunning.AutoSize = true;
             this.lblIsWindowsServiceRunning.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblIsWindowsServiceRunning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblIsWindowsServiceRunning.Location = new System.Drawing.Point(174, 81);
+            this.lblIsWindowsServiceRunning.Location = new System.Drawing.Point(186, 81);
             this.lblIsWindowsServiceRunning.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIsWindowsServiceRunning.Name = "lblIsWindowsServiceRunning";
             this.lblIsWindowsServiceRunning.Size = new System.Drawing.Size(82, 24);
@@ -815,7 +783,7 @@
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label43.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label43.Location = new System.Drawing.Point(15, 351);
+            this.label43.Location = new System.Drawing.Point(20, 361);
             this.label43.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(162, 24);
@@ -827,7 +795,7 @@
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label40.ForeColor = System.Drawing.Color.Black;
-            this.label40.Location = new System.Drawing.Point(3, 339);
+            this.label40.Location = new System.Drawing.Point(-2, 337);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(496, 7);
             this.label40.TabIndex = 66;
@@ -838,7 +806,7 @@
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label41.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label41.Location = new System.Drawing.Point(14, 306);
+            this.label41.Location = new System.Drawing.Point(20, 289);
             this.label41.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(150, 24);
@@ -850,7 +818,7 @@
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label38.ForeColor = System.Drawing.Color.Black;
-            this.label38.Location = new System.Drawing.Point(3, 293);
+            this.label38.Location = new System.Drawing.Point(-2, 264);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(496, 7);
             this.label38.TabIndex = 64;
@@ -861,65 +829,19 @@
             this.label39.AutoSize = true;
             this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label39.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label39.Location = new System.Drawing.Point(14, 261);
+            this.label39.Location = new System.Drawing.Point(20, 221);
             this.label39.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(109, 24);
             this.label39.TabIndex = 65;
             this.label39.Text = "Total Users:";
             // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label36.ForeColor = System.Drawing.Color.Black;
-            this.label36.Location = new System.Drawing.Point(5, 252);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(496, 7);
-            this.label36.TabIndex = 62;
-            this.label36.Text = resources.GetString("label36.Text");
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label37.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label37.Location = new System.Drawing.Point(14, 216);
-            this.label37.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(157, 24);
-            this.label37.TabIndex = 63;
-            this.label37.Text = "Last Changed By:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.ForeColor = System.Drawing.Color.Black;
-            this.label34.Location = new System.Drawing.Point(5, 201);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(496, 7);
-            this.label34.TabIndex = 60;
-            this.label34.Text = resources.GetString("label34.Text");
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label35.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label35.Location = new System.Drawing.Point(15, 171);
-            this.label35.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(179, 24);
-            this.label35.TabIndex = 61;
-            this.label35.Text = "Last Config Change:";
-            // 
             // label32
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.Color.Black;
-            this.label32.Location = new System.Drawing.Point(8, 154);
+            this.label32.Location = new System.Drawing.Point(5, 191);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(496, 7);
             this.label32.TabIndex = 58;
@@ -930,7 +852,7 @@
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label33.Location = new System.Drawing.Point(14, 126);
+            this.label33.Location = new System.Drawing.Point(20, 151);
             this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(93, 24);
@@ -942,7 +864,7 @@
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.ForeColor = System.Drawing.Color.Black;
-            this.label31.Location = new System.Drawing.Point(2, 109);
+            this.label31.Location = new System.Drawing.Point(2, 118);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(496, 7);
             this.label31.TabIndex = 57;
@@ -953,7 +875,7 @@
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label29.Location = new System.Drawing.Point(14, 81);
+            this.label29.Location = new System.Drawing.Point(20, 81);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(161, 24);
@@ -1026,41 +948,21 @@
             0,
             0,
             0});
-            // 
-            // pnlChnages
-            // 
-            this.pnlChnages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.pnlChnages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlChnages.Controls.Add(this.lblNumberOfChnages);
-            this.pnlChnages.Location = new System.Drawing.Point(798, 760);
-            this.pnlChnages.Name = "pnlChnages";
-            this.pnlChnages.Size = new System.Drawing.Size(173, 52);
-            this.pnlChnages.TabIndex = 25;
-            // 
-            // lblNumberOfChnages
-            // 
-            this.lblNumberOfChnages.AutoSize = true;
-            this.lblNumberOfChnages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumberOfChnages.ForeColor = System.Drawing.Color.Orange;
-            this.lblNumberOfChnages.Location = new System.Drawing.Point(13, 16);
-            this.lblNumberOfChnages.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblNumberOfChnages.Name = "lblNumberOfChnages";
-            this.lblNumberOfChnages.Size = new System.Drawing.Size(147, 20);
-            this.lblNumberOfChnages.TabIndex = 23;
-            this.lblNumberOfChnages.Text = "3 unsaved changes";
+            this.nupServiceCheckIntervel.ValueChanged += new System.EventHandler(this.nupServiceCheckIntervel_ValueChanged);
             // 
             // btnResetToDefault
             // 
             this.btnResetToDefault.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetToDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetToDefault.ForeColor = System.Drawing.Color.White;
-            this.btnResetToDefault.Location = new System.Drawing.Point(976, 760);
+            this.btnResetToDefault.Location = new System.Drawing.Point(964, 760);
             this.btnResetToDefault.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetToDefault.Name = "btnResetToDefault";
-            this.btnResetToDefault.Size = new System.Drawing.Size(130, 52);
+            this.btnResetToDefault.Size = new System.Drawing.Size(142, 52);
             this.btnResetToDefault.TabIndex = 24;
-            this.btnResetToDefault.Text = "Reset";
+            this.btnResetToDefault.Text = "Reset To Deafult";
             this.btnResetToDefault.UseVisualStyleBackColor = true;
+            this.btnResetToDefault.Click += new System.EventHandler(this.btnResetToDefault_Click);
             // 
             // btnSaveConfigs
             // 
@@ -1077,6 +979,7 @@
             this.btnSaveConfigs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSaveConfigs.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnSaveConfigs.UseVisualStyleBackColor = false;
+            this.btnSaveConfigs.Click += new System.EventHandler(this.btnSaveConfigs_Click);
             // 
             // panel3
             // 
@@ -1149,14 +1052,36 @@
             this.label46.TabIndex = 1;
             this.label46.Text = "Windows Service";
             // 
+            // pnlChnages
+            // 
+            this.pnlChnages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.pnlChnages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlChnages.Controls.Add(this.lblNumberOfChnages);
+            this.pnlChnages.Location = new System.Drawing.Point(1136, 53);
+            this.pnlChnages.Name = "pnlChnages";
+            this.pnlChnages.Size = new System.Drawing.Size(163, 43);
+            this.pnlChnages.TabIndex = 31;
+            // 
+            // lblNumberOfChnages
+            // 
+            this.lblNumberOfChnages.AutoSize = true;
+            this.lblNumberOfChnages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfChnages.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblNumberOfChnages.Location = new System.Drawing.Point(8, 11);
+            this.lblNumberOfChnages.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNumberOfChnages.Name = "lblNumberOfChnages";
+            this.lblNumberOfChnages.Size = new System.Drawing.Size(147, 20);
+            this.lblNumberOfChnages.TabIndex = 23;
+            this.lblNumberOfChnages.Text = "0 unsaved changes";
+            // 
             // ctrlMainSysConfigScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.Controls.Add(this.panel3);
             this.Controls.Add(this.pnlChnages);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnResetToDefault);
             this.Controls.Add(this.btnSaveConfigs);
             this.Controls.Add(this.panel9);
@@ -1171,6 +1096,7 @@
             this.Name = "ctrlMainSysConfigScreen";
             this.Size = new System.Drawing.Size(1333, 832);
             this.Load += new System.EventHandler(this.ctrlMainSysConfigScreen_Load);
+            this.VisibleChanged += new System.EventHandler(this.ctrlMainSysConfigScreen_VisibleChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupNumberOfLogin)).EndInit();
@@ -1192,12 +1118,12 @@
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupServiceCheckIntervel)).EndInit();
-            this.pnlChnages.ResumeLayout(false);
-            this.pnlChnages.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.pnlChnages.ResumeLayout(false);
+            this.pnlChnages.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1251,10 +1177,6 @@
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label43;
@@ -1266,11 +1188,7 @@
         private System.Windows.Forms.Label lblUnresolvedFlags;
         private System.Windows.Forms.Label lblTotalActiveAccountsCount;
         private System.Windows.Forms.Label lblTotalUsersCount;
-        private System.Windows.Forms.Label lblLastConfigChnagedByUsername;
-        private System.Windows.Forms.Label lblLastConfigChnagedDate;
         private System.Windows.Forms.Label lblIsDataBaseConnected;
-        private System.Windows.Forms.Panel pnlChnages;
-        private System.Windows.Forms.Label lblNumberOfChnages;
         private System.Windows.Forms.Button btnResetToDefault;
         private System.Windows.Forms.Button btnSaveConfigs;
         private System.Windows.Forms.Panel panel3;
@@ -1284,5 +1202,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Panel pnlChnages;
+        private System.Windows.Forms.Label lblNumberOfChnages;
     }
 }
