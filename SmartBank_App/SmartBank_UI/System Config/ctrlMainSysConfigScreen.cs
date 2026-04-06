@@ -149,10 +149,10 @@ namespace SmartBank_UI.System_Config
                 if (!_changes[f.Key].Changed)
                     continue;
 
-                clsConfigurations config = clsConfigurations.Find(f.Key);
+                clsConfigurations config = Find(f.Key);
                 config.ConfigValue = (int)f.Control.Value;
 
-                if (!config.Update(clsGlobal.ActiveUser))
+                if (!config.Update())
                 {
                     MessageBox.Show($"An error occurred while updating {f.Key}. Please try again.",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

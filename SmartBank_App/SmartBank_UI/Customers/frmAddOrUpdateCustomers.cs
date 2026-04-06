@@ -17,7 +17,7 @@ namespace SmartBank_UI
     {
         private enum enMode { Add, Update };
         private enMode _mode;
-        private clsCustomers _selectedCustomer;
+        private clsCustomers _selectedCustomer = null;
         public static event Action<string> OnAddingOrUpdatingCustomer = null;
         private string _nationalID = null;
 
@@ -175,7 +175,7 @@ namespace SmartBank_UI
                 OnAddingOrUpdatingCustomer?.Invoke(_selectedCustomer.NationalID);
                 lblAddOrUpdate.Text = "Update Customer";
                 lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
-                MessageBox.Show("Customer info saved successfully.", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfulu")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Customer info saved successfully.", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfuly")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

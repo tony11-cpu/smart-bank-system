@@ -22,16 +22,6 @@ namespace SmartBank_BLL
             LastModifiedByUser = lastModifiedByUser;
         }
 
-        public clsConfigurations()
-        {
-            Config = null;
-            ConfigKey = null;
-            ConfigValue = null;
-            Description = null;
-            LastModifiedDate = null;
-            LastModifiedByUser = null;
-        }
-
         public enum enConfigKey
         {
             LargeWithdrawalThreshold = 1,
@@ -70,12 +60,12 @@ namespace SmartBank_BLL
             return null;
         }
 
-        public bool Update(clsUsers modifiedByUser)
+        public bool Update()
         {
-            if (Config == null || ConfigValue == null || modifiedByUser.UserID == null)
+            if (Config == null || ConfigValue == null || clsGlobal.ActiveUser.UserID == null)
                 throw new Exception("Config, ConfigValue, and ModifiedByUser must be set before updating.");
 
-            if(clsConfigurations_DAL.UpdateSystemConfig(modifiedByUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description))
+            if(clsConfigurations_DAL.UpdateSystemConfig(clsGlobal.ActiveUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description))
             {
                 _configCache = clsConfigurations_DAL.GetAllConfig();
                 return true;

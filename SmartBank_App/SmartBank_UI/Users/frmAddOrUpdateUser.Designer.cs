@@ -42,10 +42,8 @@
             this.tbFullName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.gbUserStates = new System.Windows.Forms.GroupBox();
-            this.rbFree = new System.Windows.Forms.RadioButton();
-            this.rbLocked = new System.Windows.Forms.RadioButton();
-            this.rbDefaut = new System.Windows.Forms.RadioButton();
+            this.btnUnlock = new System.Windows.Forms.Button();
+            this.btnLock = new System.Windows.Forms.Button();
             this.lblPasswordStrength = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pbPasswordStrength = new System.Windows.Forms.ProgressBar();
@@ -65,7 +63,6 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.gbUserStates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -231,7 +228,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.gbUserStates);
+            this.groupBox2.Controls.Add(this.btnUnlock);
+            this.groupBox2.Controls.Add(this.btnLock);
             this.groupBox2.Controls.Add(this.lblPasswordStrength);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.pbPasswordStrength);
@@ -251,55 +249,42 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Password && Activity";
             // 
-            // gbUserStates
+            // btnUnlock
             // 
-            this.gbUserStates.Controls.Add(this.rbFree);
-            this.gbUserStates.Controls.Add(this.rbLocked);
-            this.gbUserStates.Controls.Add(this.rbDefaut);
-            this.gbUserStates.ForeColor = System.Drawing.Color.DarkGray;
-            this.gbUserStates.Location = new System.Drawing.Point(419, 103);
-            this.gbUserStates.Name = "gbUserStates";
-            this.gbUserStates.Size = new System.Drawing.Size(325, 73);
-            this.gbUserStates.TabIndex = 35;
-            this.gbUserStates.TabStop = false;
-            this.gbUserStates.Text = "User States";
+            this.btnUnlock.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnUnlock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUnlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnlock.ForeColor = System.Drawing.Color.LimeGreen;
+            this.btnUnlock.Image = global::SmartBank_UI.Properties.Resources.icons8_unlocked_48;
+            this.btnUnlock.Location = new System.Drawing.Point(527, 114);
+            this.btnUnlock.Margin = new System.Windows.Forms.Padding(2);
+            this.btnUnlock.Name = "btnUnlock";
+            this.btnUnlock.Size = new System.Drawing.Size(269, 61);
+            this.btnUnlock.TabIndex = 36;
+            this.btnUnlock.Text = "Unlock";
+            this.btnUnlock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnUnlock.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnUnlock.UseVisualStyleBackColor = true;
+            this.btnUnlock.Visible = false;
+            this.btnUnlock.Click += new System.EventHandler(this.btnUnlock_Click);
             // 
-            // rbFree
+            // btnLock
             // 
-            this.rbFree.AutoSize = true;
-            this.rbFree.ForeColor = System.Drawing.Color.White;
-            this.rbFree.Location = new System.Drawing.Point(236, 36);
-            this.rbFree.Name = "rbFree";
-            this.rbFree.Size = new System.Drawing.Size(60, 24);
-            this.rbFree.TabIndex = 2;
-            this.rbFree.TabStop = true;
-            this.rbFree.Text = "Free";
-            this.rbFree.UseVisualStyleBackColor = true;
-            // 
-            // rbLocked
-            // 
-            this.rbLocked.AutoSize = true;
-            this.rbLocked.ForeColor = System.Drawing.Color.White;
-            this.rbLocked.Location = new System.Drawing.Point(128, 36);
-            this.rbLocked.Name = "rbLocked";
-            this.rbLocked.Size = new System.Drawing.Size(79, 24);
-            this.rbLocked.TabIndex = 1;
-            this.rbLocked.TabStop = true;
-            this.rbLocked.Text = "Locked";
-            this.rbLocked.UseVisualStyleBackColor = true;
-            this.rbLocked.CheckedChanged += new System.EventHandler(this.rbLocked_CheckedChanged);
-            // 
-            // rbDefaut
-            // 
-            this.rbDefaut.AutoSize = true;
-            this.rbDefaut.ForeColor = System.Drawing.Color.White;
-            this.rbDefaut.Location = new System.Drawing.Point(20, 36);
-            this.rbDefaut.Name = "rbDefaut";
-            this.rbDefaut.Size = new System.Drawing.Size(79, 24);
-            this.rbDefaut.TabIndex = 0;
-            this.rbDefaut.TabStop = true;
-            this.rbDefaut.Text = "Default";
-            this.rbDefaut.UseVisualStyleBackColor = true;
+            this.btnLock.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLock.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLock.ForeColor = System.Drawing.Color.Red;
+            this.btnLock.Image = global::SmartBank_UI.Properties.Resources.icons8_locked_48;
+            this.btnLock.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLock.Location = new System.Drawing.Point(527, 114);
+            this.btnLock.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLock.Name = "btnLock";
+            this.btnLock.Size = new System.Drawing.Size(269, 61);
+            this.btnLock.TabIndex = 35;
+            this.btnLock.Text = "Lock";
+            this.btnLock.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnLock.UseVisualStyleBackColor = true;
+            this.btnLock.Click += new System.EventHandler(this.btnLock_Click);
             // 
             // lblPasswordStrength
             // 
@@ -329,7 +314,7 @@
             // 
             this.pbPasswordStrength.Location = new System.Drawing.Point(22, 152);
             this.pbPasswordStrength.Name = "pbPasswordStrength";
-            this.pbPasswordStrength.Size = new System.Drawing.Size(377, 23);
+            this.pbPasswordStrength.Size = new System.Drawing.Size(479, 23);
             this.pbPasswordStrength.TabIndex = 32;
             // 
             // btnShow2
@@ -364,7 +349,7 @@
             this.tbConfirmPassword.Location = new System.Drawing.Point(419, 57);
             this.tbConfirmPassword.Margin = new System.Windows.Forms.Padding(2);
             this.tbConfirmPassword.Name = "tbConfirmPassword";
-            this.tbConfirmPassword.Size = new System.Drawing.Size(325, 29);
+            this.tbConfirmPassword.Size = new System.Drawing.Size(322, 29);
             this.tbConfirmPassword.TabIndex = 29;
             this.tbConfirmPassword.Tag = "Idle/ConfirmPassword/Confirm Password";
             this.tbConfirmPassword.Text = "Confirm Password";
@@ -502,15 +487,12 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAddOrUpdateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmAddOrUpdate";
             this.Load += new System.EventHandler(this.frmAddOrUpdateUser_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbUserPhoto)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.gbUserStates.ResumeLayout(false);
-            this.gbUserStates.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -536,19 +518,17 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblUserAfterEditOrAddDetails;
         private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.Button btnRemovePhoto;
-        private System.Windows.Forms.Button btnUploadPhoto;
-        private System.Windows.Forms.PictureBox pbUserPhoto;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button btnShow2;
         private System.Windows.Forms.Button btnShow;
         private System.Windows.Forms.Label lblPasswordStrength;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ProgressBar pbPasswordStrength;
-        private System.Windows.Forms.GroupBox gbUserStates;
-        private System.Windows.Forms.RadioButton rbFree;
-        private System.Windows.Forms.RadioButton rbLocked;
-        private System.Windows.Forms.RadioButton rbDefaut;
         private Users_User_Control.ctrlUserPermissions ctrlUserPermissions1;
+        private System.Windows.Forms.Button btnRemovePhoto;
+        private System.Windows.Forms.Button btnUploadPhoto;
+        private System.Windows.Forms.PictureBox pbUserPhoto;
+        private System.Windows.Forms.Button btnUnlock;
+        private System.Windows.Forms.Button btnLock;
+        private System.Windows.Forms.Button btnShow2;
     }
 }

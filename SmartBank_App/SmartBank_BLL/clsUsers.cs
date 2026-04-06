@@ -182,28 +182,50 @@ namespace SmartBank
 
         public bool Deactivate()
         {
-            return _mode == enMode.Update && clsUsers_DAL.DeactivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
+            if(_mode == enMode.Update && clsUsers_DAL.DeactivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            {
+                IsActive = false;
+                return true;
+            }
+
+            return false;
         }
 
         public bool Activate()
         {
-            return _mode == enMode.Update && clsUsers_DAL.ActivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
+            if(_mode == enMode.Update && clsUsers_DAL.ActivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            {
+                IsActive = true;
+                return true;
+            }
+
+            return false;
         }
 
         public bool Lock()
         {
-            return _mode == enMode.Update && clsUsers_DAL.LockUser(clsGlobal.ActiveUser == null ? (int?)null : clsGlobal.ActiveUser.UserID, 
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
+            if(_mode == enMode.Update && clsUsers_DAL.LockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            {
+                IsLocked = true;
+                return true;
+            }
+
+            return false;
         }
 
         public bool Unlock()
         {
-            return clsUsers_DAL.UnlockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"));
+            if(_mode == enMode.Update && clsUsers_DAL.UnlockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
+                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            {
+                IsLocked = false;
+                return true;
+            }
+
+            return false;
         }
-
-
     }
 }

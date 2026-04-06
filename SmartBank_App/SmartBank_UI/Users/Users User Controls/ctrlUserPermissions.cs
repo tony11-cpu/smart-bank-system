@@ -22,29 +22,29 @@ namespace SmartBank_UI.Users.Users_User_Control
 
         private Dictionary<Button, enPermission> _permissionMap => new Dictionary<Button, enPermission>
         {
-            { btnDeposit,             enPermission.CanDeposit },
-            { btnWithdraw,            enPermission.CanWithdraw },
-            { btnTransfer,            enPermission.CanTransfer },
-            { btnScheduleTransfer,    enPermission.CanScheduleTransfer },
-            { btnOpenAccount,         enPermission.CanOpenAccount },
-            { btnViewStatement,       enPermission.CanViewStatement },
-            { btnFreezeAccount,       enPermission.CanFreezeAccount },
-            { btnCloseAccount,        enPermission.CanCloseAccount },
-            { btnViewFraudFlag,       enPermission.CanViewFraudFlags },
-            { btnResolveFlags,        enPermission.CanResolveFraudFlags },
-            { btnViewAuditLog,        enPermission.CanViewAuditLog },
-            { btnExportAuditLog,      enPermission.CanExportAuditLog },
-            { btnManageUsers,         enPermission.CanManageUsers },
-            { btnUnlockUsers,         enPermission.CanUnlockUsers },
-            { btnChangePermissions,   enPermission.CanChangePermissions },
-            { btnSystemConfig,        enPermission.CanEditSystemConfig },
-            { btnViewCustomerId,      enPermission.CanViewCustomerNationalId },
+            { btnDeposit, enPermission.CanDeposit },
+            { btnWithdraw, enPermission.CanWithdraw },
+            { btnTransfer, enPermission.CanTransfer },
+            { btnScheduleTransfer, enPermission.CanScheduleTransfer },
+            { btnOpenAccount, enPermission.CanOpenAccount },
+            { btnViewStatement, enPermission.CanViewStatement },
+            { btnFreezeAccount, enPermission.CanFreezeAccount },
+            { btnCloseAccount, enPermission.CanCloseAccount },
+            { btnViewFraudFlag, enPermission.CanViewFraudFlags },
+            { btnResolveFlags, enPermission.CanResolveFraudFlags },
+            { btnViewAuditLog, enPermission.CanViewAuditLog },
+            { btnExportAuditLog, enPermission.CanExportAuditLog },
+            { btnManageUsers, enPermission.CanManageUsers },
+            { btnUnlockUsers, enPermission.CanUnlockUsers },
+            { btnChangePermissions,enPermission.CanChangePermissions },
+            { btnSystemConfig, enPermission.CanEditSystemConfig },
+            { btnViewCustomerId, enPermission.CanViewCustomerNationalId },
             { btnCustomerActivity, enPermission.CanActivateOrDeactivateCustomer }
         };
 
         public clsPermissions Permissions { get; private set; }
-        private bool _isReadOnly = true;
 
+        private bool _isReadOnly = true;
 
         public void LoadPermissions(int permissions)
         {
@@ -72,15 +72,14 @@ namespace SmartBank_UI.Users.Users_User_Control
         {
             _isReadOnly = false;
             Permissions = new clsPermissions(0);
-
-            foreach (var btn in _permissionMap.Keys)
+            foreach (var btn in _permissionMap.Keys) 
                 btn.Image = Resources.icons8_dot_24__1_;
         }
 
         private void _applyPermissionIcons(int permissions)
         {
             Permissions = new clsPermissions(permissions);
-            foreach (var kvp in _permissionMap)
+            foreach (var kvp in _permissionMap) 
                 kvp.Key.Image = Permissions.Has(kvp.Value) ? Resources.icons8_dot_24 : Resources.icons8_dot_24__1_;
         }
 

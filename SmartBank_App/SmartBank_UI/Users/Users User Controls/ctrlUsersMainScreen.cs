@@ -76,9 +76,7 @@ namespace SmartBank_UI.Users
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string tbFilterTag = tbSearchBar.Tag.ToString().Trim();
-            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == tbFilterTag ? string.Empty :
-                !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? tbFilterTag : tbSearchBar.Text;
-
+            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == tbFilterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? tbFilterTag : tbSearchBar.Text;
             tbSearchBar.ForeColor = tbSearchBar.Text == tbFilterTag ? Color.DimGray : Color.White;
         }
 
@@ -87,16 +85,17 @@ namespace SmartBank_UI.Users
             if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == tbSearchBar.Tag.ToString())
             {
                 _bindGridToMainUsersDGV(_allUsers);
-                return;
             }
-
-            string textFilter = tbSearchBar.Text.Trim();
-            _bindGridToMainUsersDGV(_allUsers.Where(n =>
+            else
             {
-                return n.Username.StartsWith(textFilter) ||
-                       n.FullName.StartsWith(textFilter) ||
-                       n.Permissions.PermissionPresenterString.StartsWith(textFilter);
-            }).ToList());
+                string textFilter = tbSearchBar.Text.Trim();
+                _bindGridToMainUsersDGV(_allUsers.Where(n =>
+                {
+                    return n.Username.StartsWith(textFilter) ||
+                           n.FullName.StartsWith(textFilter) ||
+                           n.Permissions.PermissionPresenterString.StartsWith(textFilter);
+                }).ToList());
+            }
         }
 
         private void btnAllFilter_Click(object sender, EventArgs e) => _bindGridToMainUsersDGV(_allUsers);
@@ -147,13 +146,13 @@ namespace SmartBank_UI.Users
             if (_currentUser.IsActive) btnDeactivate.Visible = true;
             else btnActivate.Visible = true;
 
-            if(_currentUser != null)
-               _reloadCurrentUserLoginHistory();
+            if(_currentUser != null) _reloadCurrentUserLoginHistory();
         }
 
         private void DeactivateUser_Click(object sender, EventArgs e)
         {
-            if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate && MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate && 
+                MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 if(_currentUser.UserID == clsGlobal.ActiveUser.UserID)
                 {

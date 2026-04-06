@@ -21,7 +21,7 @@ namespace SmartBank
 
         public clsPermissions(int permissions)
         {
-            this._permissions = permissions;
+            this.Permissions = permissions;
             this.PermissionPresenter = _loadPermissionPresenter();
         }
 
@@ -30,13 +30,13 @@ namespace SmartBank
             switch (presenter)
             {
                 case enPermissionPresenter.Teller:
-                    _permissions = TellerPermissions;
+                    Permissions = TellerPermissions;
                     break;
                 case enPermissionPresenter.Manager:
-                    _permissions = ManagerPermissions;
+                    Permissions = ManagerPermissions;
                     break;
                 case enPermissionPresenter.Admin:
-                    _permissions = AdminPermissions;
+                    Permissions = AdminPermissions;
                     break;
             }
 
@@ -46,17 +46,17 @@ namespace SmartBank
 
         private enPermissionPresenter _loadPermissionPresenter()
         {
-            if (_permissions == AdminPermissions)
+            if (Permissions == AdminPermissions)
             {
                 PermissionPresenterString = "Admin";
                 return enPermissionPresenter.Admin;
             }
-            else if (_permissions == ManagerPermissions)
+            else if (Permissions == ManagerPermissions)
             {
                 PermissionPresenterString = "Manager";
                 return enPermissionPresenter.Manager;
             }
-            else if (_permissions == TellerPermissions)
+            else if (Permissions == TellerPermissions)
             {
                 PermissionPresenterString = "Teller";
                 return enPermissionPresenter.Teller;
@@ -67,6 +67,7 @@ namespace SmartBank
         }
 
         public enum enPermissionPresenter { Admin, Manager, Teller, Custom }
+
         public enum enPermission
         {
             CanDeposit = 1,
@@ -89,11 +90,14 @@ namespace SmartBank
             CanActivateOrDeactivateCustomer = 131072
         }
 
-        private int _permissions = 0;
         public enPermissionPresenter PermissionPresenter { get; private set; }
+
         public string PermissionPresenterString { get; private set; }
-        public int Permissions => _permissions;
-        public bool Has(enPermission permission) => ((int)permission & _permissions) == (int)permission;
+
+        public int Permissions { get; private set; }
+
+        public bool Has(enPermission permission) => ((int)permission & Permissions) == (int)permission;
+
         public override string ToString() => PermissionPresenterString;
     }
 }

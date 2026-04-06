@@ -106,7 +106,7 @@
             this.panel2.Location = new System.Drawing.Point(24, 384);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(558, 146);
+            this.panel2.Size = new System.Drawing.Size(567, 146);
             this.panel2.TabIndex = 16;
             // 
             // tbPhone
@@ -210,7 +210,7 @@
             this.panel1.Location = new System.Drawing.Point(231, 93);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(351, 272);
+            this.panel1.Size = new System.Drawing.Size(360, 272);
             this.panel1.TabIndex = 15;
             // 
             // label9
@@ -218,7 +218,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.DarkGray;
-            this.label9.Location = new System.Drawing.Point(203, 204);
+            this.label9.Location = new System.Drawing.Point(202, 201);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(74, 24);
@@ -235,7 +235,7 @@
             this.cbGender.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.cbGender.Location = new System.Drawing.Point(207, 227);
+            this.cbGender.Location = new System.Drawing.Point(206, 227);
             this.cbGender.Margin = new System.Windows.Forms.Padding(2);
             this.cbGender.Name = "cbGender";
             this.cbGender.Size = new System.Drawing.Size(130, 32);
@@ -437,7 +437,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(602, 611);
+            this.ClientSize = new System.Drawing.Size(610, 611);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSaveCustomer);
             this.Controls.Add(this.panel2);
@@ -451,7 +451,6 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmAddOrUpdateCustomers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmAddOrUpdate";
             this.Load += new System.EventHandler(this.ctrlAddOrUpdateCustomer_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

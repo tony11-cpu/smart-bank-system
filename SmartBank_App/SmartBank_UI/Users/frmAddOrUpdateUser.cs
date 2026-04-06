@@ -63,15 +63,16 @@ namespace SmartBank_UI.Users
 
         private void btnSaveUser_Click(object sender, EventArgs e)
         {
-            if (!ValidateChildren() || !_isPassValid.is2PasswordsSame)
+            if (!ValidateChildren() || !_isPassValid.is2PasswordsSame || !_isPassValid.isPasswordValid)
                 return;
 
             _fetchUserInfo();
+
             if(_selectedUser.Save())
             {
                 _mode = enMode.Update;
                 lblAddOrUpdateUser.Text = "Update User";
-                MessageBox.Show("User data saved successfuly!", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfulu")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("User data saved successfuly!", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfuly")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 OnNewUserAdded?.Invoke(_selectedUser.Username);
 
                 if (_selectedUser.UserID == clsGlobal.ActiveUser.UserID)
@@ -96,7 +97,6 @@ namespace SmartBank_UI.Users
             _selectedUser.Password = _isIdle(tbConfirmPassword) ? _selectedUser.HashedPassword : tbConfirmPassword.Text.Trim();
             _selectedUser.Permissions = ctrlUserPermissions1.Permissions;
             _selectedUser.ImagePath = pbUserPhoto.ImageLocation;
-            _selectedUser.IsLocked = !(rbDefaut.Checked || rbFree.Checked);
         }
 
         private void _loadUserInfo()
@@ -113,9 +113,6 @@ namespace SmartBank_UI.Users
                 pbUserPhoto.ImageLocation = _selectedUser.ImagePath;
 
             btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbUserPhoto.ImageLocation);
-
-            rbFree.Checked = !_selectedUser.IsLocked;
-            rbLocked.Checked = _selectedUser.IsLocked;
         }
 
         private void frmAddOrUpdateUser_Load(object sender, EventArgs e)
@@ -124,7 +121,6 @@ namespace SmartBank_UI.Users
             {
                 _selectedUser = new clsUsers();
                 _mode = enMode.Add;
-                rbDefaut.Checked = true;
             }
             else
             {
@@ -136,8 +132,10 @@ namespace SmartBank_UI.Users
                 _loadUserInfo();
                 _checkPasswordStrength();
                 ctrlUserPermissions1.LoadPermissions(_selectedUser.Permissions.Permissions);
-                gbUserStates.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanUnlockUsers);
             }
+
+            btnLock.Visible = _mode == enMode.Update && !_selectedUser.IsLocked;
+            btnUnlock.Visible = _mode == enMode.Update && _selectedUser.IsLocked;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) => this.Close();
@@ -294,20 +292,11 @@ namespace SmartBank_UI.Users
 
         private void tbConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
-            if (_mode == enMode.Update && _isIdle(tbConfirmPassword))
-            {
-                _isPassValid.is2PasswordsSame = true;
-            }
-            else if(tbPassword.Text != tbConfirmPassword.Text)
-            {
-                errorProvider1.SetError(tbConfirmPassword, "Password is not the same!");
-                _isPassValid.is2PasswordsSame = false;
-            }
-            else
-            {
-                errorProvider1.SetError(tbConfirmPassword, null);
-                _isPassValid.is2PasswordsSame = true;
-            }
+            bool passwordsMatch = tbPassword.Text == tbConfirmPassword.Text;
+            bool bothIdle = _isIdle(tbConfirmPassword) && _isIdle(tbPassword);
+
+            _isPassValid.is2PasswordsSame = bothIdle || passwordsMatch;
+            errorProvider1.SetError(tbConfirmPassword, _isPassValid.is2PasswordsSame ? null : "Password is not the same!");
         }
 
         private void btnShow_Click(object sender, EventArgs e) => tbPassword.PasswordChar = _isIdle(tbPassword) ? default : (tbPassword.PasswordChar == default ? '*' : default);
@@ -316,12 +305,54 @@ namespace SmartBank_UI.Users
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => _checkPasswordStrength();
 
-        private void rbLocked_CheckedChanged(object sender, EventArgs e)
+        private void btnUnlock_Click(object sender, EventArgs e)
         {
-            if(rbLocked.Checked && clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
+            if(clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanUnlockUsers))
             {
-                MessageBox.Show("You cannot lock your own account!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                rbDefaut.Checked = true;
+                if (clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
+                {
+                    MessageBox.Show("You cannot unlock your account while you are logged in, please contact another admin to unlock your account!", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if(MessageBox.Show("Are you sure you want to unlock this user account?", "Confirm Unlock", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (_selectedUser.Unlock())
+                    {
+                        btnUnlock.Visible = false;
+                        btnLock.Visible = true;
+
+                        MessageBox.Show("User account unlocked successfully!", "Unlock Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while unlocking user account, please try again!", "Error Unlocking Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("You don't have the permission to unlock user accounts, please contact your administrator!", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnLock_Click(object sender, EventArgs e)
+        {
+            if (clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
+            {
+                MessageBox.Show("You cannot lock your account while you are logged in, please contact another admin to lock your account!", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (MessageBox.Show("Are you sure you want to lock this user account?", "Confirm Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (_selectedUser.Lock())
+                {
+                    btnUnlock.Visible = true;
+                    btnLock.Visible = false;
+
+                    MessageBox.Show("User account locked successfully!", "Lock Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Error while locking user account, please try again!", "Error Locking Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

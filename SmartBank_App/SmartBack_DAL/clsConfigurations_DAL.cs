@@ -113,6 +113,7 @@ namespace SmartBack_DAL
                 return false;
             }
         }
+
         public static bool ResetToDefault(int? adminUserID)
         {
             try
