@@ -32,21 +32,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblMorningToUserWithName = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.lblActiveAccounts = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.lblTransactionsToday = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
             this.lblFraudFlags = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.lblPendingTransfares = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.lblPendingTransfares = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.dgvFraudFlags = new System.Windows.Forms.DataGridView();
             this.dgvRecentTransactions = new System.Windows.Forms.DataGridView();
             this.btnTransfare = new System.Windows.Forms.Button();
@@ -65,7 +65,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(7, 31);
+            this.label1.Location = new System.Drawing.Point(19, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(131, 29);
@@ -77,7 +77,7 @@
             this.lblMorningToUserWithName.AutoSize = true;
             this.lblMorningToUserWithName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMorningToUserWithName.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblMorningToUserWithName.Location = new System.Drawing.Point(8, 57);
+            this.lblMorningToUserWithName.Location = new System.Drawing.Point(20, 49);
             this.lblMorningToUserWithName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMorningToUserWithName.Name = "lblMorningToUserWithName";
             this.lblMorningToUserWithName.Size = new System.Drawing.Size(480, 18);
@@ -96,18 +96,6 @@
             this.panel1.Size = new System.Drawing.Size(319, 99);
             this.panel1.TabIndex = 2;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.DimGray;
-            this.label5.Location = new System.Drawing.Point(9, 70);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(147, 18);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "across all customers";
-            // 
             // lblActiveAccounts
             // 
             this.lblActiveAccounts.AutoSize = true;
@@ -119,6 +107,18 @@
             this.lblActiveAccounts.Size = new System.Drawing.Size(82, 31);
             this.lblActiveAccounts.TabIndex = 3;
             this.lblActiveAccounts.Text = "0.000";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DimGray;
+            this.label5.Location = new System.Drawing.Point(9, 70);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(147, 18);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "across all customers";
             // 
             // label3
             // 
@@ -192,18 +192,6 @@
             this.panel3.Size = new System.Drawing.Size(319, 99);
             this.panel3.TabIndex = 5;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.DimGray;
-            this.label9.Location = new System.Drawing.Point(16, 70);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(86, 18);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "need review";
-            // 
             // lblFraudFlags
             // 
             this.lblFraudFlags.AutoSize = true;
@@ -215,6 +203,18 @@
             this.lblFraudFlags.Size = new System.Drawing.Size(82, 31);
             this.lblFraudFlags.TabIndex = 3;
             this.lblFraudFlags.Text = "0.000";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.DimGray;
+            this.label9.Location = new System.Drawing.Point(16, 70);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(86, 18);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "need review";
             // 
             // label11
             // 
@@ -240,17 +240,17 @@
             this.panel4.Size = new System.Drawing.Size(319, 99);
             this.panel4.TabIndex = 5;
             // 
-            // label12
+            // label14
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.DimGray;
-            this.label12.Location = new System.Drawing.Point(12, 70);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(115, 18);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "scheduled today";
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.DarkGray;
+            this.label14.Location = new System.Drawing.Point(11, 6);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(195, 20);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "PENDING TRANSFARES";
             // 
             // lblPendingTransfares
             // 
@@ -264,17 +264,17 @@
             this.lblPendingTransfares.TabIndex = 3;
             this.lblPendingTransfares.Text = "0.000";
             // 
-            // label14
+            // label12
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.DarkGray;
-            this.label14.Location = new System.Drawing.Point(11, 6);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(195, 20);
-            this.label14.TabIndex = 3;
-            this.label14.Text = "PENDING TRANSFARES";
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.DimGray;
+            this.label12.Location = new System.Drawing.Point(12, 70);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(115, 18);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "scheduled today";
             // 
             // dgvFraudFlags
             // 

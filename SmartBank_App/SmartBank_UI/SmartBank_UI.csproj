@@ -309,6 +309,7 @@
     <None Include="Resources\icons8-locked-481.png" />
     <None Include="Resources\icons8-unlocked-502.png" />
     <None Include="Resources\icons8-unlocked-48.png" />
+    <None Include="Resources\icons8-export-48.png" />
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup />
