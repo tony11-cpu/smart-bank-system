@@ -96,6 +96,7 @@
             // 
             this.dgvCustomersData.AllowUserToAddRows = false;
             this.dgvCustomersData.AllowUserToDeleteRows = false;
+            this.dgvCustomersData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCustomersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvCustomersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomersData.ContextMenuStrip = this.contextMenuStrip1;
@@ -185,7 +186,7 @@
             this.tbSearchBar.Location = new System.Drawing.Point(13, 117);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(860, 32);
+            this.tbSearchBar.Size = new System.Drawing.Size(1308, 32);
             this.tbSearchBar.TabIndex = 5;
             this.tbSearchBar.Tag = "Search by name, phone, or last 4 digits of national ID...";
             this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
@@ -298,7 +299,7 @@
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
             this.btnAddCustomer.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 98);
+            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 64);
             this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCustomer.Name = "btnAddCustomer";
             this.btnAddCustomer.Size = new System.Drawing.Size(163, 49);

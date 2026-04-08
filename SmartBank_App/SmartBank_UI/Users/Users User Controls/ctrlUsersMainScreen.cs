@@ -42,21 +42,24 @@ namespace SmartBank_UI.Users
             dgvUsersData.Columns["ImagePath"].Visible = false;
 
             dgvUsersData.Columns["LastLoginDate"].HeaderText = "Last login";
-            dgvUsersData.Columns["LastLoginDate"].Width = 155;
             dgvUsersData.Columns["FullName"].HeaderText = "Full name";
-            dgvUsersData.Columns["FullName"].Width = 200;
             dgvUsersData.Columns["Permissions"].HeaderText = "Role";
             dgvUsersData.Columns["IsActive"].HeaderText = "Status";
-            dgvUsersData.Columns["IsLocked"].HeaderText = "Is locked";            
+            dgvUsersData.Columns["IsLocked"].HeaderText = "Is locked";
+
+            dgvUsersData.RowTemplate.Height = 35;
+            dgvUsersData.ColumnHeadersHeight = 40;
         }
 
         private void _reloadCurrentUserLoginHistory()
         {
-            if (_currentUser == null) return;
+            if (_currentUser == null)
+                return;
 
             dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
-            dgvUserLoginHistory.Columns["Attempt Date"].Width = 215;
-            dgvUserLoginHistory.Columns["Login State"].Width = 215;
+
+            dgvUserLoginHistory.RowTemplate.Height = 35;
+            dgvUserLoginHistory.ColumnHeadersHeight = 40;
         }
 
         private List<clsUsers> _loadUsersList()

@@ -42,6 +42,9 @@ namespace SmartBank_UI.Main_Form_UC
             dgvCustomersData.Columns["IsActive"].HeaderText = "Status";
             dgvCustomersData.Columns["NationalID"].HeaderText = "National ID";
 
+            dgvCustomersData.RowTemplate.Height = 35;
+            dgvCustomersData.ColumnHeadersHeight = 40;
+
             foreach (DataGridViewRow row in dgvCustomersData.Rows)
             {
                 row.Cells["FirstName"].Value = $"{row.Cells["FirstName"].Value} {row.Cells["LastName"].Value}".Trim();

@@ -164,7 +164,11 @@ namespace SmartBank_BLL
             this.CustomerID = clsCustomers_DAL.CreateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."), 
                                                               FirstName,LastName, NationalID,DateOfBirth, Phone, Email, Address, DateTime.Now ,true ,
                                                               ImagePath, Gender);
-            return CustomerID != -1;
+            if(CustomerID == -1)
+                return false;
+
+            _mode = enMode.Update;
+            return true;
         }
 
         private bool _update() => clsCustomers_DAL.UpdateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."),
@@ -175,14 +179,9 @@ namespace SmartBank_BLL
         {
             switch (_mode)
             {
-                case enMode.Add:
-                    if (_addNew())
-                    {
-                        _mode = enMode.Update;
-                        return true;
-                    }
-                    return false;
+                case enMode.Add:  return _addNew();
                 case enMode.Update: return _update();
+
                 default:
                     throw new InvalidOperationException("Invalid mode for saving customer.");
             }

@@ -126,8 +126,11 @@ namespace SmartBank
             string passwardSalt = GenerateSalt();
             UserID = clsUsers_DAL.CreateUser(clsGlobal.ActiveUser.UserID, Username, Hash(Password , passwardSalt) , passwardSalt ,
                                              Permissions.Permissions, FullName, true, false , DateTime.Now , ImagePath);
+            if (UserID == -1)
+                return false;
+
             _mode = enMode.Update;
-            return UserID != -1;
+            return true;
         }
 
         private bool _update()

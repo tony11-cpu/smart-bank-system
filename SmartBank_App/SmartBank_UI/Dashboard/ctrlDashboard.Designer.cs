@@ -278,6 +278,7 @@
             // 
             // dgvFraudFlags
             // 
+            this.dgvFraudFlags.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFraudFlags.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvFraudFlags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFraudFlags.Location = new System.Drawing.Point(668, 213);
@@ -292,6 +293,7 @@
             // 
             this.dgvRecentTransactions.AllowUserToAddRows = false;
             this.dgvRecentTransactions.AllowUserToDeleteRows = false;
+            this.dgvRecentTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRecentTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvRecentTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRecentTransactions.Location = new System.Drawing.Point(12, 213);

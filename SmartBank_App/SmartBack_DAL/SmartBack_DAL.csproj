@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAccounts_DAL.cs" />
     <Compile Include="clsConfigurations_DAL.cs" />
     <Compile Include="clsCustomers_DAL.cs" />
     <Compile Include="clsDB_Util.cs" />

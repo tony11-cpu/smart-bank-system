@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAccounts.cs" />
     <Compile Include="clsConfigurations.cs" />
     <Compile Include="clsCustomers.cs" />
     <Compile Include="clsGlobal.cs" />
