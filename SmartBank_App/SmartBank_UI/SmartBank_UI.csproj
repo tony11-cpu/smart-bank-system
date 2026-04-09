@@ -51,16 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\frmAddOrUpdateAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAddOrUpdateAccount.Designer.cs">
+      <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Customers\frmAddOrUpdateCustomers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Customers\frmAddOrUpdate.Designer.cs">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Accounts\ctrlAccountsMainScreen.cs">
+    <Compile Include="Accounts\Accounts User Controls\ctrlAccountsMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Accounts\ctrlAccountsMainScreen.Designer.cs">
+    <Compile Include="Accounts\Accounts User Controls\ctrlAccountsMainScreen.Designer.cs">
       <DependentUpon>ctrlAccountsMainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Customers\Customer User Controls\ctrlCustomersMainScreen.cs">
@@ -75,10 +81,10 @@
     <Compile Include="Customers\Customer User Controls\ctrlCustomerShortInfo.Designer.cs">
       <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dashboard\ctrlDashboard.cs">
+    <Compile Include="Dashboard\Dashboard User Controls\ctrlDashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dashboard\ctrlDashboard.Designer.cs">
+    <Compile Include="Dashboard\Dashboard User Controls\ctrlDashboard.Designer.cs">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Main Forms\frmLogin.cs">
@@ -125,10 +131,13 @@
     <Compile Include="Users\Users User Controls\ctrlUsersMainScreen.Designer.cs">
       <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounts\frmAddOrUpdateAccount.resx">
+      <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Customers\frmAddOrUpdateCustomers.resx">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Accounts\ctrlAccountsMainScreen.resx">
+    <EmbeddedResource Include="Accounts\Accounts User Controls\ctrlAccountsMainScreen.resx">
       <DependentUpon>ctrlAccountsMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Customers\Customer User Controls\ctrlCustomersMainScreen.resx">
@@ -137,7 +146,7 @@
     <EmbeddedResource Include="Customers\Customer User Controls\ctrlCustomerShortInfo.resx">
       <DependentUpon>ctrlCustomerShortInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dashboard\ctrlDashboard.resx">
+    <EmbeddedResource Include="Dashboard\Dashboard User Controls\ctrlDashboard.resx">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Forms\frmLogin.resx">
@@ -312,6 +321,11 @@
     <None Include="Resources\icons8-export-48.png" />
     <None Include="Resources\icons8-wallet-64.png" />
     <None Include="Resources\icons8-bank-64.png" />
+    <None Include="Resources\icons8-wallet-50.png" />
+    <None Include="Resources\icons8-coin-wallet-48.png" />
+    <None Include="Resources\icons8-coin-wallet-48 %281%29.png" />
+    <None Include="Resources\icons8-sales-balance-40.png" />
+    <None Include="Resources\icons8-sales-balance-40 %281%29.png" />
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup />

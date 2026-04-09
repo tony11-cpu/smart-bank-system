@@ -1,5 +1,6 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
+using SmartBank_UI.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,7 +53,7 @@ namespace SmartBank_UI.Main_Form_UC
             }).ToList();
 
             int numberOfAccounts = accountView.Count();
-            lblNumberOfAccounts.Text = $"Showing {numberOfAccounts} account{(numberOfAccounts != 1 ? "s" : "")}";
+            lblNumberOfAccounts.Text = $"Showing {numberOfAccounts} of {_allAccounts.Count} account{(numberOfAccounts != 1 ? "s" : "")}";
             lblClickToShowRow.Visible = true;
 
             dgvAccounts.Columns["AccountID"].Visible = false;
@@ -98,7 +99,8 @@ namespace SmartBank_UI.Main_Form_UC
                 {
                     return n.AccountNumber.StartsWith(textFilter) || 
                           (n.Customer.FirstName + " " + n.Customer.LastName).StartsWith(textFilter) || 
-                           n.Balance.ToString().StartsWith(textFilter);
+                           n.Balance.ToString().StartsWith(textFilter) ||
+                           n.AccountType.ToString().StartsWith(textFilter);
                 }).ToList());
             }
         }
@@ -168,6 +170,12 @@ namespace SmartBank_UI.Main_Form_UC
             lblAccountType.Text = lblSavingsOrChecking.Text;
             lblOpenDate.Text = _currentAccount.OpenedDate?.ToShortDateString();
             lblOpenByUsername.Text = clsUsers.Find(_currentAccount.CreatedByUserID)?.Username ?? "Unknown";
+        }
+
+        private void OpenAccount_Click(object sender, EventArgs e)
+        {
+            frmAddOrUpdateAccount frm = new frmAddOrUpdateAccount();
+            frm.ShowDialog();
         }
     }
 }

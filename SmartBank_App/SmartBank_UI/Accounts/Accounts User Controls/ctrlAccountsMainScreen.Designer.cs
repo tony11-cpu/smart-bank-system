@@ -58,6 +58,7 @@
             this.lblSavingsOrChecking = new System.Windows.Forms.Label();
             this.lblAccountName = new System.Windows.Forms.Label();
             this.dgvAccounts = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnClosedAccountsFilter = new System.Windows.Forms.Button();
@@ -69,7 +70,6 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnExport = new System.Windows.Forms.Button();
             this.btnOpenAccount = new System.Windows.Forms.Button();
             this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
@@ -407,6 +407,12 @@
             this.dgvAccounts.TabIndex = 45;
             this.dgvAccounts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAccounts_CellContentClick);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -429,8 +435,8 @@
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(930, 32);
             this.tbSearchBar.TabIndex = 43;
-            this.tbSearchBar.Tag = "search by account number, customer name, Balance, or account type...";
-            this.tbSearchBar.Text = "search by account number, customer name, Balance, or account type...";
+            this.tbSearchBar.Tag = "search by account number, customer name, balance, or account type...";
+            this.tbSearchBar.Text = "search by account number, customer name, balance, or account type...";
             this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
@@ -560,12 +566,6 @@
             this.saveFileDialog1.FileName = "Accounts_Export.csv";
             this.saveFileDialog1.Filter = "CSV files (*.csv)|*.csv";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
             // btnExport
             // 
             this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
@@ -602,6 +602,7 @@
             this.btnOpenAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOpenAccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnOpenAccount.UseVisualStyleBackColor = false;
+            this.btnOpenAccount.Click += new System.EventHandler(this.OpenAccount_Click);
             // 
             // pbAccountTypePhoto
             // 

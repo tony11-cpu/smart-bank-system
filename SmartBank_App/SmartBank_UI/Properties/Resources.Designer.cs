@@ -123,6 +123,26 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_coin_wallet_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-coin-wallet-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_coin_wallet_48__1_ {
+            get {
+                object obj = ResourceManager.GetObject("icons8-coin-wallet-48 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_customers_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-customers-50", resourceCulture);
@@ -303,6 +323,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_sales_balance_40__1_ {
+            get {
+                object obj = ResourceManager.GetObject("icons8-sales-balance-40 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_scheduled_delivery_58 {
             get {
                 object obj = ResourceManager.GetObject("icons8-scheduled-delivery-58", resourceCulture);
@@ -406,6 +436,16 @@ namespace SmartBank_UI.Properties {
         internal static System.Drawing.Bitmap icons8_view_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-view-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_wallet_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-wallet-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
