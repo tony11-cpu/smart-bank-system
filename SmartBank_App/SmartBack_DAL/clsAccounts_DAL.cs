@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 public static class clsAccounts_DAL
 {
-    public static int CreateAccount(int currentUserID, int customerID, string accountNumber, string accountType, decimal minimumBalance)
+    public static int CreateAccount(int currentUserID, int customerID, string accountNumber, string accountType, decimal balance, decimal minimumBalance)
     {
         using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
         using (SqlCommand cmd = new SqlCommand("sp_CreateAccount", conn))
@@ -15,6 +15,7 @@ public static class clsAccounts_DAL
             cmd.Parameters.AddWithValue("@CustomerID", customerID);
             cmd.Parameters.AddWithValue("@AccountNumber", accountNumber);
             cmd.Parameters.AddWithValue("@AccountType", accountType);
+            cmd.Parameters.AddWithValue("@Balance", balance);
             cmd.Parameters.AddWithValue("@MinimumBalance", minimumBalance);
             SqlParameter outputParam = new SqlParameter("@NewAccountID", SqlDbType.Int)
             {
@@ -33,6 +34,7 @@ public static class clsAccounts_DAL
                 clsDB_Util.clsLogger.Log(ex.Message);
             }
         }
+
         return -1;
     }
 
@@ -51,6 +53,7 @@ public static class clsAccounts_DAL
                 Direction = ParameterDirection.Output
             };
             cmd.Parameters.Add(outputParam);
+
             try
             {
                 conn.Open();
@@ -62,6 +65,7 @@ public static class clsAccounts_DAL
                 clsDB_Util.clsLogger.Log(ex.Message);
             }
         }
+
         return false;
     }
 

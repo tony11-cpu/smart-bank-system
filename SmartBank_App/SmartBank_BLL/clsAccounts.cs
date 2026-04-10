@@ -14,15 +14,15 @@ namespace SmartBank_BLL
 
         private enMode _mode;
         public int? AccountID { get; private set; }
-        public string AccountNumber { get; private set; }
+        public string AccountNumber { get; set; }
         public clsCustomers Customer { get; set; }
         public enAccountType AccountType { get; set; }
-        public decimal Balance { get; private set; }
+        public decimal Balance { get; set; }
         public decimal MinimumBalance { get; set; }
         public enStatus Status { get; private set; }
         public DateTime? OpenedDate { get; private set; }
         public DateTime? ClosedDate { get; private set; }
-        public int CreatedByUserID { get; private set; }
+        public int CreatedByUserID { get; set; }
 
         public clsAccounts(int accountID, string accountNumber, int customerID,
                            enAccountType accountType, decimal balance, decimal minimumBalance,
@@ -115,13 +115,10 @@ namespace SmartBank_BLL
         private bool _addNew()
         {
             AccountID = clsAccounts_DAL.CreateAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
-                Customer.CustomerID ?? throw new Exception("No Customer Responsible"),AccountNumber , AccountType.ToString(), MinimumBalance);
+                                                      Customer.CustomerID ?? throw new Exception("No Customer Responsible"),
+                                                      AccountNumber , AccountType.ToString(), Balance, MinimumBalance);
 
-            if (AccountID == -1)
-                return false;
-
-            _mode = enMode.Update;
-            return true;
+            return AccountID != -1;
         }
 
         private bool _update() => clsAccounts_DAL.UpdateAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Resposible!"),
@@ -132,9 +129,15 @@ namespace SmartBank_BLL
         {
             switch (_mode)
             {
-                case enMode.Add: return _addNew();
-                case enMode.Update: return _update();
+                case enMode.Add:
+                    if (_addNew())
+                    {
+                        _mode = enMode.Update;
+                        return true;
+                    }
+                    return false;
 
+                case enMode.Update: return _update();
                 default:
                     throw new InvalidOperationException("Invalid mode for saving account.");
             }
@@ -225,6 +228,7 @@ namespace SmartBank_BLL
                     (int)row["CreatedByUserID"]
                 ));
             }
+
             return accounts;
         }
     }

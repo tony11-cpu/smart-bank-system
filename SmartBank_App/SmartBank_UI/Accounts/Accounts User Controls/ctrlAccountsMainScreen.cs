@@ -138,7 +138,6 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void dgvAccounts_CellContentClick(object sender, DataGridViewCellEventArgs e) => _loadUserFromDGV();
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => _loadUserFromDGV();
 
@@ -176,6 +175,10 @@ namespace SmartBank_UI.Main_Form_UC
         {
             frmAddOrUpdateAccount frm = new frmAddOrUpdateAccount();
             frm.ShowDialog();
+
+            _bindGrid(_loadAccountsList());
         }
+
+        private void dgvAccounts_CellClick(object sender, DataGridViewCellEventArgs e) => _loadUserFromDGV();
     }
 }

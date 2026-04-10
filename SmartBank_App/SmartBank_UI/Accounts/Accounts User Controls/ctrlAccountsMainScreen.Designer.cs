@@ -56,6 +56,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.lblSavingsOrChecking = new System.Windows.Forms.Label();
+            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
             this.lblAccountName = new System.Windows.Forms.Label();
             this.dgvAccounts = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -72,16 +73,15 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnOpenAccount = new System.Windows.Forms.Button();
-            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountRecentTransactions)).BeginInit();
             this.panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).BeginInit();
             this.SuspendLayout();
             // 
             // lblInforamtionAboutForm
@@ -351,6 +351,16 @@
             this.lblSavingsOrChecking.TabIndex = 22;
             this.lblSavingsOrChecking.Text = "Saving";
             // 
+            // pbAccountTypePhoto
+            // 
+            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_wallet_64;
+            this.pbAccountTypePhoto.Location = new System.Drawing.Point(3, 3);
+            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
+            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
+            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbAccountTypePhoto.TabIndex = 20;
+            this.pbAccountTypePhoto.TabStop = false;
+            // 
             // lblAccountName
             // 
             this.lblAccountName.AutoSize = true;
@@ -405,7 +415,7 @@
             this.dgvAccounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAccounts.Size = new System.Drawing.Size(820, 611);
             this.dgvAccounts.TabIndex = 45;
-            this.dgvAccounts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAccounts_CellContentClick);
+            this.dgvAccounts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAccounts_CellClick);
             // 
             // contextMenuStrip1
             // 
@@ -604,16 +614,6 @@
             this.btnOpenAccount.UseVisualStyleBackColor = false;
             this.btnOpenAccount.Click += new System.EventHandler(this.OpenAccount_Click);
             // 
-            // pbAccountTypePhoto
-            // 
-            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_wallet_64;
-            this.pbAccountTypePhoto.Location = new System.Drawing.Point(3, 3);
-            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
-            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
-            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbAccountTypePhoto.TabIndex = 20;
-            this.pbAccountTypePhoto.TabStop = false;
-            // 
             // ctrlAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -642,6 +642,7 @@
             this.panel2.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -649,7 +650,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountRecentTransactions)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
