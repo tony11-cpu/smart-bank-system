@@ -138,7 +138,6 @@ namespace SmartBank_UI.Users
             btnUnlock.Visible = _mode == enMode.Update && _selectedUser.IsLocked;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e) => this.Close();
 
         private bool _isIdle(TextBox sender) => sender.Tag.ToString().StartsWith("Idle");
 

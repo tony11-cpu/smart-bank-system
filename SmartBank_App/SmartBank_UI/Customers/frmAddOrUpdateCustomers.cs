@@ -118,8 +118,6 @@ namespace SmartBank_UI
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e) => this.Close();
-
         private bool _handleCustomerImage()
         {
             if (_selectedCustomer.ImagePath == pbCustomerPhoto.ImageLocation)

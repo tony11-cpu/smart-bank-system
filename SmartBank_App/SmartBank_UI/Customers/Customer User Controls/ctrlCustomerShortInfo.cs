@@ -17,7 +17,7 @@ namespace SmartBank_UI.Main_Form_UC
     public partial class ctrlCustomerShortInfo : UserControl
     {
         public clsCustomers Customer { get; private set; }
-        
+        public event Action OnCustomerSelected;
         private bool _canSeeCustomerID;
 
         public ctrlCustomerShortInfo()
@@ -58,6 +58,7 @@ namespace SmartBank_UI.Main_Form_UC
             else
             {
                 _loadCustomerInfo();
+                OnCustomerSelected?.Invoke();
             }
         }
 
@@ -101,8 +102,10 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void tbNationalID_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter) 
+            if (e.KeyChar == (char)Keys.Enter)
+            {
                 LoadCustomerInfo(tbNationalID.Text.Trim());
+            }
         }
     }
 }
