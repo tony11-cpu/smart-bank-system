@@ -264,5 +264,7 @@ namespace SmartBank_UI.Users
                 _loadUser(tbUsername.Text.Trim());
             }
         }
+
+        private void ctrlUsersMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGridToMainUsersDGV(_loadUsersList());
     }
 }

@@ -37,10 +37,7 @@ namespace SmartBank_BLL
             get => _minimumBalance; 
             set
             {
-                if(value < 0)
-                    throw new ArgumentOutOfRangeException("MinimumBalance cannot be negative.");
-
-                if(Balance < value)
+                if(Balance < value && _mode == enMode.Update)
                     throw new InvalidOperationException("Cannot set minimum balance higher than current balance.");
 
                 _minimumBalance = value;
@@ -194,7 +191,7 @@ namespace SmartBank_BLL
             return false;
         }
 
-        // Note: Check For Pending Transactions Befovre Freezing Account, This Logic Should Be Implemented In The Calling Code To Ensure Separation Of Concerns And Single Responsibility Principle.
+        // Note: Check For Pending Transactions Before Freezing Account, This Logic Should Be Implemented In The Calling Code To Ensure Separation Of Concerns And Single Responsibility Principle.
         /// <summary>
         /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
         /// </summary>

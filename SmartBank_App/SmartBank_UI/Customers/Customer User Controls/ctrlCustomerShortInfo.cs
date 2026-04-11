@@ -20,6 +20,14 @@ namespace SmartBank_UI.Main_Form_UC
         public event Action OnCustomerSelected;
         private bool _canSeeCustomerID;
 
+        public bool CustomerNationalIDVisibility
+        {
+            set
+            {
+                tbNationalID.Enabled = value;
+            }
+        }
+
         public ctrlCustomerShortInfo()
         {
             InitializeComponent();

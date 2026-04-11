@@ -60,6 +60,15 @@
             this.lblAccountName = new System.Windows.Forms.Label();
             this.dgvAccounts = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openNewAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.unfreezeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.freezeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.depositeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.withdrawalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnClosedAccountsFilter = new System.Windows.Forms.Button();
@@ -78,6 +87,7 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountRecentTransactions)).BeginInit();
@@ -419,9 +429,84 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openNewAccountToolStripMenuItem,
+            this.updateAccountToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.unfreezeAccountToolStripMenuItem,
+            this.freezeAccountToolStripMenuItem,
+            this.closeToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.depositeToolStripMenuItem,
+            this.withdrawalToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(187, 226);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening_1);
+            // 
+            // openNewAccountToolStripMenuItem
+            // 
+            this.openNewAccountToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
+            this.openNewAccountToolStripMenuItem.Name = "openNewAccountToolStripMenuItem";
+            this.openNewAccountToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.openNewAccountToolStripMenuItem.Text = "Open New Account";
+            this.openNewAccountToolStripMenuItem.Click += new System.EventHandler(this.OpenAccount_Click);
+            // 
+            // updateAccountToolStripMenuItem
+            // 
+            this.updateAccountToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_update_user_48;
+            this.updateAccountToolStripMenuItem.Name = "updateAccountToolStripMenuItem";
+            this.updateAccountToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.updateAccountToolStripMenuItem.Text = "Update Account";
+            this.updateAccountToolStripMenuItem.Click += new System.EventHandler(this.updateAccount_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
+            // 
+            // unfreezeAccountToolStripMenuItem
+            // 
+            this.unfreezeAccountToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_unlocked_48;
+            this.unfreezeAccountToolStripMenuItem.Name = "unfreezeAccountToolStripMenuItem";
+            this.unfreezeAccountToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.unfreezeAccountToolStripMenuItem.Text = "Unfreeze Account";
+            this.unfreezeAccountToolStripMenuItem.Click += new System.EventHandler(this.unfreezeAccountToolStripMenuItem_Click);
+            // 
+            // freezeAccountToolStripMenuItem
+            // 
+            this.freezeAccountToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
+            this.freezeAccountToolStripMenuItem.Name = "freezeAccountToolStripMenuItem";
+            this.freezeAccountToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.freezeAccountToolStripMenuItem.Text = "Freeze Account";
+            this.freezeAccountToolStripMenuItem.Click += new System.EventHandler(this.freezeAccountToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_close_40;
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 6);
+            // 
+            // depositeToolStripMenuItem
+            // 
+            this.depositeToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_money_box_50;
+            this.depositeToolStripMenuItem.Name = "depositeToolStripMenuItem";
+            this.depositeToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.depositeToolStripMenuItem.Text = "Deposite";
+            // 
+            // withdrawalToolStripMenuItem
+            // 
+            this.withdrawalToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
+            this.withdrawalToolStripMenuItem.Name = "withdrawalToolStripMenuItem";
+            this.withdrawalToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.withdrawalToolStripMenuItem.Text = "Withdrawal";
             // 
             // label2
             // 
@@ -636,6 +721,7 @@
             this.Name = "ctrlAccounts";
             this.Size = new System.Drawing.Size(1330, 828);
             this.Load += new System.EventHandler(this.ctrlAccounts_Load);
+            this.VisibleChanged += new System.EventHandler(this.ctrlAccounts_VisibleChanged);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -644,6 +730,7 @@
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -695,5 +782,14 @@
         private System.Windows.Forms.Label lblCurrentBalance;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem openNewAccountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateAccountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem unfreezeAccountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem freezeAccountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem depositeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem withdrawalToolStripMenuItem;
     }
 }

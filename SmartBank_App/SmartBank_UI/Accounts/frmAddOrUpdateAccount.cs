@@ -46,6 +46,10 @@ namespace SmartBank_UI.Accounts
             {
                 _currentMode = enMode.Update;
                 _loadAccountInfo();
+
+                nupOpeningBalance.Enabled = false;
+                nupMinBalance.Enabled = true;
+                ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
             }
             else
             {
@@ -58,6 +62,7 @@ namespace SmartBank_UI.Accounts
         {
             lblAddOrUpdate.Text = "Open New Account";
             btnOpenOrUpdateAccount.Text = "Open Account";
+            lblSavingOrCheckingsAccountType.Text = "Choose Account Type!";
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy");
             lblOpenedByUsername.Text = clsGlobal.ActiveUser.Username;
 
@@ -73,8 +78,6 @@ namespace SmartBank_UI.Accounts
         private void _setControlsEnabled(bool enabled)
         {
             btnOpenOrUpdateAccount.Enabled = enabled;
-            btnSavingsAccountType.Enabled = enabled;
-            btnCheckingAccountType.Enabled = enabled;
             nupMinBalance.Enabled = enabled;
             nupOpeningBalance.Enabled = enabled;
         }
@@ -86,7 +89,7 @@ namespace SmartBank_UI.Accounts
 
             if (!ctrlCustomerShortInfo1.Customer.IsActive)
             {
-                MessageBox.Show("The selected customer is inactive. Please select an active customer to proceed.", "Inactive Customer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The selected customer is in active. Please select an active customer to proceed.", "Inactive Customer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -146,10 +149,8 @@ namespace SmartBank_UI.Accounts
             lblAddOrUpdate.Text = "Update Account";
             btnOpenOrUpdateAccount.Text = "Update Account";
             lblInforamtionAboutForm.Text = $"You are updating the account information of {_selectedAccount.Customer.FirstName} {_selectedAccount.Customer.LastName}";
-
+            ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
             nupOpeningBalance.Enabled = false;
-            btnSavingsAccountType.Enabled = false;
-            btnCheckingAccountType.Enabled = false;
         }
 
         private void _loadAccountInfo()
@@ -174,13 +175,34 @@ namespace SmartBank_UI.Accounts
             lblAccountTypeLiveView.Text = _selectedAccount.AccountType.ToString();
             lblDate.Text = _selectedAccount.OpenedDate?.ToString("MMMM dd, yyyy") ?? "N/A";
             lblOpenedByUsername.Text = clsUsers.Find(_selectedAccount.CreatedByUserID)?.Username ?? "N/A";
+            lblSavingOrCheckingsAccountType.Text = $"{_selectedAccount.AccountType} — Update Account";
 
             _accountType_Savings = _selectedAccount.AccountType == clsAccounts.enAccountType.Savings;
             nupMinBalance.Minimum = _accountType_Savings == true ? 500 : 0;
         }
 
+        private bool _validateAccountTypeSelection()
+        {
+            if(_currentMode == enMode.Add && !btnOpenOrUpdateAccount.Enabled)
+            {
+                MessageBox.Show("Please choose customer before going through the process of opening a new account!","Choose customer first", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (_currentMode == enMode.Update)
+            {
+                MessageBox.Show("Account type cannot be changed after account creation.", "Account Type Read-Only", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnSavingsAccountType_Click(object sender, EventArgs e)
         {
+            if(!_validateAccountTypeSelection())
+                return;
+
             lblSavingOrCheckingsAccountType.Text = $"Savings — {(_currentMode == enMode.Update ? "Update Account" : "New Account")}";
             lblAccountTypeLiveView.Text = "Savings";
             lblAccountTypeLiveView.ForeColor = Color.Lime;
@@ -196,6 +218,9 @@ namespace SmartBank_UI.Accounts
 
         private void btnCheckingAccountType_Click(object sender, EventArgs e)
         {
+            if (!_validateAccountTypeSelection())
+                return;
+
             lblSavingOrCheckingsAccountType.Text = $"Checking — {(_currentMode == enMode.Update ? "Update Account" : "New Account")}";
             lblAccountTypeLiveView.Text = "Checking";
             lblAccountTypeLiveView.ForeColor = Color.FromArgb(192, 192, 255);
@@ -204,9 +229,6 @@ namespace SmartBank_UI.Accounts
             nupMinBalance.Value = 0;
 
             _accountType_Savings = false;
-
-            errorProvider1.SetError(btnSavingsAccountType, null);
-            errorProvider1.SetError(btnCheckingAccountType, null);
         }
 
         private void nupOpeningBalance_ValueChanged(object sender, EventArgs e) => lblBalanceLiveView.Text = nupOpeningBalance.Value.ToString("C");
@@ -234,7 +256,7 @@ namespace SmartBank_UI.Accounts
 
         private void btnAccountType_Validating(object sender, CancelEventArgs e)
         {
-            if (!_accountType_Savings.HasValue)
+            if (!_accountType_Savings.HasValue && btnOpenOrUpdateAccount.Enabled)
             {
                 e.Cancel = true;
                 errorProvider1.SetError(btnSavingsAccountType, "Please select an account type.");
@@ -250,10 +272,16 @@ namespace SmartBank_UI.Accounts
 
         private void nupOpeningBalance_Validating(object sender, CancelEventArgs e)
         {
+            
             if (_accountType_Savings.HasValue && _accountType_Savings.Value && nupOpeningBalance.Value < nupMinBalance.Value)
             {
                 e.Cancel = true;
                 errorProvider1.SetError(nupOpeningBalance, "Open balance cannot be less than the minimum balance.");
+            }
+            else if(nupOpeningBalance.Value <= 0)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(nupOpeningBalance, "Open balance cannot be less than or equal to 0");
             }
             else
             {
@@ -262,18 +290,29 @@ namespace SmartBank_UI.Accounts
             }
         }
 
+        private bool _performDepositForOpeningBalance()
+        {
+            if(_currentMode == enMode.Update)
+                return true;
+
+            return clsTransactions.Deposit(_selectedAccount.AccountID.Value, nupOpeningBalance.Value, "Initial deposit", _selectedAccount.CreatedByUserID);
+        }
+
         private void btnOpenOrUpdateAccount_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren())
                 return;
 
             _fetchAccountData();
-            if (_selectedAccount.Save() && clsTransactions.Deposit(_selectedAccount.AccountID.Value, nupOpeningBalance.Value, "Initial deposit", _selectedAccount.CreatedByUserID))
+            if (_selectedAccount.Save() && _performDepositForOpeningBalance())
             {
                 _updateForm();
                 lblSavingOrCheckingsAccountType.Text = $"{(_accountType_Savings.Value ? "Savings" : "Checking")} — Update Account";
                 MessageBox.Show($"Account {_selectedAccount.AccountNumber} {(_currentMode == enMode.Add ? "opened" : "updated")} successfully.", "Account Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _currentMode = enMode.Update;
+
+                if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Teller) 
+                    this.Close();
             }
             else
             {

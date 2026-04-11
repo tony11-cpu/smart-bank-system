@@ -254,6 +254,7 @@
             // 
             this.btnSavingsAccountType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnSavingsAccountType.FlatAppearance.BorderSize = 2;
+            this.btnSavingsAccountType.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Green;
             this.btnSavingsAccountType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSavingsAccountType.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSavingsAccountType.ForeColor = System.Drawing.Color.Lime;
