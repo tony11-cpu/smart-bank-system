@@ -47,7 +47,15 @@ namespace SmartBank_UI.Users.Users_User_Controls
 
         private void _loadUserLoginsDGV()
         {
-            dgvUserLoginHistory.DataSource = clsGlobal.ActiveUser.GetUserLoginRecors();
+            try
+            {
+                dgvUserLoginHistory.DataSource = clsGlobal.ActiveUser.GetUserLoginRecors();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading login history: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             dgvUserLoginHistory.Columns["Attempt Date"].Width = 280;
             dgvUserLoginHistory.Columns["Login State"].Width = 277;

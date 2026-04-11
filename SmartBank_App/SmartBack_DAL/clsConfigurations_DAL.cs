@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartBack_DAL
 {
-    public class clsConfigurations_DAL
+    public static class clsConfigurations_DAL
     {
         public static Dictionary<string, int> GetAllConfig()
         {

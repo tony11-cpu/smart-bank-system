@@ -145,7 +145,7 @@ namespace SmartBank_UI.Accounts
         {
             lblAddOrUpdate.Text = "Update Account";
             btnOpenOrUpdateAccount.Text = "Update Account";
-            lblInforamtionAboutForm.Text = $"You are updating the account information of " + $"{_selectedAccount.Customer.FirstName} {_selectedAccount.Customer.LastName}";
+            lblInforamtionAboutForm.Text = $"You are updating the account information of {_selectedAccount.Customer.FirstName} {_selectedAccount.Customer.LastName}";
 
             nupOpeningBalance.Enabled = false;
             btnSavingsAccountType.Enabled = false;
@@ -268,7 +268,7 @@ namespace SmartBank_UI.Accounts
                 return;
 
             _fetchAccountData();
-            if (_selectedAccount.Save())
+            if (_selectedAccount.Save() && clsTransactions.Deposit(_selectedAccount.AccountID.Value, nupOpeningBalance.Value, "Initial deposit", _selectedAccount.CreatedByUserID))
             {
                 _updateForm();
                 lblSavingOrCheckingsAccountType.Text = $"{(_accountType_Savings.Value ? "Savings" : "Checking")} — Update Account";
@@ -286,9 +286,8 @@ namespace SmartBank_UI.Accounts
             _selectedAccount.AccountNumber = tbAccountNumber.Text;
             _selectedAccount.Customer = ctrlCustomerShortInfo1.Customer;
             _selectedAccount.AccountType = _accountType_Savings.Value ? clsAccounts.enAccountType.Savings : clsAccounts.enAccountType.Checking;
-            _selectedAccount.Balance = nupOpeningBalance.Value;
             _selectedAccount.MinimumBalance = nupMinBalance.Value;
-            _selectedAccount.CreatedByUserID = clsGlobal.ActiveUser.UserID.Value;
+            _selectedAccount.CreatedByUserID = _currentMode == enMode.Add ? clsGlobal.ActiveUser.UserID.Value : _selectedAccount.CreatedByUserID;
         }
     }
 }

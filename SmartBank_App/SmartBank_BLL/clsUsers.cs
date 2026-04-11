@@ -169,6 +169,11 @@ namespace SmartBank
             return users;
         }
 
+        /// <summary>
+        /// Make sure to use this method in a try and catch block to handle the exception of user ID not being set, which can occur if you try to get login records for a user that hasn't been saved to the database yet.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public DataTable GetUserLoginRecors() => clsUsers_DAL.GetAllUserLoginAttempts(this.UserID ?? throw new Exception("User ID is not set."));
 
         public bool Save()

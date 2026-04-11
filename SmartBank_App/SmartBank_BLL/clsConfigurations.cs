@@ -60,6 +60,11 @@ namespace SmartBank_BLL
             return null;
         }
 
+        /// <summary>
+        /// Use try and catch when calling this method to handle any exceptions that may occur during the update process.
+        /// </summary>
+        /// <returns>True if the configuration was successfully updated; otherwise, false.</returns>
+        /// <exception cref="Exception">Thrown when Config, ConfigValue, or ModifiedByUser is not set.</exception>
         public bool Update()
         {
             if (Config == null || ConfigValue == null || clsGlobal.ActiveUser.UserID == null)

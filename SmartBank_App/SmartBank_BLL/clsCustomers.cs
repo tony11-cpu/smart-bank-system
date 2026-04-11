@@ -192,7 +192,8 @@ namespace SmartBank_BLL
             if (_mode != enMode.Update || !IsActive)
                 return false;
 
-            if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) && clsCustomers_DAL.DeactivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
+            if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) 
+                && clsCustomers_DAL.DeactivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = false;
                 return true;
@@ -206,7 +207,8 @@ namespace SmartBank_BLL
             if (_mode != enMode.Update || IsActive)
                 return false;
 
-            if (CustomerID != null && clsGlobal.ActiveUser != null && clsGlobal.ActiveUser.UserID != null && clsCustomers_DAL.ActivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
+            if (CustomerID != null && clsGlobal.ActiveUser != null && clsGlobal.ActiveUser.UserID != null 
+                && clsCustomers_DAL.ActivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = true;  
                 return true;

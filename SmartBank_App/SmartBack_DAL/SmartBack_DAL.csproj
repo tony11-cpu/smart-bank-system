@@ -46,6 +46,7 @@
     <Compile Include="clsConfigurations_DAL.cs" />
     <Compile Include="clsCustomers_DAL.cs" />
     <Compile Include="clsDB_Util.cs" />
+    <Compile Include="clsTransactions_DAL.cs" />
     <Compile Include="clsUsers_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

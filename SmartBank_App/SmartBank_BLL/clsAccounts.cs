@@ -6,6 +6,14 @@ using System.Data;
 
 namespace SmartBank_BLL
 {
+    public interface ITransactions
+    {
+        bool Deposit(int accountID, decimal amount, string description, int performedByUserID);
+        bool Withdraw(int accountID, decimal amount, string description, int performedByUserID);
+        bool Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID);
+        bool ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID);
+    }
+
     public class clsAccounts
     {
         public enum enMode { Add, Update }
@@ -17,8 +25,27 @@ namespace SmartBank_BLL
         public string AccountNumber { get; set; }
         public clsCustomers Customer { get; set; }
         public enAccountType AccountType { get; set; }
-        public decimal Balance { get; set; }
-        public decimal MinimumBalance { get; set; }
+
+        /// <summary>
+        /// Can change only through transactions. Use the transactions class.
+        /// </summary>
+        public decimal Balance { get; internal set; }
+
+        private decimal _minimumBalance;
+        public decimal MinimumBalance
+        { 
+            get => _minimumBalance; 
+            set
+            {
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("MinimumBalance cannot be negative.");
+
+                if(Balance < value)
+                    throw new InvalidOperationException("Cannot set minimum balance higher than current balance.");
+
+                _minimumBalance = value;
+            }
+        }
         public enStatus Status { get; private set; }
         public DateTime? OpenedDate { get; private set; }
         public DateTime? ClosedDate { get; private set; }
@@ -29,9 +56,12 @@ namespace SmartBank_BLL
                            enStatus status, DateTime? openedDate, DateTime? closedDate,
                            int createdByUserID)
         {
+            Customer = clsCustomers.Find(customerID);
+            if(Customer == null)
+                throw new Exception("Customer not found for the given CustomerID.");
+
             AccountID = accountID;
             AccountNumber = accountNumber;
-            Customer = clsCustomers.Find(customerID);
             AccountType = accountType;
             Balance = balance;
             MinimumBalance = minimumBalance;
@@ -121,7 +151,7 @@ namespace SmartBank_BLL
             return AccountID != -1;
         }
 
-        private bool _update() => clsAccounts_DAL.UpdateAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Resposible!"),
+        private bool _update() => clsAccounts_DAL.UpdateAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible!"),
                                                                 AccountID ?? throw new Exception("Account ID is not set for update!"),
                                                                 AccountType.ToString(), MinimumBalance);
 
@@ -143,8 +173,17 @@ namespace SmartBank_BLL
             }
         }
 
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the account was successfully unfrozen; otherwise, false.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the account is not in a frozen state.</exception>
+        /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public bool UnFreeze()
         {
+            if(Status != enStatus.Frozen)
+                throw new InvalidOperationException("Only frozen accounts can be unfrozen.");
+
             if (_mode == enMode.Update && clsAccounts_DAL.UnfreezeAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible") , 
                                                                           AccountID ?? throw new Exception("Account ID is not set!")))
             {
@@ -155,8 +194,18 @@ namespace SmartBank_BLL
             return false;
         }
 
+        // Note: Check For Pending Transactions Befovre Freezing Account, This Logic Should Be Implemented In The Calling Code To Ensure Separation Of Concerns And Single Responsibility Principle.
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the account was successfully frozen; otherwise, false.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the account is not in an active state.</exception>
+        /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public bool Freeze()
         {
+            if(Status != enStatus.Active)
+                throw new InvalidOperationException("Only active accounts can be frozen.");
+
             if (_mode == enMode.Update && clsAccounts_DAL.FreezeAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"),
                                                                          AccountID ?? throw new Exception("Account ID is not set!")))
             {
@@ -167,8 +216,20 @@ namespace SmartBank_BLL
             return false;
         }
 
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the account was successfully closed; otherwise, false.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the account is not in a closable state.</exception>
+        /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public bool Close()
         {
+            if(this.Balance > 0)
+                throw new InvalidOperationException("Only accounts with zero balance can be closed.");
+
+            if (Status == enStatus.Closed)
+                throw new InvalidOperationException("Account is already closed.");
+
             if (_mode == enMode.Update && clsAccounts_DAL.CloseAccount(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"),
                                                                        AccountID ?? throw new Exception("Account ID is not set!")))
             {
@@ -209,6 +270,9 @@ namespace SmartBank_BLL
         public static List<clsAccounts> GetAccountsByCustomerID(int customerID)
         {
             DataTable dt = clsAccounts_DAL.GetAccountsByCustomerID(customerID);
+            if (dt == null) 
+                return null;
+
             List<clsAccounts> accounts = new List<clsAccounts>();
 
             foreach (DataRow row in dt.Rows)

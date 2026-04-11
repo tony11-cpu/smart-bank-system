@@ -56,7 +56,15 @@ namespace SmartBank_UI.Users
             if (_currentUser == null)
                 return;
 
-            dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
+            try
+            {
+                dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading login history: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             dgvUserLoginHistory.RowTemplate.Height = 35;
             dgvUserLoginHistory.ColumnHeadersHeight = 40;

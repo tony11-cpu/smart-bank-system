@@ -149,13 +149,20 @@ namespace SmartBank_UI.System_Config
                 if (!_changes[f.Key].Changed)
                     continue;
 
-                clsConfigurations config = Find(f.Key);
+                clsConfigurations config = clsConfigurations.Find(f.Key);
                 config.ConfigValue = (int)f.Control.Value;
 
-                if (!config.Update())
+                try
                 {
-                    MessageBox.Show($"An error occurred while updating {f.Key}. Please try again.",
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!config.Update())
+                    {
+                        MessageBox.Show($"An error occurred while updating {f.Key}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An unexpected error occurred while updating {f.Key}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
