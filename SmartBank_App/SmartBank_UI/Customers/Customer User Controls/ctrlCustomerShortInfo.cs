@@ -70,6 +70,22 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
+        public void LoadCustomerInfo(int customerID)
+        {
+            Customer = clsCustomers.Find(customerID);
+
+            if (Customer == null)
+            {
+                MessageBox.Show("No customer found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _loadDefault();
+            }
+            else
+            {
+                _loadCustomerInfo();
+                OnCustomerSelected?.Invoke();
+            }
+        }
+
         private void _loadDefault()
         {
             lblCustomerName.Text = "Customer Name";

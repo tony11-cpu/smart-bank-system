@@ -57,6 +57,12 @@
     <Compile Include="Accounts\frmAddOrUpdateAccount.Designer.cs">
       <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Accounts\frmShowAllCustomerAccounts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmShowAllCustomerAccounts.Designer.cs">
+      <DependentUpon>frmShowAllCustomerAccounts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Customers\frmAddOrUpdateCustomers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     </Compile>
     <EmbeddedResource Include="Accounts\frmAddOrUpdateAccount.resx">
       <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmShowAllCustomerAccounts.resx">
+      <DependentUpon>frmShowAllCustomerAccounts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Customers\frmAddOrUpdateCustomers.resx">
       <DependentUpon>frmAddOrUpdateCustomers.cs</DependentUpon>

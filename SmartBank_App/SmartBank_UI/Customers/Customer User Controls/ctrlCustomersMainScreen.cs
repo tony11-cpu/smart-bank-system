@@ -1,5 +1,6 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
+using SmartBank_UI.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,10 +120,8 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(_loadCustomersList());
         }
 
-        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("This feature did not implemented yet!" , "Error" , MessageBoxButtons.OK ,MessageBoxIcon.Error);
-        }
+        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e) =>
+            new frmShowAllCustomerAccounts((int)dgvCustomersData.CurrentRow.Cells["CustomerID"].Value).ShowDialog();
 
         private void updateCustomerToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -224,7 +224,7 @@ public static class clsAccounts_DAL
     {
         DataTable dt = new DataTable();
         using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-        using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllAccounts() WHERE [Customer ID] = @CustomerID", conn))
+        using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllAccounts() WHERE CustomerID = @CustomerID", conn))
         {
             cmd.Parameters.AddWithValue("@CustomerID", customerID);
             try

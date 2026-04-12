@@ -94,11 +94,8 @@ namespace SmartBank_UI.Main_Form_UC
             }
 
             string search = tbSearchBar.Text.Trim();
-            _bindGrid(_allAccounts.Where(n =>
-                n.AccountNumber.StartsWith(search) ||
-                (n.Customer.FirstName + " " + n.Customer.LastName).StartsWith(search) ||
-                n.Balance.ToString().StartsWith(search) ||
-                n.AccountType.ToString().StartsWith(search)).ToList());
+            _bindGrid(_allAccounts.Where(n => n.AccountNumber.StartsWith(search) || (n.Customer.FirstName + " " + n.Customer.LastName).StartsWith(search) ||
+                                              n.Balance.ToString().StartsWith(search) || n.AccountType.ToString().StartsWith(search)).ToList());
         }
 
         private void btnExport_Click(object sender, EventArgs e)
