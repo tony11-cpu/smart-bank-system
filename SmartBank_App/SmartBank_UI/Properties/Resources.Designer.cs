@@ -193,6 +193,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_down_arrow_38 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-down-arrow-38", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_export_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-export-48", resourceCulture);
@@ -333,6 +343,16 @@ namespace SmartBank_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_right_arrow_38 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-right-arrow-38", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_right_arrow_50 {
             get {
                 object obj = ResourceManager.GetObject("icons8-right-arrow-50", resourceCulture);
@@ -396,6 +416,16 @@ namespace SmartBank_UI.Properties {
         internal static System.Drawing.Bitmap icons8_unlocked_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-unlocked-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_up_arrow_38 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-up-arrow-38", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

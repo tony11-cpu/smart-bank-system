@@ -337,6 +337,9 @@
     <None Include="Resources\icons8-sales-balance-40 %281%29.png" />
     <None Include="Resources\icons8-initiate-money-transfer-50.png" />
     <None Include="Resources\icons8-money-box-50.png" />
+    <None Include="Resources\icons8-right-arrow-38.png" />
+    <None Include="Resources\icons8-down-arrow-38.png" />
+    <None Include="Resources\icons8-up-arrow-38.png" />
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup />

@@ -64,6 +64,7 @@ namespace SmartBank_UI.System_Config
             }
 
             lblTotalUsersCount.Text = clsUsers.GetAllUsers().Count.ToString();
+            lblTotalActiveAccountsCount.Text = clsAccounts.NumberOfActiveAccounts.ToString();
         }
 
         private void _loadChanges(int unsavedChangesCount)

@@ -31,13 +31,13 @@ namespace SmartBank_BLL
 
         public static bool Deposit(int accountID, decimal amount, string description, int performedByUserID)
         {
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+
             clsAccounts account = clsAccounts.Find(accountID);
 
             if (!_returnAccountAndValidity(account))
                 throw new ArgumentException("Invalid account.");
-
-            if (amount <= 0)
-                throw new ArgumentException("Amount must be greater than zero.");
 
             if(clsTransactions_DAL.Deposit(accountID, amount, description, performedByUserID))
             {
