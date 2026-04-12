@@ -13,8 +13,8 @@ namespace SmartBank_UI.Accounts
 {
     public partial class frmShowAllCustomerAccounts : Form
     {
-        private int customerID;
-        public frmShowAllCustomerAccounts(int customerID)
+        private int? customerID;
+        public frmShowAllCustomerAccounts(int? customerID)
         {
             InitializeComponent();
             this.customerID = customerID;
@@ -22,10 +22,14 @@ namespace SmartBank_UI.Accounts
 
         private void frmShowAllCustomerAccounts_Load(object sender, EventArgs e)
         {
-            if (!clsAccounts.IsAccountExists(customerID))
+            if (!customerID.HasValue || !clsCustomers.IsCustomerExists(customerID.Value))
+            {
+                MessageBox.Show("No customer found!" , "Not Found!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                this.Close();
                 return;
+            }
 
-            _loadAccountsForCustomer(customerID);
+            _loadAccountsForCustomer(customerID.Value);
         }
 
         private void _loadAccountsForCustomer(int customerID)
@@ -34,15 +38,11 @@ namespace SmartBank_UI.Accounts
             ctrlCustomerShortInfo1.LoadCustomerInfo(customerID);
             dgvAllCustomerAccounts.DataSource = clsAccounts.GetAccountsByCustomerID(customerID);
 
-            if (dgvAllCustomerAccounts.RowCount == 0)
-            {
-                MessageBox.Show("No account found for the selected customer!", "No account found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-                return;
-            }
-
             int count = dgvAllCustomerAccounts.RowCount;
             lblNumberOfAccounts.Text = $"Showing {count} account{(count != 1 ? "s" : "")}";
+
+            if (count == 0)
+                MessageBox.Show("No account found for the selected customer!", "No account found", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             dgvAllCustomerAccounts.Columns["AccountID"].Visible = false;
             dgvAllCustomerAccounts.Columns["CreatedByUserID"].Visible = false;

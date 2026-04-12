@@ -3,6 +3,7 @@ using SmartBack_DAL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace SmartBank_BLL
 {
@@ -47,6 +48,7 @@ namespace SmartBank_BLL
         public DateTime? OpenedDate { get; private set; }
         public DateTime? ClosedDate { get; private set; }
         public int CreatedByUserID { get; set; }
+        public static int NumberOfActiveAccounts => GetAllAccounts().Where(n => n.Status == enStatus.Active).Count();
 
         public clsAccounts(int accountID, string accountNumber, int customerID,
                            enAccountType accountType, decimal balance, decimal minimumBalance,
@@ -240,7 +242,7 @@ namespace SmartBank_BLL
 
         public static List<clsAccounts> GetAllAccounts()
         {
-            DataTable dt = clsAccounts_DAL.GetAllAccounts(); 
+            DataTable dt = clsAccounts_DAL.GetAllAccounts();
             if (dt == null) return null;
 
             List<clsAccounts> accounts = new List<clsAccounts>();

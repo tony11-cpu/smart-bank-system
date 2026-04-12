@@ -164,13 +164,13 @@ public static class clsAccounts_DAL
         return false;
     }
 
-    public static bool FreezeAccount(int currentUserID, int accountID) => _ExecuteStatusProcedure("sp_FreezeAccount", currentUserID, accountID);
+    public static bool FreezeAccount(int currentUserID, int accountID) => _executeStatusProcedure("sp_FreezeAccount", currentUserID, accountID);
 
-    public static bool UnfreezeAccount(int currentUserID, int accountID) => _ExecuteStatusProcedure("sp_UnfreezeAccount", currentUserID, accountID);
+    public static bool UnfreezeAccount(int currentUserID, int accountID) => _executeStatusProcedure("sp_UnfreezeAccount", currentUserID, accountID);
 
-    public static bool CloseAccount(int currentUserID, int accountID) => _ExecuteStatusProcedure("sp_CloseAccount", currentUserID, accountID);
+    public static bool CloseAccount(int currentUserID, int accountID) => _executeStatusProcedure("sp_CloseAccount", currentUserID, accountID);
 
-    private static bool _ExecuteStatusProcedure(string procedureName, int currentUserID, int accountID)
+    private static bool _executeStatusProcedure(string procedureName, int currentUserID, int accountID)
     {
         using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
         using (SqlCommand cmd = new SqlCommand(procedureName, conn))

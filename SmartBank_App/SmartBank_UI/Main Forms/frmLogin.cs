@@ -110,6 +110,8 @@ namespace SmartBank_UI.Login
 
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
+
+            lblNumberActiveAccounts.Text = clsAccounts.NumberOfActiveAccounts.ToString();
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;

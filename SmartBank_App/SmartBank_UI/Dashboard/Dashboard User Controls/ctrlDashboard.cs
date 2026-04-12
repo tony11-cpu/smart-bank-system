@@ -1,4 +1,5 @@
 ﻿using SmartBank;
+using SmartBank_BLL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace SmartBank_UI
                 return;
 
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
+            lblActiveAccounts.Text = clsAccounts.NumberOfActiveAccounts.ToString();
         }
     }
 }

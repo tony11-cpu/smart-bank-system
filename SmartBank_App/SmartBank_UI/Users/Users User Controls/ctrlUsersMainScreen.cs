@@ -26,7 +26,7 @@ namespace SmartBank_UI.Users
 
         private void _bindGridToMainUsersDGV(List<clsUsers> usersView)
         {
-            if (usersView == null) return;
+            if (!usersView.Any()) return;
 
             dgvUsersData.DataSource = usersView;
 

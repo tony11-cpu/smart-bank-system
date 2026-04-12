@@ -186,7 +186,7 @@
             this.panel3.Controls.Add(this.lblFraudFlags);
             this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.label11);
-            this.panel3.Location = new System.Drawing.Point(668, 110);
+            this.panel3.Location = new System.Drawing.Point(662, 110);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(319, 99);
@@ -234,7 +234,7 @@
             this.panel4.Controls.Add(this.label14);
             this.panel4.Controls.Add(this.lblPendingTransfares);
             this.panel4.Controls.Add(this.label12);
-            this.panel4.Location = new System.Drawing.Point(995, 110);
+            this.panel4.Location = new System.Drawing.Point(989, 110);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(319, 99);
@@ -281,7 +281,7 @@
             this.dgvFraudFlags.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFraudFlags.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvFraudFlags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFraudFlags.Location = new System.Drawing.Point(668, 213);
+            this.dgvFraudFlags.Location = new System.Drawing.Point(662, 213);
             this.dgvFraudFlags.Margin = new System.Windows.Forms.Padding(2);
             this.dgvFraudFlags.Name = "dgvFraudFlags";
             this.dgvFraudFlags.RowHeadersWidth = 62;
@@ -308,13 +308,13 @@
             // btnTransfare
             // 
             this.btnTransfare.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnTransfare.FlatAppearance.BorderSize = 6;
+            this.btnTransfare.FlatAppearance.BorderSize = 3;
             this.btnTransfare.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSlateBlue;
             this.btnTransfare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTransfare.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTransfare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_50;
-            this.btnTransfare.Location = new System.Drawing.Point(892, 732);
+            this.btnTransfare.Location = new System.Drawing.Point(886, 732);
             this.btnTransfare.Margin = new System.Windows.Forms.Padding(2);
             this.btnTransfare.Name = "btnTransfare";
             this.btnTransfare.Size = new System.Drawing.Size(417, 79);
@@ -327,13 +327,13 @@
             // btnNewWithdrawl
             // 
             this.btnNewWithdrawl.FlatAppearance.BorderColor = System.Drawing.Color.Red;
-            this.btnNewWithdrawl.FlatAppearance.BorderSize = 6;
+            this.btnNewWithdrawl.FlatAppearance.BorderSize = 3;
             this.btnNewWithdrawl.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnNewWithdrawl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNewWithdrawl.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewWithdrawl.ForeColor = System.Drawing.Color.Red;
             this.btnNewWithdrawl.Image = ((System.Drawing.Image)(resources.GetObject("btnNewWithdrawl.Image")));
-            this.btnNewWithdrawl.Location = new System.Drawing.Point(454, 732);
+            this.btnNewWithdrawl.Location = new System.Drawing.Point(448, 732);
             this.btnNewWithdrawl.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewWithdrawl.Name = "btnNewWithdrawl";
             this.btnNewWithdrawl.Size = new System.Drawing.Size(417, 79);
@@ -346,7 +346,7 @@
             // btnNewDeposite
             // 
             this.btnNewDeposite.FlatAppearance.BorderColor = System.Drawing.Color.Green;
-            this.btnNewDeposite.FlatAppearance.BorderSize = 6;
+            this.btnNewDeposite.FlatAppearance.BorderSize = 3;
             this.btnNewDeposite.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnNewDeposite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNewDeposite.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -380,7 +380,7 @@
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlDashboard";
-            this.Size = new System.Drawing.Size(1324, 829);
+            this.Size = new System.Drawing.Size(1320, 829);
             this.Load += new System.EventHandler(this.ctrlDashboard_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

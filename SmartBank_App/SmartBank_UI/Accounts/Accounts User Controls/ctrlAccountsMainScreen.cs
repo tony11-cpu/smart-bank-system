@@ -37,7 +37,7 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void _bindGrid(IEnumerable<clsAccounts> accountView)
         {
-            if (accountView == null) 
+            if (!_allAccounts.Any())
                 return;
 
             dgvAccounts.DataSource = accountView.Select(a => new
@@ -171,10 +171,10 @@ namespace SmartBank_UI.Main_Form_UC
         {
             _loadUserFromDGV();
 
-            bool frozen = _currentAccount.Status == clsAccounts.enStatus.Frozen;
-            bool isAdmin = clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
+            bool notClosed = _currentAccount != null && _currentAccount?.Status != clsAccounts.enStatus.Closed;
+            bool frozen = _currentAccount?.Status == clsAccounts.enStatus.Frozen;
+            bool isAdmin = clsGlobal.ActiveUser?.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
             bool canTransact = !(frozen && !isAdmin);
-            bool notClosed = _currentAccount.Status != clsAccounts.enStatus.Closed;
 
             updateAccountToolStripMenuItem.Enabled = notClosed && isAdmin;
             unfreezeAccountToolStripMenuItem.Enabled = notClosed && isAdmin && frozen;

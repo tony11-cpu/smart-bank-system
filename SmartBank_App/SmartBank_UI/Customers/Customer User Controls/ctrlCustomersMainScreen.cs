@@ -25,7 +25,7 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void _bindGrid(List<clsCustomers> customerView)
         {
-            if (customerView == null) 
+            if (!customerView.Any()) 
                 return;
 
             dgvCustomersData.DataSource = customerView;
@@ -120,8 +120,11 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(_loadCustomersList());
         }
 
-        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e) =>
-            new frmShowAllCustomerAccounts((int)dgvCustomersData.CurrentRow.Cells["CustomerID"].Value).ShowDialog();
+        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowAllCustomerAccounts frm = new frmShowAllCustomerAccounts((int?)dgvCustomersData.CurrentRow?.Cells["CustomerID"]?.Value);
+            frm.ShowDialog();
+        }
 
         private void updateCustomerToolStripMenuItem_Click(object sender, EventArgs e)
         {
