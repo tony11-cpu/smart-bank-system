@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.Designer.cs">
+      <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\frmAddOrUpdateAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,12 @@
     <Compile Include="System Config\ctrlMainSysConfigScreen.Designer.cs">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.Designer.cs">
+      <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Users\frmAddOrUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +149,9 @@
     <Compile Include="Users\Users User Controls\ctrlUsersMainScreen.Designer.cs">
       <DependentUpon>ctrlUsersMainScreen.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.resx">
+      <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Accounts\frmAddOrUpdateAccount.resx">
       <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="System Config\ctrlMainSysConfigScreen.resx">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.resx">
+      <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>

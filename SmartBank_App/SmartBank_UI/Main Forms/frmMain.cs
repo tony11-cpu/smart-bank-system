@@ -3,6 +3,7 @@ using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
 using SmartBank_UI.Properties;
 using SmartBank_UI.System_Config;
+using SmartBank_UI.Transaction.Transactions_User_Controls;
 using SmartBank_UI.Users;
 using SmartBank_UI.Users.Users_User_Controls;
 using System;
@@ -97,5 +98,8 @@ namespace SmartBank_UI
 
         private ctrlMainSysConfigScreen _configScreen = new ctrlMainSysConfigScreen(); 
         private void btnSystemConfig_Click(object sender, EventArgs e) => _showView(_configScreen);
+
+        private ctrlTransactionsMainScreen _transactions = new ctrlTransactionsMainScreen();
+        private void btnTransactions_Click(object sender, EventArgs e) => _showView(_transactions);
     }
 }
