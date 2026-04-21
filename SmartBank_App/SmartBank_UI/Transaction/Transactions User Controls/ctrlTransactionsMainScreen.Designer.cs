@@ -28,50 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblMorningToUserWithName = new System.Windows.Forms.Label();
+            this.lblTransactionsFormInfoToUser = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.dgvCustomersData = new System.Windows.Forms.DataGridView();
+            this.dgvAllTransactions = new System.Windows.Forms.DataGridView();
             this.btnNewTrasaction = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblClickToShowRow = new System.Windows.Forms.Label();
-            this.lblNumberOfAccounts = new System.Windows.Forms.Label();
-            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
+            this.lblNumberOfTransaction = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tbTransactionDate = new System.Windows.Forms.TextBox();
+            this.tbUserProccessedTheTransaction = new System.Windows.Forms.TextBox();
+            this.nupBalanceAfter = new System.Windows.Forms.NumericUpDown();
+            this.nupBalanceBefore = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.lblSavingsOrChecking = new System.Windows.Forms.Label();
+            this.lbTransactionlStatus = new System.Windows.Forms.Label();
             this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
-            this.lblAccountName = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.lblTransactionType = new System.Windows.Forms.Label();
+            this.btnSchedualedFillter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
+            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupBalanceAfter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupBalanceBefore)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblMorningToUserWithName
+            // lblTransactionsFormInfoToUser
             // 
-            this.lblMorningToUserWithName.AutoSize = true;
-            this.lblMorningToUserWithName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMorningToUserWithName.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblMorningToUserWithName.Location = new System.Drawing.Point(25, 43);
-            this.lblMorningToUserWithName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMorningToUserWithName.Name = "lblMorningToUserWithName";
-            this.lblMorningToUserWithName.Size = new System.Drawing.Size(646, 18);
-            this.lblMorningToUserWithName.TabIndex = 12;
-            this.lblMorningToUserWithName.Text = "Process deposits, withdrawals, and transfers. Every transaction is permanent and " +
+            this.lblTransactionsFormInfoToUser.AutoSize = true;
+            this.lblTransactionsFormInfoToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTransactionsFormInfoToUser.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblTransactionsFormInfoToUser.Location = new System.Drawing.Point(25, 43);
+            this.lblTransactionsFormInfoToUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTransactionsFormInfoToUser.Name = "lblTransactionsFormInfoToUser";
+            this.lblTransactionsFormInfoToUser.Size = new System.Drawing.Size(646, 18);
+            this.lblTransactionsFormInfoToUser.TabIndex = 12;
+            this.lblTransactionsFormInfoToUser.Text = "Process deposits, withdrawals, and transfers. Every transaction is permanent and " +
     "recorded in full.";
             // 
             // label1
@@ -86,23 +86,24 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Transactions";
             // 
-            // dgvCustomersData
+            // dgvAllTransactions
             // 
-            this.dgvCustomersData.AllowUserToAddRows = false;
-            this.dgvCustomersData.AllowUserToDeleteRows = false;
-            this.dgvCustomersData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvCustomersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
-            this.dgvCustomersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCustomersData.Location = new System.Drawing.Point(15, 168);
-            this.dgvCustomersData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.dgvCustomersData.MultiSelect = false;
-            this.dgvCustomersData.Name = "dgvCustomersData";
-            this.dgvCustomersData.ReadOnly = true;
-            this.dgvCustomersData.RowHeadersWidth = 62;
-            this.dgvCustomersData.RowTemplate.Height = 28;
-            this.dgvCustomersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomersData.Size = new System.Drawing.Size(811, 595);
-            this.dgvCustomersData.TabIndex = 13;
+            this.dgvAllTransactions.AllowUserToAddRows = false;
+            this.dgvAllTransactions.AllowUserToDeleteRows = false;
+            this.dgvAllTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvAllTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
+            this.dgvAllTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAllTransactions.Location = new System.Drawing.Point(15, 168);
+            this.dgvAllTransactions.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvAllTransactions.MultiSelect = false;
+            this.dgvAllTransactions.Name = "dgvAllTransactions";
+            this.dgvAllTransactions.ReadOnly = true;
+            this.dgvAllTransactions.RowHeadersVisible = false;
+            this.dgvAllTransactions.RowHeadersWidth = 62;
+            this.dgvAllTransactions.RowTemplate.Height = 28;
+            this.dgvAllTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAllTransactions.Size = new System.Drawing.Size(811, 595);
+            this.dgvAllTransactions.TabIndex = 13;
             // 
             // btnNewTrasaction
             // 
@@ -115,7 +116,7 @@
             this.btnNewTrasaction.ForeColor = System.Drawing.Color.Lime;
             this.btnNewTrasaction.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_38;
             this.btnNewTrasaction.Location = new System.Drawing.Point(1094, 103);
-            this.btnNewTrasaction.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNewTrasaction.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewTrasaction.Name = "btnNewTrasaction";
             this.btnNewTrasaction.Size = new System.Drawing.Size(217, 61);
             this.btnNewTrasaction.TabIndex = 15;
@@ -129,7 +130,7 @@
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblClickToShowRow);
-            this.panel1.Controls.Add(this.lblNumberOfAccounts);
+            this.panel1.Controls.Add(this.lblNumberOfTransaction);
             this.panel1.Location = new System.Drawing.Point(15, 772);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(811, 44);
@@ -149,47 +150,91 @@
             this.lblClickToShowRow.Text = "Click a row to view details";
             this.lblClickToShowRow.Visible = false;
             // 
-            // lblNumberOfAccounts
+            // lblNumberOfTransaction
             // 
-            this.lblNumberOfAccounts.AutoSize = true;
-            this.lblNumberOfAccounts.BackColor = System.Drawing.Color.MidnightBlue;
-            this.lblNumberOfAccounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNumberOfAccounts.ForeColor = System.Drawing.Color.White;
-            this.lblNumberOfAccounts.Location = new System.Drawing.Point(7, 12);
-            this.lblNumberOfAccounts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblNumberOfAccounts.Name = "lblNumberOfAccounts";
-            this.lblNumberOfAccounts.Size = new System.Drawing.Size(191, 18);
-            this.lblNumberOfAccounts.TabIndex = 57;
-            this.lblNumberOfAccounts.Text = "Showing 0 transaction done";
-            // 
-            // ctrlAccountShortInfo1
-            // 
-            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(839, 168);
-            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
-            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
-            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(473, 369);
-            this.ctrlAccountShortInfo1.TabIndex = 14;
+            this.lblNumberOfTransaction.AutoSize = true;
+            this.lblNumberOfTransaction.BackColor = System.Drawing.Color.MidnightBlue;
+            this.lblNumberOfTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfTransaction.ForeColor = System.Drawing.Color.White;
+            this.lblNumberOfTransaction.Location = new System.Drawing.Point(7, 12);
+            this.lblNumberOfTransaction.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNumberOfTransaction.Name = "lblNumberOfTransaction";
+            this.lblNumberOfTransaction.Size = new System.Drawing.Size(191, 18);
+            this.lblNumberOfTransaction.TabIndex = 57;
+            this.lblNumberOfTransaction.Text = "Showing 0 transaction done";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.textBox2);
-            this.panel2.Controls.Add(this.textBox1);
-            this.panel2.Controls.Add(this.numericUpDown2);
-            this.panel2.Controls.Add(this.numericUpDown1);
+            this.panel2.Controls.Add(this.tbTransactionDate);
+            this.panel2.Controls.Add(this.tbUserProccessedTheTransaction);
+            this.panel2.Controls.Add(this.nupBalanceAfter);
+            this.panel2.Controls.Add(this.nupBalanceBefore);
             this.panel2.Controls.Add(this.label16);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Location = new System.Drawing.Point(840, 549);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(471, 267);
             this.panel2.TabIndex = 62;
+            // 
+            // tbTransactionDate
+            // 
+            this.tbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbTransactionDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTransactionDate.Enabled = false;
+            this.tbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.tbTransactionDate.Location = new System.Drawing.Point(182, 227);
+            this.tbTransactionDate.Name = "tbTransactionDate";
+            this.tbTransactionDate.ReadOnly = true;
+            this.tbTransactionDate.Size = new System.Drawing.Size(264, 26);
+            this.tbTransactionDate.TabIndex = 87;
+            // 
+            // tbUserProccessedTheTransaction
+            // 
+            this.tbUserProccessedTheTransaction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbUserProccessedTheTransaction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbUserProccessedTheTransaction.Enabled = false;
+            this.tbUserProccessedTheTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUserProccessedTheTransaction.ForeColor = System.Drawing.Color.White;
+            this.tbUserProccessedTheTransaction.Location = new System.Drawing.Point(184, 181);
+            this.tbUserProccessedTheTransaction.Name = "tbUserProccessedTheTransaction";
+            this.tbUserProccessedTheTransaction.ReadOnly = true;
+            this.tbUserProccessedTheTransaction.Size = new System.Drawing.Size(264, 26);
+            this.tbUserProccessedTheTransaction.TabIndex = 86;
+            // 
+            // nupBalanceAfter
+            // 
+            this.nupBalanceAfter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupBalanceAfter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nupBalanceAfter.Enabled = false;
+            this.nupBalanceAfter.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupBalanceAfter.ForeColor = System.Drawing.Color.White;
+            this.nupBalanceAfter.Location = new System.Drawing.Point(184, 132);
+            this.nupBalanceAfter.Name = "nupBalanceAfter";
+            this.nupBalanceAfter.ReadOnly = true;
+            this.nupBalanceAfter.Size = new System.Drawing.Size(262, 29);
+            this.nupBalanceAfter.TabIndex = 85;
+            this.nupBalanceAfter.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // nupBalanceBefore
+            // 
+            this.nupBalanceBefore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupBalanceBefore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nupBalanceBefore.Enabled = false;
+            this.nupBalanceBefore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupBalanceBefore.ForeColor = System.Drawing.Color.White;
+            this.nupBalanceBefore.Location = new System.Drawing.Point(184, 84);
+            this.nupBalanceBefore.Name = "nupBalanceBefore";
+            this.nupBalanceBefore.ReadOnly = true;
+            this.nupBalanceBefore.Size = new System.Drawing.Size(262, 29);
+            this.nupBalanceBefore.TabIndex = 84;
+            this.nupBalanceBefore.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label16
             // 
@@ -243,26 +288,26 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.lblSavingsOrChecking);
+            this.panel3.Controls.Add(this.lbTransactionlStatus);
             this.panel3.Controls.Add(this.pbAccountTypePhoto);
-            this.panel3.Controls.Add(this.lblAccountName);
+            this.panel3.Controls.Add(this.lblTransactionType);
             this.panel3.Location = new System.Drawing.Point(-1, 1);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(472, 73);
             this.panel3.TabIndex = 0;
             // 
-            // lblSavingsOrChecking
+            // lbTransactionlStatus
             // 
-            this.lblSavingsOrChecking.AutoSize = true;
-            this.lblSavingsOrChecking.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSavingsOrChecking.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.lblSavingsOrChecking.Location = new System.Drawing.Point(150, 42);
-            this.lblSavingsOrChecking.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSavingsOrChecking.Name = "lblSavingsOrChecking";
-            this.lblSavingsOrChecking.Size = new System.Drawing.Size(218, 20);
-            this.lblSavingsOrChecking.TabIndex = 25;
-            this.lblSavingsOrChecking.Text = "Status (Pending - Completed)";
+            this.lbTransactionlStatus.AutoSize = true;
+            this.lbTransactionlStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTransactionlStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.lbTransactionlStatus.Location = new System.Drawing.Point(150, 42);
+            this.lbTransactionlStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbTransactionlStatus.Name = "lbTransactionlStatus";
+            this.lbTransactionlStatus.Size = new System.Drawing.Size(218, 20);
+            this.lbTransactionlStatus.TabIndex = 25;
+            this.lbTransactionlStatus.Text = "Status (Pending - Completed)";
             // 
             // pbAccountTypePhoto
             // 
@@ -274,31 +319,32 @@
             this.pbAccountTypePhoto.TabIndex = 23;
             this.pbAccountTypePhoto.TabStop = false;
             // 
-            // lblAccountName
+            // lblTransactionType
             // 
-            this.lblAccountName.AutoSize = true;
-            this.lblAccountName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccountName.ForeColor = System.Drawing.Color.White;
-            this.lblAccountName.Location = new System.Drawing.Point(150, 14);
-            this.lblAccountName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblAccountName.Name = "lblAccountName";
-            this.lblAccountName.Size = new System.Drawing.Size(156, 24);
-            this.lblAccountName.TabIndex = 24;
-            this.lblAccountName.Text = "Transaction Type";
+            this.lblTransactionType.AutoSize = true;
+            this.lblTransactionType.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTransactionType.ForeColor = System.Drawing.Color.White;
+            this.lblTransactionType.Location = new System.Drawing.Point(150, 14);
+            this.lblTransactionType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTransactionType.Name = "lblTransactionType";
+            this.lblTransactionType.Size = new System.Drawing.Size(156, 24);
+            this.lblTransactionType.TabIndex = 24;
+            this.lblTransactionType.Text = "Transaction Type";
             // 
-            // button1
+            // btnSchedualedFillter
             // 
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(733, 129);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 32);
-            this.button1.TabIndex = 63;
-            this.button1.Text = "Schedualed";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSchedualedFillter.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSchedualedFillter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSchedualedFillter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSchedualedFillter.ForeColor = System.Drawing.Color.White;
+            this.btnSchedualedFillter.Location = new System.Drawing.Point(733, 129);
+            this.btnSchedualedFillter.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSchedualedFillter.Name = "btnSchedualedFillter";
+            this.btnSchedualedFillter.Size = new System.Drawing.Size(93, 32);
+            this.btnSchedualedFillter.TabIndex = 63;
+            this.btnSchedualedFillter.Text = "Schedualed";
+            this.btnSchedualedFillter.UseVisualStyleBackColor = true;
+            this.btnSchedualedFillter.Click += new System.EventHandler(this.btnSchedualedFillter_Click);
             // 
             // label2
             // 
@@ -318,7 +364,7 @@
             this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tbSearchBar.Location = new System.Drawing.Point(15, 129);
-            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(715, 32);
             this.tbSearchBar.TabIndex = 16;
@@ -327,113 +373,74 @@
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
-            // numericUpDown1
+            // ctrlAccountShortInfo1
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown1.Location = new System.Drawing.Point(184, 84);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.ReadOnly = true;
-            this.numericUpDown1.Size = new System.Drawing.Size(262, 29);
-            this.numericUpDown1.TabIndex = 84;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.numericUpDown2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numericUpDown2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown2.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown2.Location = new System.Drawing.Point(184, 132);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.ReadOnly = true;
-            this.numericUpDown2.Size = new System.Drawing.Size(262, 29);
-            this.numericUpDown2.TabIndex = 85;
-            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(184, 181);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(264, 26);
-            this.textBox1.TabIndex = 86;
-            // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(182, 227);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(264, 26);
-            this.textBox2.TabIndex = 87;
+            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(839, 168);
+            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
+            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
+            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(473, 369);
+            this.ctrlAccountShortInfo1.TabIndex = 14;
             // 
             // ctrlTransactionsMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSchedualedFillter);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbSearchBar);
             this.Controls.Add(this.btnNewTrasaction);
             this.Controls.Add(this.ctrlAccountShortInfo1);
-            this.Controls.Add(this.dgvCustomersData);
-            this.Controls.Add(this.lblMorningToUserWithName);
+            this.Controls.Add(this.dgvAllTransactions);
+            this.Controls.Add(this.lblTransactionsFormInfoToUser);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlTransactionsMainScreen";
             this.Size = new System.Drawing.Size(1327, 833);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).EndInit();
+            this.Load += new System.EventHandler(this.ctrlTransactionsMainScreen_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupBalanceAfter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupBalanceBefore)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblMorningToUserWithName;
+        private System.Windows.Forms.Label lblTransactionsFormInfoToUser;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dgvCustomersData;
+        private System.Windows.Forms.DataGridView dgvAllTransactions;
         private Accounts.Accounts_User_Controls.ctrlAccountShortInfo ctrlAccountShortInfo1;
         private System.Windows.Forms.Button btnNewTrasaction;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblClickToShowRow;
-        private System.Windows.Forms.Label lblNumberOfAccounts;
+        private System.Windows.Forms.Label lblNumberOfTransaction;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSchedualedFillter;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbSearchBar;
-        private System.Windows.Forms.Label lblSavingsOrChecking;
+        private System.Windows.Forms.Label lbTransactionlStatus;
         private System.Windows.Forms.PictureBox pbAccountTypePhoto;
-        private System.Windows.Forms.Label lblAccountName;
+        private System.Windows.Forms.Label lblTransactionType;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.TextBox tbTransactionDate;
+        private System.Windows.Forms.TextBox tbUserProccessedTheTransaction;
+        private System.Windows.Forms.NumericUpDown nupBalanceAfter;
+        private System.Windows.Forms.NumericUpDown nupBalanceBefore;
     }
 }

@@ -295,7 +295,17 @@ namespace SmartBank_UI.Accounts
             if(_currentMode == enMode.Update)
                 return true;
 
-            return clsTransactions.Deposit(_selectedAccount.AccountID.Value, nupOpeningBalance.Value, "Initial deposit", _selectedAccount.CreatedByUserID);
+            try
+            {
+                if(_selectedAccount.Deposit(nupOpeningBalance.Value, "Initial deposit"))    
+                   return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to perform the initial deposit: {ex.Message}", "Deposit Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
         }
 
         private void btnOpenOrUpdateAccount_Click(object sender, EventArgs e)

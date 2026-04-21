@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SmartBank;
+using SmartBank_BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,11 +19,51 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             InitializeComponent();
         }
 
+        private List<clsTransactionLog> _transactionsLogs;
+
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string filterTag = tbSearchBar.Tag.ToString();
             tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
+
+        private void _bindGrid(IEnumerable<clsTransactionLog> transactions)
+        {
+            dgvAllTransactions.DataSource = transactions;
+
+            dgvAllTransactions.Columns["BalanceAfterTransaction"].Visible = false;
+
+            dgvAllTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
+            dgvAllTransactions.Columns["FromAccount"].HeaderText = "From Account";
+            dgvAllTransactions.Columns["ToAccount"].HeaderText = "To Account";
+            dgvAllTransactions.Columns["TransactionDate"].HeaderText = "Date";
+            dgvAllTransactions.Columns["IsScheduled"].HeaderText = "Scheduled";
+            dgvAllTransactions.Columns["UserResponsibleID"].HeaderText = "User Responsible";
+
+            dgvAllTransactions.RowTemplate.Height = 35;
+            dgvAllTransactions.ColumnHeadersHeight = 40;
+        }
+
+        private List<clsTransactionLog> _loadTransactionsLog()
+        {
+            _transactionsLogs = clsTransactionLog.FetchAllTransactionsList();
+            return _transactionsLogs;
+        }
+
+        private void ctrlTransactionsMainScreen_Load(object sender, EventArgs e)
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            _bindGrid(_loadTransactionsLog());
+        }
+
+        private void btnSchedualedFillter_Click(object sender, EventArgs e)
+        {
+            if (_transactionsLogs.Any())
+                _bindGrid(_transactionsLogs.Where(n => n.IsScheduled));
+        }
+
     }
 }

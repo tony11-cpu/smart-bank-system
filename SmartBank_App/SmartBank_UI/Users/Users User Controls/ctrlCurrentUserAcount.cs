@@ -1,4 +1,5 @@
 ﻿using SmartBank;
+using SmartBank_BLL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,7 +64,19 @@ namespace SmartBank_UI.Users.Users_User_Controls
 
         private void _loadUserTransactionsDGV()
         {
-            // Get all transactions the current user has made and display them in the dgvUserTransactions
+            dgvlastTransactions.DataSource = clsTransactionLog.FetchAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+
+            dgvlastTransactions.Columns["UserResponsibleID"].Visible = false;
+            dgvlastTransactions.Columns["BalanceAfterTransaction"].Visible = false;
+            dgvlastTransactions.Columns["IsScheduled"].Visible = false;
+
+            dgvlastTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
+            dgvlastTransactions.Columns["FromAccount"].HeaderText = "From Account";
+            dgvlastTransactions.Columns["ToAccount"].HeaderText = "To Account";
+            dgvlastTransactions.Columns["TransactionDate"].HeaderText = "Date";
+
+            dgvlastTransactions.RowTemplate.Height = 35;
+            dgvlastTransactions.ColumnHeadersHeight = 40;
         }
 
         private void _loadDefaultbtnImages()

@@ -120,6 +120,7 @@
             // 
             this.dgvUserLoginHistory.AllowUserToAddRows = false;
             this.dgvUserLoginHistory.AllowUserToDeleteRows = false;
+            this.dgvUserLoginHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUserLoginHistory.BackgroundColor = System.Drawing.Color.MidnightBlue;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -149,6 +150,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUserLoginHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvUserLoginHistory.RowHeadersVisible = false;
             this.dgvUserLoginHistory.RowTemplate.Height = 28;
             this.dgvUserLoginHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUserLoginHistory.Size = new System.Drawing.Size(602, 137);
@@ -158,9 +160,9 @@
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.label12);
-            this.panel7.Location = new System.Drawing.Point(0, 3);
+            this.panel7.Location = new System.Drawing.Point(0, -2);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(605, 43);
+            this.panel7.Size = new System.Drawing.Size(605, 48);
             this.panel7.TabIndex = 20;
             // 
             // label12
@@ -190,6 +192,7 @@
             // 
             this.dgvlastTransactions.AllowUserToAddRows = false;
             this.dgvlastTransactions.AllowUserToDeleteRows = false;
+            this.dgvlastTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvlastTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
@@ -208,7 +211,8 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvlastTransactions.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvlastTransactions.Location = new System.Drawing.Point(-1, 51);
+            this.dgvlastTransactions.Location = new System.Drawing.Point(-1, 52);
+            this.dgvlastTransactions.MultiSelect = false;
             this.dgvlastTransactions.Name = "dgvlastTransactions";
             this.dgvlastTransactions.ReadOnly = true;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -219,18 +223,19 @@
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvlastTransactions.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvlastTransactions.RowHeadersVisible = false;
             this.dgvlastTransactions.RowTemplate.Height = 28;
             this.dgvlastTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvlastTransactions.Size = new System.Drawing.Size(608, 442);
+            this.dgvlastTransactions.Size = new System.Drawing.Size(602, 441);
             this.dgvlastTransactions.TabIndex = 21;
             // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(2, 3);
+            this.panel2.Location = new System.Drawing.Point(-1, -1);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(601, 43);
+            this.panel2.Size = new System.Drawing.Size(604, 47);
             this.panel2.TabIndex = 20;
             // 
             // label1

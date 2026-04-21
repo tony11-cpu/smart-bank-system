@@ -7,14 +7,6 @@ using System.Linq;
 
 namespace SmartBank_BLL
 {
-    public interface ITransactions
-    {
-        bool Deposit(int accountID, decimal amount, string description, int performedByUserID);
-        bool Withdraw(int accountID, decimal amount, string description, int performedByUserID);
-        bool Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID);
-        bool ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID);
-    }
-
     public class clsAccounts
     {
         public enum enMode { Add, Update }
@@ -27,23 +19,23 @@ namespace SmartBank_BLL
         public clsCustomers Customer { get; set; }
         public enAccountType AccountType { get; set; }
 
-        /// <summary>
-        /// Can change only through transactions. Use the transactions class.
-        /// </summary>
-        public decimal Balance { get; internal set; }
-
         private decimal _minimumBalance;
         public decimal MinimumBalance
-        { 
-            get => _minimumBalance; 
+        {
+            get => _minimumBalance;
             set
             {
-                if(Balance < value && _mode == enMode.Update)
+                if (Balance < value && _mode == enMode.Update)
                     throw new InvalidOperationException("Cannot set minimum balance higher than current balance.");
 
                 _minimumBalance = value;
             }
         }
+
+        /// <summary>
+        /// Can change only through transactions. Use the transactions class.
+        /// </summary>
+        public decimal Balance { get; internal set; }
         public enStatus Status { get; private set; }
         public DateTime? OpenedDate { get; private set; }
         public DateTime? ClosedDate { get; private set; }
@@ -294,5 +286,39 @@ namespace SmartBank_BLL
 
             return accounts;
         }
+
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the deposit was successful, otherwise false.</returns>
+        /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
+        public bool Deposit(decimal amount, string description) => clsPerformTransaction.Deposit(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the withdrawal was successful, otherwise false.</returns>
+        /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
+        public bool Withdrawal(decimal amount, string description) => clsPerformTransaction.withdrawal(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+
+
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the transfer was successful, otherwise false.</returns>
+        /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, or the user responsible is not set.</exception>
+        public bool TransferTo(clsAccounts toAccount, decimal amount, string description) => clsPerformTransaction.Transfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
+                                                                                                                            toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"), 
+                                                                                                                            amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+
+        /// <summary>
+        /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
+        /// </summary>
+        /// <returns>True if the scheduled transfer was successful, otherwise false.</returns>
+        /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, the user responsible is not set, or the scheduled date is invalid.</exception>
+        public bool ScheduleTransferTo(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate) => clsPerformTransaction.ScheduleTransfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
+                                                                                                                            toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"), 
+                                                                                                                            amount, description, scheduledDate, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public override string ToString() => $"{AccountNumber}";
     }
 }

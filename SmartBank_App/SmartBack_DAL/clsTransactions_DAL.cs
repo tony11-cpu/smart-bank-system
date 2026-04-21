@@ -110,5 +110,26 @@ namespace SmartBack_DAL
 
             return false;
         }
+
+        public static DataTable GetAllTransactions()
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllTransactions()", conn))
+                {
+                    conn.Open();
+                    dt.Load(cmd.ExecuteReader());
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return dt;
+        }
     }
 }

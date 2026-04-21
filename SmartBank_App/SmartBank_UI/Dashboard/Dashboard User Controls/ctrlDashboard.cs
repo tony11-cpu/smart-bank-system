@@ -26,6 +26,25 @@ namespace SmartBank_UI
 
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
             lblActiveAccounts.Text = clsAccounts.NumberOfActiveAccounts.ToString();
+
+            _loadTransactions();
+        }
+
+        private void _loadTransactions()
+        {
+            dgvRecentTransactions.DataSource = clsTransactionLog.FetchAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+
+            dgvRecentTransactions.Columns["UserResponsibleID"].Visible = false;
+            dgvRecentTransactions.Columns["BalanceAfterTransaction"].Visible = false;
+
+            dgvRecentTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
+            dgvRecentTransactions.Columns["FromAccount"].HeaderText = "From Account";
+            dgvRecentTransactions.Columns["ToAccount"].HeaderText = "To Account";
+            dgvRecentTransactions.Columns["TransactionDate"].HeaderText = "Date";
+            dgvRecentTransactions.Columns["IsScheduled"].HeaderText = "Scheduled";
+
+            dgvRecentTransactions.RowTemplate.Height = 35;
+            dgvRecentTransactions.ColumnHeadersHeight = 40;
         }
     }
 }
