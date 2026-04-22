@@ -35,7 +35,7 @@ namespace SmartBank_UI.Accounts
             InitializeComponent();
         }
 
-        private void frmAddOrUpdateAccount_Load(object sender, EventArgs e)
+        private async void frmAddOrUpdateAccount_Load(object sender, EventArgs e)
         {
             if (DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
@@ -45,7 +45,7 @@ namespace SmartBank_UI.Accounts
             if (!string.IsNullOrEmpty(_accountNumber) && clsAccounts.IsAccountExists(_accountNumber))
             {
                 _currentMode = enMode.Update;
-                _loadAccountInfo();
+                await _loadAccountInfo();
 
                 nupOpeningBalance.Enabled = false;
                 nupMinBalance.Enabled = true;
@@ -89,7 +89,7 @@ namespace SmartBank_UI.Accounts
 
             if (!ctrlCustomerShortInfo1.Customer.IsActive)
             {
-                MessageBox.Show("The selected customer is in active. Please select an active customer to proceed.", "Inactive Customer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The selected customer is in-active. Please select an active customer to proceed.", "Inactive Customer", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -124,7 +124,6 @@ namespace SmartBank_UI.Accounts
                 tbAccountNumber.Text = string.Empty;
                 lblAccountNumberLiveView.Text = string.Empty;
                 lblCustomerNameLiveView.Text = string.Empty;
-                pbCustomerPicture.Image = null;
             }
         }
 
@@ -153,7 +152,7 @@ namespace SmartBank_UI.Accounts
             nupOpeningBalance.Enabled = false;
         }
 
-        private void _loadAccountInfo()
+        private async Task _loadAccountInfo()
         {
             _selectedAccount = clsAccounts.Find(_accountNumber);
 
@@ -174,7 +173,7 @@ namespace SmartBank_UI.Accounts
             lblMinBalanceLiveView.Text = _selectedAccount.MinimumBalance.ToString("C");
             lblAccountTypeLiveView.Text = _selectedAccount.AccountType.ToString();
             lblDate.Text = _selectedAccount.OpenedDate?.ToString("MMMM dd, yyyy") ?? "N/A";
-            lblOpenedByUsername.Text = clsUsers.Find(_selectedAccount.CreatedByUserID)?.Username ?? "N/A";
+            lblOpenedByUsername.Text = (await clsUsers.FindAsync(_selectedAccount.CreatedByUserID))?.Username ?? "N/A";
             lblSavingOrCheckingsAccountType.Text = $"{_selectedAccount.AccountType} — Update Account";
 
             _accountType_Savings = _selectedAccount.AccountType == clsAccounts.enAccountType.Savings;

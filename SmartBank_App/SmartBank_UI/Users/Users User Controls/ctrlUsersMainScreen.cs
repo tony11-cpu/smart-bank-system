@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +27,8 @@ namespace SmartBank_UI.Users
 
         private void _bindGridToMainUsersDGV(List<clsUsers> usersView)
         {
-            if (!usersView.Any()) return;
+            if (!usersView.Any()) 
+                return;
 
             dgvUsersData.DataSource = usersView;
 
@@ -46,19 +48,16 @@ namespace SmartBank_UI.Users
             dgvUsersData.Columns["Permissions"].HeaderText = "Role";
             dgvUsersData.Columns["IsActive"].HeaderText = "Status";
             dgvUsersData.Columns["IsLocked"].HeaderText = "Is locked";
-
-            dgvUsersData.RowTemplate.Height = 35;
-            dgvUsersData.ColumnHeadersHeight = 40;
         }
 
-        private void _reloadCurrentUserLoginHistory()
+        private async Task _reloadCurrentUserLoginHistory()
         {
             if (_currentUser == null)
                 return;
 
             try
             {
-                dgvUserLoginHistory.DataSource = _currentUser.GetUserLoginRecors();
+                dgvUserLoginHistory.DataSource = await _currentUser.GetUserLoginRecorsAsync();
             }
             catch (Exception ex)
             {
@@ -66,22 +65,25 @@ namespace SmartBank_UI.Users
                 return;
             }
 
-            dgvUserLoginHistory.RowTemplate.Height = 35;
-            dgvUserLoginHistory.ColumnHeadersHeight = 40;
+            dgvUserLoginHistory.RowTemplate.Height = 28;
+            dgvUserLoginHistory.ColumnHeadersHeight = 35;
         }
 
-        private List<clsUsers> _loadUsersList()
+        private async Task<List<clsUsers>> _loadUsersList()
         {
-            _allUsers = clsUsers.GetAllUsers();
+            _allUsers = await clsUsers.GetAllUsersAsync();
             return _allUsers;
         }
 
-        private void ctrlUsersMainScreen_Load(object sender, EventArgs e)
+        private async void ctrlUsersMainScreen_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            _bindGridToMainUsersDGV(_loadUsersList());
+            dgvUsersData.RowTemplate.Height = 35;
+            dgvUsersData.ColumnHeadersHeight = 40;
+
+            _bindGridToMainUsersDGV(await _loadUsersList());
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
@@ -115,15 +117,18 @@ namespace SmartBank_UI.Users
 
         private void btnActiveFilter_Click(object sender, EventArgs e) => _bindGridToMainUsersDGV(_allUsers.Where(n => n.IsActive).ToList());
 
-        private void dgvUsersData_CellClick(object sender, DataGridViewCellEventArgs e) => _loadUserFromDGV();
+        private async void dgvUsersData_CellClick(object sender, DataGridViewCellEventArgs e) => await _loadUserFromDGV();
 
-        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e) => _loadUserFromDGV();
+        private async void contextMenuStrip2_Opening(object sender, CancelEventArgs e) => await _loadUserFromDGV();
 
-        private void _loadUserFromDGV()
+        private async Task _loadUserFromDGV()
         {
-            if (dgvUsersData.Rows.Count > 0)
+            if (dgvUsersData.CurrentRow != null && dgvUsersData.CurrentRow.Index >= 0)
             {
-                _loadUser(dgvUsersData.CurrentRow.Cells["Username"].Value.ToString());
+                var value = dgvUsersData.CurrentRow.Cells["Username"].Value;
+                if (value == null) return;
+                await _loadUser(value.ToString());
+
                 if (_currentUser != null)
                 {
                     btnActivate.Visible = !_currentUser.IsActive;
@@ -134,9 +139,9 @@ namespace SmartBank_UI.Users
             }
         }
 
-        private void _loadUser(string username)
+        private async Task _loadUser(string username)
         {
-            _currentUser = clsUsers.Find(username);
+            _currentUser = await clsUsers.FindAsync(username);
 
             if(_currentUser == null)
             {
@@ -157,10 +162,10 @@ namespace SmartBank_UI.Users
             if (_currentUser.IsActive) btnDeactivate.Visible = true;
             else btnActivate.Visible = true;
 
-            if(_currentUser != null) _reloadCurrentUserLoginHistory();
+            if(_currentUser != null) await _reloadCurrentUserLoginHistory();
         }
 
-        private void DeactivateUser_Click(object sender, EventArgs e)
+        private async void DeactivateUser_Click(object sender, EventArgs e)
         {
             if (_checkUserStates(_currentUser, true) == enUserStatesError.ReadyToDeactivate && 
                 MessageBox.Show("Are you sure you want to deactivate this user?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -169,9 +174,9 @@ namespace SmartBank_UI.Users
                 {
                     MessageBox.Show("User is already in use and cannot be deactivated.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (_currentUser.Deactivate())
+                else if (await _currentUser.DeactivateAsync())
                 {
-                    _bindGridToMainUsersDGV(_loadUsersList());
+                    _bindGridToMainUsersDGV(await _loadUsersList());
                     btnDeactivate.Visible = false;
                     btnActivate.Visible = true;
                     MessageBox.Show("user deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -183,13 +188,13 @@ namespace SmartBank_UI.Users
             }
         }
 
-        private void btnActivate_Click(object sender, EventArgs e)
+        private async void btnActivate_Click(object sender, EventArgs e)
         {
             if (_checkUserStates(_currentUser, false) == enUserStatesError.ReadyToActivate  && MessageBox.Show("Are you sure you want to activate this user?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if (_currentUser.Activate())
+                if (await _currentUser.ActivateAsync())
                 {
-                    _bindGridToMainUsersDGV(_loadUsersList());
+                    _bindGridToMainUsersDGV(await _loadUsersList());
                     btnDeactivate.Visible = true;
                     btnActivate.Visible = false;
                     MessageBox.Show("User activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -226,15 +231,15 @@ namespace SmartBank_UI.Users
             return deactivation ? enUserStatesError.ReadyToDeactivate : enUserStatesError.ReadyToActivate;
         }
 
-        private void btnAddUser_Click(object sender, EventArgs e)
+        private async void btnAddUser_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateUser frm = new frmAddOrUpdateUser();
-            frm.OnNewUserAdded += _loadUser;
+            frm.OnNewUserAdded += async (username) => await _loadUser(username);
             frm.ShowDialog();
-            _bindGridToMainUsersDGV(_loadUsersList());
+            _bindGridToMainUsersDGV(await _loadUsersList());
         }
 
-        private void EditUserInfo_Click(object sender, EventArgs e)
+        private async void EditUserInfo_Click(object sender, EventArgs e)
         {
             if (_currentUser == null)
             {
@@ -243,17 +248,17 @@ namespace SmartBank_UI.Users
             else
             {
                 frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);
-                frm.OnNewUserAdded += _loadUser;
+                frm.OnNewUserAdded += async (username) => await _loadUser(username);
                 frm.ShowDialog();
-                _bindGridToMainUsersDGV(_loadUsersList());
+                _bindGridToMainUsersDGV(await _loadUsersList());
             }
         }
 
-        private void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
+        private async void tbUsername_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
+                clsUsers user = await clsUsers.FindAsync(tbUsername.Text.Trim());
                 if (user == null)
                 {
                     tbUsername.Text = _currentUser?.Username;
@@ -261,10 +266,10 @@ namespace SmartBank_UI.Users
                     return;
                 }
 
-                _loadUser(tbUsername.Text.Trim());
+                await _loadUser(tbUsername.Text.Trim());
             }
         }
 
-        private void ctrlUsersMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGridToMainUsersDGV(_loadUsersList());
+        private async void ctrlUsersMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGridToMainUsersDGV(await _loadUsersList());
     }
 }

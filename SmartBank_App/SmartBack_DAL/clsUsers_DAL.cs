@@ -4,12 +4,47 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SmartBank
 {
+    public class clsUserDto
+    {
+        public int? UserID { get; set; }
+        public string Username { get; set; }
+        public string PasswordHash { get; set; }
+        public string PasswordSalt { get; set; }
+        public int Permissions { get; set; }
+        public string FullName { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsLocked { get; set; }
+        public DateTime? CreationDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
+        public string CreatedByUsername { get; set; }
+        public string ImagePath { get; set; }
+
+        public clsUserDto(int? userID, string username, string passwordHash, string passwordSalt, int permissions, 
+                       string fullName, bool isActive, bool isLocked, DateTime? creationDate, DateTime? lastLoginDate,
+                       string createdByUsername, string imagePath)
+        {
+            UserID = userID;
+            Username = username;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
+            Permissions = permissions;
+            FullName = fullName;
+            IsActive = isActive;
+            IsLocked = isLocked;
+            CreationDate = creationDate;
+            LastLoginDate = lastLoginDate;
+            CreatedByUsername = createdByUsername;
+            ImagePath = imagePath;
+        }
+    }
+
     public static class clsUsers_DAL
     {
-        public static bool IsUserExistByUsername(string username)
+        public static async Task<bool> IsUserExistByUsernameAsync(string username)
         {
             try
             {
@@ -18,9 +53,9 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@Username", username);
-                    conn.Open();
+                    await conn.OpenAsync();
 
-                    return Convert.ToBoolean(cmd.ExecuteScalar());
+                    return Convert.ToBoolean(await cmd.ExecuteScalarAsync());
                 }
             }
             catch (SqlException ex)
@@ -31,7 +66,7 @@ namespace SmartBank
             return false;
         }
 
-        public static bool IsUserExistByID(int userID)
+        public static async Task<bool> IsUserExistByIDAsync(int userID)
         {
             try
             {
@@ -40,9 +75,9 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@UserID", userID);
-                    conn.Open();
+                    await conn.OpenAsync();
 
-                    return Convert.ToBoolean(cmd.ExecuteScalar());
+                    return Convert.ToBoolean(await cmd.ExecuteScalarAsync());
                 }
             }
             catch (SqlException ex)
@@ -53,10 +88,7 @@ namespace SmartBank
             return false;
         }
 
-        public static bool GetUserByUsername(string username, ref int userID, ref string passwordHash,
-                                         ref string passwordSalt, ref int permissions,
-                                         ref string fullName, ref bool isActive, ref bool isLocked,
-                                         ref DateTime? creationDate, ref DateTime? lastLogInDate ,ref string createdByUserUsername , ref string imagePath)
+        public static async Task<clsUserDto> GetUserByUsernameAsync(string username)
         {
             try
             {
@@ -91,24 +123,19 @@ namespace SmartBank
                     cmd.Parameters.Add(pCreatedByUsername);
                     cmd.Parameters.Add(pImagePath);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
-                    if (pUserID.Value == DBNull.Value) return false;
+                    if (pUserID.Value == DBNull.Value)
+                        return null;
 
-                    userID = (int)pUserID.Value;
-                    passwordHash = (string)pPasswordHash.Value;
-                    passwordSalt = (string)pPasswordSalt.Value;
-                    permissions = (int)pPermissions.Value;
-                    fullName = (string)pFullName.Value;
-                    isActive = (bool)pIsActive.Value;
-                    isLocked = (bool)pIsLocked.Value;
-                    creationDate = (DateTime)pCreationDate.Value;
-                    lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
-                    createdByUserUsername = pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value;
-                    imagePath = pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value;
-
-                    return true;
+                    return new clsUserDto((int)pUserID.Value, username, (string)pPasswordHash.Value,
+                        (string)pPasswordSalt.Value, (int)pPermissions.Value, (string)pFullName.Value,
+                        (bool)pIsActive.Value, (bool)pIsLocked.Value, pCreationDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pCreationDate.Value),
+                        pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value),
+                        pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value,
+                        pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value
+                    );
                 }
             }
             catch (SqlException ex)
@@ -116,12 +143,10 @@ namespace SmartBank
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
-            return false;
+            return null;
         }
 
-        public static int CreateUser(int? userInActionID, string username, string hashedPassword,
-                                      string salt, int permissions, string fullName,
-                                      bool isActive, bool isLocked , DateTime creationDate , string imagePath)
+        public static async Task<int> CreateUserAsync(int? userInActionID, clsUserDto userToCreate)
         {
             try
             {
@@ -131,15 +156,15 @@ namespace SmartBank
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@UserInActionID", userInActionID);
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@HashedPassword", hashedPassword);
-                    cmd.Parameters.AddWithValue("@Salt", salt);
-                    cmd.Parameters.AddWithValue("@Permissions", permissions);
-                    cmd.Parameters.AddWithValue("@FullName", fullName);
-                    cmd.Parameters.AddWithValue("@IsActive", isActive);
-                    cmd.Parameters.AddWithValue("@IsLocked", isLocked);
-                    cmd.Parameters.AddWithValue("@CreationDate", creationDate == null ? (object)DBNull.Value : creationDate);
-                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
+                    cmd.Parameters.AddWithValue("@Username", userToCreate.Username);
+                    cmd.Parameters.AddWithValue("@HashedPassword", userToCreate.PasswordHash);
+                    cmd.Parameters.AddWithValue("@Salt", userToCreate.PasswordSalt);
+                    cmd.Parameters.AddWithValue("@Permissions", userToCreate.Permissions);
+                    cmd.Parameters.AddWithValue("@FullName", userToCreate.FullName);
+                    cmd.Parameters.AddWithValue("@IsActive", userToCreate.IsActive);
+                    cmd.Parameters.AddWithValue("@IsLocked", userToCreate.IsLocked);
+                    cmd.Parameters.AddWithValue("@CreationDate", userToCreate.CreationDate == null ? (object)DBNull.Value : userToCreate.CreationDate);
+                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(userToCreate.ImagePath) ? (object)DBNull.Value : userToCreate.ImagePath);
 
                     SqlParameter newUserID = new SqlParameter("@NewUserID", SqlDbType.Int)
                     {
@@ -147,8 +172,8 @@ namespace SmartBank
                     };
                     cmd.Parameters.Add(newUserID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return (int)newUserID.Value;
                 }
@@ -161,7 +186,7 @@ namespace SmartBank
             return -1;
         }
 
-        public static void RecordLoginAttempt(int userID, bool wasSuccessful)
+        public static async Task RecordLoginAttemptAsync(int userID, bool wasSuccessful)
         {
             try
             {
@@ -173,9 +198,8 @@ namespace SmartBank
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     cmd.Parameters.AddWithValue("@WasSuccessful", wasSuccessful);
 
-                    conn.Open();
-
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
                 }
             }
             catch (SqlException ex)
@@ -184,10 +208,7 @@ namespace SmartBank
             }
         }
 
-        public static bool UpdateUser(int? adminUserID, int userID, string username,
-                                      string passwordHash, string passwordSalt, int permissions,
-                                      string fullName, bool isActive, bool isLocked,
-                                      DateTime? lastLoginDate , string imagePath)
+        public static async Task<bool> UpdateUserAsync(int? adminUserID, clsUserDto userToUpdate)
         {
             try
             {
@@ -197,25 +218,24 @@ namespace SmartBank
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@AdminUserID", adminUserID == null ? (object)DBNull.Value : adminUserID);
-                    cmd.Parameters.AddWithValue("@UserID", userID);
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@PasswordHash", passwordHash);
-                    cmd.Parameters.AddWithValue("@PasswordSalt", passwordSalt);
-                    cmd.Parameters.AddWithValue("@Permissions", permissions);
-                    cmd.Parameters.AddWithValue("@FullName", fullName);
-                    cmd.Parameters.AddWithValue("@IsActive", isActive);
-                    cmd.Parameters.AddWithValue("@IsLocked", isLocked);
-                    cmd.Parameters.AddWithValue("@LastLoginDate", lastLoginDate.HasValue ? (object)lastLoginDate.Value : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(imagePath) ? (object)DBNull.Value : imagePath);
-
+                    cmd.Parameters.AddWithValue("@UserID", userToUpdate.UserID);
+                    cmd.Parameters.AddWithValue("@Username", userToUpdate.Username);
+                    cmd.Parameters.AddWithValue("@PasswordHash", userToUpdate.PasswordHash);
+                    cmd.Parameters.AddWithValue("@PasswordSalt", userToUpdate.PasswordSalt);
+                    cmd.Parameters.AddWithValue("@Permissions", userToUpdate.Permissions);
+                    cmd.Parameters.AddWithValue("@FullName", userToUpdate.FullName);
+                    cmd.Parameters.AddWithValue("@IsActive", userToUpdate.IsActive);
+                    cmd.Parameters.AddWithValue("@IsLocked", userToUpdate.IsLocked);
+                    cmd.Parameters.AddWithValue("@LastLoginDate", userToUpdate.LastLoginDate.HasValue ? (object)userToUpdate.LastLoginDate.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(userToUpdate.ImagePath) ? (object)DBNull.Value : userToUpdate.ImagePath);
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit)
                     {
                         Direction = ParameterDirection.Output
                     };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return Convert.ToBoolean(pIsUpdated.Value);
                 }
@@ -228,7 +248,7 @@ namespace SmartBank
             return false;
         }
 
-        public static DataTable GetAllUsers()
+        public static async Task<DataTable> GetAllUsersAsync()
         {
             DataTable dt = new DataTable();
 
@@ -237,8 +257,9 @@ namespace SmartBank
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
                 using (SqlCommand cmd = new SqlCommand("select * From fn_GetAllUsers();", conn))
                 {
-                    conn.Open();
-                    dt.Load(cmd.ExecuteReader());
+                    await conn.OpenAsync();
+                    dt.Load(await cmd.ExecuteReaderAsync());
+                    return dt;
                 }
             }
             catch (Exception ex)
@@ -246,10 +267,10 @@ namespace SmartBank
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
-            return dt;
+            return null;
         }
 
-        public static DataTable GetAllUserLoginAttempts(int userID)
+        public static async Task<DataTable> GetAllUserLoginAttemptsAsync(int userID)
         {
             DataTable dt = new DataTable();
 
@@ -260,8 +281,8 @@ namespace SmartBank
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@UserID", userID);
-                    conn.Open();
-                    dt.Load(cmd.ExecuteReader());
+                    await conn.OpenAsync();
+                    dt.Load(await cmd.ExecuteReaderAsync());
                     return dt;
                 }
             }
@@ -273,10 +294,7 @@ namespace SmartBank
             return null;
         }
 
-        public static bool GetUserByUserID(int userID, ref string username, ref string passwordHash,
-                                   ref string passwordSalt, ref int permissions,
-                                   ref string fullName, ref bool isActive, ref bool isLocked,
-                                   ref DateTime? creationDate, ref DateTime? lastLogInDate, ref string createdByUserUsername, ref string imagePath)
+        public static async Task<clsUserDto> GetUserByUserIDAsync(int userID)
         {
             try
             {
@@ -311,24 +329,19 @@ namespace SmartBank
                     cmd.Parameters.Add(pCreatedByUsername);
                     cmd.Parameters.Add(pImagePath);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
-                    if (pUsername.Value == DBNull.Value) return false;
+                    if (pUsername.Value == DBNull.Value) 
+                        return null;
 
-                    username = (string)pUsername.Value;
-                    passwordHash = (string)pPasswordHash.Value;
-                    passwordSalt = (string)pPasswordSalt.Value;
-                    permissions = (int)pPermissions.Value;
-                    fullName = (string)pFullName.Value;
-                    isActive = (bool)pIsActive.Value;
-                    isLocked = (bool)pIsLocked.Value;
-                    creationDate = (DateTime)pCreationDate.Value;
-                    lastLogInDate = pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value);
-                    createdByUserUsername = pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value;
-                    imagePath = pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value;
-
-                    return true;
+                    return new clsUserDto(userID, (string)pUsername.Value, (string)pPasswordHash.Value,
+                        (string)pPasswordSalt.Value, (int)pPermissions.Value, (string)pFullName.Value,
+                        (bool)pIsActive.Value, (bool)pIsLocked.Value, pCreationDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pCreationDate.Value),
+                        pLastLogInDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(pLastLogInDate.Value),
+                        pCreatedByUsername.Value == DBNull.Value ? null : (string)pCreatedByUsername.Value,
+                        pImagePath.Value == DBNull.Value ? null : (string)pImagePath.Value
+                    );
                 }
             }
             catch (SqlException ex)
@@ -336,10 +349,10 @@ namespace SmartBank
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
-            return false;
+            return null;
         }
 
-        public static bool DeactivateUser(int adminUserID, int userID)
+        public static async Task<bool> DeactivateUserAsync(int adminUserID, int userID)
         {
             try
             {
@@ -354,8 +367,8 @@ namespace SmartBank
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
                 }
@@ -368,7 +381,7 @@ namespace SmartBank
             return false;
         }
 
-        public static bool ActivateUser(int adminUserID, int userID)
+        public static async Task<bool> ActivateUserAsync(int adminUserID, int userID)
         {
             try
             {
@@ -383,8 +396,8 @@ namespace SmartBank
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
                 }
@@ -397,7 +410,7 @@ namespace SmartBank
             return false;
         }
 
-        public static bool LockUser(int? adminUserID, int userID)
+        public static async Task<bool> LockUserAsync(int? adminUserID, int userID)
         {
             try
             {
@@ -412,8 +425,8 @@ namespace SmartBank
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
                 }
@@ -426,7 +439,7 @@ namespace SmartBank
             return false;
         }
 
-        public static bool UnlockUser(int adminUserID, int userID)
+        public static async Task<bool> UnlockUserAsync(int adminUserID, int userID)
         {
             try
             {
@@ -441,8 +454,8 @@ namespace SmartBank
                     SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
                 }

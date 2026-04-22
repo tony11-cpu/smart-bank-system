@@ -46,11 +46,11 @@ namespace SmartBank_UI.Users.Users_User_Controls
             else pbUserPhoto.ImageLocation = clsGlobal.ActiveUser.ImagePath;
         }
 
-        private void _loadUserLoginsDGV()
+        private async Task _loadUserLoginsDGV()
         {
             try
             {
-                dgvUserLoginHistory.DataSource = clsGlobal.ActiveUser.GetUserLoginRecors();
+                dgvUserLoginHistory.DataSource = await clsGlobal.ActiveUser.GetUserLoginRecorsAsync();
             }
             catch (Exception ex)
             {
@@ -91,11 +91,11 @@ namespace SmartBank_UI.Users.Users_User_Controls
             btnNotLocked.Image = Properties.Resources.icons8_dot_24__1_;
         }
 
-        private void ctrlCurrentUserAcount_Load(object sender, EventArgs e)
+        private async void ctrlCurrentUserAcount_Load(object sender, EventArgs e)
         {
             _loadCurrentUserData();
-            _loadUserLoginsDGV();
             _loadUserTransactionsDGV();
+            await _loadUserLoginsDGV();
 
             frmAddOrUpdateUser.OnCurrentUserEdit += _loadCurrentUserData;
         }

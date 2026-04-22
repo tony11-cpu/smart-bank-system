@@ -54,7 +54,8 @@ namespace SmartBank_BLL
 
             if (clsConfigurations_DAL.GetConfig((int)config, ref configKey, ref configValue, ref description, ref lastModifiedDate, ref lastModifiedByUserID))
             {
-                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, clsUsers.Find(lastModifiedByUserID ?? -1));
+                var userAsync = clsUsers.FindAsync(lastModifiedByUserID ?? -1);
+                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, userAsync.Result);
             }
 
             return null;

@@ -43,9 +43,6 @@ namespace SmartBank_UI.Main_Form_UC
             dgvCustomersData.Columns["IsActive"].HeaderText = "Status";
             dgvCustomersData.Columns["NationalID"].HeaderText = "National ID";
 
-            dgvCustomersData.RowTemplate.Height = 35;
-            dgvCustomersData.ColumnHeadersHeight = 40;
-
             foreach (DataGridViewRow row in dgvCustomersData.Rows)
             {
                 row.Cells["FirstName"].Value = $"{row.Cells["FirstName"].Value} {row.Cells["LastName"].Value}".Trim();
@@ -65,6 +62,9 @@ namespace SmartBank_UI.Main_Form_UC
 
             _isManagerOrAdmin = clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager
                                 || clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
+
+            dgvCustomersData.RowTemplate.Height = 35;
+            dgvCustomersData.ColumnHeadersHeight = 40;
 
             _bindGrid(_loadCustomersList());
         }

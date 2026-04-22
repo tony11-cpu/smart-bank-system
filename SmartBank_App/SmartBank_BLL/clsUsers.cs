@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using static SmartBank_BLL.clsUtil.clsSecurity.clsHash;
 
 namespace SmartBank
@@ -53,7 +54,7 @@ namespace SmartBank
         {
             UserID = null;
             Username = null;
-            Permissions = null;
+            Permissions = null;     
             FullName = null;
             IsActive = false;
             IsLocked = true;
@@ -65,67 +66,60 @@ namespace SmartBank
             ImagePath = null;
         }
 
-        public static bool IsUserExists(int userID) => clsUsers_DAL.IsUserExistByID(userID);
+        public static async Task<bool> IsUserExistsAsync(int userID) => await clsUsers_DAL.IsUserExistByIDAsync(userID);
 
-        public static bool IsUserExists(string Username) => clsUsers_DAL.IsUserExistByUsername(Username);
+        public static async Task<bool> IsUserExistsAsync(string Username) => await clsUsers_DAL.IsUserExistByUsernameAsync(Username);
 
-        public void RecordLoginAttemp(bool wasSuccessful) => clsUsers_DAL.RecordLoginAttempt(UserID ?? throw new Exception("User ID is not set."), wasSuccessful);
+        /// <summary>
+        /// Use try and catch block to handle the exception of user ID not being set, which can occur if you try to record a login attempt for a user that hasn't been saved to the database yet.
+        /// </summary>
+        /// <exception cref="Exception">User ID not being set</exception>
+        public async Task RecordLoginAttemptAsync(bool wasSuccessful) => await clsUsers_DAL.RecordLoginAttemptAsync(UserID ?? throw new Exception("User ID is not set."), wasSuccessful);
 
-        public static clsUsers Find(string username)
+        /// <summary>
+        /// Use try and catch block to handle the exception of user ID not being set, which can occur if you try to record a login attempt for a user that hasn't been saved to the database yet.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <exception cref="Exception">User ID not being set</exception>
+        public static async Task<clsUsers> FindAsync(string username)
         {
-            int userID = -1;
-            string passwordHash = null;
-            string passwordSalt = null;
-            int permissions = 0;
-            string fullName = null;
-            bool isActive = false;
-            bool isLocked = false;
-            DateTime? creationDate = null;
-            DateTime? lastLogInDate = null;
-            string usernameCreatedCurrentUser = null;
-            string imagePath = null;
+            var getUser = await clsUsers_DAL.GetUserByUsernameAsync(username);
 
-            if (clsUsers_DAL.GetUserByUsername(username, ref userID, ref passwordHash, ref passwordSalt, ref permissions, ref fullName,
-                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate , ref usernameCreatedCurrentUser , ref imagePath)) 
+            if (getUser != null) 
             {
-                return new clsUsers(userID, username, new clsPermissions(permissions), 
-                                    fullName, isActive, isLocked, creationDate , 
-                                    lastLogInDate, passwordSalt , passwordHash , usernameCreatedCurrentUser , imagePath);
+                return new clsUsers(getUser.UserID ?? throw new Exception("User ID is not set."), username, new clsPermissions(getUser.Permissions), 
+                                    getUser.FullName, getUser.IsActive, getUser.IsLocked, getUser.CreationDate , 
+                                    getUser.LastLoginDate, getUser.PasswordSalt , getUser.PasswordHash , getUser.CreatedByUsername , getUser.ImagePath);
             }
 
             return null;
         }
 
-        public static clsUsers Find(int userID)
+        /// <summary>
+        /// Use try and catch block to handle the exception of user ID not being set, which can occur if you try to record a login attempt for a user that hasn't been saved to the database yet.
+        /// </summary>
+        /// <exception cref="Exception">User ID not being set</exception>
+        public static async Task<clsUsers> FindAsync(int userID)
         {
-            string username = null;
-            string passwordHash = null;
-            string passwordSalt = null;
-            int permissions = 0;
-            string fullName = null;
-            bool isActive = false;
-            bool isLocked = false;
-            DateTime? creationDate = null;
-            DateTime? lastLogInDate = null;
-            string usernameCreatedCurrentUser = null;
-            string imagePath = null;
+            var getUser = await clsUsers_DAL.GetUserByUserIDAsync(userID);
 
-            if (clsUsers_DAL.GetUserByUserID(userID, ref username, ref passwordHash, ref passwordSalt, ref permissions, ref fullName,
-                                                         ref isActive, ref isLocked, ref creationDate, ref lastLogInDate, ref usernameCreatedCurrentUser, ref imagePath))
+            if (getUser != null)
             {
-                return new clsUsers(userID, username, new clsPermissions(permissions),
-                                    fullName, isActive, isLocked, creationDate,
-                                    lastLogInDate, passwordSalt, passwordHash, usernameCreatedCurrentUser, imagePath);
+                return new clsUsers(getUser.UserID ?? throw new Exception("User ID is not set."), getUser.Username, new clsPermissions(getUser.Permissions),
+                                    getUser.FullName, getUser.IsActive, getUser.IsLocked, getUser.CreationDate,
+                                    getUser.LastLoginDate, getUser.PasswordSalt, getUser.PasswordHash, getUser.CreatedByUsername, getUser.ImagePath);
             }
 
             return null;
         }
 
-        private bool _addNew()
+        private async Task<bool> _addNewAsync()
         {
             string passwardSalt = GenerateSalt();
-            UserID = clsUsers_DAL.CreateUser(clsGlobal.ActiveUser.UserID, Username, Hash(Password , passwardSalt) , passwardSalt ,
-                                             Permissions.Permissions, FullName, true, false , DateTime.Now , ImagePath);
+            var UserID = await clsUsers_DAL.CreateUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No user responsible"),
+                                                        new clsUserDto(null , Username , Hash(Password, passwardSalt), passwardSalt , Permissions.Permissions, FullName,
+                                                        true, false, DateTime.Now, null , null, ImagePath));
+
             if (UserID == -1)
                 return false;
 
@@ -133,20 +127,22 @@ namespace SmartBank
             return true;
         }
 
-        private bool _update()
+        private async Task<bool> _updateAsync()
         {
             bool isPasswordChanged = !Password.Equals(HashedPassword);
             string passwardSalt = isPasswordChanged ? GenerateSalt() : PasswordSalt;
 
-            return clsUsers_DAL.UpdateUser(clsGlobal.ActiveUser == null ? throw new Exception("No Admin Responsible!") : clsGlobal.ActiveUser.UserID,
-                                           UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, isPasswordChanged ? Hash(Password, passwardSalt) : HashedPassword,
-                                           passwardSalt, Permissions.Permissions, FullName, IsActive, IsLocked, LastLoginDate, ImagePath);
+            return await clsUsers_DAL.UpdateUserAsync(clsGlobal.ActiveUser == null ? throw new Exception("No Admin Responsible!") : clsGlobal.ActiveUser.UserID, 
+                                                      new clsUserDto(UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!"), Username, 
+                                                                     isPasswordChanged ? Hash(Password, passwardSalt) : HashedPassword,
+                                                                     passwardSalt, Permissions.Permissions, FullName, IsActive, IsLocked, LastLoginDate, 
+                                                                     LastLoginDate , CreatedByUserUsername , ImagePath));
         }
 
-        public static List<clsUsers> GetAllUsers()
+        public static async Task<List<clsUsers>> GetAllUsersAsync()
         {
-            DataTable dt = clsUsers_DAL.GetAllUsers();
             List<clsUsers> users = new List<clsUsers>();
+            DataTable dt = await clsUsers_DAL.GetAllUsersAsync();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -173,25 +169,24 @@ namespace SmartBank
         /// Make sure to use this method in a try and catch block to handle the exception of user ID not being set, which can occur if you try to get login records for a user that hasn't been saved to the database yet.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public DataTable GetUserLoginRecors() => clsUsers_DAL.GetAllUserLoginAttempts(this.UserID ?? throw new Exception("User ID is not set."));
+        public async Task<DataTable> GetUserLoginRecorsAsync() => await clsUsers_DAL.GetAllUserLoginAttemptsAsync(this.UserID ?? throw new Exception("User ID is not set."));
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
             switch(_mode)
             {
-                case enMode.Add: return _addNew();
-                case enMode.Update: return _update();
+                case enMode.Add: return await _addNewAsync();
+                case enMode.Update: return await _updateAsync();
 
                 default:
                     throw new InvalidOperationException("Invalid mode for saving user.");
             }
         }
 
-        public bool Deactivate()
+        public async Task<bool> DeactivateAsync()
         {
-            if(_mode == enMode.Update && clsUsers_DAL.DeactivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            if(_mode == enMode.Update && await clsUsers_DAL.DeactivateUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                                                                               UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
             {
                 IsActive = false;
                 return true;
@@ -200,10 +195,10 @@ namespace SmartBank
             return false;
         }
 
-        public bool Activate()
+        public async Task<bool> ActivateAsync()
         {
-            if(_mode == enMode.Update && clsUsers_DAL.ActivateUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            if(_mode == enMode.Update && await clsUsers_DAL.ActivateUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                                                                              UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
             {
                 IsActive = true;
                 return true;
@@ -212,10 +207,10 @@ namespace SmartBank
             return false;
         }
 
-        public bool Lock()
+        public async Task<bool> LockAsync()
         {
-            if(_mode == enMode.Update && clsUsers_DAL.LockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            if(_mode == enMode.Update && await clsUsers_DAL.LockUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+                                                               UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
             {
                 IsLocked = true;
                 return true;
@@ -224,10 +219,10 @@ namespace SmartBank
             return false;
         }
 
-        public bool Unlock()
+        public async Task<bool> UnlockAsync()
         {
-            if(_mode == enMode.Update && clsUsers_DAL.UnlockUser(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
-                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
+            if(_mode == enMode.Update && await clsUsers_DAL.UnlockUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"), 
+                                                                            UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
             {
                 IsLocked = false;
                 return true;

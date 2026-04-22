@@ -19,7 +19,7 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
             InitializeComponent();
         }
 
-        public void LoadAccount(string accountNumber)
+        public async Task LoadAccount(string accountNumber)
         {
             clsAccounts _currentAccount = clsAccounts.Find(accountNumber);
             if (_currentAccount == null)
@@ -39,7 +39,7 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
             lblCustomerAccountFullName.Text = $"{_currentAccount.Customer?.FirstName} {_currentAccount.Customer?.LastName}".Trim();
             lblAccountType.Text = lblSavingsOrChecking.Text;
             lblOpenDate.Text = _currentAccount.OpenedDate?.ToShortDateString();
-            lblOpenByUsername.Text = clsUsers.Find(_currentAccount.CreatedByUserID)?.Username ?? "Unknown";
+            lblOpenByUsername.Text = (await clsUsers.FindAsync(_currentAccount.CreatedByUserID))?.Username ?? "Unknown";
         }
     }
 }

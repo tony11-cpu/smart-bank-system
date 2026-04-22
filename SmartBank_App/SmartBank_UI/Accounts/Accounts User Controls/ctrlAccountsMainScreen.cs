@@ -128,10 +128,10 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void _loadUserFromDGV()
+        private async Task _loadUserFromDGVAsync()
         {
             if (dgvAccounts.Rows.Count > 0)
-                ctrlAccountShortInfo1.LoadAccount(dgvAccounts.CurrentRow.Cells["AccountNumber"].Value.ToString());
+                await ctrlAccountShortInfo1.LoadAccount(dgvAccounts.CurrentRow.Cells["AccountNumber"].Value.ToString());
         }
 
         
@@ -144,11 +144,11 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(_loadAccountsList());
         }
 
-        private void dgvAccounts_CellClick(object sender, DataGridViewCellEventArgs e) => _loadUserFromDGV();
+        private async void dgvAccounts_CellClick(object sender, DataGridViewCellEventArgs e) => await _loadUserFromDGVAsync();
 
-        private void contextMenuStrip1_Opening_1(object sender, CancelEventArgs e)
+        private async void contextMenuStrip1_Opening_1(object sender, CancelEventArgs e)
         {
-            _loadUserFromDGV();
+            await _loadUserFromDGVAsync();
 
             bool notClosed = _currentAccount != null && _currentAccount?.Status != clsAccounts.enStatus.Closed;
             bool frozen = _currentAccount?.Status == clsAccounts.enStatus.Frozen;
@@ -165,13 +165,13 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void ctrlAccounts_VisibleChanged(object sender, EventArgs e) => _bindGrid(_loadAccountsList());
 
-        private void updateAccount_Click(object sender, EventArgs e)
+        private async void updateAccount_Click(object sender, EventArgs e)
         {
             string nationalID = dgvAccounts.CurrentRow.Cells["AccountNumber"].Value.ToString();
             frmAddOrUpdateAccount frm = new frmAddOrUpdateAccount(nationalID);
             frm.ShowDialog();
 
-            ctrlAccountShortInfo1.LoadAccount(nationalID);
+            await ctrlAccountShortInfo1.LoadAccount(nationalID);
             _bindGrid(_loadAccountsList());
         }
 

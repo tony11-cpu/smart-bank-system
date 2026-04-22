@@ -49,7 +49,7 @@ namespace SmartBank_UI.System_Config
             tbAdminPermissions.Text = clsPermissions.AdminPermissions.ToString();
         }
 
-        private void _loadForm()
+        private async Task _loadForm()
         {
             _loadDefault();
             if (clsUtil.IsDatabaseConnected())
@@ -63,8 +63,8 @@ namespace SmartBank_UI.System_Config
                 lblIsDataBaseConnected.ForeColor = Color.Red;
             }
 
-            lblTotalUsersCount.Text = clsUsers.GetAllUsers().Count.ToString();
             lblTotalActiveAccountsCount.Text = clsAccounts.NumberOfActiveAccounts.ToString();
+            lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
         }
 
         private void _loadChanges(int unsavedChangesCount)
@@ -99,18 +99,18 @@ namespace SmartBank_UI.System_Config
             _loadChanges(_unsavedChangesCount);
         }
 
-        private void ctrlMainSysConfigScreen_Load(object sender, EventArgs e)
+        private async void ctrlMainSysConfigScreen_Load(object sender, EventArgs e)
         {
             _isReady = true;
-            _loadForm();
+            await _loadForm();
         }
 
-        private void ctrlMainSysConfigScreen_VisibleChanged(object sender, EventArgs e)
+        private async void ctrlMainSysConfigScreen_VisibleChanged(object sender, EventArgs e)
         {
             if (!_isReady) 
                 return;
 
-            _loadForm();
+            await _loadForm();
         }
 
         private void btnResetToDefault_Click(object sender, EventArgs e)
@@ -150,7 +150,7 @@ namespace SmartBank_UI.System_Config
                 if (!_changes[f.Key].Changed)
                     continue;
 
-                clsConfigurations config = clsConfigurations.Find(f.Key);
+                clsConfigurations config = Find(f.Key);
                 config.ConfigValue = (int)f.Control.Value;
 
                 try

@@ -34,7 +34,7 @@ namespace SmartBank_UI.Login
                 clsUtil.clsSecurity.Verify(password, user.HashedPassword, user.PasswordSalt) ? enErrorState.None : enErrorState.InvalidCredentials));
         }
 
-        private bool _handleLogin(enErrorState errorState, clsUsers user)
+        private async Task<bool> _handleLogin(enErrorState errorState, clsUsers user)
         {
             switch (errorState)
             {
@@ -52,29 +52,31 @@ namespace SmartBank_UI.Login
 
                 case enErrorState.InvalidCredentials:
                     _userFailedLoginAttempsCounter = tbUsername.Text != _previouseUsername ? 0 : _userFailedLoginAttempsCounter;
-                    user.RecordLoginAttemp(false);
                     btnWrongAttempWarning.Visible = true;
                     btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of {clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts)} attempts used.";
                     MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _checkUserLoginAttemps(user);
+                    await _checkUserLoginAttemps(user);
+                    await user.RecordLoginAttemptAsync(false);
                     return false;
 
                 case enErrorState.None:
                     btnWrongAttempWarning.Visible = false;
-                    user.RecordLoginAttemp(true);
                     clsGlobal.ActiveUser = user;
                     clsUtil.clsLogger.SaveUserDataToRegistry(user.Username, tbPassword.Text.Trim());
                     _userFailedLoginAttempsCounter = 0;
+                    await user.RecordLoginAttemptAsync(true);
                     return true;
             }
 
             return false;
         }
-
-        private void btnSignIn_Click(object sender, EventArgs e)
+        
+        private async Task _signIn()
         {
-            clsUsers user = clsUsers.Find(tbUsername.Text.Trim());
-            if (!_handleLogin(_validateUser(user, tbPassword.Text.Trim()), user))
+            clsUsers user = await clsUsers.FindAsync(tbUsername.Text.Trim());
+            bool isLoginSuccessful = await _handleLogin(_validateUser(user, tbPassword.Text.Trim()), user);
+
+            if (!isLoginSuccessful)
             {
                 _previouseUsername = tbUsername.Text;
                 return;
@@ -91,13 +93,23 @@ namespace SmartBank_UI.Login
             mainForm.ShowDialog();
         }
 
-        private void _checkUserLoginAttemps(clsUsers user)
+        private async void btnSignIn_Click(object sender, EventArgs e) => await _signIn();
+
+        private async Task _checkUserLoginAttemps(clsUsers user)
         {
             if (_userFailedLoginAttempsCounter == clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts))
             {
-                user.Lock();
-                MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.", "Account Locked",
-                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+                bool isLocked = await user.LockAsync();
+                if(isLocked)
+                {
+                    MessageBox.Show("Your account has been locked due to multiple failed login attempts. Please contact support.", "Account Locked", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("An error occurred while locking your account. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+               
             }
         }
 
@@ -116,12 +128,10 @@ namespace SmartBank_UI.Login
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
 
-        private void Login_KeyPress(object sender, KeyPressEventArgs e)
+        private async void Login_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
-            {
-                btnSignIn_Click(null, null);
-            }
+                 await _signIn();
         }
     }
 }

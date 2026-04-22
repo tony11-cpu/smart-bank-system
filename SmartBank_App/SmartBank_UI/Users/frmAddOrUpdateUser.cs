@@ -61,14 +61,15 @@ namespace SmartBank_UI.Users
             return true;
         }
 
-        private void btnSaveUser_Click(object sender, EventArgs e)
+        private async void btnSaveUser_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren() || !_isPassValid.is2PasswordsSame || !_isPassValid.isPasswordValid)
                 return;
 
             _fetchUserInfo();
 
-            if(_selectedUser.Save())
+            var isSaved = await _selectedUser.SaveAsync();
+            if (isSaved)
             {
                 _mode = enMode.Update;
                 lblAddOrUpdateUser.Text = "Update User";
@@ -115,9 +116,9 @@ namespace SmartBank_UI.Users
             btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbUserPhoto.ImageLocation);
         }
 
-        private void frmAddOrUpdateUser_Load(object sender, EventArgs e)
+        private async void frmAddOrUpdateUser_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userName) || !clsUsers.IsUserExists(_userName))
+            if (string.IsNullOrWhiteSpace(_userName) || !(await clsUsers.IsUserExistsAsync(_userName)))
             {
                 _selectedUser = new clsUsers();
                 _mode = enMode.Add;
@@ -127,11 +128,19 @@ namespace SmartBank_UI.Users
                 lblAddOrUpdateUser.Text = "Update User";
                 lblUserAfterEditOrAddDetails.Text = "You can update the user information in this form.";
 
-                _selectedUser = clsUsers.Find(_userName);
-                _mode = enMode.Update;
-                _loadUserInfo();
-                _checkPasswordStrength();
-                ctrlUserPermissions1.LoadPermissions(_selectedUser.Permissions.Permissions);
+                try
+                {
+                    _selectedUser = await clsUsers.FindAsync(_userName); 
+                    _mode = enMode.Update;
+                    _loadUserInfo();
+                    _checkPasswordStrength();
+                    ctrlUserPermissions1.LoadPermissions(_selectedUser.Permissions.Permissions);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while loading user information: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
             }
 
             btnLock.Visible = _mode == enMode.Update && !_selectedUser.IsLocked;
@@ -188,14 +197,14 @@ namespace SmartBank_UI.Users
             pbUserPhoto.Image = Resources.icons8_user_50;
         }
 
-        private void tbUsername_Validating(object sender, CancelEventArgs e)
+        private async void tbUsername_Validating(object sender, CancelEventArgs e)
         {
-            if(_isIdle(tbUsername))
+            if (_isIdle(tbUsername))
             {
                 errorProvider1.SetError(tbUsername, "Username cannot be empty!");
                 e.Cancel = true;
             }
-            else if(clsUsers.IsUserExists(tbUsername.Text) && _mode == enMode.Add)
+            else if(_mode == enMode.Add && await clsUsers.IsUserExistsAsync(tbUsername.Text))
             {
                 errorProvider1.SetError(tbUsername, "Username already exists, try use other one!");
                 e.Cancel = true;
@@ -304,7 +313,7 @@ namespace SmartBank_UI.Users
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => _checkPasswordStrength();
 
-        private void btnUnlock_Click(object sender, EventArgs e)
+        private async void btnUnlock_Click(object sender, EventArgs e)
         {
             if(clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanUnlockUsers))
             {
@@ -314,7 +323,7 @@ namespace SmartBank_UI.Users
                 }
                 else if(MessageBox.Show("Are you sure you want to unlock this user account?", "Confirm Unlock", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_selectedUser.Unlock())
+                    if (await _selectedUser.UnlockAsync())
                     {
                         btnUnlock.Visible = false;
                         btnLock.Visible = true;
@@ -333,7 +342,7 @@ namespace SmartBank_UI.Users
             }
         }
 
-        private void btnLock_Click(object sender, EventArgs e)
+        private async void btnLock_Click(object sender, EventArgs e)
         {
             if (clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
             {
@@ -341,7 +350,7 @@ namespace SmartBank_UI.Users
             }
             else if (MessageBox.Show("Are you sure you want to lock this user account?", "Confirm Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_selectedUser.Lock())
+                if (await _selectedUser.LockAsync())
                 {
                     btnUnlock.Visible = true;
                     btnLock.Visible = false;

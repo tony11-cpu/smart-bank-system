@@ -299,7 +299,7 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the withdrawal was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
-        public bool Withdrawal(decimal amount, string description) => clsPerformTransaction.withdrawal(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public bool Withdrawal(decimal amount, string description) => clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
 
 
         /// <summary>

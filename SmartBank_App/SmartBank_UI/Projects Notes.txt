@@ -1,0 +1,5 @@
+﻿
+Mention That In The Readme File Of The Projects ----> Smart Bank Project Is The Last Project For The .NET Framework, So I Will All What I Did Learn
+
+Main Username: Admin
+Main Password: 123123asd

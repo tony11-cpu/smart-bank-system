@@ -358,7 +358,7 @@
     <None Include="Resources\icons8-right-arrow-38.png" />
     <None Include="Resources\icons8-down-arrow-38.png" />
     <None Include="Resources\icons8-up-arrow-38.png" />
-    <Content Include="TextFile1.txt" />
+    <Content Include="Projects Notes.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

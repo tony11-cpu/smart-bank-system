@@ -60,7 +60,7 @@ namespace SmartBank_BLL
             return false;
         }
 
-        public static bool withdrawal(int? accountID, decimal amount, string description, int performedByUserID)
+        public static bool Withdraw(int? accountID, decimal amount, string description, int performedByUserID)
         {
             clsAccounts account = clsAccounts.Find(accountID ?? throw new ArgumentException("Account ID cannot be null."));
             _validateWithdrawals(account, amount);
@@ -102,7 +102,7 @@ namespace SmartBank_BLL
 
         bool ITransactions.Deposit(int accountID, decimal amount, string description, int performedByUserID) => Deposit(accountID, amount, description, performedByUserID);
 
-        bool ITransactions.Withdraw(int accountID, decimal amount, string description, int performedByUserID) => withdrawal(accountID, amount, description, performedByUserID);
+        bool ITransactions.Withdraw(int accountID, decimal amount, string description, int performedByUserID) => Withdraw(accountID, amount, description, performedByUserID);
 
         bool ITransactions.Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID) => Transfer(fromAccountID, toAccountID, amount, description, performedByUserID);
 
