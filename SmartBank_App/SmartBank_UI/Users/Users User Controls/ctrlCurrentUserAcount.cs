@@ -66,6 +66,9 @@ namespace SmartBank_UI.Users.Users_User_Controls
         {
             dgvlastTransactions.DataSource = clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
 
+            if (dgvlastTransactions.RowCount == 0)
+                return;
+
             dgvlastTransactions.Columns["UserResponsibleID"].Visible = false;
             dgvlastTransactions.Columns["BalanceAfterTransaction"].Visible = false;
             dgvlastTransactions.Columns["IsScheduled"].Visible = false;

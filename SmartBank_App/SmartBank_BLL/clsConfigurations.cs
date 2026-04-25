@@ -44,7 +44,7 @@ namespace SmartBank_BLL
 
         public clsUsers LastModifiedByUser { get; set; } = null;
 
-        public static clsConfigurations Find(enConfigKey config)
+        public static async Task<clsConfigurations> Find(enConfigKey config)
         {
             string configKey = null;
             int? configValue = null;
@@ -54,8 +54,8 @@ namespace SmartBank_BLL
 
             if (clsConfigurations_DAL.GetConfig((int)config, ref configKey, ref configValue, ref description, ref lastModifiedDate, ref lastModifiedByUserID))
             {
-                var userAsync = clsUsers.FindAsync(lastModifiedByUserID ?? -1);
-                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, userAsync.Result);
+                var userAsync = await clsUsers.FindAsync(lastModifiedByUserID ?? -1);
+                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, userAsync);
             }
 
             return null;

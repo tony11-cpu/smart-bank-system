@@ -63,7 +63,7 @@ namespace SmartBank_UI.System_Config
                 lblIsDataBaseConnected.ForeColor = Color.Red;
             }
 
-            lblTotalActiveAccountsCount.Text = clsAccounts.NumberOfActiveAccountsAsync().Result.ToString();
+            lblTotalActiveAccountsCount.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
             lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
         }
 
@@ -137,7 +137,7 @@ namespace SmartBank_UI.System_Config
        
         private void nupServiceCheckIntervel_ValueChanged(object sender, EventArgs e) => _handleValueChanged(enConfigKey.ScheduledTransferCheckIntervalSeconds, nupServiceCheckIntervel.Value);
 
-        private void btnSaveConfigs_Click(object sender, EventArgs e)
+        private async void btnSaveConfigs_Click(object sender, EventArgs e)
         {
             if (_unsavedChangesCount == 0)
             {
@@ -150,7 +150,7 @@ namespace SmartBank_UI.System_Config
                 if (!_changes[f.Key].Changed)
                     continue;
 
-                clsConfigurations config = Find(f.Key);
+                clsConfigurations config = await clsConfigurations.Find(f.Key);
                 config.ConfigValue = (int)f.Control.Value;
 
                 try

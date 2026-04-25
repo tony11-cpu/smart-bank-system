@@ -273,7 +273,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
         public async Task<bool> DepositAsync(decimal amount, string description)
         {
-            if (await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"), false))
+            if (await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance += amount;
                 return true;
@@ -289,7 +289,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
         public async Task<bool> WithdrawAsync(decimal amount, string description)
         {
-            if (await clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"), false))
+            if (await clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance -= amount;
                 return true;
@@ -308,7 +308,7 @@ namespace SmartBank_BLL
         {
             if (await clsPerformTransaction.Transfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
                 toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
-                amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible") , false))
+                amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance -= amount;
                 toAccount.Balance += amount;
