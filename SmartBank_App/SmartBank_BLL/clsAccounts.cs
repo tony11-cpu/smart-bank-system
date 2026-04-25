@@ -49,7 +49,7 @@ namespace SmartBank_BLL
                            int createdByUserID)
         {
             Customer = clsCustomers.Find(customerID);
-            if(Customer == null)
+            if (Customer == null)
                 throw new Exception("Customer not found for the given CustomerID.");
 
             AccountID = accountID;
@@ -93,7 +93,7 @@ namespace SmartBank_BLL
                 return new clsAccounts(accountID, accountInfo.AccountNumber, accountInfo.CustomerID,
                                        (enAccountType)Enum.Parse(typeof(enAccountType), accountInfo.AccountType),
                                        accountInfo.Balance, accountInfo.MinimumBalance,
-                                       (enStatus)Enum.Parse(typeof(enStatus), accountInfo.Status), 
+                                       (enStatus)Enum.Parse(typeof(enStatus), accountInfo.Status),
                                        accountInfo.OpenedDate, accountInfo.ClosedDate, accountInfo.CreatedByUserID);
             }
 
@@ -117,14 +117,14 @@ namespace SmartBank_BLL
         {
             AccountID = await clsAccounts_DAL.CreateAccountAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
                                                                   Customer.CustomerID ?? throw new Exception("No Customer Responsible"),
-                                                                  AccountNumber , AccountType.ToString(), Balance, MinimumBalance);
+                                                                  AccountNumber, AccountType.ToString(), Balance, MinimumBalance);
             return AccountID != -1;
         }
 
         private async Task<bool> _updateAsync() => await clsAccounts_DAL.UpdateAccountAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible!"),
                                                                                        AccountID ?? throw new Exception("Account ID is not set for update!"),
                                                                                        AccountType.ToString(), MinimumBalance);
-                                                                                       
+
         public async Task<bool> SaveAsync()
         {
             switch (_mode)
@@ -150,10 +150,10 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public async Task<bool> UnFreezeAsync()
         {
-            if(Status != enStatus.Frozen)
+            if (Status != enStatus.Frozen)
                 throw new InvalidOperationException("Only frozen accounts can be unfrozen.");
 
-            if (_mode == enMode.Update && await clsAccounts_DAL.UnfreezeAccountAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible") , 
+            if (_mode == enMode.Update && await clsAccounts_DAL.UnfreezeAccountAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"),
                                                                                      AccountID ?? throw new Exception("Account ID is not set!")))
             {
                 Status = enStatus.Active;
@@ -172,7 +172,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public async Task<bool> FreezeAsync()
         {
-            if(Status != enStatus.Active)
+            if (Status != enStatus.Active)
                 throw new InvalidOperationException("Only active accounts can be frozen.");
 
             if (_mode == enMode.Update && await clsAccounts_DAL.FreezeAccountAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"),
@@ -193,7 +193,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Thrown when there is no user responsible or account ID is not set.</exception>
         public async Task<bool> CloseAsync()
         {
-            if(this.Balance > 0)
+            if (this.Balance > 0)
                 throw new InvalidOperationException("Only accounts with zero balance can be closed.");
 
             if (Status == enStatus.Closed)
@@ -213,7 +213,7 @@ namespace SmartBank_BLL
         public static async Task<List<clsAccounts>> GetAllAccountsAsync()
         {
             DataTable dt = await clsAccounts_DAL.GetAllAccountsAsync();
-            if (dt == null) 
+            if (dt == null)
                 return null;
 
             List<clsAccounts> accounts = new List<clsAccounts>();
@@ -240,7 +240,7 @@ namespace SmartBank_BLL
         public static async Task<List<clsAccounts>> GetAccountsByCustomerIDAsync(int customerID)
         {
             DataTable dt = await clsAccounts_DAL.GetAccountsByCustomerIDAsync(customerID);
-            if (dt == null) 
+            if (dt == null)
                 return null;
 
             List<clsAccounts> accounts = new List<clsAccounts>();
@@ -273,7 +273,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
         public async Task<bool> DepositAsync(decimal amount, string description)
         {
-            if(await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"),amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
+            if (await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"), false))
             {
                 this.Balance += amount;
                 return true;
@@ -287,7 +287,16 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the withdrawal was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
-        public async Task<bool> WithdrawAsync(decimal amount, string description) => await clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public async Task<bool> WithdrawAsync(decimal amount, string description)
+        {
+            if (await clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"), false))
+            {
+                this.Balance -= amount;
+                return true;
+            }
+
+            return false;
+        }
 
 
         /// <summary>
@@ -295,17 +304,27 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the transfer was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, or the user responsible is not set.</exception>
-        public async Task<bool> TransferToAsync(clsAccounts toAccount, decimal amount, string description) => await clsPerformTransaction.Transfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
-                                                                                                                            toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"), 
-                                                                                                                            amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public async Task<bool> TransferToAsync(clsAccounts toAccount, decimal amount, string description)
+        {
+            if (await clsPerformTransaction.Transfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
+                toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
+                amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible") , false))
+            {
+                this.Balance -= amount;
+                toAccount.Balance += amount;
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.
         /// </summary>
         /// <returns>True if the scheduled transfer was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, the user responsible is not set, or the scheduled date is invalid.</exception>
-        public async Task<bool> ScheduleTransferToAsync(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate) => 
-            await clsPerformTransaction.ScheduleTransfer(this.AccountID ?? throw new Exception("Account ID is not set!"),toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"), 
+        public async Task<bool> ScheduleTransferToAsync(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate) =>
+            await clsPerformTransaction.ScheduleTransfer(this.AccountID ?? throw new Exception("Account ID is not set!"), toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
              amount, description, scheduledDate, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
 
         public override string ToString() => $"{AccountNumber}";

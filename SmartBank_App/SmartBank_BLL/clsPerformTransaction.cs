@@ -31,14 +31,7 @@ namespace SmartBank_BLL
             }
         }
 
-        // need further functionality for the scheduled transfers since the win service is not implemented yet.
-        public static async Task<bool> ScheduleTransfer(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
-        {
-            // For scheduling transfers, through the win service.
-            throw new NotImplementedException();
-        }
-
-        public static async Task<bool> Deposit(int accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> Deposit(int accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
@@ -50,28 +43,32 @@ namespace SmartBank_BLL
 
             if(clsTransactions_DAL.Deposit(accountID, amount, description, performedByUserID))
             {
-                account.Balance += amount; 
+                if (dynamic)
+                    account.Balance += amount; 
+
                 return true;
             }
 
             return false;
         }
 
-        public static async Task<bool> Withdraw(int? accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> Withdraw(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
             clsAccounts account = await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null."));
             _validateWithdrawals(account, amount);
             
             if(clsTransactions_DAL.Withdraw(accountID.Value, amount, description, performedByUserID))
             {
-                account.Balance -= amount; 
+                if (dynamic)
+                    account.Balance += amount;
+
                 return true;
             }
 
             return false;
         }
 
-        public static async Task<bool> Transfer(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> Transfer(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID , bool dynamic = true)
         {
             if(!fromAccountID.HasValue || !toAccountID.HasValue)
                 throw new ArgumentException("Either fromAccountID or toAccountID cannot be null.");
@@ -89,13 +86,25 @@ namespace SmartBank_BLL
 
             if(clsTransactions_DAL.Transfer(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID))
             {
-                fromAccount.Balance -= amount;
-                toAccount.Balance += amount;
+                if (dynamic)
+                {
+                    fromAccount.Balance -= amount;
+                    toAccount.Balance += amount;
+                }
+
                 return true;
             }
 
             return false;
         }
+
+        // need further functionality for the scheduled transfers since the win service is not implemented yet.
+        public static async Task<bool> ScheduleTransfer(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
+        {
+            // For scheduling transfers, through the win service.
+            throw new NotImplementedException();
+        }
+
 
         async Task<bool> ITransactions.Deposit(int accountID, decimal amount, string description, int performedByUserID) => await Deposit(accountID, amount, description, performedByUserID);
 
