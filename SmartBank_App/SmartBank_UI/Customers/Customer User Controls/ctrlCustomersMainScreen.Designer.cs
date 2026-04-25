@@ -85,7 +85,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(9, 97);
+            this.label2.Location = new System.Drawing.Point(9, 91);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
@@ -100,7 +100,7 @@
             this.dgvCustomersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvCustomersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomersData.ContextMenuStrip = this.contextMenuStrip1;
-            this.dgvCustomersData.Location = new System.Drawing.Point(11, 150);
+            this.dgvCustomersData.Location = new System.Drawing.Point(11, 152);
             this.dgvCustomersData.Margin = new System.Windows.Forms.Padding(2);
             this.dgvCustomersData.MultiSelect = false;
             this.dgvCustomersData.Name = "dgvCustomersData";
@@ -185,7 +185,7 @@
             this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Location = new System.Drawing.Point(13, 117);
+            this.tbSearchBar.Location = new System.Drawing.Point(13, 115);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(1308, 32);
@@ -201,7 +201,7 @@
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.lblNumberOfCustomers);
-            this.panel1.Location = new System.Drawing.Point(13, 767);
+            this.panel1.Location = new System.Drawing.Point(13, 769);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(860, 36);
@@ -301,7 +301,7 @@
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
             this.btnAddCustomer.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 64);
+            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 62);
             this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCustomer.Name = "btnAddCustomer";
             this.btnAddCustomer.Size = new System.Drawing.Size(163, 49);
@@ -315,7 +315,7 @@
             // ctrlCustomerShortInfo1
             // 
             this.ctrlCustomerShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(876, 150);
+            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(876, 152);
             this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlCustomerShortInfo1.Name = "ctrlCustomerShortInfo1";
             this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(445, 653);

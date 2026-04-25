@@ -158,6 +158,7 @@ namespace SmartBank_UI
             _selectedCustomer.Email = _isIdle(tbEmail) ? null : tbEmail.Text.Trim();
             _selectedCustomer.Address = tbAddress.Text.Trim();
             _selectedCustomer.ImagePath = pbCustomerPhoto.ImageLocation;
+
             return true;
         }
 
@@ -265,18 +266,18 @@ namespace SmartBank_UI
         {
             if (_isIdle(tbNationalID))
             {
-                errorProvider1.SetError(tbNationalID, "National id cannot be empty!");
                 e.Cancel = true;
+                errorProvider1.SetError(tbNationalID, "National id cannot be empty!");
+            }
+            else if (tbNationalID.Text.Trim().Length < 9)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(tbNationalID, "National id cannot be less than 9 letters/digits!");
             }
             else if (await clsCustomers.IsCustomerExistsAsync(tbNationalID.Text.Trim()) && _mode == enMode.Add)
             {
+                e.Cancel = true;
                 errorProvider1.SetError(tbNationalID, "National id is already in use!");
-                e.Cancel = true;
-            }
-            else if(tbNationalID.Text.Trim().Length < 9)
-            {
-                errorProvider1.SetError(tbNationalID, "National id cannot be less than 9 letters/digits!");
-                e.Cancel = true;
             }
             else
             {

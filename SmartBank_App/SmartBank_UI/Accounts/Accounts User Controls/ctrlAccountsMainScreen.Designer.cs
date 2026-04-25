@@ -104,7 +104,7 @@
             this.btnActiveFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActiveFilter.ForeColor = System.Drawing.Color.White;
             this.btnActiveFilter.Location = new System.Drawing.Point(1026, 116);
-            this.btnActiveFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnActiveFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnActiveFilter.Name = "btnActiveFilter";
             this.btnActiveFilter.Size = new System.Drawing.Size(95, 32);
             this.btnActiveFilter.TabIndex = 53;
@@ -119,7 +119,7 @@
             this.btnFrozenFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFrozenFilter.ForeColor = System.Drawing.Color.White;
             this.btnFrozenFilter.Location = new System.Drawing.Point(1125, 116);
-            this.btnFrozenFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFrozenFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnFrozenFilter.Name = "btnFrozenFilter";
             this.btnFrozenFilter.Size = new System.Drawing.Size(95, 32);
             this.btnFrozenFilter.TabIndex = 52;
@@ -134,7 +134,7 @@
             this.btnAllFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAllFilter.ForeColor = System.Drawing.Color.White;
             this.btnAllFilter.Location = new System.Drawing.Point(949, 116);
-            this.btnAllFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAllFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnAllFilter.Name = "btnAllFilter";
             this.btnAllFilter.Size = new System.Drawing.Size(73, 32);
             this.btnAllFilter.TabIndex = 42;
@@ -167,7 +167,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvAccounts.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAccounts.Location = new System.Drawing.Point(15, 153);
-            this.dgvAccounts.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvAccounts.Margin = new System.Windows.Forms.Padding(2);
             this.dgvAccounts.MultiSelect = false;
             this.dgvAccounts.Name = "dgvAccounts";
             this.dgvAccounts.ReadOnly = true;
@@ -286,7 +286,7 @@
             this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tbSearchBar.Location = new System.Drawing.Point(15, 116);
-            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(930, 32);
             this.tbSearchBar.TabIndex = 43;
@@ -303,7 +303,7 @@
             this.btnClosedAccountsFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClosedAccountsFilter.ForeColor = System.Drawing.Color.White;
             this.btnClosedAccountsFilter.Location = new System.Drawing.Point(1224, 116);
-            this.btnClosedAccountsFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnClosedAccountsFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnClosedAccountsFilter.Name = "btnClosedAccountsFilter";
             this.btnClosedAccountsFilter.Size = new System.Drawing.Size(95, 32);
             this.btnClosedAccountsFilter.TabIndex = 54;
@@ -326,12 +326,12 @@
             // 
             this.lblClickToShowRow.AutoSize = true;
             this.lblClickToShowRow.BackColor = System.Drawing.Color.MidnightBlue;
-            this.lblClickToShowRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClickToShowRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.lblClickToShowRow.ForeColor = System.Drawing.Color.White;
-            this.lblClickToShowRow.Location = new System.Drawing.Point(629, 12);
+            this.lblClickToShowRow.Location = new System.Drawing.Point(585, 10);
             this.lblClickToShowRow.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblClickToShowRow.Name = "lblClickToShowRow";
-            this.lblClickToShowRow.Size = new System.Drawing.Size(178, 18);
+            this.lblClickToShowRow.Size = new System.Drawing.Size(222, 24);
             this.lblClickToShowRow.TabIndex = 58;
             this.lblClickToShowRow.Text = "Click a row to view details";
             this.lblClickToShowRow.Visible = false;
@@ -340,12 +340,12 @@
             // 
             this.lblNumberOfAccounts.AutoSize = true;
             this.lblNumberOfAccounts.BackColor = System.Drawing.Color.MidnightBlue;
-            this.lblNumberOfAccounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfAccounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.lblNumberOfAccounts.ForeColor = System.Drawing.Color.White;
-            this.lblNumberOfAccounts.Location = new System.Drawing.Point(7, 12);
+            this.lblNumberOfAccounts.Location = new System.Drawing.Point(15, 10);
             this.lblNumberOfAccounts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNumberOfAccounts.Name = "lblNumberOfAccounts";
-            this.lblNumberOfAccounts.Size = new System.Drawing.Size(199, 18);
+            this.lblNumberOfAccounts.Size = new System.Drawing.Size(250, 24);
             this.lblNumberOfAccounts.TabIndex = 57;
             this.lblNumberOfAccounts.Text = "Showing 6 of 2,847 accounts";
             // 
@@ -435,7 +435,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.btnExport.Image = global::SmartBank_UI.Properties.Resources.icons8_export_48;
             this.btnExport.Location = new System.Drawing.Point(1056, 58);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(95, 54);
             this.btnExport.TabIndex = 55;
@@ -455,7 +455,7 @@
             this.btnOpenAccount.ForeColor = System.Drawing.Color.White;
             this.btnOpenAccount.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
             this.btnOpenAccount.Location = new System.Drawing.Point(1155, 58);
-            this.btnOpenAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOpenAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenAccount.Name = "btnOpenAccount";
             this.btnOpenAccount.Size = new System.Drawing.Size(164, 54);
             this.btnOpenAccount.TabIndex = 51;
@@ -470,7 +470,7 @@
             this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
             this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(842, 153);
-            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
             this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(473, 380);
             this.ctrlAccountShortInfo1.TabIndex = 59;

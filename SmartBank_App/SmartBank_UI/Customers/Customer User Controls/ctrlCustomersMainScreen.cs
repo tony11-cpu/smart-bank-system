@@ -130,6 +130,7 @@ namespace SmartBank_UI.Main_Form_UC
             {
                 frmShowAllCustomerAccounts frm = new frmShowAllCustomerAccounts(customerId);
                 frm.ShowDialog();
+                return;
             }
 
             MessageBox.Show("No customer selected!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
