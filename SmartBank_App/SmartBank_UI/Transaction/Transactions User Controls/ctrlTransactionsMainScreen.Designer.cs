@@ -93,7 +93,7 @@
             this.dgvAllTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAllTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvAllTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAllTransactions.Location = new System.Drawing.Point(15, 168);
+            this.dgvAllTransactions.Location = new System.Drawing.Point(18, 168);
             this.dgvAllTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.dgvAllTransactions.MultiSelect = false;
             this.dgvAllTransactions.Name = "dgvAllTransactions";
@@ -102,7 +102,7 @@
             this.dgvAllTransactions.RowHeadersWidth = 62;
             this.dgvAllTransactions.RowTemplate.Height = 28;
             this.dgvAllTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAllTransactions.Size = new System.Drawing.Size(811, 595);
+            this.dgvAllTransactions.Size = new System.Drawing.Size(813, 599);
             this.dgvAllTransactions.TabIndex = 13;
             // 
             // btnNewTrasaction
@@ -131,9 +131,9 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lblClickToShowRow);
             this.panel1.Controls.Add(this.lblNumberOfTransaction);
-            this.panel1.Location = new System.Drawing.Point(15, 772);
+            this.panel1.Location = new System.Drawing.Point(18, 777);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(811, 44);
+            this.panel1.Size = new System.Drawing.Size(813, 39);
             this.panel1.TabIndex = 57;
             // 
             // lblClickToShowRow
@@ -229,7 +229,7 @@
             this.nupBalanceBefore.Enabled = false;
             this.nupBalanceBefore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nupBalanceBefore.ForeColor = System.Drawing.Color.White;
-            this.nupBalanceBefore.Location = new System.Drawing.Point(184, 84);
+            this.nupBalanceBefore.Location = new System.Drawing.Point(185, 86);
             this.nupBalanceBefore.Name = "nupBalanceBefore";
             this.nupBalanceBefore.ReadOnly = true;
             this.nupBalanceBefore.Size = new System.Drawing.Size(262, 29);
@@ -337,7 +337,7 @@
             this.btnSchedualedFillter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSchedualedFillter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSchedualedFillter.ForeColor = System.Drawing.Color.White;
-            this.btnSchedualedFillter.Location = new System.Drawing.Point(733, 129);
+            this.btnSchedualedFillter.Location = new System.Drawing.Point(736, 132);
             this.btnSchedualedFillter.Margin = new System.Windows.Forms.Padding(2);
             this.btnSchedualedFillter.Name = "btnSchedualedFillter";
             this.btnSchedualedFillter.Size = new System.Drawing.Size(93, 32);
@@ -351,7 +351,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(13, 109);
+            this.label2.Location = new System.Drawing.Point(16, 112);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
@@ -363,7 +363,7 @@
             this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Location = new System.Drawing.Point(15, 129);
+            this.tbSearchBar.Location = new System.Drawing.Point(18, 132);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(715, 32);
@@ -377,10 +377,10 @@
             // 
             this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
             this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(839, 168);
+            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(840, 168);
             this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
-            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(473, 369);
+            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
             this.ctrlAccountShortInfo1.TabIndex = 14;
             // 
             // ctrlTransactionsMainScreen

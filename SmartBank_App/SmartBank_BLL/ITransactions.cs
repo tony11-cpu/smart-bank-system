@@ -8,9 +8,9 @@ namespace SmartBank_BLL
 {
     internal interface ITransactions
     {
-         bool Deposit(int accountID, decimal amount, string description, int performedByUserID);
-         bool Withdraw(int accountID, decimal amount, string description, int performedByUserID);
-         bool Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID);
-         bool ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID);
+        Task<bool> Deposit(int accountID, decimal amount, string description, int performedByUserID);
+        Task<bool> Withdraw(int accountID, decimal amount, string description, int performedByUserID);
+        Task<bool> Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID);
+        Task<bool> ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID);
     }
 }

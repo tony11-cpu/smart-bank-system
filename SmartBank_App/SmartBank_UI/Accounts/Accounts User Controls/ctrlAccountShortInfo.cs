@@ -21,7 +21,7 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
 
         public async Task LoadAccount(string accountNumber)
         {
-            clsAccounts _currentAccount = clsAccounts.Find(accountNumber);
+            clsAccounts _currentAccount = await clsAccounts.FindAsync(accountNumber);
             if (_currentAccount == null)
             {
                 MessageBox.Show("Failed to load account details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

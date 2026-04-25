@@ -19,20 +19,23 @@ namespace SmartBank_UI
             InitializeComponent();
         }
 
-        private void ctrlDashboard_Load(object sender, EventArgs e)
+        private async void ctrlDashboard_Load(object sender, EventArgs e)
         {
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
-            lblActiveAccounts.Text = clsAccounts.NumberOfActiveAccounts.ToString();
+            lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
 
             _loadTransactions();
         }
 
         private void _loadTransactions()
         {
-            dgvRecentTransactions.DataSource = clsTransactionLog.FetchAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+            dgvRecentTransactions.DataSource = clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+
+            if (dgvRecentTransactions.RowCount <= 0)
+                return;
 
             dgvRecentTransactions.Columns["UserResponsibleID"].Visible = false;
             dgvRecentTransactions.Columns["BalanceAfterTransaction"].Visible = false;

@@ -61,9 +61,10 @@
             this.lblMorningToUserWithName.AutoSize = true;
             this.lblMorningToUserWithName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMorningToUserWithName.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblMorningToUserWithName.Location = new System.Drawing.Point(35, 72);
+            this.lblMorningToUserWithName.Location = new System.Drawing.Point(23, 47);
+            this.lblMorningToUserWithName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMorningToUserWithName.Name = "lblMorningToUserWithName";
-            this.lblMorningToUserWithName.Size = new System.Drawing.Size(566, 26);
+            this.lblMorningToUserWithName.Size = new System.Drawing.Size(383, 18);
             this.lblMorningToUserWithName.TabIndex = 3;
             this.lblMorningToUserWithName.Text = "Search, view, and manage all registered bank customers.";
             // 
@@ -72,9 +73,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(33, 32);
+            this.label1.Location = new System.Drawing.Point(22, 21);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(191, 40);
+            this.label1.Size = new System.Drawing.Size(129, 29);
             this.label1.TabIndex = 2;
             this.label1.Text = "Customers";
             // 
@@ -83,9 +85,10 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(14, 149);
+            this.label2.Location = new System.Drawing.Point(9, 97);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 29);
+            this.label2.Size = new System.Drawing.Size(64, 20);
             this.label2.TabIndex = 9;
             this.label2.Text = "Search:";
             // 
@@ -97,14 +100,17 @@
             this.dgvCustomersData.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvCustomersData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomersData.ContextMenuStrip = this.contextMenuStrip1;
-            this.dgvCustomersData.Location = new System.Drawing.Point(16, 231);
+            this.dgvCustomersData.Location = new System.Drawing.Point(11, 150);
+            this.dgvCustomersData.Margin = new System.Windows.Forms.Padding(2);
             this.dgvCustomersData.MultiSelect = false;
             this.dgvCustomersData.Name = "dgvCustomersData";
             this.dgvCustomersData.ReadOnly = true;
+            this.dgvCustomersData.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvCustomersData.RowHeadersVisible = false;
             this.dgvCustomersData.RowHeadersWidth = 62;
             this.dgvCustomersData.RowTemplate.Height = 28;
             this.dgvCustomersData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomersData.Size = new System.Drawing.Size(1293, 943);
+            this.dgvCustomersData.Size = new System.Drawing.Size(862, 613);
             this.dgvCustomersData.TabIndex = 10;
             this.dgvCustomersData.Click += new System.EventHandler(this.dgvCustomersData_Click);
             // 
@@ -120,14 +126,14 @@
             this.toolStripMenuItem3,
             this.viewCustomerAccountHistoryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(344, 176);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(252, 166);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // addCustomerToolStripMenuItem
             // 
             this.addCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_50;
             this.addCustomerToolStripMenuItem.Name = "addCustomerToolStripMenuItem";
-            this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(343, 32);
+            this.addCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
             this.addCustomerToolStripMenuItem.Text = "Add New Customer";
             this.addCustomerToolStripMenuItem.Click += new System.EventHandler(this.AddNewCutomer_Click);
             // 
@@ -135,20 +141,20 @@
             // 
             this.updateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_update_user_48;
             this.updateCustomerToolStripMenuItem.Name = "updateCustomerToolStripMenuItem";
-            this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(343, 32);
+            this.updateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
             this.updateCustomerToolStripMenuItem.Text = "Update Customer";
             this.updateCustomerToolStripMenuItem.Click += new System.EventHandler(this.updateCustomerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(340, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(248, 6);
             // 
             // deactivateCustomerToolStripMenuItem
             // 
             this.deactivateCustomerToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_user_locked_48;
             this.deactivateCustomerToolStripMenuItem.Name = "deactivateCustomerToolStripMenuItem";
-            this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(343, 32);
+            this.deactivateCustomerToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
             this.deactivateCustomerToolStripMenuItem.Tag = "DeactivateButton";
             this.deactivateCustomerToolStripMenuItem.Text = "Deactivate Customer";
             this.deactivateCustomerToolStripMenuItem.Click += new System.EventHandler(this.DeactivateCustomer_Click);
@@ -157,20 +163,20 @@
             // 
             this.activateToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_attendance_50;
             this.activateToolStripMenuItem.Name = "activateToolStripMenuItem";
-            this.activateToolStripMenuItem.Size = new System.Drawing.Size(343, 32);
+            this.activateToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
             this.activateToolStripMenuItem.Text = "Activate Customer";
             this.activateToolStripMenuItem.Click += new System.EventHandler(this.Activate_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(340, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(248, 6);
             // 
             // viewCustomerAccountHistoryToolStripMenuItem
             // 
             this.viewCustomerAccountHistoryToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
             this.viewCustomerAccountHistoryToolStripMenuItem.Name = "viewCustomerAccountHistoryToolStripMenuItem";
-            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(343, 32);
+            this.viewCustomerAccountHistoryToolStripMenuItem.Size = new System.Drawing.Size(251, 30);
             this.viewCustomerAccountHistoryToolStripMenuItem.Text = "View Customer Account History";
             this.viewCustomerAccountHistoryToolStripMenuItem.Click += new System.EventHandler(this.viewCustomerAccountHistoryToolStripMenuItem_Click);
             // 
@@ -179,9 +185,10 @@
             this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Location = new System.Drawing.Point(20, 180);
+            this.tbSearchBar.Location = new System.Drawing.Point(13, 117);
+            this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(1960, 44);
+            this.tbSearchBar.Size = new System.Drawing.Size(1308, 32);
             this.tbSearchBar.TabIndex = 5;
             this.tbSearchBar.Tag = "Search by name, phone, or last 4 digits of national ID...";
             this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
@@ -194,9 +201,10 @@
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.lblNumberOfCustomers);
-            this.panel1.Location = new System.Drawing.Point(20, 1180);
+            this.panel1.Location = new System.Drawing.Point(13, 767);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1290, 55);
+            this.panel1.Size = new System.Drawing.Size(860, 36);
             this.panel1.TabIndex = 15;
             // 
             // label3
@@ -204,9 +212,10 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(14, 9);
+            this.label3.Location = new System.Drawing.Point(9, 6);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(290, 32);
+            this.label3.Size = new System.Drawing.Size(196, 24);
             this.label3.TabIndex = 12;
             this.label3.Text = "Number of customers:";
             // 
@@ -215,9 +224,10 @@
             this.lblNumberOfCustomers.AutoSize = true;
             this.lblNumberOfCustomers.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumberOfCustomers.ForeColor = System.Drawing.Color.White;
-            this.lblNumberOfCustomers.Location = new System.Drawing.Point(310, 9);
+            this.lblNumberOfCustomers.Location = new System.Drawing.Point(207, 6);
+            this.lblNumberOfCustomers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNumberOfCustomers.Name = "lblNumberOfCustomers";
-            this.lblNumberOfCustomers.Size = new System.Drawing.Size(46, 32);
+            this.lblNumberOfCustomers.Size = new System.Drawing.Size(30, 24);
             this.lblNumberOfCustomers.TabIndex = 13;
             this.lblNumberOfCustomers.Text = "00";
             // 
@@ -235,9 +245,10 @@
             this.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActivate.ForeColor = System.Drawing.Color.LimeGreen;
-            this.btnActivate.Location = new System.Drawing.Point(1662, 1120);
+            this.btnActivate.Location = new System.Drawing.Point(1108, 728);
+            this.btnActivate.Margin = new System.Windows.Forms.Padding(2);
             this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(276, 88);
+            this.btnActivate.Size = new System.Drawing.Size(184, 57);
             this.btnActivate.TabIndex = 28;
             this.btnActivate.Tag = "ActivateButton";
             this.btnActivate.Text = "Activate";
@@ -253,9 +264,10 @@
             this.btnDeactivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeactivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeactivate.ForeColor = System.Drawing.Color.Firebrick;
-            this.btnDeactivate.Location = new System.Drawing.Point(1662, 1120);
+            this.btnDeactivate.Location = new System.Drawing.Point(1108, 728);
+            this.btnDeactivate.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(276, 88);
+            this.btnDeactivate.Size = new System.Drawing.Size(184, 57);
             this.btnDeactivate.TabIndex = 27;
             this.btnDeactivate.Tag = "DeactivateButton";
             this.btnDeactivate.Text = "Deactivate";
@@ -270,9 +282,10 @@
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btnEdit.Location = new System.Drawing.Point(1350, 1120);
+            this.btnEdit.Location = new System.Drawing.Point(900, 728);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(2);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(276, 88);
+            this.btnEdit.Size = new System.Drawing.Size(184, 57);
             this.btnEdit.TabIndex = 26;
             this.btnEdit.Text = "Edit Info";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -288,9 +301,10 @@
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
             this.btnAddCustomer.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddCustomer.Location = new System.Drawing.Point(1737, 98);
+            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 64);
+            this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCustomer.Name = "btnAddCustomer";
-            this.btnAddCustomer.Size = new System.Drawing.Size(244, 75);
+            this.btnAddCustomer.Size = new System.Drawing.Size(163, 49);
             this.btnAddCustomer.TabIndex = 4;
             this.btnAddCustomer.Text = "Add Customer";
             this.btnAddCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -301,15 +315,15 @@
             // ctrlCustomerShortInfo1
             // 
             this.ctrlCustomerShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(1314, 231);
-            this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(876, 150);
+            this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlCustomerShortInfo1.Name = "ctrlCustomerShortInfo1";
-            this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(668, 1005);
+            this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(445, 653);
             this.ctrlCustomerShortInfo1.TabIndex = 11;
             // 
             // ctrlCustomersMainScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Controls.Add(this.btnActivate);
@@ -323,8 +337,9 @@
             this.Controls.Add(this.btnAddCustomer);
             this.Controls.Add(this.lblMorningToUserWithName);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlCustomersMainScreen";
-            this.Size = new System.Drawing.Size(1994, 1260);
+            this.Size = new System.Drawing.Size(1329, 819);
             this.Load += new System.EventHandler(this.ctrlCustomers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

@@ -23,9 +23,9 @@ namespace SmartBank_UI.Main_Form_UC
         private bool _isManagerOrAdmin = false;
         private List<clsCustomers> _allCustomers = new List<clsCustomers>();
 
-        private void _bindGrid(List<clsCustomers> customerView)
+        private void _bindGrid(List<clsCustomers> customerView , bool isFilter = false)
         {
-            if (!customerView.Any()) 
+            if (!customerView.Any() && !isFilter) 
                 return;
 
             dgvCustomersData.DataSource = customerView;
@@ -73,7 +73,10 @@ namespace SmartBank_UI.Main_Form_UC
         {
             if (dgvCustomersData.Rows.Count > 0)
             {
-                ctrlCustomerShortInfo1.LoadCustomerInfo(dgvCustomersData.CurrentRow.Cells["NationalID"].Value.ToString());
+                object value = dgvCustomersData.CurrentRow?.Cells["NationalID"].Value;
+                if (value == null || value == DBNull.Value) return;
+
+                ctrlCustomerShortInfo1.LoadCustomerInfo(value.ToString());
                 if (ctrlCustomerShortInfo1.Customer != null)
                 {
                     btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
@@ -122,19 +125,32 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmShowAllCustomerAccounts frm = new frmShowAllCustomerAccounts((int?)dgvCustomersData.CurrentRow?.Cells["CustomerID"]?.Value);
-            frm.ShowDialog();
+            int? customerId = (int?)dgvCustomersData.CurrentRow?.Cells["CustomerID"]?.Value;
+            if(customerId.HasValue && clsCustomers.IsCustomerExists(customerId.Value))
+            {
+                frmShowAllCustomerAccounts frm = new frmShowAllCustomerAccounts(customerId);
+                frm.ShowDialog();
+            }
+
+            MessageBox.Show("No customer selected!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void updateCustomerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgvCustomersData.Rows.Count == 0)
             {
-                MessageBox.Show("No Customer exist!", "No Customer Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No Customer exist!", "Select customer", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(dgvCustomersData.CurrentRow.Cells["NationalID"].Value.ToString());
+            string nationalId = dgvCustomersData.CurrentRow?.Cells["NationalID"].Value?.ToString();
+            if(string.IsNullOrEmpty(nationalId))
+            {
+                MessageBox.Show("No customer selected!", "Select customer!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(nationalId);
             addOrUpdateCustomers.ShowDialog();
             _bindGrid(_loadCustomersList());
         }
@@ -154,7 +170,7 @@ namespace SmartBank_UI.Main_Form_UC
                        n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);
-            }).ToList());
+            }).ToList() , true);
         }
 
         private enum enCustomerStatesError { RecordNotExists = 1 , CustomerAlreadyActive = 2 , CustomerAlreadyInActive = 3 , CurrentUserNotAdminOrManager = 4 , ReadyToDeactivate = 5 , ReadyToActivate = 6 }
@@ -191,7 +207,7 @@ namespace SmartBank_UI.Main_Form_UC
         private void DeactivateCustomer_Click(object sender, EventArgs e)
         {
             if (_checkCutomerStates(ctrlCustomerShortInfo1.Customer, true) == enCustomerStatesError.ReadyToDeactivate
-                && MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                && MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning , MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 if (ctrlCustomerShortInfo1.Customer.Deactivate())
                 {
@@ -210,7 +226,7 @@ namespace SmartBank_UI.Main_Form_UC
         private void Activate_Click(object sender, EventArgs e)
         {
             if(_checkCutomerStates(ctrlCustomerShortInfo1.Customer, false) == enCustomerStatesError.ReadyToActivate 
-               && MessageBox.Show("Are you sure you want to activate this customer?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+               && MessageBox.Show("Are you sure you want to activate this customer?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning , MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 if (ctrlCustomerShortInfo1.Customer.Activate())
                 {

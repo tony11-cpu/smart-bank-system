@@ -29,9 +29,9 @@ namespace SmartBank_UI.Main_Form_UC
             tbSearchBar.ForeColor = tbSearchBar.Text == tag ? Color.DimGray : Color.White;
         }
 
-        private List<clsAccounts> _loadAccountsList()
+        private async Task<List<clsAccounts>> _loadAccountsList()
         {
-            _allAccounts = clsAccounts.GetAllAccounts();
+            _allAccounts = await clsAccounts.GetAllAccountsAsync();
             return _allAccounts;
         }
 
@@ -65,12 +65,12 @@ namespace SmartBank_UI.Main_Form_UC
             dgvAccounts.ColumnHeadersHeight = 40;
         }
 
-        private void ctrlAccounts_Load(object sender, EventArgs e)
+        private async void ctrlAccounts_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            _bindGrid(_loadAccountsList());
+            _bindGrid(await _loadAccountsList());
 
             if (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Teller)
             {
@@ -131,17 +131,22 @@ namespace SmartBank_UI.Main_Form_UC
         private async Task _loadUserFromDGVAsync()
         {
             if (dgvAccounts.Rows.Count > 0)
-                await ctrlAccountShortInfo1.LoadAccount(dgvAccounts.CurrentRow.Cells["AccountNumber"].Value.ToString());
+            {
+                string accountNumber = dgvAccounts.CurrentRow?.Cells["AccountNumber"].Value.ToString();
+                if(string.IsNullOrEmpty(accountNumber))
+                    return;
+
+                _currentAccount = await clsAccounts.FindAsync(accountNumber);
+                await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+            }
         }
-
         
-
-        private void OpenAccount_Click(object sender, EventArgs e)
+        private async void OpenAccount_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateAccount frm = new frmAddOrUpdateAccount();
             frm.ShowDialog();
 
-            _bindGrid(_loadAccountsList());
+            _bindGrid(await _loadAccountsList());
         }
 
         private async void dgvAccounts_CellClick(object sender, DataGridViewCellEventArgs e) => await _loadUserFromDGVAsync();
@@ -163,7 +168,7 @@ namespace SmartBank_UI.Main_Form_UC
             withdrawalToolStripMenuItem.Enabled = notClosed && canTransact;
         }
 
-        private void ctrlAccounts_VisibleChanged(object sender, EventArgs e) => _bindGrid(_loadAccountsList());
+        private async void ctrlAccounts_VisibleChanged(object sender, EventArgs e) => _bindGrid(await _loadAccountsList());
 
         private async void updateAccount_Click(object sender, EventArgs e)
         {
@@ -172,19 +177,19 @@ namespace SmartBank_UI.Main_Form_UC
             frm.ShowDialog();
 
             await ctrlAccountShortInfo1.LoadAccount(nationalID);
-            _bindGrid(_loadAccountsList());
+            _bindGrid(await _loadAccountsList());
         }
 
-        private void freezeAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void freezeAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(MessageBox.Show("Are you sure you want to freeze this account?", "Confirm Freeze", MessageBoxButtons.YesNo, MessageBoxIcon.Question , MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 return;
 
             try
             {
-                if (_currentAccount.Freeze())
+                if (await _currentAccount.FreezeAsync())
                 {
-                    _bindGrid(_loadAccountsList());
+                    _bindGrid(await _loadAccountsList());
                     MessageBox.Show("Account freezed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -196,16 +201,16 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void unfreezeAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void unfreezeAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(MessageBox.Show("Are you sure you want to unfreeze this account?", "Confirm Unfreeze", MessageBoxButtons.YesNo, MessageBoxIcon.Question , MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 return;
 
             try
             {
-                if (_currentAccount.UnFreeze())
+                if (await _currentAccount.UnFreezeAsync())
                 {
-                    _bindGrid(_loadAccountsList());
+                    _bindGrid(await _loadAccountsList());
                     MessageBox.Show("Account unfrozen successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -217,16 +222,16 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(MessageBox.Show("Are you sure you want to close this account?", "Confirm Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question , MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 return;
 
             try
             {
-                if (_currentAccount.Close())
+                if (await _currentAccount.CloseAsync())
                 {
-                    _bindGrid(_loadAccountsList());
+                    _bindGrid(await _loadAccountsList());
                     MessageBox.Show("Account closed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else

@@ -20,23 +20,13 @@ namespace SmartBank_UI.Accounts
             this.customerID = customerID;
         }
 
-        private void frmShowAllCustomerAccounts_Load(object sender, EventArgs e)
-        {
-            if (!customerID.HasValue || !clsCustomers.IsCustomerExists(customerID.Value))
-            {
-                MessageBox.Show("No customer found!" , "Not Found!" , MessageBoxButtons.OK , MessageBoxIcon.Error);
-                this.Close();
-                return;
-            }
+        private async void frmShowAllCustomerAccounts_Load(object sender, EventArgs e) => await _loadAccountsForCustomer(customerID.Value);
 
-            _loadAccountsForCustomer(customerID.Value);
-        }
-
-        private void _loadAccountsForCustomer(int customerID)
+        private async Task _loadAccountsForCustomer(int customerID)
         {
             ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
             ctrlCustomerShortInfo1.LoadCustomerInfo(customerID);
-            dgvAllCustomerAccounts.DataSource = clsAccounts.GetAccountsByCustomerID(customerID);
+            dgvAllCustomerAccounts.DataSource = await clsAccounts.GetAccountsByCustomerIDAsync(customerID);
 
             int count = dgvAllCustomerAccounts.RowCount;
             lblNumberOfAccounts.Text = $"Showing {count} account{(count != 1 ? "s" : "")}";

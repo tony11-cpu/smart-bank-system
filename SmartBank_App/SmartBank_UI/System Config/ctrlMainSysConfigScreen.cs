@@ -63,7 +63,7 @@ namespace SmartBank_UI.System_Config
                 lblIsDataBaseConnected.ForeColor = Color.Red;
             }
 
-            lblTotalActiveAccountsCount.Text = clsAccounts.NumberOfActiveAccounts.ToString();
+            lblTotalActiveAccountsCount.Text = clsAccounts.NumberOfActiveAccountsAsync().Result.ToString();
             lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
         }
 

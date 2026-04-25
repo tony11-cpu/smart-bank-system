@@ -258,7 +258,9 @@ namespace SmartBank
                 using (SqlCommand cmd = new SqlCommand("select * From fn_GetAllUsers();", conn))
                 {
                     await conn.OpenAsync();
-                    dt.Load(await cmd.ExecuteReaderAsync());
+                    using(SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        dt.Load(reader);
+
                     return dt;
                 }
             }
@@ -282,7 +284,9 @@ namespace SmartBank
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     await conn.OpenAsync();
-                    dt.Load(await cmd.ExecuteReaderAsync());
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        dt.Load(reader);
+
                     return dt;
                 }
             }

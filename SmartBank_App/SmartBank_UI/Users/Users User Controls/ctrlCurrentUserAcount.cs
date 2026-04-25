@@ -64,7 +64,7 @@ namespace SmartBank_UI.Users.Users_User_Controls
 
         private void _loadUserTransactionsDGV()
         {
-            dgvlastTransactions.DataSource = clsTransactionLog.FetchAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+            dgvlastTransactions.DataSource = clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
 
             dgvlastTransactions.Columns["UserResponsibleID"].Visible = false;
             dgvlastTransactions.Columns["BalanceAfterTransaction"].Visible = false;

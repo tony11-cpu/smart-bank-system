@@ -45,18 +45,18 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             dgvAllTransactions.ColumnHeadersHeight = 40;
         }
 
-        private List<clsTransactionLog> _loadTransactionsLog()
+        private async Task<List<clsTransactionLog>> _loadTransactionsLog()
         {
-            _transactionsLogs = clsTransactionLog.FetchAllTransactionsList();
+            _transactionsLogs = await clsTransactionLog.GetAllTransactionsAsync();
             return _transactionsLogs;
         }
 
-        private void ctrlTransactionsMainScreen_Load(object sender, EventArgs e)
+        private async void ctrlTransactionsMainScreen_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            _bindGrid(_loadTransactionsLog());
+            _bindGrid(await _loadTransactionsLog());
         }
 
         private void btnSchedualedFillter_Click(object sender, EventArgs e)

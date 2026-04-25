@@ -73,7 +73,7 @@ namespace SmartBank_UI
 
             DayTime.Start();
 
-            btnDashBoard_Click(sender, null);
+            _showView(_dashboard);
             _loadUser();
 
             frmAddOrUpdateUser.OnCurrentUserEdit += _loadUser;

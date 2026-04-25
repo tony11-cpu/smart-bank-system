@@ -121,7 +121,10 @@ namespace SmartBack_DAL
                 using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllTransactions()", conn))
                 {
                     conn.Open();
-                    dt.Load(cmd.ExecuteReader());
+                    using (SqlDataReader adapter = cmd.ExecuteReader())
+                        dt.Load(adapter);
+
+                    return dt;
                 }
             }
             catch (SqlException ex)
@@ -129,7 +132,7 @@ namespace SmartBack_DAL
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
-            return dt;
+            return null;
         }
     }
 }

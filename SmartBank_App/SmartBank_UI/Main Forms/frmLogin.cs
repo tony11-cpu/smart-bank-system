@@ -113,7 +113,7 @@ namespace SmartBank_UI.Login
             }
         }
 
-        private void frmLogin_Load(object sender, EventArgs e)
+        private async void frmLogin_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
@@ -123,7 +123,7 @@ namespace SmartBank_UI.Login
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
 
-            lblNumberActiveAccounts.Text = clsAccounts.NumberOfActiveAccounts.ToString();
+            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;

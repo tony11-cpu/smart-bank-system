@@ -40,16 +40,16 @@ namespace SmartBank_UI.Accounts
             if (DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
-            ctrlCustomerShortInfo1.OnCustomerSelected += _loadCustomerInfo;
             _selectedAccount = new clsAccounts();
-            if (!string.IsNullOrEmpty(_accountNumber) && clsAccounts.IsAccountExists(_accountNumber))
+            ctrlCustomerShortInfo1.OnCustomerSelected += async () => await _loadCustomerInfo();
+
+            if (!string.IsNullOrEmpty(_accountNumber) && await clsAccounts.IsAccountExistsAsync(_accountNumber))
             {
                 _currentMode = enMode.Update;
-                await _loadAccountInfo();
-
                 nupOpeningBalance.Enabled = false;
                 nupMinBalance.Enabled = true;
                 ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
+                await _loadAccountInfo();
             }
             else
             {
@@ -96,7 +96,7 @@ namespace SmartBank_UI.Accounts
             return true;
         }
 
-        private void _loadCustomerInfo()
+        private async Task _loadCustomerInfo()
         {
             _accountType_Savings = null;
             lblAccountTypeLiveView.Text = "Not Selected";
@@ -106,9 +106,9 @@ namespace SmartBank_UI.Accounts
             if (_validateSelectedCustomer())
             {
                 _setControlsEnabled(true);
-                _loadAutomatedAccountID();
-
                 lblCustomerNameLiveView.Text = $"{ctrlCustomerShortInfo1.Customer.FirstName} {ctrlCustomerShortInfo1.Customer.LastName}";
+
+                await _loadAutomatedAccountID();
 
                 if (string.IsNullOrEmpty(ctrlCustomerShortInfo1.Customer.ImagePath) || !File.Exists(ctrlCustomerShortInfo1.Customer.ImagePath))
                 {
@@ -127,13 +127,13 @@ namespace SmartBank_UI.Accounts
             }
         }
 
-        private void _loadAutomatedAccountID()
+        private async Task _loadAutomatedAccountID()
         {
             string accountNumber = $"SB-{DateTime.Now.Year}-{ctrlCustomerShortInfo1.Customer.NationalID.Substring(ctrlCustomerShortInfo1.Customer.NationalID.Length - 4)}";
-            if (clsAccounts.IsAccountExists(accountNumber))
+            if (await clsAccounts.IsAccountExistsAsync(accountNumber))
             {
                 int suffix = 1;
-                while (clsAccounts.IsAccountExists($"{accountNumber}-{suffix}")) 
+                while (await clsAccounts.IsAccountExistsAsync($"{accountNumber}-{suffix}")) 
                     suffix++;
 
                 accountNumber = $"{accountNumber}-{suffix}";
@@ -154,7 +154,7 @@ namespace SmartBank_UI.Accounts
 
         private async Task _loadAccountInfo()
         {
-            _selectedAccount = clsAccounts.Find(_accountNumber);
+            _selectedAccount = await clsAccounts.FindAsync(_accountNumber);
 
             if (_selectedAccount == null)
             {
@@ -289,14 +289,14 @@ namespace SmartBank_UI.Accounts
             }
         }
 
-        private bool _performDepositForOpeningBalance()
+        private async Task<bool> _performDepositForOpeningBalance()
         {
             if(_currentMode == enMode.Update)
                 return true;
 
             try
             {
-                if(_selectedAccount.Deposit(nupOpeningBalance.Value, "Initial deposit"))    
+                if(await _selectedAccount.DepositAsync(nupOpeningBalance.Value, "Initial deposit"))    
                    return true;
             }
             catch (Exception ex)
@@ -307,13 +307,13 @@ namespace SmartBank_UI.Accounts
             return false;
         }
 
-        private void btnOpenOrUpdateAccount_Click(object sender, EventArgs e)
+        private async void btnOpenOrUpdateAccount_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren())
                 return;
 
             _fetchAccountData();
-            if (_selectedAccount.Save() && _performDepositForOpeningBalance())
+            if (await _selectedAccount.SaveAsync() && await _performDepositForOpeningBalance())
             {
                 _updateForm();
                 lblSavingOrCheckingsAccountType.Text = $"{(_accountType_Savings.Value ? "Savings" : "Checking")} — Update Account";

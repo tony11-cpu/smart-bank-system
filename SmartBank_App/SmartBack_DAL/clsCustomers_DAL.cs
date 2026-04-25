@@ -339,7 +339,8 @@ namespace SmartBank
                 using (SqlCommand cmd = new SqlCommand("SELECT * FROM fn_GetAllCustomers();", conn))
                 {
                     conn.Open();
-                    dt.Load(cmd.ExecuteReader());
+                    using(SqlDataReader adapter = cmd.ExecuteReader())
+                        dt.Load(adapter);
                 }
             }
             catch (SqlException ex)
