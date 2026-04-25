@@ -38,20 +38,17 @@ namespace SmartBank_BLL
             throw new NotImplementedException();
         }
 
-        public static async Task<bool> Deposit(int? accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> Deposit(int accountID, decimal amount, string description, int performedByUserID)
         {
-            if(!accountID.HasValue)
-                throw new ArgumentException("Account ID cannot be null.");
-
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
-            clsAccounts account = await clsAccounts.FindAsync(accountID.Value);
+            clsAccounts account = await clsAccounts.FindAsync(accountID);
 
             if (!_returnAccountAndValidity(account))
                 throw new ArgumentException("Invalid account.");
 
-            if(clsTransactions_DAL.Deposit(accountID.Value, amount, description, performedByUserID))
+            if(clsTransactions_DAL.Deposit(accountID, amount, description, performedByUserID))
             {
                 account.Balance += amount; 
                 return true;

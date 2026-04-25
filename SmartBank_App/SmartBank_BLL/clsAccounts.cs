@@ -271,7 +271,16 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the deposit was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
-        public async Task<bool> DepositAsync(decimal amount, string description) => await clsPerformTransaction.Deposit(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public async Task<bool> DepositAsync(decimal amount, string description)
+        {
+            if(await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"),amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
+            {
+                this.Balance += amount;
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Use try and catch while calling this method to handle exceptions and provide user-friendly messages.

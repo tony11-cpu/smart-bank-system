@@ -60,15 +60,15 @@ namespace SmartBank_UI.Main_Form_UC
             dgvAccounts.Columns["AccountType"].HeaderText = "Account Type";
             dgvAccounts.Columns["ClosedDate"].HeaderText = "Closed Date";
             dgvAccounts.Columns["CustomerName"].HeaderText = "Customer Name";
-
-            dgvAccounts.RowTemplate.Height = 35;
-            dgvAccounts.ColumnHeadersHeight = 40;
         }
 
         private async void ctrlAccounts_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
+
+            dgvAccounts.RowTemplate.Height = 35;
+            dgvAccounts.ColumnHeadersHeight = 40;
 
             _bindGrid(await _loadAccountsList());
 

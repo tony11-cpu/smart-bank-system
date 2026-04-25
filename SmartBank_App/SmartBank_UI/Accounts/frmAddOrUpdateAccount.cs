@@ -46,7 +46,6 @@ namespace SmartBank_UI.Accounts
             if (!string.IsNullOrEmpty(_accountNumber) && await clsAccounts.IsAccountExistsAsync(_accountNumber))
             {
                 _currentMode = enMode.Update;
-                nupOpeningBalance.Enabled = false;
                 nupMinBalance.Enabled = true;
                 ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
                 await _loadAccountInfo();
@@ -163,9 +162,7 @@ namespace SmartBank_UI.Accounts
                 return;
             }
 
-            _updateForm();
             ctrlCustomerShortInfo1.LoadCustomerInfo(_selectedAccount.Customer?.NationalID);
-
             tbAccountNumber.Text = _selectedAccount.AccountNumber;
             nupOpeningBalance.Value = _selectedAccount.Balance;
             nupMinBalance.Value = _selectedAccount.MinimumBalance;
@@ -175,9 +172,10 @@ namespace SmartBank_UI.Accounts
             lblDate.Text = _selectedAccount.OpenedDate?.ToString("MMMM dd, yyyy") ?? "N/A";
             lblOpenedByUsername.Text = (await clsUsers.FindAsync(_selectedAccount.CreatedByUserID))?.Username ?? "N/A";
             lblSavingOrCheckingsAccountType.Text = $"{_selectedAccount.AccountType} — Update Account";
-
             _accountType_Savings = _selectedAccount.AccountType == clsAccounts.enAccountType.Savings;
             nupMinBalance.Minimum = _accountType_Savings == true ? 500 : 0;
+
+            _updateForm();
         }
 
         private bool _validateAccountTypeSelection()
