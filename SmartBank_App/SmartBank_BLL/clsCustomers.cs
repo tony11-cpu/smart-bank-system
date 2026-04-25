@@ -71,14 +71,15 @@ namespace SmartBank_BLL
             _mode = enMode.Update;
         }
 
-        public static bool IsCustomerExists(int customerID) => clsCustomers_DAL.IsCustomerExistByID(customerID);
+        public static async Task<bool> IsCustomerExistsAsync(int customerID) => await clsCustomers_DAL.IsCustomerExistByIDAsync(customerID);
 
-        public static bool IsCustomerExists(string nationalID) => clsCustomers_DAL.IsCustomerExistByNationalID(nationalID);
+        public static async Task<bool> IsCustomerExistsAsync(string nationalID) => await clsCustomers_DAL.IsCustomerExistByNationalIDAsync(nationalID);
 
-        public static List<clsCustomers> GetAllCustomers()
+        public static async Task<List<clsCustomers>> GetAllCustomersAsync()
         {
             List<clsCustomers> customers = new List<clsCustomers>();
-            DataTable values = clsCustomers_DAL.GetAllCustomers();
+            DataTable values = await clsCustomers_DAL.GetAllCustomersAsync();
+
             foreach (DataRow row in values.Rows)
             {
                 customers.Add(new clsCustomers(
@@ -101,69 +102,35 @@ namespace SmartBank_BLL
             return customers;
         }
 
-        public static clsCustomers Find(int customerID)
+        public static async Task<clsCustomers> FindAsync(int customerID)
         {
-            string firstName = null;
-            string lastName = null;
-            string nationalID = null;
-            DateTime dateOfBirth = DateTime.MinValue;
-            string phone = null;
-            string email = null;
-            string address = null;
-            DateTime registeredDate = DateTime.MinValue;
-            bool isActive = false;
-            int createdByUserID = -1;
-            string ImagePath = null;
-            bool Gender = false;
-
-            if (clsCustomers_DAL.GetCustomerByID(customerID,
-                ref firstName, ref lastName, ref nationalID,
-                ref dateOfBirth, ref phone, ref email,
-                ref address, ref registeredDate,
-                ref isActive, ref createdByUserID , ref ImagePath, ref Gender))
+            clsCustomerDto customerDto = await clsCustomers_DAL.GetCustomerByIDAsync(customerID);
+            if (customerDto != null)
             {
-                return new clsCustomers(customerID, firstName, lastName,
-                    nationalID, dateOfBirth, phone, email,
-                    address, registeredDate, isActive, createdByUserID, Gender, ImagePath);
+                return new clsCustomers(customerID, customerDto.FirstName, customerDto.LastName,customerDto.NationalID, customerDto.DateOfBirth, customerDto.Phone, customerDto.Email,
+                    customerDto.Address, customerDto.RegisteredDate, customerDto.IsActive, customerDto.CreatedByUserID, customerDto.Gender, customerDto.ImagePath);
             }
 
             return null;
         }
 
-        public static clsCustomers Find(string nationalID)
+        public static async Task<clsCustomers> FindAsync(string nationalID)
         {
-            int customerID = -1;
-            string firstName = null;
-            string lastName = null;
-            DateTime dateOfBirth = DateTime.MinValue;
-            string phone = null;
-            string email = null;
-            string address = null;
-            DateTime registeredDate = DateTime.MinValue;
-            bool isActive = false;
-            int createdByUserID = -1;
-            string ImagePath = null;
-            bool Gender = false;
-
-            if (clsCustomers_DAL.GetCustomerByNationalID(nationalID,
-                ref customerID, ref firstName, ref lastName,
-                ref dateOfBirth, ref phone, ref email,
-                ref address, ref registeredDate,
-                ref isActive, ref createdByUserID, ref ImagePath, ref Gender))
+            clsCustomerDto customerDto = await clsCustomers_DAL.GetCustomerByNationalIDAsync(nationalID);
+            if (customerDto != null)
             {
-                return new clsCustomers(customerID, firstName, lastName,
-                    nationalID, dateOfBirth, phone, email,
-                    address, registeredDate, isActive, createdByUserID, Gender, ImagePath);
+                return new clsCustomers(customerDto.CustomerID, customerDto.FirstName, customerDto.LastName, nationalID, customerDto.DateOfBirth, customerDto.Phone, customerDto.Email,
+                    customerDto.Address, customerDto.RegisteredDate, customerDto.IsActive, customerDto.CreatedByUserID, customerDto.Gender, customerDto.ImagePath);
             }
 
             return null;
         }
 
-        private bool _addNew()
+        private async Task<bool> _addNewAsync()
         {
-            this.CustomerID = clsCustomers_DAL.CreateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."), 
-                                                              FirstName,LastName, NationalID,DateOfBirth, Phone, Email, Address, DateTime.Now ,true ,
-                                                              ImagePath, Gender);
+            this.CustomerID = await clsCustomers_DAL.CreateCustomerAsync(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."),
+                                                                         new clsCustomerDto(FirstName,LastName,NationalID,DateOfBirth,Phone,Email,Address,DateTime.Now,true,
+                                                                         ImagePath,Gender));
             if(CustomerID == -1)
                 return false;
 
@@ -171,29 +138,29 @@ namespace SmartBank_BLL
             return true;
         }
 
-        private bool _update() => clsCustomers_DAL.UpdateCustomer(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."),
-                                                                  CustomerID ?? throw new InvalidOperationException("Customer ID is not set."),
-                                                                  FirstName, LastName,Phone, Email, Address, ImagePath, Gender , DateOfBirth);
+        private async Task<bool> _updateAsync() => await clsCustomers_DAL.UpdateCustomerAsync(clsGlobal.ActiveUser.UserID ?? throw new InvalidOperationException("Active user is not set."),
+                                                                                         CustomerID ?? throw new InvalidOperationException("Customer ID is not set."),
+                                                                                         FirstName, LastName,Phone, Email, Address, ImagePath, Gender , DateOfBirth);
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
             switch (_mode)
             {
-                case enMode.Add:  return _addNew();
-                case enMode.Update: return _update();
+                case enMode.Add:  return await _addNewAsync();
+                case enMode.Update: return await _updateAsync();
 
                 default:
                     throw new InvalidOperationException("Invalid mode for saving customer.");
             }
         }
 
-        public bool Deactivate()
+        public async Task<bool> DeactivateAsync()
         {
             if (_mode != enMode.Update || !IsActive)
                 return false;
 
             if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) 
-                && clsCustomers_DAL.DeactivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
+                && await clsCustomers_DAL.DeactivateCustomerAsync(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = false;
                 return true;
@@ -202,13 +169,13 @@ namespace SmartBank_BLL
             return false;
         }
 
-        public bool Activate()
+        public async Task<bool> ActivateAsync()
         {
             if (_mode != enMode.Update || IsActive)
                 return false;
 
             if (CustomerID != null && clsGlobal.ActiveUser != null && clsGlobal.ActiveUser.UserID != null 
-                && clsCustomers_DAL.ActivateCustomer(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
+                && await clsCustomers_DAL.ActivateCustomerAsync(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = true;  
                 return true;

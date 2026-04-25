@@ -54,9 +54,9 @@ namespace SmartBank_UI.Main_Form_UC
             _loadCustomerImage();
         }
 
-        public void LoadCustomerInfo(string nationalID)
+        public async Task LoadCustomerInfo(string nationalID)
         {
-            Customer = clsCustomers.Find(nationalID);
+            Customer = await clsCustomers.FindAsync(nationalID);
 
             if (Customer == null)
             {
@@ -70,9 +70,9 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        public void LoadCustomerInfo(int customerID)
+        public async Task LoadCustomerInfo(int customerID)
         {
-            Customer = clsCustomers.Find(customerID);
+            Customer = await clsCustomers.FindAsync(customerID);
 
             if (Customer == null)
             {
@@ -121,15 +121,13 @@ namespace SmartBank_UI.Main_Form_UC
             _canSeeCustomerID = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanViewCustomerNationalId);
 
             _loadDefault();
-            frmAddOrUpdateCustomers.OnAddingOrUpdatingCustomer += LoadCustomerInfo;
+            frmAddOrUpdateCustomers.OnAddingOrUpdatingCustomer += async (task) => await LoadCustomerInfo(task);
         }
 
-        private void tbNationalID_KeyPress(object sender, KeyPressEventArgs e)
+        private async void tbNationalID_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
-            {
-                LoadCustomerInfo(tbNationalID.Text.Trim());
-            }
+                await LoadCustomerInfo(tbNationalID.Text.Trim());
         }
     }
 }

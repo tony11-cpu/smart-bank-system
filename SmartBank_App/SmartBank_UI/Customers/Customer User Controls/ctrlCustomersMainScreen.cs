@@ -49,13 +49,13 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private List<clsCustomers> _loadCustomersList()
+        private async Task<List<clsCustomers>> _loadCustomersList()
         {
-            _allCustomers = clsCustomers.GetAllCustomers();
+            _allCustomers = await clsCustomers.GetAllCustomersAsync();
             return _allCustomers;
         }
 
-        private void ctrlCustomers_Load(object sender, EventArgs e)
+        private async void ctrlCustomers_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode) 
                 return;
@@ -66,17 +66,17 @@ namespace SmartBank_UI.Main_Form_UC
             dgvCustomersData.RowTemplate.Height = 35;
             dgvCustomersData.ColumnHeadersHeight = 40;
 
-            _bindGrid(_loadCustomersList());
+            _bindGrid(await _loadCustomersList());
         }
 
-        private void _loadCustomerFromDGV()
+        private async void _loadCustomerFromDGV()
         {
             if (dgvCustomersData.Rows.Count > 0)
             {
                 object value = dgvCustomersData.CurrentRow?.Cells["NationalID"].Value;
                 if (value == null || value == DBNull.Value) return;
 
-                ctrlCustomerShortInfo1.LoadCustomerInfo(value.ToString());
+                await ctrlCustomerShortInfo1.LoadCustomerInfo(value.ToString());
                 if (ctrlCustomerShortInfo1.Customer != null)
                 {
                     btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
@@ -103,14 +103,14 @@ namespace SmartBank_UI.Main_Form_UC
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
-        private void AddNewCutomer_Click(object sender, EventArgs e)
+        private async void AddNewCutomer_Click(object sender, EventArgs e)
         {
             frmAddOrUpdateCustomers frmAddOrUpdateCustomers = new frmAddOrUpdateCustomers();
             frmAddOrUpdateCustomers.ShowDialog();
-            _bindGrid(_loadCustomersList());
+            _bindGrid(await _loadCustomersList());
         }
 
-        private void btnEditCustomer_Click(object sender, EventArgs e)
+        private async void btnEditCustomer_Click(object sender, EventArgs e)
         {
             if (ctrlCustomerShortInfo1.Customer == null)
             {
@@ -120,13 +120,13 @@ namespace SmartBank_UI.Main_Form_UC
 
             frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(ctrlCustomerShortInfo1.Customer.NationalID);
             addOrUpdateCustomers.ShowDialog();
-            _bindGrid(_loadCustomersList());
+            _bindGrid(await _loadCustomersList());
         }
 
-        private void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void viewCustomerAccountHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int? customerId = (int?)dgvCustomersData.CurrentRow?.Cells["CustomerID"]?.Value;
-            if(customerId.HasValue && clsCustomers.IsCustomerExists(customerId.Value))
+            if(customerId.HasValue && await clsCustomers.IsCustomerExistsAsync(customerId.Value))
             {
                 frmShowAllCustomerAccounts frm = new frmShowAllCustomerAccounts(customerId);
                 frm.ShowDialog();
@@ -135,7 +135,7 @@ namespace SmartBank_UI.Main_Form_UC
             MessageBox.Show("No customer selected!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void updateCustomerToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void updateCustomerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgvCustomersData.Rows.Count == 0)
             {
@@ -152,7 +152,7 @@ namespace SmartBank_UI.Main_Form_UC
 
             frmAddOrUpdateCustomers addOrUpdateCustomers = new frmAddOrUpdateCustomers(nationalId);
             addOrUpdateCustomers.ShowDialog();
-            _bindGrid(_loadCustomersList());
+            _bindGrid(await _loadCustomersList());
         }
 
         private void tbSearchBar_TextChanged(object sender, EventArgs e)
@@ -204,14 +204,14 @@ namespace SmartBank_UI.Main_Form_UC
             return deactivation ? enCustomerStatesError.ReadyToDeactivate : enCustomerStatesError.ReadyToActivate;
         }
 
-        private void DeactivateCustomer_Click(object sender, EventArgs e)
+        private async void DeactivateCustomer_Click(object sender, EventArgs e)
         {
             if (_checkCutomerStates(ctrlCustomerShortInfo1.Customer, true) == enCustomerStatesError.ReadyToDeactivate
                 && MessageBox.Show("Are you sure you want to deactivate this customer?", "Confirm Deactivation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning , MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                if (ctrlCustomerShortInfo1.Customer.Deactivate())
+                if (await ctrlCustomerShortInfo1.Customer.DeactivateAsync())
                 {
-                    _bindGrid(_loadCustomersList());
+                    _bindGrid(await _loadCustomersList());
                     btnDeactivate.Visible = false;
                     btnActivate.Visible = true;
                     MessageBox.Show("Customer deactivated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -223,14 +223,14 @@ namespace SmartBank_UI.Main_Form_UC
             }
         }
 
-        private void Activate_Click(object sender, EventArgs e)
+        private async void Activate_Click(object sender, EventArgs e)
         {
             if(_checkCutomerStates(ctrlCustomerShortInfo1.Customer, false) == enCustomerStatesError.ReadyToActivate 
                && MessageBox.Show("Are you sure you want to activate this customer?", "Confirm activation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning , MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                if (ctrlCustomerShortInfo1.Customer.Activate())
+                if (await ctrlCustomerShortInfo1.Customer.ActivateAsync())
                 {
-                    _bindGrid(_loadCustomersList());
+                    _bindGrid(await _loadCustomersList());
                     btnDeactivate.Visible = true;
                     btnActivate.Visible = false;
                     MessageBox.Show("Customer activated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

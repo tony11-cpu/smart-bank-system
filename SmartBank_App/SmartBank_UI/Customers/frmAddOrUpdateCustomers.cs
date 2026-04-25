@@ -97,18 +97,18 @@ namespace SmartBank_UI
             _setTextboxStates(tb, true, false);
         }
 
-        private void ctrlAddOrUpdateCustomer_Load(object sender, EventArgs e)
+        private async void ctrlAddOrUpdateCustomer_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            if (string.IsNullOrEmpty(_nationalID) || !clsCustomers.IsCustomerExists(_nationalID))
+            if (string.IsNullOrEmpty(_nationalID) || !await clsCustomers.IsCustomerExistsAsync(_nationalID))
             {
                 _loadDeafultFormValues();
             }
             else
             {
-                _selectedCustomer = clsCustomers.Find(_nationalID);
+                _selectedCustomer = await clsCustomers.FindAsync(_nationalID);
                 _mode = enMode.Update;
                 _loadCustomerData();
                 btnRemovePhoto.Visible = !string.IsNullOrEmpty(pbCustomerPhoto.ImageLocation);
@@ -161,12 +161,12 @@ namespace SmartBank_UI
             return true;
         }
 
-        private void btnSaveCustomer_Click(object sender, EventArgs e)
+        private async void btnSaveCustomer_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren())
                 return;
 
-            if (_fillCustomerData() && _selectedCustomer.Save())
+            if (_fillCustomerData() && await _selectedCustomer.SaveAsync())
             {
                 _mode = enMode.Update;
                 tbNationalID.ReadOnly = true;
@@ -261,14 +261,14 @@ namespace SmartBank_UI
             }
         }
 
-        private void tbNationalID_Validating(object sender, CancelEventArgs e)
+        private async void tbNationalID_Validating(object sender, CancelEventArgs e)
         {
             if (_isIdle(tbNationalID))
             {
                 errorProvider1.SetError(tbNationalID, "National id cannot be empty!");
                 e.Cancel = true;
             }
-            else if (clsCustomers.IsCustomerExists(tbNationalID.Text.Trim()) && _mode == enMode.Add)
+            else if (await clsCustomers.IsCustomerExistsAsync(tbNationalID.Text.Trim()) && _mode == enMode.Add)
             {
                 errorProvider1.SetError(tbNationalID, "National id is already in use!");
                 e.Cancel = true;

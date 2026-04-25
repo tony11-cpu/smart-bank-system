@@ -43,15 +43,15 @@ namespace SmartBank_BLL
         public int CreatedByUserID { get; set; }
         public static async Task<int> NumberOfActiveAccountsAsync() => (await GetAllAccountsAsync()).Where(n => n.Status == enStatus.Active).Count();
 
-        public clsAccounts(int accountID, string accountNumber, int customerID,
+        public clsAccounts(int accountID, string accountNumber, clsCustomers customer,
                            enAccountType accountType, decimal balance, decimal minimumBalance,
                            enStatus status, DateTime? openedDate, DateTime? closedDate,
                            int createdByUserID)
         {
-            Customer = clsCustomers.Find(customerID);
-            if (Customer == null)
+            if (customer == null)
                 throw new Exception("Customer not found for the given CustomerID.");
 
+            Customer = customer;
             AccountID = accountID;
             AccountNumber = accountNumber;
             AccountType = accountType;
@@ -90,7 +90,7 @@ namespace SmartBank_BLL
             clsAccountsDto accountInfo = await clsAccounts_DAL.GetAccountByIDAsync(accountID, null);
             if (accountInfo != null)
             {
-                return new clsAccounts(accountID, accountInfo.AccountNumber, accountInfo.CustomerID,
+                return new clsAccounts(accountID, accountInfo.AccountNumber, await clsCustomers.FindAsync(accountInfo.CustomerID),
                                        (enAccountType)Enum.Parse(typeof(enAccountType), accountInfo.AccountType),
                                        accountInfo.Balance, accountInfo.MinimumBalance,
                                        (enStatus)Enum.Parse(typeof(enStatus), accountInfo.Status),
@@ -105,7 +105,7 @@ namespace SmartBank_BLL
             clsAccountsDto accountInfo = await clsAccounts_DAL.GetAccountByNumberAsync(accountNumber, null);
             if (accountInfo != null)
             {
-                return new clsAccounts(accountInfo.AccountID, accountInfo.AccountNumber, accountInfo.CustomerID,
+                return new clsAccounts(accountInfo.AccountID, accountInfo.AccountNumber, await clsCustomers.FindAsync(accountInfo.CustomerID),
                                        (enAccountType)Enum.Parse(typeof(enAccountType), accountInfo.AccountType), accountInfo.Balance, accountInfo.MinimumBalance,
                                        (enStatus)Enum.Parse(typeof(enStatus), accountInfo.Status), accountInfo.OpenedDate, accountInfo.ClosedDate, accountInfo.CreatedByUserID);
             }
@@ -223,7 +223,7 @@ namespace SmartBank_BLL
                 (
                     Convert.ToInt32(row["AccountID"]),
                     row["AccountNumber"].ToString(),
-                    Convert.ToInt32(row["CustomerID"]),
+                    await clsCustomers.FindAsync(Convert.ToInt32(row["CustomerID"])),
                     (enAccountType)Enum.Parse(typeof(enAccountType), row["AccountType"].ToString()),
                     Convert.ToDecimal(row["Balance"]),
                     Convert.ToDecimal(row["MinimumBalance"]),
@@ -250,7 +250,7 @@ namespace SmartBank_BLL
                 accounts.Add(new clsAccounts(
                     (int)row["AccountID"],
                               row["AccountNumber"].ToString(),
-                    (int)row["CustomerID"],
+                    await clsCustomers.FindAsync((int)row["CustomerID"]),
                     (enAccountType)Enum.Parse(typeof(enAccountType), row["AccountType"].ToString()),
                     (decimal)row["Balance"],
                     (decimal)row["MinimumBalance"],
