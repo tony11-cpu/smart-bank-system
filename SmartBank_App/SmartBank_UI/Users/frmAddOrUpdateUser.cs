@@ -363,5 +363,14 @@ namespace SmartBank_UI.Users
                 }
             }
         }
+
+        private void ctrlUserPermissions1_Enter(object sender, EventArgs e)
+        {
+            if (clsGlobal.ActiveUser.UserID == _selectedUser.UserID)
+            {
+                MessageBox.Show("You cannot edit your permissions while you are logged in, please contact another admin to edit your permissions!", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ctrlUserPermissions1.ReadOnly = true;
+            }
+        }
     }
 }

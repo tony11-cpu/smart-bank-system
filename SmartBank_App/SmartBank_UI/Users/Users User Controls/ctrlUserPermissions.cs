@@ -44,32 +44,49 @@ namespace SmartBank_UI.Users.Users_User_Control
 
         public clsPermissions Permissions { get; private set; }
 
-        private bool _isReadOnly = true;
+        public bool ReadOnly { set => _canEditPermissions = !value; }
+
+        private bool _canEditPermissions;
+        private bool _isReadOnly;
 
         public void LoadPermissions(int permissions)
         {
-            Permissions = new clsPermissions(permissions);
-            _isReadOnly = true;
+            this.Permissions = new clsPermissions(permissions);
             _applyPermissionIcons(Permissions.Permissions);
         }
 
         private void btnTellerPresent_Click(object sender, EventArgs e)
         {
+            if(!_canEditPermissions)
+                return;
+
             _isReadOnly = true;
             _applyPermissionIcons(enPermissionPresenter.Teller);
         }
+
         private void btnManagerPresent_Click(object sender, EventArgs e)
         {
+            if (!_canEditPermissions)
+                return;
+
             _isReadOnly = true;
             _applyPermissionIcons(enPermissionPresenter.Manager);
         }
+
         private void btnAdminPresent_Click(object sender, EventArgs e)
         {
+            if (!_canEditPermissions)
+                return;
+
             _isReadOnly = true;
             _applyPermissionIcons(enPermissionPresenter.Admin);
         }
+
         private void btnCustomePermissions_Click(object sender, EventArgs e)
         {
+            if (!_canEditPermissions)
+                return;
+
             _isReadOnly = false;
             Permissions = new clsPermissions(0);
             foreach (var btn in _permissionMap.Keys) 
@@ -92,7 +109,7 @@ namespace SmartBank_UI.Users.Users_User_Control
 
         private void Permission_Click(object sender, EventArgs e)
         {
-            if (_isReadOnly) 
+            if (_isReadOnly || !_canEditPermissions) 
                 return;
 
             Button btn = (Button)sender;
@@ -104,6 +121,9 @@ namespace SmartBank_UI.Users.Users_User_Control
         private void ctrlUserPermissions_Load(object sender, EventArgs e)
         {
             Permissions = new clsPermissions(0);
+
+            _canEditPermissions = true;
+            _isReadOnly = true;
         }
     }
 }

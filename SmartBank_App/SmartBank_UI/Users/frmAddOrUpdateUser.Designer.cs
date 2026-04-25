@@ -469,6 +469,7 @@
             this.ctrlUserPermissions1.Name = "ctrlUserPermissions1";
             this.ctrlUserPermissions1.Size = new System.Drawing.Size(837, 357);
             this.ctrlUserPermissions1.TabIndex = 22;
+            this.ctrlUserPermissions1.Enter += new System.EventHandler(this.ctrlUserPermissions1_Enter);
             // 
             // frmAddOrUpdateUser
             // 
