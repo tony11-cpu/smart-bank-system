@@ -31,7 +31,7 @@ namespace SmartBank_BLL
             }
         }
 
-        public static async Task<bool> Deposit(int accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> DepositAsync(int accountID, decimal amount, string description, int performedByUserID)
         {
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
@@ -39,16 +39,16 @@ namespace SmartBank_BLL
             if (!_returnAccountAndValidity(await clsAccounts.FindAsync(accountID)))
                 throw new ArgumentException("Invalid account.");
 
-            return clsTransactions_DAL.Deposit(accountID, amount, description, performedByUserID);
+            return await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
         }
 
-        public static async Task<bool> Withdraw(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
+        public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
             _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount);
-            return clsTransactions_DAL.Withdraw(accountID.Value, amount, description, performedByUserID);
+            return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
         }
 
-        public static async Task<bool> Transfer(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> TransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID)
         {
             if(!fromAccountID.HasValue || !toAccountID.HasValue)
                 throw new ArgumentException("Either fromAccountID or toAccountID cannot be null.");
@@ -64,22 +64,22 @@ namespace SmartBank_BLL
             clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
             _validateWithdrawals(fromAccount, amount);
 
-            return clsTransactions_DAL.Transfer(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
+            return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
         }
 
         // need further functionality for the scheduled transfers since the win service is not implemented yet.
-        public static async Task<bool> ScheduleTransfer(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
+        public static async Task<bool> ScheduleTransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
         {
             // For scheduling transfers, through the win service.
             throw new NotImplementedException();
         }
 
 
-        async Task<bool> ITransactions.Deposit(int accountID, decimal amount, string description, int performedByUserID) => await Deposit(accountID, amount, description, performedByUserID);
+        async Task<bool> ITransactions.Deposit(int accountID, decimal amount, string description, int performedByUserID) => await DepositAsync(accountID, amount, description, performedByUserID);
 
-        async Task<bool> ITransactions.Withdraw(int accountID, decimal amount, string description, int performedByUserID) => await Withdraw(accountID, amount, description, performedByUserID);
+        async Task<bool> ITransactions.Withdraw(int accountID, decimal amount, string description, int performedByUserID) => await WithdrawAsync(accountID, amount, description, performedByUserID);
 
-        async Task<bool> ITransactions.Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID) => await Transfer(fromAccountID, toAccountID, amount, description, performedByUserID);
-        async Task<bool> ITransactions.ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID) => await ScheduleTransfer(fromAccountID, toAccountID, amount, description, scheduledDate, performedByUserID);
+        async Task<bool> ITransactions.Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID) => await TransferAsync(fromAccountID, toAccountID, amount, description, performedByUserID);
+        async Task<bool> ITransactions.ScheduleTransfer(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID) => await ScheduleTransferAsync(fromAccountID, toAccountID, amount, description, scheduledDate, performedByUserID);
     }
 }

@@ -273,7 +273,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
         public async Task<bool> DepositAsync(decimal amount, string description)
         {
-            if (await clsPerformTransaction.Deposit(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
+            if (await clsPerformTransaction.DepositAsync(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance += amount;
                 return true;
@@ -289,7 +289,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if the user responsible is not set.</exception>
         public async Task<bool> WithdrawAsync(decimal amount, string description)
         {
-            if (await clsPerformTransaction.Withdraw(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
+            if (await clsPerformTransaction.WithdrawAsync(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance -= amount;
                 return true;
@@ -306,7 +306,7 @@ namespace SmartBank_BLL
         /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, or the user responsible is not set.</exception>
         public async Task<bool> TransferToAsync(clsAccounts toAccount, decimal amount, string description)
         {
-            if (await clsPerformTransaction.Transfer(this.AccountID ?? throw new Exception("Account ID is not set!"),
+            if (await clsPerformTransaction.TransferAsync(this.AccountID ?? throw new Exception("Account ID is not set!"),
                 toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
                 amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
@@ -324,7 +324,7 @@ namespace SmartBank_BLL
         /// <returns>True if the scheduled transfer was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, the user responsible is not set, or the scheduled date is invalid.</exception>
         public async Task<bool> ScheduleTransferToAsync(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate) =>
-            await clsPerformTransaction.ScheduleTransfer(this.AccountID ?? throw new Exception("Account ID is not set!"), toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
+            await clsPerformTransaction.ScheduleTransferAsync(this.AccountID ?? throw new Exception("Account ID is not set!"), toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
              amount, description, scheduledDate, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
 
         public override string ToString() => $"{AccountNumber}";

@@ -41,7 +41,7 @@ namespace SmartBank_BLL
 
         public static async Task<List<clsTransactionLog>> GetAllTransactionsAsync()
         {
-            DataTable dt = clsTransactions_DAL.GetAllTransactions();
+            DataTable dt = await clsTransactions_DAL.GetAllTransactionsAsync();
             if (dt == null || dt.Rows.Count == 0) return new List<clsTransactionLog>();
 
             

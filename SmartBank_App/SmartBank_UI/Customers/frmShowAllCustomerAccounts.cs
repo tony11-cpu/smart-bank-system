@@ -25,7 +25,7 @@ namespace SmartBank_UI.Accounts
         private async Task _loadAccountsForCustomer(int customerID)
         {
             ctrlCustomerShortInfo1.CustomerNationalIDVisibility = false;
-            ctrlCustomerShortInfo1.LoadCustomerInfo(customerID);
+            await ctrlCustomerShortInfo1.LoadCustomerInfoAsync(customerID);
             dgvAllCustomerAccounts.DataSource = await clsAccounts.GetAccountsByCustomerIDAsync(customerID);
 
             int count = dgvAllCustomerAccounts.RowCount;

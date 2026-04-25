@@ -162,7 +162,7 @@ namespace SmartBank_UI.Accounts
                 return;
             }
 
-            ctrlCustomerShortInfo1.LoadCustomerInfo(_selectedAccount.Customer?.NationalID);
+            await ctrlCustomerShortInfo1.LoadCustomerInfoAsync(_selectedAccount.Customer?.NationalID);
             tbAccountNumber.Text = _selectedAccount.AccountNumber;
             nupOpeningBalance.Value = _selectedAccount.Balance;
             nupMinBalance.Value = _selectedAccount.MinimumBalance;

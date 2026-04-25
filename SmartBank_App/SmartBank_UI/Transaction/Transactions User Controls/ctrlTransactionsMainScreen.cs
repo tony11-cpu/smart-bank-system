@@ -32,6 +32,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             dgvAllTransactions.DataSource = transactions;
 
+            if(transactions == null || !transactions.Any())
+                return;
+
             dgvAllTransactions.Columns["BalanceAfterTransaction"].Visible = false;
 
             dgvAllTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
@@ -40,6 +43,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             dgvAllTransactions.Columns["TransactionDate"].HeaderText = "Date";
             dgvAllTransactions.Columns["IsScheduled"].HeaderText = "Scheduled";
             dgvAllTransactions.Columns["UserResponsibleID"].HeaderText = "User Responsible";
+            dgvAllTransactions.Columns["TransactionID"].HeaderText = "Transaction ID";
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;

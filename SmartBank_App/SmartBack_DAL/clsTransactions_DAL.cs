@@ -3,12 +3,13 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SmartBack_DAL
 {
     public static class clsTransactions_DAL
     {
-        public static bool Deposit(int accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> DepositAsync(int accountID, decimal amount, string description, int performedByUserID)
         {
             try
             {
@@ -28,8 +29,8 @@ namespace SmartBack_DAL
                     };
                     cmd.Parameters.Add(pNewTransactionID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return (int)pNewTransactionID.Value > 0;
                 }
@@ -42,7 +43,7 @@ namespace SmartBack_DAL
             return false;
         }
 
-        public static bool Withdraw(int accountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> WithdrawAsync(int accountID, decimal amount, string description, int performedByUserID)
         {
             try
             {
@@ -62,8 +63,8 @@ namespace SmartBack_DAL
                     };
                     cmd.Parameters.Add(pNewTransactionID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return (int)pNewTransactionID.Value > 0;
                 }
@@ -76,7 +77,7 @@ namespace SmartBack_DAL
             return false;
         }
 
-        public static bool Transfer(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID)
+        public static async Task<bool> TransferAsync(int fromAccountID, int toAccountID, decimal amount, string description, int performedByUserID)
         {
             try
             {
@@ -97,8 +98,8 @@ namespace SmartBack_DAL
                     };
                     cmd.Parameters.Add(pNewTransactionID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return (int)pNewTransactionID.Value > 0;
                 }
@@ -111,7 +112,7 @@ namespace SmartBack_DAL
             return false;
         }
 
-        public static DataTable GetAllTransactions()
+        public static async Task<DataTable> GetAllTransactionsAsync()
         {
             DataTable dt = new DataTable();
 
@@ -120,8 +121,8 @@ namespace SmartBack_DAL
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
                 using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllTransactions()", conn))
                 {
-                    conn.Open();
-                    using (SqlDataReader adapter = cmd.ExecuteReader())
+                    await conn.OpenAsync();
+                    using (SqlDataReader adapter = await cmd.ExecuteReaderAsync())
                         dt.Load(adapter);
 
                     return dt;

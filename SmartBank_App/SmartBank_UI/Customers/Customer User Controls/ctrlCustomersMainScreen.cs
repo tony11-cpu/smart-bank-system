@@ -76,7 +76,7 @@ namespace SmartBank_UI.Main_Form_UC
                 object value = dgvCustomersData.CurrentRow?.Cells["NationalID"].Value;
                 if (value == null || value == DBNull.Value) return;
 
-                await ctrlCustomerShortInfo1.LoadCustomerInfo(value.ToString());
+                await ctrlCustomerShortInfo1.LoadCustomerInfoAsync(value.ToString());
                 if (ctrlCustomerShortInfo1.Customer != null)
                 {
                     btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
