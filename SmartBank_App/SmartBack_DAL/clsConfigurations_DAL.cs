@@ -58,7 +58,7 @@ namespace SmartBack_DAL
             return config;
         }
 
-        public static async Task<bool> GetConfigAsync(int configID , clsConfigDto configData)
+        public static async Task<clsConfigDto> GetConfigAsync(int configID)
         {
             try
             {
@@ -83,12 +83,8 @@ namespace SmartBack_DAL
                     await conn.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
 
-                    configData.ConfigKey = ConfigKey.Value.ToString();
-                    configData.ConfigValue = Convert.ToInt32(ConfigValue.Value);
-                    configData.Description = Description.Value.ToString();
-                    configData.LastModifiedDate = LastModifiedDate.Value == DBNull.Value ? null : (DateTime?)LastModifiedDate.Value;
-                    configData.LastModifiedByUserID = LastModifiedByUserID.Value == DBNull.Value ? null : (int?)LastModifiedByUserID.Value;
-                    return true;
+                    return new clsConfigDto(configID, ConfigKey.Value.ToString() , Convert.ToInt32(ConfigValue.Value) , Description.Value.ToString(),
+                        Convert.ToDateTime(LastModifiedDate.Value), Convert.ToInt32(LastModifiedByUserID.Value));
                 }
             }
             catch (SqlException ex)
@@ -96,7 +92,7 @@ namespace SmartBack_DAL
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
-            return false;
+            return null;
         }
 
         public static async Task<bool> UpdateSystemConfigAsync(int adminUserID, string configKey, string configValue, string description)

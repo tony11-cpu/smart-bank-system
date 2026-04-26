@@ -209,7 +209,7 @@ namespace SmartBank
 
         public async Task<bool> LockAsync()
         {
-            if(_mode == enMode.Update && await clsUsers_DAL.LockUserAsync(clsGlobal.ActiveUser.UserID ?? throw new Exception("No Admin Responsible!"),
+            if(_mode == enMode.Update && await clsUsers_DAL.LockUserAsync(clsGlobal.ActiveUser == null ? null : clsGlobal.ActiveUser.UserID,
                                                                UserID ?? throw new Exception("User ID Is Not Yet Setted For Update!")))
             {
                 IsLocked = true;

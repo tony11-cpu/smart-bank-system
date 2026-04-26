@@ -53,7 +53,7 @@ namespace SmartBank_UI.Login
                 case enErrorState.InvalidCredentials:
                     _userFailedLoginAttempsCounter = tbUsername.Text != _previouseUsername ? 0 : _userFailedLoginAttempsCounter;
                     btnWrongAttempWarning.Visible = true;
-                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of {clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts)} attempts used.";
+                    btnWrongAttempWarning.Text = $"Warning - {++_userFailedLoginAttempsCounter} of {(await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.MaxLoginAttempts)).Value} attempts used.";
                     MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     await _checkUserLoginAttemps(user);
                     await user.RecordLoginAttemptAsync(false);
@@ -97,7 +97,7 @@ namespace SmartBank_UI.Login
 
         private async Task _checkUserLoginAttemps(clsUsers user)
         {
-            if (_userFailedLoginAttempsCounter == clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.MaxLoginAttempts))
+            if (_userFailedLoginAttempsCounter == (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.MaxLoginAttempts)).Value)
             {
                 bool isLocked = await user.LockAsync();
                 if(isLocked)

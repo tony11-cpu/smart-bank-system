@@ -33,11 +33,11 @@ namespace SmartBank_UI.System_Config
             };
         }
 
-        private void _loadDefault()
+        private async Task _loadDefault()
         {
             foreach (var f in _fields)
             {
-                int val = clsConfigurations.GetConfigValue(f.Key) ?? 0;
+                int val = (await clsConfigurations.GetConfigValueAsync(f.Key)).Value;
                 f.Control.Value = val;
                 _changes[f.Key] = (val, false);
             }
@@ -51,7 +51,7 @@ namespace SmartBank_UI.System_Config
 
         private async Task _loadForm()
         {
-            _loadDefault();
+            await _loadDefault();
             if (clsUtil.IsDatabaseConnected())
             {
                 lblIsDataBaseConnected.Text = "Connected";
@@ -113,14 +113,14 @@ namespace SmartBank_UI.System_Config
             await _loadForm();
         }
 
-        private void btnResetToDefault_Click(object sender, EventArgs e)
+        private async void btnResetToDefault_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to reset all configuration values to their default settings? This action cannot be undone.", "Confirm Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 return;
 
-            if (clsConfigurations.ResetToDefault())
+            if (await clsConfigurations.ResetToDefaultAsync())
             {
-                _loadDefault();
+                await _loadDefault();
                 MessageBox.Show("All configurations have been reset to their default values successfully.", "Reset Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -150,12 +150,12 @@ namespace SmartBank_UI.System_Config
                 if (!_changes[f.Key].Changed)
                     continue;
 
-                clsConfigurations config = await clsConfigurations.Find(f.Key);
+                clsConfigurations config = await clsConfigurations.FindAsync(f.Key);
                 config.ConfigValue = (int)f.Control.Value;
 
                 try
                 {
-                    if (!config.Update())
+                    if (!await config.UpdateAsync())
                     {
                         MessageBox.Show($"An error occurred while updating {f.Key}. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -168,7 +168,7 @@ namespace SmartBank_UI.System_Config
                 }
             }
 
-            _loadDefault();
+            await _loadDefault();
             MessageBox.Show("All changes have been saved successfully.", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

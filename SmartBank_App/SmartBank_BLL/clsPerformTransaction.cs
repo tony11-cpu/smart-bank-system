@@ -13,7 +13,7 @@ namespace SmartBank_BLL
         private static bool _returnAccountAndValidity(clsAccounts accountToCheck) => accountToCheck != null && accountToCheck.Status == clsAccounts.enStatus.Active;
 
         // need further functionality for the scheduled transfers since the win service is not implemented yet.
-        private static void _validateWithdrawals(clsAccounts accountToWithdraw, decimal amount)
+        private static async Task _validateWithdrawals(clsAccounts accountToWithdraw, decimal amount)
         {
             if (accountToWithdraw == null || accountToWithdraw.Status != clsAccounts.enStatus.Active)
                 throw new ArgumentException("Invalid account.");
@@ -24,7 +24,7 @@ namespace SmartBank_BLL
             if (accountToWithdraw.Balance - amount < accountToWithdraw.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
 
-            if (clsConfigurations.GetConfigValue(clsConfigurations.enConfigKey.LargeWithdrawalThreshold).Value < amount)
+            if ((await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)).Value < amount)
             {
                 // thought the win service raise a Fraud Flag to the database so the manager or admin can manage it later, but for now I will just throw an exception to prevent the transaction from happening
                 throw new ArgumentException("Withdrawal amount exceeds the large withdrawal threshold. Transaction flagged for review.");
@@ -44,7 +44,7 @@ namespace SmartBank_BLL
 
         public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
-            _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount);
+            await _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount);
             return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
         }
 
@@ -62,7 +62,7 @@ namespace SmartBank_BLL
                 throw new ArgumentException("Invalid destination account.");
 
             clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
-            _validateWithdrawals(fromAccount, amount);
+            await _validateWithdrawals(fromAccount, amount);
 
             return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
         }

@@ -46,9 +46,8 @@ namespace SmartBank_BLL
 
         public static async Task<clsConfigurations> FindAsync(enConfigKey config)
         {
-            clsConfigDto configDto = null;
-
-            if (await clsConfigurations_DAL.GetConfigAsync((int)config, configDto))
+            clsConfigDto configDto = await clsConfigurations_DAL.GetConfigAsync((int)config);
+            if (configDto != null)
             {
                 var userAsync = await clsUsers.FindAsync(configDto.LastModifiedByUserID ?? -1);
                 return new clsConfigurations(config, configDto.ConfigKey, configDto.ConfigValue, configDto.Description, 
