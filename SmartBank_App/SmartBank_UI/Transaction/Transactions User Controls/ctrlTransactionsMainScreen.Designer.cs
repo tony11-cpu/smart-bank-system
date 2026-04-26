@@ -35,6 +35,8 @@
             this.lblClickToShowRow = new System.Windows.Forms.Label();
             this.lblNumberOfTransaction = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tbTransactionDate = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.tbUserProccessedTheTransaction = new System.Windows.Forms.TextBox();
             this.nupBalanceAfter = new System.Windows.Forms.NumericUpDown();
             this.nupBalanceBefore = new System.Windows.Forms.NumericUpDown();
@@ -48,11 +50,10 @@
             this.btnSchedualedFillter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
-            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnNewTransactions = new System.Windows.Forms.Button();
-            this.tbTransactionDate = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
+            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -162,6 +163,31 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(471, 285);
             this.panel2.TabIndex = 62;
+            // 
+            // tbTransactionDate
+            // 
+            this.tbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbTransactionDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTransactionDate.Enabled = false;
+            this.tbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.tbTransactionDate.Location = new System.Drawing.Point(182, 242);
+            this.tbTransactionDate.Name = "tbTransactionDate";
+            this.tbTransactionDate.ReadOnly = true;
+            this.tbTransactionDate.Size = new System.Drawing.Size(264, 26);
+            this.tbTransactionDate.TabIndex = 89;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.label16.Location = new System.Drawing.Point(113, 240);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(64, 26);
+            this.label16.TabIndex = 88;
+            this.label16.Text = "Date:";
             // 
             // tbUserProccessedTheTransaction
             // 
@@ -329,16 +355,6 @@
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
-            // ctrlAccountShortInfo1
-            // 
-            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(837, 160);
-            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
-            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
-            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
-            this.ctrlAccountShortInfo1.TabIndex = 14;
-            // 
             // btnExport
             // 
             this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
@@ -354,6 +370,7 @@
             this.btnExport.Text = "Export";
             this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnNewTransactions
             // 
@@ -375,30 +392,15 @@
             this.btnNewTransactions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnNewTransactions.UseVisualStyleBackColor = false;
             // 
-            // tbTransactionDate
+            // ctrlAccountShortInfo1
             // 
-            this.tbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbTransactionDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbTransactionDate.Enabled = false;
-            this.tbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTransactionDate.ForeColor = System.Drawing.Color.White;
-            this.tbTransactionDate.Location = new System.Drawing.Point(182, 242);
-            this.tbTransactionDate.Name = "tbTransactionDate";
-            this.tbTransactionDate.ReadOnly = true;
-            this.tbTransactionDate.Size = new System.Drawing.Size(264, 26);
-            this.tbTransactionDate.TabIndex = 89;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label16.Location = new System.Drawing.Point(113, 240);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(64, 26);
-            this.label16.TabIndex = 88;
-            this.label16.Text = "Date:";
+            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(837, 160);
+            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
+            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
+            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
+            this.ctrlAccountShortInfo1.TabIndex = 14;
             // 
             // ctrlTransactionsMainScreen
             // 
@@ -461,5 +463,6 @@
         private System.Windows.Forms.Button btnNewTransactions;
         private System.Windows.Forms.TextBox tbTransactionDate;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

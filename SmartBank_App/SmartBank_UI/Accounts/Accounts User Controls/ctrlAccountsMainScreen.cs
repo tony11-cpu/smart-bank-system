@@ -102,7 +102,7 @@ namespace SmartBank_UI.Main_Form_UC
         {
             if (_allAccounts == null || !_allAccounts.Any())
             {
-                MessageBox.Show("No accounts to export.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No accounts to export.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,5 +70,34 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 _bindGrid(_transactionsLogs.Where(n => n.IsScheduled));
         }
 
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (_transactionsLogs == null || !_transactionsLogs.Any())
+            {
+                MessageBox.Show("No transactions to export.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                {
+                    //sw.WriteLine("Account Number,Customer Name,Account Type,Balance,Status,Closed Date");
+                    //foreach (clsTransactionLog tr in _transactionsLogs)
+                    //    sw.WriteLine($"{tr.AccountNumber},\"{$"{tr.Customer?.FirstName} {tr.Customer?.LastName}".Trim()}\"" +
+                    //                 $",{tr.AccountType},{tr.Balance},{tr.Status}," +
+                    //                 $"{(tr.ClosedDate.HasValue ? tr.ClosedDate.Value.ToShortDateString() : "Not Closed")}");
+                }
+
+                MessageBox.Show("Accounts exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
