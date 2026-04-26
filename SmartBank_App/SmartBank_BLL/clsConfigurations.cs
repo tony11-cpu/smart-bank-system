@@ -44,18 +44,15 @@ namespace SmartBank_BLL
 
         public clsUsers LastModifiedByUser { get; set; } = null;
 
-        public static async Task<clsConfigurations> Find(enConfigKey config)
+        public static async Task<clsConfigurations> FindAsync(enConfigKey config)
         {
-            string configKey = null;
-            int? configValue = null;
-            string description = null;
-            DateTime? lastModifiedDate = null;
-            int? lastModifiedByUserID = null;
+            clsConfigDto configDto = null;
 
-            if (clsConfigurations_DAL.GetConfig((int)config, ref configKey, ref configValue, ref description, ref lastModifiedDate, ref lastModifiedByUserID))
+            if (await clsConfigurations_DAL.GetConfigAsync((int)config, configDto))
             {
-                var userAsync = await clsUsers.FindAsync(lastModifiedByUserID ?? -1);
-                return new clsConfigurations(config, configKey, configValue ?? -1, description, lastModifiedDate ?? DateTime.MinValue, userAsync);
+                var userAsync = await clsUsers.FindAsync(configDto.LastModifiedByUserID ?? -1);
+                return new clsConfigurations(config, configDto.ConfigKey, configDto.ConfigValue, configDto.Description, 
+                    configDto.LastModifiedDate ?? DateTime.MinValue, userAsync);
             }
 
             return null;
@@ -66,14 +63,14 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the configuration was successfully updated; otherwise, false.</returns>
         /// <exception cref="Exception">Thrown when Config, ConfigValue, or ModifiedByUser is not set.</exception>
-        public bool Update()
+        public async Task<bool> UpdateAsync()
         {
             if (Config == null || ConfigValue == null || clsGlobal.ActiveUser.UserID == null)
                 throw new Exception("Config, ConfigValue, and ModifiedByUser must be set before updating.");
 
-            if(clsConfigurations_DAL.UpdateSystemConfig(clsGlobal.ActiveUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description))
+            if(await clsConfigurations_DAL.UpdateSystemConfigAsync(clsGlobal.ActiveUser.UserID.Value, ConfigKey, ConfigValue.ToString(), Description))
             {
-                _configCache = clsConfigurations_DAL.GetAllConfig();
+                _configCache = await clsConfigurations_DAL.GetAllConfigAsync();
                 return true;
             }
 
@@ -82,21 +79,21 @@ namespace SmartBank_BLL
 
         private static Dictionary<string, int> _configCache = new Dictionary<string, int>();
 
-        public static int? GetConfigValue(enConfigKey Config)
+        public static async Task<int?> GetConfigValueAsync(enConfigKey Config)
         {
             if (_configCache.Count == 0)
             {
-                _configCache = clsConfigurations_DAL.GetAllConfig();
+                _configCache = await clsConfigurations_DAL.GetAllConfigAsync();
             }
 
             return _configCache.Count == 0 ? (int?)null : _configCache[Config.ToString()];
         }
 
-        public static bool ResetToDefault()
+        public static async Task<bool> ResetToDefaultAsync()
         {
-            if (clsConfigurations_DAL.ResetToDefault(clsGlobal.ActiveUser.UserID))
+            if (await clsConfigurations_DAL.ResetToDefaultAsync(clsGlobal.ActiveUser.UserID))
             {
-                _configCache = clsConfigurations_DAL.GetAllConfig();
+                _configCache = await clsConfigurations_DAL.GetAllConfigAsync();
                 return true;
             }
 

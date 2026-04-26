@@ -99,7 +99,7 @@ namespace SmartBack_DAL
             return false;
         }
 
-        public static async Task<bool> UpdateSystemConfig(int adminUserID, string configKey, string configValue, string description)
+        public static async Task<bool> UpdateSystemConfigAsync(int adminUserID, string configKey, string configValue, string description)
         {
             try
             {
