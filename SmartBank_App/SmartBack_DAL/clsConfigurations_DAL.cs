@@ -9,9 +9,29 @@ using System.Threading.Tasks;
 
 namespace SmartBack_DAL
 {
+    public class clsConfigDto
+    {
+        public int ConfigID { get; set; }
+        public string ConfigKey { get; set; }
+        public int ConfigValue { get; set; }
+        public string Description { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
+        public int? LastModifiedByUserID { get; set; }
+
+        public clsConfigDto(int configID, string configKey, int configValue, string description, DateTime? lastModifiedDate, int? lastModifiedByUserID)
+        {
+            ConfigID = configID;
+            ConfigKey = configKey;
+            ConfigValue = configValue;
+            Description = description;
+            LastModifiedDate = lastModifiedDate;
+            LastModifiedByUserID = lastModifiedByUserID;
+        }
+    }
+
     public static class clsConfigurations_DAL
     {
-        public static Dictionary<string, int> GetAllConfig()
+        public static async Task<Dictionary<string, int>> GetAllConfigAsync()
         {
             Dictionary<string, int> config = new Dictionary<string, int>();
 
@@ -21,11 +41,11 @@ namespace SmartBack_DAL
                 using (SqlCommand cmd = new SqlCommand("sp_GetAllConfig", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    conn.Open();
+                    await conn.OpenAsync();
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                             config[reader["ConfigKey"].ToString()] = Convert.ToInt32(reader["ConfigValue"]);
                     }
                 }
@@ -38,8 +58,7 @@ namespace SmartBack_DAL
             return config;
         }
 
-        public static bool GetConfig(int configID, ref string configKey, ref int? configValue,
-                                       ref string description, ref DateTime? lastModifiedDate, ref int? lastModifiedByUserID)
+        public static async Task<bool> GetConfigAsync(int configID , clsConfigDto configData)
         {
             try
             {
@@ -61,15 +80,14 @@ namespace SmartBack_DAL
                     cmd.Parameters.Add(LastModifiedDate);
                     cmd.Parameters.Add(LastModifiedByUserID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
-                    configKey = ConfigKey.Value.ToString();
-                    configValue = Convert.ToInt32(ConfigValue.Value);
-                    description = Description.Value.ToString();
-                    lastModifiedDate = LastModifiedDate.Value == DBNull.Value ? null : (DateTime?)LastModifiedDate.Value;
-                    lastModifiedByUserID = LastModifiedByUserID.Value == DBNull.Value ? null : (int?)LastModifiedByUserID.Value;
-
+                    configData.ConfigKey = ConfigKey.Value.ToString();
+                    configData.ConfigValue = Convert.ToInt32(ConfigValue.Value);
+                    configData.Description = Description.Value.ToString();
+                    configData.LastModifiedDate = LastModifiedDate.Value == DBNull.Value ? null : (DateTime?)LastModifiedDate.Value;
+                    configData.LastModifiedByUserID = LastModifiedByUserID.Value == DBNull.Value ? null : (int?)LastModifiedByUserID.Value;
                     return true;
                 }
             }
@@ -81,7 +99,7 @@ namespace SmartBack_DAL
             return false;
         }
 
-        public static bool UpdateSystemConfig(int adminUserID, string configKey, string configValue, string description)
+        public static async Task<bool> UpdateSystemConfig(int adminUserID, string configKey, string configValue, string description)
         {
             try
             {
@@ -101,8 +119,8 @@ namespace SmartBack_DAL
                     };
                     cmd.Parameters.Add(pIsUpdated);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return pIsUpdated.Value != DBNull.Value && Convert.ToBoolean(pIsUpdated.Value);
                 }
@@ -114,7 +132,7 @@ namespace SmartBack_DAL
             }
         }
 
-        public static bool ResetToDefault(int? adminUserID)
+        public static async Task<bool> ResetToDefaultAsync(int? adminUserID)
         {
             try
             {
@@ -131,8 +149,8 @@ namespace SmartBack_DAL
                     };
                     cmd.Parameters.Add(isResetParam);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
 
                     return (bool)isResetParam.Value;
                 }
