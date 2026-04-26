@@ -33,9 +33,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             dgvAllTransactions.DataSource = transactions;
 
-            if(transactions == null || !transactions.Any())
-                return;
-
             dgvAllTransactions.Columns["BalanceAfterTransaction"].Visible = false;
 
             dgvAllTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
@@ -85,14 +82,14 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             {
                 using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
                 {
-                    //sw.WriteLine("Account Number,Customer Name,Account Type,Balance,Status,Closed Date");
-                    //foreach (clsTransactionLog tr in _transactionsLogs)
-                    //    sw.WriteLine($"{tr.AccountNumber},\"{$"{tr.Customer?.FirstName} {tr.Customer?.LastName}".Trim()}\"" +
-                    //                 $",{tr.AccountType},{tr.Balance},{tr.Status}," +
-                    //                 $"{(tr.ClosedDate.HasValue ? tr.ClosedDate.Value.ToShortDateString() : "Not Closed")}");
+                    sw.WriteLine("Transaction Type, Transaction ID, From Account, To Account, Amount, Transaction Date, User Responsible ID, Is Scheduled, Balance After Transaction");
+                    foreach (clsTransactionLog tr in _transactionsLogs)
+                        sw.WriteLine($"{tr.TransactionType},\"{$"{tr.TransactionID} {tr.FromAccount.AccountNumber}".Trim()}\"" +
+                                     $",{tr.ToAccount.AccountNumber},{tr.Amount},{tr.TransactionDate},{tr.UserResponsibleID}" +
+                                     $",{tr.IsScheduled},{tr.BalanceAfterTransaction}");
                 }
 
-                MessageBox.Show("Accounts exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Transactions exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
