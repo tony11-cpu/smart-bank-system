@@ -62,9 +62,9 @@ namespace SmartBank_UI.Users.Users_User_Controls
             dgvUserLoginHistory.Columns["Login State"].Width = 277;
         }
 
-        private void _loadUserTransactionsDGV()
+        private async Task _loadUserTransactionsDGV()
         {
-            dgvlastTransactions.DataSource = clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+            dgvlastTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
 
             if (dgvlastTransactions.RowCount == 0)
                 return;
@@ -97,7 +97,7 @@ namespace SmartBank_UI.Users.Users_User_Controls
         private async void ctrlCurrentUserAcount_Load(object sender, EventArgs e)
         {
             _loadCurrentUserData();
-            _loadUserTransactionsDGV();
+            await _loadUserTransactionsDGV();
             await _loadUserLoginsDGV();
 
             frmAddOrUpdateUser.OnCurrentUserEdit += _loadCurrentUserData;

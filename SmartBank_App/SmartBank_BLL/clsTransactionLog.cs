@@ -1,5 +1,6 @@
 ﻿using SmartBack_DAL;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SmartBank_BLL
 {
     public class clsTransactionLog
     {
-        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out }
+        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out , Scheduled }
         public enTransactionType TransactionType { get; private set; }
         public int TransactionID { get; private set; }
         public clsAccounts FromAccount { get; private set; }
@@ -44,40 +45,20 @@ namespace SmartBank_BLL
             DataTable dt = await clsTransactions_DAL.GetAllTransactionsAsync();
             if (dt == null || dt.Rows.Count == 0) return new List<clsTransactionLog>();
 
-            
-            var accountCache = new Dictionary<int, clsAccounts>();
-
-            async Task<clsAccounts> GetAccountFromCache(int? id)
-            {
-                if (id == null) return null;
-                if (!accountCache.ContainsKey(id.Value))
-                    accountCache[id.Value] = await clsAccounts.FindAsync(id.Value);
-                return accountCache[id.Value];
-            }
-
-            var transactionList = new List<clsTransactionLog>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                int accountId = row.Field<int>("AccountID");
-                int? relatedAccountId = row.Field<int?>("RelatedAccountID");
-                string typeRaw = row.Field<string>("TransactionType").Replace(" ", "_");
-                string desc = row.Field<string>("Description");
-
-                transactionList.Add(new clsTransactionLog(
-                    row.Field<int>("TransactionID"),
-                    (enTransactionType)Enum.Parse(typeof(enTransactionType), typeRaw),
-                    await GetAccountFromCache(accountId),
-                    await GetAccountFromCache(relatedAccountId),
-                    row.Field<decimal>("Amount"),
-                    desc == "No Description" ? null : desc,
-                    row.Field<DateTime>("TransactionDate"),
-                    row.Field<int>("ProcessedByUserID"),
-                    row.Field<bool>("IsScheduled")
-                ));
-            }
-
-            return transactionList;
+            var cache = new ConcurrentDictionary<int, Task<clsAccounts>>();
+            return (await Task.WhenAll(dt.Rows.Cast<DataRow>().Select(async row => new clsTransactionLog(
+                row.Field<int>("TransactionID"),
+                (enTransactionType)Enum.Parse(typeof(enTransactionType),
+                row.Field<string>("TransactionType").Replace(" ", "_")),
+                await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync),
+                row.Field<int?>("RelatedAccountID") is int rid ? 
+                await cache.GetOrAdd(rid, clsAccounts.FindAsync) : new clsAccounts { AccountNumber = "No Related Account" },
+                row.Field<decimal>("Amount"),
+                row.Field<string>("Description") is "No Description" ? null : row.Field<string>("Description"),
+                row.Field<DateTime>("TransactionDate"),
+                row.Field<int>("ProcessedByUserID"),
+                row.Field<bool>("IsScheduled")
+            )))).ToList();
         }
 
         public static async Task<List<clsTransactionLog>> GetAllUserTransactionsList(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();

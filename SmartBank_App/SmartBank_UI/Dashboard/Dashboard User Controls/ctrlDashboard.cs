@@ -27,12 +27,12 @@ namespace SmartBank_UI
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
             lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
 
-            _loadTransactions();
+            await _loadTransactions();
         }
 
-        private void _loadTransactions()
+        private async Task _loadTransactions()
         {
-            dgvRecentTransactions.DataSource = clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+            dgvRecentTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
 
             if (dgvRecentTransactions.RowCount <= 0)
                 return;

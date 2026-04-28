@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblTransactionsFormInfoToUser = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAllTransactions = new System.Windows.Forms.DataGridView();
@@ -52,8 +53,9 @@
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnNewTransactions = new System.Windows.Forms.Button();
-            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -106,6 +108,7 @@
             this.dgvAllTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAllTransactions.Size = new System.Drawing.Size(818, 599);
             this.dgvAllTransactions.TabIndex = 13;
+            this.dgvAllTransactions.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllTransactions_CellContentClick);
             // 
             // panel1
             // 
@@ -319,7 +322,7 @@
             this.btnSchedualedFillter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSchedualedFillter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSchedualedFillter.ForeColor = System.Drawing.Color.White;
-            this.btnSchedualedFillter.Location = new System.Drawing.Point(733, 124);
+            this.btnSchedualedFillter.Location = new System.Drawing.Point(735, 124);
             this.btnSchedualedFillter.Margin = new System.Windows.Forms.Padding(2);
             this.btnSchedualedFillter.Name = "btnSchedualedFillter";
             this.btnSchedualedFillter.Size = new System.Drawing.Size(93, 32);
@@ -348,10 +351,11 @@
             this.tbSearchBar.Location = new System.Drawing.Point(10, 124);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(720, 32);
+            this.tbSearchBar.Size = new System.Drawing.Size(721, 32);
             this.tbSearchBar.TabIndex = 16;
-            this.tbSearchBar.Tag = "Search using transaction type: deposite, withrawl, transafare";
-            this.tbSearchBar.Text = "Search using transaction type: deposite, withrawl, transafare";
+            this.tbSearchBar.Tag = "Search using \"from account\" number , customer name or transaction type";
+            this.tbSearchBar.Text = "Search using \"from account\" number , customer name or transaction type";
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
@@ -401,6 +405,12 @@
             this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
             this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
             this.ctrlAccountShortInfo1.TabIndex = 14;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 26);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // ctrlTransactionsMainScreen
             // 
@@ -464,5 +474,6 @@
         private System.Windows.Forms.TextBox tbTransactionDate;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

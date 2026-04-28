@@ -33,15 +33,18 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             dgvAllTransactions.DataSource = transactions;
 
+            if(dgvAllTransactions.RowCount == 0)
+                return;
+
             dgvAllTransactions.Columns["BalanceAfterTransaction"].Visible = false;
+            dgvAllTransactions.Columns["UserResponsibleID"].Visible = false;
+            dgvAllTransactions.Columns["TransactionID"].Visible = false;
 
             dgvAllTransactions.Columns["TransactionType"].HeaderText = "Transaction Type";
             dgvAllTransactions.Columns["FromAccount"].HeaderText = "From Account";
             dgvAllTransactions.Columns["ToAccount"].HeaderText = "To Account";
             dgvAllTransactions.Columns["TransactionDate"].HeaderText = "Date";
             dgvAllTransactions.Columns["IsScheduled"].HeaderText = "Scheduled";
-            dgvAllTransactions.Columns["UserResponsibleID"].HeaderText = "User Responsible";
-            dgvAllTransactions.Columns["TransactionID"].HeaderText = "Transaction ID";
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;
@@ -59,12 +62,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
 
             _bindGrid(await _loadTransactionsLog());
-        }
-
-        private void btnSchedualedFillter_Click(object sender, EventArgs e)
-        {
-            if (_transactionsLogs.Any())
-                _bindGrid(_transactionsLogs.Where(n => n.IsScheduled));
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -95,6 +92,42 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             {
                 MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnSchedualedFillter_Click(object sender, EventArgs e) => _fillter(clsTransactionLog.enTransactionType.Scheduled);
+
+        private void btnAll_Click(object sender, EventArgs e) => _bindGrid(_transactionsLogs);
+
+        private void _fillter(clsTransactionLog.enTransactionType transactionType) =>  _bindGrid(_transactionsLogs.Any() ? _transactionsLogs.Where(n => n.TransactionType == transactionType) : _transactionsLogs);
+
+        private void tbSearchBar_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == tbSearchBar.Tag.ToString())
+            {
+                _bindGrid(_transactionsLogs);
+                return;
+            }
+
+            string search = tbSearchBar.Text.Trim();
+            _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) ||
+                                                   (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
+                                                   t.TransactionType.ToString().StartsWith(search)).ToList());
+        }
+
+        private async void dgvAllTransactions_CellContentClick(object sender, DataGridViewCellEventArgs e) => await _loadTransactionData();
+
+        private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            await _loadTransactionData();
+        }
+
+        private async Task _loadTransactionData()
+        {
+            if (dgvAllTransactions.Rows.Count == 0)
+                return;
+
+            string accountNumber = dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString();
+            await ctrlAccountShortInfo1.LoadAccount(accountNumber);
         }
     }
 }
