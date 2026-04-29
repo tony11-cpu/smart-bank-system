@@ -32,7 +32,7 @@ namespace SmartBank_UI
 
         private async Task _loadTransactions()
         {
-            dgvRecentTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsList(clsGlobal.ActiveUser.UserID);
+            dgvRecentTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsListAsync(clsGlobal.ActiveUser.UserID);
 
             if (dgvRecentTransactions.RowCount <= 0)
                 return;

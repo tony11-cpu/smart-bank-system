@@ -11,7 +11,7 @@ namespace SmartBank_BLL
 {
     public class clsTransactionLog
     {
-        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out , Scheduled }
+        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out, Scheduled }
         public enTransactionType TransactionType { get; private set; }
         public int TransactionID { get; private set; }
         public clsAccounts FromAccount { get; private set; }
@@ -51,7 +51,7 @@ namespace SmartBank_BLL
                 (enTransactionType)Enum.Parse(typeof(enTransactionType),
                 row.Field<string>("TransactionType").Replace(" ", "_")),
                 await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync),
-                row.Field<int?>("RelatedAccountID") is int rid ? 
+                row.Field<int?>("RelatedAccountID") is int rid ?
                 await cache.GetOrAdd(rid, clsAccounts.FindAsync) : new clsAccounts { AccountNumber = "No Related Account" },
                 row.Field<decimal>("Amount"),
                 row.Field<string>("Description") is "No Description" ? null : row.Field<string>("Description"),
@@ -61,6 +61,17 @@ namespace SmartBank_BLL
             )))).ToList();
         }
 
-        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsList(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
+        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
+
+        public static async Task<clsTransactionLog> FindAsync(int transactionID)
+        {
+            clsTransactionDto transactionInfo = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
+            if (transactionInfo == null) 
+                return null;
+                
+            return new clsTransactionLog(transactionInfo.TransactionID, (enTransactionType)Enum.Parse(typeof(enTransactionType), transactionInfo.TransactionType.Replace(" ", "_")),
+                await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
+                transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
+        }
     }
 }
