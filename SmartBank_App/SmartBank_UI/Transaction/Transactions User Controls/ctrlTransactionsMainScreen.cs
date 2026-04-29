@@ -114,20 +114,39 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                                                    t.TransactionType.ToString().StartsWith(search)).ToList());
         }
 
-        private async void dgvAllTransactions_CellContentClick(object sender, DataGridViewCellEventArgs e) => await _loadTransactionData();
+        private async void dgvAllTransactions_CellContentClick(object sender, DataGridViewCellEventArgs e) => await _loadTransactionFullData(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
 
         private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            await _loadTransactionData();
+            string accountNum = dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString();
+            await _loadTransactionFullData(accountNum);
         }
 
-        private async Task _loadTransactionData()
+        private async Task _loadTransaction(int transactionID)
+        {
+            clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
+
+            
+        }
+
+        private async Task _loadDefaultTransactionFullData(int transactionID)
         {
             if (dgvAllTransactions.Rows.Count == 0)
+            {
+                MessageBox.Show("No transactions available to view details.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
+            }
 
-            string accountNumber = dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString();
-            await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+            clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
+
+            if(transactionData == null)
+            {
+                MessageBox.Show("Failed to load transaction details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            await ctrlAccountShortInfo1.LoadAccount(transactionData.FromAccount.AccountNumber);
+            await _loadTransaction(accountNumber);
         }
     }
 }
