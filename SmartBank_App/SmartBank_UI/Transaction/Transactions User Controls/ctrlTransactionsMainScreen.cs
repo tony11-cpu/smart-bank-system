@@ -48,6 +48,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;
+
+            lblNumberOfTransactions.Text = $"Showing {transactions.Count()} Transactions";
         }
 
         private async Task<List<clsTransactionLog>> _loadTransactionsLog()
@@ -60,6 +62,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
+
+            dgvAllTransactions.RowTemplate.Height = 35;
+            dgvAllTransactions.ColumnHeadersHeight = 40;
 
             _bindGrid(await _loadTransactionsLog());
         }
@@ -114,19 +119,24 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                                                    t.TransactionType.ToString().StartsWith(search)).ToList());
         }
 
-        private async void dgvAllTransactions_CellContentClick(object sender, DataGridViewCellEventArgs e) => await _loadTransactionFullData(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
+        private async void dgvAllTransactions_CellClick(object sender, DataGridViewCellEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
 
         private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            string accountNum = dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString();
-            await _loadTransactionFullData(accountNum);
+            
         }
 
         private async Task _loadTransaction(int transactionID)
         {
             clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
 
-            
+            lblTransactionType.Text = transactionData.TransactionType.ToString();
+            lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
+            nupBalanceAfter.Value = transactionData.Amount;
+            nupBalanceBefore.Value = transactionData.FromAccount.Balance - transactionData.Amount;
+            tbDescription.Text = transactionData.Description;
+            tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
+            tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName;
         }
 
         private async Task _loadDefaultTransactionFullData(int transactionID)
@@ -146,7 +156,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             await ctrlAccountShortInfo1.LoadAccount(transactionData.FromAccount.AccountNumber);
-            await _loadTransaction(accountNumber);
+            await _loadTransaction(transactionID);
         }
     }
 }

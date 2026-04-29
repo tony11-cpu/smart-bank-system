@@ -63,12 +63,23 @@ namespace SmartBank_BLL
 
         public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
 
-        public static async Task<clsTransactionLog> FindAsync(int transactionID)
+        public static async Task<clsTransactionLog> FindAsyncWithAccountID(int accountID)
         {
-            clsTransactionDto transactionInfo = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
+            clsTransactionDto transactionInfo = await clsTransactions_DAL.GetLatestTransactionByAccountIDAsync(accountID);
             if (transactionInfo == null) 
                 return null;
                 
+            return new clsTransactionLog(transactionInfo.TransactionID, (enTransactionType)Enum.Parse(typeof(enTransactionType), transactionInfo.TransactionType.Replace(" ", "_")),
+                await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
+                transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
+        }
+
+        public static async Task<clsTransactionLog> FindAsyncWithTransactionID(int transactionID)
+        {
+            clsTransactionDto transactionInfo = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
+            if (transactionInfo == null)
+                return null;
+
             return new clsTransactionLog(transactionInfo.TransactionID, (enTransactionType)Enum.Parse(typeof(enTransactionType), transactionInfo.TransactionType.Replace(" ", "_")),
                 await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
                 transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
