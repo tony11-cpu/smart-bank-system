@@ -368,7 +368,7 @@
             this.btnSchedualedFillter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSchedualedFillter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSchedualedFillter.ForeColor = System.Drawing.Color.White;
-            this.btnSchedualedFillter.Location = new System.Drawing.Point(735, 124);
+            this.btnSchedualedFillter.Location = new System.Drawing.Point(1215, 124);
             this.btnSchedualedFillter.Margin = new System.Windows.Forms.Padding(2);
             this.btnSchedualedFillter.Name = "btnSchedualedFillter";
             this.btnSchedualedFillter.Size = new System.Drawing.Size(93, 32);
@@ -397,10 +397,12 @@
             this.tbSearchBar.Location = new System.Drawing.Point(10, 124);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(721, 32);
+            this.tbSearchBar.Size = new System.Drawing.Size(1201, 32);
             this.tbSearchBar.TabIndex = 16;
-            this.tbSearchBar.Tag = "Search by account number , customer name , transaction type or balance";
-            this.tbSearchBar.Text = "Search by account number , customer name , transaction type or balance";
+            this.tbSearchBar.Tag = "Search by \"From account\" number , customer name , transaction type or \"From Accou" +
+    "nt\" balance";
+            this.tbSearchBar.Text = "Search by \"From account\" number , customer name , transaction type or \"From Accou" +
+    "nt\" balance";
             this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
@@ -412,7 +414,7 @@
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.btnExport.Image = global::SmartBank_UI.Properties.Resources.icons8_export_48;
-            this.btnExport.Location = new System.Drawing.Point(1046, 102);
+            this.btnExport.Location = new System.Drawing.Point(1045, 66);
             this.btnExport.Margin = new System.Windows.Forms.Padding(2);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(95, 54);
@@ -432,7 +434,7 @@
             this.btnNewTransactions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewTransactions.ForeColor = System.Drawing.Color.White;
             this.btnNewTransactions.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnNewTransactions.Location = new System.Drawing.Point(1145, 102);
+            this.btnNewTransactions.Location = new System.Drawing.Point(1144, 66);
             this.btnNewTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewTransactions.Name = "btnNewTransactions";
             this.btnNewTransactions.Size = new System.Drawing.Size(164, 54);
