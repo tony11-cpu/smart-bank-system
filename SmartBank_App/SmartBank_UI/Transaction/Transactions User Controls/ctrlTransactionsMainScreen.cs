@@ -1,5 +1,6 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
+using SmartBank_UI.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
-        private void _bindGrid(IEnumerable<clsTransactionLog> transactions)
+        private void _bindGrid(List<clsTransactionLog> transactions)
         {
             dgvAllTransactions.DataSource = transactions;
 
@@ -103,7 +104,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void btnSchedualedFillter_Click(object sender, EventArgs e) => _fillter(clsTransactionLog.enTransactionType.Scheduled);
 
-        private void _fillter(clsTransactionLog.enTransactionType transactionType) =>  _bindGrid(_transactionsLogs.Any() ? _transactionsLogs.Where(n => n.TransactionType == transactionType) : _transactionsLogs);
+        private void _fillter(clsTransactionLog.enTransactionType transactionType) =>  _bindGrid(_transactionsLogs.Any() ? _transactionsLogs.Where(n => n.TransactionType == transactionType).ToList() : _transactionsLogs);
 
         private void tbSearchBar_TextChanged(object sender, EventArgs e)
         {
@@ -171,9 +172,16 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             _bindGrid(_transactionsLogs.Where(n => n.FromAccount.AccountNumber.Equals(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString())).ToList());
         }
 
-        private void cmsCustomerInfo_Click(object sender, EventArgs e)
+        private async void cmsCustomerInfo_Click(object sender, EventArgs e)
         {
+            if (!_transactionsLogs.Any())
+            {
+                MessageBox.Show("No transactions available to filter.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            frmShowAllCustomerAccounts showAllCustomerAccounts = new frmShowAllCustomerAccounts((await clsAccounts.FindAsync(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString()))?.Customer.CustomerID);
+            showAllCustomerAccounts.ShowDialog();
         }
     }
 }
