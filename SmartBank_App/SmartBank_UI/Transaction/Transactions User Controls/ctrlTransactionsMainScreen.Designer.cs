@@ -48,16 +48,22 @@
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblTransactionlStatus = new System.Windows.Forms.Label();
-            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
             this.lblTransactionType = new System.Windows.Forms.Label();
             this.btnSchedualedFillter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnNewTransactions = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNewDeposite = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNewWithdrawl = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsNewTransfare = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsAccountTransactionsLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsCustomerInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).BeginInit();
             this.panel1.SuspendLayout();
@@ -101,6 +107,7 @@
             this.dgvAllTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAllTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvAllTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAllTransactions.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvAllTransactions.Location = new System.Drawing.Point(10, 160);
             this.dgvAllTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.dgvAllTransactions.MultiSelect = false;
@@ -112,7 +119,7 @@
             this.dgvAllTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAllTransactions.Size = new System.Drawing.Size(818, 599);
             this.dgvAllTransactions.TabIndex = 13;
-            this.dgvAllTransactions.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllTransactions_CellClick);
+            this.dgvAllTransactions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllTransactions_CellClick_1);
             // 
             // panel1
             // 
@@ -343,16 +350,6 @@
             this.lblTransactionlStatus.TabIndex = 25;
             this.lblTransactionlStatus.Text = "Status (Pending - Completed)";
             // 
-            // pbAccountTypePhoto
-            // 
-            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
-            this.pbAccountTypePhoto.Location = new System.Drawing.Point(27, 5);
-            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
-            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
-            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbAccountTypePhoto.TabIndex = 23;
-            this.pbAccountTypePhoto.TabStop = false;
-            // 
             // lblTransactionType
             // 
             this.lblTransactionType.AutoSize = true;
@@ -445,19 +442,77 @@
             this.btnNewTransactions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnNewTransactions.UseVisualStyleBackColor = false;
             // 
+            // pbAccountTypePhoto
+            // 
+            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
+            this.pbAccountTypePhoto.Location = new System.Drawing.Point(27, 5);
+            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
+            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
+            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbAccountTypePhoto.TabIndex = 23;
+            this.pbAccountTypePhoto.TabStop = false;
+            // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
+            this.cmsNewDeposite,
+            this.cmsNewWithdrawl,
+            this.cmsNewTransfare,
+            this.toolStripSeparator1,
+            this.cmsAccountTransactionsLog,
+            this.toolStripMenuItem3,
+            this.cmsCustomerInfo});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(78, 26);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(220, 188);
             // 
-            // toolStripMenuItem2
+            // cmsNewDeposite
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(77, 22);
-            this.toolStripMenuItem2.Text = " ";
+            this.cmsNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_money_box_50;
+            this.cmsNewDeposite.Name = "cmsNewDeposite";
+            this.cmsNewDeposite.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewDeposite.Text = "New Deposit";
+            // 
+            // cmsNewWithdrawl
+            // 
+            this.cmsNewWithdrawl.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
+            this.cmsNewWithdrawl.Name = "cmsNewWithdrawl";
+            this.cmsNewWithdrawl.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewWithdrawl.Text = "New Withdrawl";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
+            // 
+            // cmsNewTransfare
+            // 
+            this.cmsNewTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_money_with_wings_50;
+            this.cmsNewTransfare.Name = "cmsNewTransfare";
+            this.cmsNewTransfare.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewTransfare.Tag = "DeactivateButton";
+            this.cmsNewTransfare.Text = "New Transfare";
+            // 
+            // cmsAccountTransactionsLog
+            // 
+            this.cmsAccountTransactionsLog.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
+            this.cmsAccountTransactionsLog.Name = "cmsAccountTransactionsLog";
+            this.cmsAccountTransactionsLog.Size = new System.Drawing.Size(219, 30);
+            this.cmsAccountTransactionsLog.Text = "Account Transactions Log";
+            this.cmsAccountTransactionsLog.Click += new System.EventHandler(this.cmsAccountTransactionsLog_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(216, 6);
+            // 
+            // cmsCustomerInfo
+            // 
+            this.cmsCustomerInfo.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
+            this.cmsCustomerInfo.Name = "cmsCustomerInfo";
+            this.cmsCustomerInfo.Size = new System.Drawing.Size(219, 30);
+            this.cmsCustomerInfo.Text = "Customer Information";
+            this.cmsCustomerInfo.Click += new System.EventHandler(this.cmsCustomerInfo_Click);
             // 
             // ctrlAccountShortInfo1
             // 
@@ -487,7 +542,7 @@
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlTransactionsMainScreen";
-            this.Size = new System.Drawing.Size(1333, 833);
+            this.Size = new System.Drawing.Size(1318, 833);
             this.Load += new System.EventHandler(this.ctrlTransactionsMainScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -532,9 +587,15 @@
         private System.Windows.Forms.TextBox tbTransactionDate;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.TextBox tbDescription;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cmsNewDeposite;
+        private System.Windows.Forms.ToolStripMenuItem cmsNewWithdrawl;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem cmsNewTransfare;
+        private System.Windows.Forms.ToolStripMenuItem cmsAccountTransactionsLog;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem cmsCustomerInfo;
     }
 }

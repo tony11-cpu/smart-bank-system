@@ -49,7 +49,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;
 
-            lblNumberOfTransactions.Text = $"Showing {transactions.Count()} Transactions";
+            int count = transactions.Count();
+            lblNumberOfTransactions.Text = $"Showing {count} Transactions";
+            lblClickToShowRow.Visible = count > 0;
         }
 
         private async Task<List<clsTransactionLog>> _loadTransactionsLog()
@@ -101,8 +103,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void btnSchedualedFillter_Click(object sender, EventArgs e) => _fillter(clsTransactionLog.enTransactionType.Scheduled);
 
-        private void btnAll_Click(object sender, EventArgs e) => _bindGrid(_transactionsLogs);
-
         private void _fillter(clsTransactionLog.enTransactionType transactionType) =>  _bindGrid(_transactionsLogs.Any() ? _transactionsLogs.Where(n => n.TransactionType == transactionType) : _transactionsLogs);
 
         private void tbSearchBar_TextChanged(object sender, EventArgs e)
@@ -114,16 +114,15 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             string search = tbSearchBar.Text.Trim();
-            _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) ||
-                                                   (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
+            _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) || 
+                                                  (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
                                                    t.TransactionType.ToString().StartsWith(search)).ToList());
         }
 
-        private async void dgvAllTransactions_CellClick(object sender, DataGridViewCellEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
-
         private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            
+            await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
+
         }
 
         private async Task _loadTransaction(int transactionID)
@@ -157,6 +156,24 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             await ctrlAccountShortInfo1.LoadAccount(transactionData.FromAccount.AccountNumber);
             await _loadTransaction(transactionID);
+        }
+
+        private async void dgvAllTransactions_CellClick_1(object sender, DataGridViewCellEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
+
+        private void cmsAccountTransactionsLog_Click(object sender, EventArgs e)
+        {
+            if(!_transactionsLogs.Any())
+            {
+                MessageBox.Show("No transactions available to filter.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _bindGrid(_transactionsLogs.Where(n => n.FromAccount.AccountNumber.Equals(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString())).ToList());
+        }
+
+        private void cmsCustomerInfo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

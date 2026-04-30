@@ -339,6 +339,7 @@
     <None Include="Resources\icons8-attendance-50.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icons8-money-with-wings-50.png" />
     <None Include="Resources\icons8-unlocked-50.png" />
     <None Include="Resources\icons8-locked-48.png" />
     <None Include="Resources\icons8-unlocked-501.png" />
