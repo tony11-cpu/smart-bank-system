@@ -399,8 +399,8 @@
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(721, 32);
             this.tbSearchBar.TabIndex = 16;
-            this.tbSearchBar.Tag = "Search using \"from account\" number , customer name or transaction type";
-            this.tbSearchBar.Text = "Search using \"from account\" number , customer name or transaction type";
+            this.tbSearchBar.Tag = "Search by account number , customer name , transaction type or balance";
+            this.tbSearchBar.Text = "Search by account number , customer name , transaction type or balance";
             this.tbSearchBar.TextChanged += new System.EventHandler(this.tbSearchBar_TextChanged);
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
@@ -464,7 +464,7 @@
             this.toolStripMenuItem3,
             this.cmsCustomerInfo});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(220, 188);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(220, 166);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // cmsNewDeposite
@@ -545,6 +545,7 @@
             this.Name = "ctrlTransactionsMainScreen";
             this.Size = new System.Drawing.Size(1318, 833);
             this.Load += new System.EventHandler(this.ctrlTransactionsMainScreen_Load);
+            this.VisibleChanged += new System.EventHandler(this.ctrlTransactionsMainScreen_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

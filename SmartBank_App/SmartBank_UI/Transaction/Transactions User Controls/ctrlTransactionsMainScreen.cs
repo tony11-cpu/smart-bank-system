@@ -117,14 +117,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             string search = tbSearchBar.Text.Trim();
             _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) || 
                                                   (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
-                                                   t.TransactionType.ToString().StartsWith(search)).ToList());
+                                                   t.TransactionType.ToString().StartsWith(search) || 
+                                                   t.FromAccount.Balance.Equals(Convert.ToDecimal(search))).ToList());
         }
 
-        private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
-
-        }
+        private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
 
         private async Task _loadTransaction(int transactionID)
         {
@@ -183,5 +180,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             frmShowAllCustomerAccounts showAllCustomerAccounts = new frmShowAllCustomerAccounts((await clsAccounts.FindAsync(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString()))?.Customer.CustomerID);
             showAllCustomerAccounts.ShowDialog();
         }
+
+        private async void ctrlTransactionsMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGrid(await _loadTransactionsLog());
     }
 }
