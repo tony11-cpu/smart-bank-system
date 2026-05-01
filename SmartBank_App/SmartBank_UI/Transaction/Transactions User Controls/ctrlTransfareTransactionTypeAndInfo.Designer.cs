@@ -29,39 +29,39 @@
         private void InitializeComponent()
         {
             this.panel6 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLookUpToAccount = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbRefrenceOrRemark = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
+            this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbPriority = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbScheduleTransfare = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btnLookUp = new System.Windows.Forms.Button();
+            this.btnFromAccountLookUp = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbAccountNumber = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.tbAccountNumber = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
@@ -72,53 +72,43 @@
             // 
             this.panel6.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.button1);
+            this.panel6.Controls.Add(this.textBox1);
+            this.panel6.Controls.Add(this.btnLookUpToAccount);
             this.panel6.Controls.Add(this.label10);
-            this.panel6.Controls.Add(this.textBox3);
             this.panel6.Controls.Add(this.panel7);
             this.panel6.Location = new System.Drawing.Point(0, 147);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(754, 136);
             this.panel6.TabIndex = 70;
             // 
-            // button1
+            // btnLookUpToAccount
             // 
-            this.button1.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(633, 67);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 43);
-            this.button1.TabIndex = 65;
-            this.button1.Text = "Look Up";
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnLookUpToAccount.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnLookUpToAccount.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLookUpToAccount.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
+            this.btnLookUpToAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnLookUpToAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLookUpToAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLookUpToAccount.ForeColor = System.Drawing.Color.White;
+            this.btnLookUpToAccount.Location = new System.Drawing.Point(633, 76);
+            this.btnLookUpToAccount.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLookUpToAccount.Name = "btnLookUpToAccount";
+            this.btnLookUpToAccount.Size = new System.Drawing.Size(105, 43);
+            this.btnLookUpToAccount.TabIndex = 65;
+            this.btnLookUpToAccount.Text = "Look Up";
+            this.btnLookUpToAccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnLookUpToAccount.UseVisualStyleBackColor = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label10.Location = new System.Drawing.Point(14, 58);
+            this.label10.Location = new System.Drawing.Point(14, 67);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(132, 20);
             this.label10.TabIndex = 2;
             this.label10.Text = "Account Number ";
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(17, 81);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(602, 29);
-            this.textBox3.TabIndex = 1;
             // 
             // panel7
             // 
@@ -151,16 +141,16 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Source Account";
             // 
-            // textBox1
+            // tbRefrenceOrRemark
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(17, 163);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(477, 54);
-            this.textBox1.TabIndex = 66;
+            this.tbRefrenceOrRemark.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbRefrenceOrRemark.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRefrenceOrRemark.ForeColor = System.Drawing.Color.White;
+            this.tbRefrenceOrRemark.Location = new System.Drawing.Point(17, 163);
+            this.tbRefrenceOrRemark.Multiline = true;
+            this.tbRefrenceOrRemark.Name = "tbRefrenceOrRemark";
+            this.tbRefrenceOrRemark.Size = new System.Drawing.Size(477, 54);
+            this.tbRefrenceOrRemark.TabIndex = 66;
             // 
             // panel2
             // 
@@ -195,33 +185,33 @@
             this.label1.Text = "Transfer Details";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // maskedTextBox1
+            // mtbTransactionDate
             // 
-            this.maskedTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.maskedTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
-            this.maskedTextBox1.Location = new System.Drawing.Point(510, 163);
-            this.maskedTextBox1.Mask = "00/00/0000 90:00";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(228, 38);
-            this.maskedTextBox1.TabIndex = 69;
-            this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
+            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.mtbTransactionDate.Location = new System.Drawing.Point(510, 163);
+            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
+            this.mtbTransactionDate.Name = "mtbTransactionDate";
+            this.mtbTransactionDate.Size = new System.Drawing.Size(228, 38);
+            this.mtbTransactionDate.TabIndex = 69;
+            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
             // 
-            // numericUpDown1
+            // nupAmountInUSD
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown1.Location = new System.Drawing.Point(17, 88);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nupAmountInUSD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupAmountInUSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupAmountInUSD.ForeColor = System.Drawing.Color.White;
+            this.nupAmountInUSD.Location = new System.Drawing.Point(17, 88);
+            this.nupAmountInUSD.Maximum = new decimal(new int[] {
             -1486618624,
             232830643,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(228, 31);
-            this.numericUpDown1.TabIndex = 68;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nupAmountInUSD.Name = "nupAmountInUSD";
+            this.nupAmountInUSD.Size = new System.Drawing.Size(228, 31);
+            this.nupAmountInUSD.TabIndex = 68;
+            this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label5
             // 
@@ -250,19 +240,75 @@
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.cbPriority);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.comboBox2);
+            this.panel1.Controls.Add(this.cbScheduleTransfare);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.maskedTextBox1);
-            this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.tbRefrenceOrRemark);
+            this.panel1.Controls.Add(this.mtbTransactionDate);
+            this.panel1.Controls.Add(this.nupAmountInUSD);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(0, 289);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(756, 236);
             this.panel1.TabIndex = 69;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label7.Location = new System.Drawing.Point(506, 68);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(56, 20);
+            this.label7.TabIndex = 75;
+            this.label7.Text = "Priority";
+            // 
+            // cbPriority
+            // 
+            this.cbPriority.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPriority.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPriority.ForeColor = System.Drawing.Color.White;
+            this.cbPriority.FormattingEnabled = true;
+            this.cbPriority.Items.AddRange(new object[] {
+            "Normal",
+            "High",
+            "Urgent"});
+            this.cbPriority.Location = new System.Drawing.Point(510, 91);
+            this.cbPriority.Name = "cbPriority";
+            this.cbPriority.Size = new System.Drawing.Size(228, 28);
+            this.cbPriority.TabIndex = 74;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label8.Location = new System.Drawing.Point(262, 68);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(76, 20);
+            this.label8.TabIndex = 73;
+            this.label8.Text = "Schedule";
+            // 
+            // cbScheduleTransfare
+            // 
+            this.cbScheduleTransfare.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.cbScheduleTransfare.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbScheduleTransfare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbScheduleTransfare.ForeColor = System.Drawing.Color.White;
+            this.cbScheduleTransfare.FormattingEnabled = true;
+            this.cbScheduleTransfare.Items.AddRange(new object[] {
+            "Immediate",
+            "3 hours",
+            "6 hours",
+            "9 hours",
+            "12 hours"});
+            this.cbScheduleTransfare.Location = new System.Drawing.Point(266, 91);
+            this.cbScheduleTransfare.Name = "cbScheduleTransfare";
+            this.cbScheduleTransfare.Size = new System.Drawing.Size(228, 28);
+            this.cbScheduleTransfare.TabIndex = 72;
             // 
             // label6
             // 
@@ -289,53 +335,43 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.btnLookUp);
-            this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.tbAccountNumber);
+            this.panel3.Controls.Add(this.btnFromAccountLookUp);
+            this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Location = new System.Drawing.Point(0, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(754, 138);
             this.panel3.TabIndex = 68;
             // 
-            // btnLookUp
+            // btnFromAccountLookUp
             // 
-            this.btnLookUp.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnLookUp.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnLookUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
-            this.btnLookUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.btnLookUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLookUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLookUp.ForeColor = System.Drawing.Color.White;
-            this.btnLookUp.Location = new System.Drawing.Point(633, 67);
-            this.btnLookUp.Margin = new System.Windows.Forms.Padding(2);
-            this.btnLookUp.Name = "btnLookUp";
-            this.btnLookUp.Size = new System.Drawing.Size(105, 43);
-            this.btnLookUp.TabIndex = 65;
-            this.btnLookUp.Text = "Look Up";
-            this.btnLookUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnLookUp.UseVisualStyleBackColor = false;
+            this.btnFromAccountLookUp.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnFromAccountLookUp.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnFromAccountLookUp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
+            this.btnFromAccountLookUp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnFromAccountLookUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFromAccountLookUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFromAccountLookUp.ForeColor = System.Drawing.Color.White;
+            this.btnFromAccountLookUp.Location = new System.Drawing.Point(633, 78);
+            this.btnFromAccountLookUp.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFromAccountLookUp.Name = "btnFromAccountLookUp";
+            this.btnFromAccountLookUp.Size = new System.Drawing.Size(105, 43);
+            this.btnFromAccountLookUp.TabIndex = 65;
+            this.btnFromAccountLookUp.Text = "Look Up";
+            this.btnFromAccountLookUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnFromAccountLookUp.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label3.Location = new System.Drawing.Point(14, 58);
+            this.label3.Location = new System.Drawing.Point(14, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(132, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Account Number ";
-            // 
-            // tbAccountNumber
-            // 
-            this.tbAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAccountNumber.ForeColor = System.Drawing.Color.White;
-            this.tbAccountNumber.Location = new System.Drawing.Point(17, 81);
-            this.tbAccountNumber.Name = "tbAccountNumber";
-            this.tbAccountNumber.Size = new System.Drawing.Size(602, 29);
-            this.tbAccountNumber.TabIndex = 1;
             // 
             // panel4
             // 
@@ -358,61 +394,33 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "From Account";
             // 
-            // label8
+            // tbAccountNumber
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label8.Location = new System.Drawing.Point(262, 68);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(76, 20);
-            this.label8.TabIndex = 73;
-            this.label8.Text = "Schedule";
+            this.tbAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbAccountNumber.ForeColor = System.Drawing.Color.DimGray;
+            this.tbAccountNumber.Location = new System.Drawing.Point(18, 92);
+            this.tbAccountNumber.Name = "tbAccountNumber";
+            this.tbAccountNumber.Size = new System.Drawing.Size(602, 29);
+            this.tbAccountNumber.TabIndex = 67;
+            this.tbAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
+            this.tbAccountNumber.Text = "e.g. SB-2026-12345";
+            this.tbAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // comboBox2
+            // textBox1
             // 
-            this.comboBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.ForeColor = System.Drawing.Color.White;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Immediate",
-            "3 hours",
-            "6 hours",
-            "9 hours",
-            "12 hours"});
-            this.comboBox2.Location = new System.Drawing.Point(266, 91);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(228, 28);
-            this.comboBox2.TabIndex = 72;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label7.Location = new System.Drawing.Point(506, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 20);
-            this.label7.TabIndex = 75;
-            this.label7.Text = "Priority";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.ForeColor = System.Drawing.Color.White;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Normal",
-            "High",
-            "Urgent"});
-            this.comboBox1.Location = new System.Drawing.Point(510, 91);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(228, 28);
-            this.comboBox1.TabIndex = 74;
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.Color.DimGray;
+            this.textBox1.Location = new System.Drawing.Point(18, 90);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(602, 29);
+            this.textBox1.TabIndex = 67;
+            this.textBox1.Tag = "Idle/AccountNumber/e.g. SB-2026-678910";
+            this.textBox1.Text = "e.g. SB-2026-678910";
+            this.textBox1.Enter += new System.EventHandler(this.tb_Enter);
+            this.textBox1.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // ctrlTransfareTransactionTypeAndInfo
             // 
@@ -433,7 +441,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -448,32 +456,32 @@
         #endregion
 
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLookUpToAccount;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbRefrenceOrRemark;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.MaskedTextBox mtbTransactionDate;
+        private System.Windows.Forms.NumericUpDown nupAmountInUSD;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnLookUp;
+        private System.Windows.Forms.Button btnFromAccountLookUp;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbAccountNumber;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cbScheduleTransfare;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbAccountNumber;
     }
 }

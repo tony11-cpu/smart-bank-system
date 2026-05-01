@@ -43,18 +43,22 @@ namespace SmartBank_UI.Transaction
             switch (transactionType)
             {
                 case enTransactionType.Deposit:
-
+                    lblTransactionDetails.Text = "Deposit Details";
+                    lblTransactionTypeInDetails.Text = "Deposit Amount:";
                     break;
 
                 case enTransactionType.Withdraw:
-
+                    lblTransactionDetails.Text = "Withdraw Details";
+                    lblTransactionTypeInDetails.Text = "Withdraw Amount:";
                     break;
 
                 case enTransactionType.Transfer:
-
+                    lblTransactionDetails.Text = "Transfer Details";
+                    lblTransactionTypeInDetails.Text = "Transfer Amount:";
                     break;
 
                 default:
+                    _loadTransactionType(enTransactionType.Deposit);
                     break;
             }
         }
@@ -84,8 +88,11 @@ namespace SmartBank_UI.Transaction
             pMain.Controls.Add(control);
         }
 
-        private void frmPerformNewTransaction_Load(object sender, EventArgs e)
+        private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
         {
+            if(!string.IsNullOrEmpty(_accountNumber))
+                await ctrlAccountShortInfo1.LoadAccount(_accountNumber);
+
             _loadTransactionType(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
         }
     }

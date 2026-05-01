@@ -37,9 +37,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.tbRemarks = new System.Windows.Forms.TextBox();
+            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
+            this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,9 +52,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cbConfirmDepositFund = new System.Windows.Forms.CheckBox();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.cbAccountValid = new System.Windows.Forms.CheckBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -63,7 +63,7 @@
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -120,11 +120,15 @@
             // 
             this.tbAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAccountNumber.ForeColor = System.Drawing.Color.White;
+            this.tbAccountNumber.ForeColor = System.Drawing.Color.DimGray;
             this.tbAccountNumber.Location = new System.Drawing.Point(17, 81);
             this.tbAccountNumber.Name = "tbAccountNumber";
             this.tbAccountNumber.Size = new System.Drawing.Size(602, 29);
             this.tbAccountNumber.TabIndex = 1;
+            this.tbAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
+            this.tbAccountNumber.Text = "e.g. SB-2026-12345";
+            this.tbAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // panel4
             // 
@@ -168,9 +172,9 @@
             this.panel5.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.label7);
-            this.panel5.Controls.Add(this.textBox2);
-            this.panel5.Controls.Add(this.maskedTextBox2);
-            this.panel5.Controls.Add(this.numericUpDown2);
+            this.panel5.Controls.Add(this.tbRemarks);
+            this.panel5.Controls.Add(this.mtbTransactionDate);
+            this.panel5.Controls.Add(this.nupAmountInUSD);
             this.panel5.Controls.Add(this.label8);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Location = new System.Drawing.Point(-1, -1);
@@ -189,44 +193,48 @@
             this.label7.TabIndex = 67;
             this.label7.Text = "Remarks";
             // 
-            // textBox2
+            // tbRemarks
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(17, 160);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(721, 59);
-            this.textBox2.TabIndex = 66;
+            this.tbRemarks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbRemarks.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRemarks.ForeColor = System.Drawing.Color.DimGray;
+            this.tbRemarks.Location = new System.Drawing.Point(17, 160);
+            this.tbRemarks.Multiline = true;
+            this.tbRemarks.Name = "tbRemarks";
+            this.tbRemarks.Size = new System.Drawing.Size(721, 59);
+            this.tbRemarks.TabIndex = 66;
+            this.tbRemarks.Tag = "Idle/Remarks/Optional internal note...";
+            this.tbRemarks.Text = "Optional internal note...";
+            this.tbRemarks.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbRemarks.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // maskedTextBox2
+            // mtbTransactionDate
             // 
-            this.maskedTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.maskedTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskedTextBox2.ForeColor = System.Drawing.Color.White;
-            this.maskedTextBox2.Location = new System.Drawing.Point(275, 88);
-            this.maskedTextBox2.Mask = "00/00/0000 90:00";
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(463, 31);
-            this.maskedTextBox2.TabIndex = 69;
-            this.maskedTextBox2.ValidatingType = typeof(System.DateTime);
+            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.mtbTransactionDate.Location = new System.Drawing.Point(275, 88);
+            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
+            this.mtbTransactionDate.Name = "mtbTransactionDate";
+            this.mtbTransactionDate.Size = new System.Drawing.Size(463, 31);
+            this.mtbTransactionDate.TabIndex = 69;
+            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
             // 
-            // numericUpDown2
+            // nupAmountInUSD
             // 
-            this.numericUpDown2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.numericUpDown2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown2.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown2.Location = new System.Drawing.Point(17, 88);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.nupAmountInUSD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupAmountInUSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupAmountInUSD.ForeColor = System.Drawing.Color.White;
+            this.nupAmountInUSD.Location = new System.Drawing.Point(17, 88);
+            this.nupAmountInUSD.Maximum = new decimal(new int[] {
             -1486618624,
             232830643,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(230, 31);
-            this.numericUpDown2.TabIndex = 68;
-            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nupAmountInUSD.Name = "nupAmountInUSD";
+            this.nupAmountInUSD.Size = new System.Drawing.Size(230, 31);
+            this.nupAmountInUSD.TabIndex = 68;
+            this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label8
             // 
@@ -235,9 +243,9 @@
             this.label8.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.label8.Location = new System.Drawing.Point(271, 65);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(93, 20);
+            this.label8.Size = new System.Drawing.Size(48, 20);
             this.label8.TabIndex = 67;
-            this.label8.Text = "Value Date ";
+            this.label8.Text = "Date ";
             // 
             // label9
             // 
@@ -359,45 +367,45 @@
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.checkBox1);
+            this.panel8.Controls.Add(this.cbConfirmDepositFund);
             this.panel8.Location = new System.Drawing.Point(15, 53);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(722, 38);
             this.panel8.TabIndex = 0;
             // 
-            // checkBox1
+            // cbConfirmDepositFund
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(20, 7);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(468, 24);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "I confirm the deposited funds have been received and counted";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cbConfirmDepositFund.AutoSize = true;
+            this.cbConfirmDepositFund.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbConfirmDepositFund.ForeColor = System.Drawing.Color.White;
+            this.cbConfirmDepositFund.Location = new System.Drawing.Point(20, 7);
+            this.cbConfirmDepositFund.Name = "cbConfirmDepositFund";
+            this.cbConfirmDepositFund.Size = new System.Drawing.Size(468, 24);
+            this.cbConfirmDepositFund.TabIndex = 0;
+            this.cbConfirmDepositFund.Text = "I confirm the deposited funds have been received and counted";
+            this.cbConfirmDepositFund.UseVisualStyleBackColor = true;
             // 
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel9.Controls.Add(this.checkBox2);
+            this.panel9.Controls.Add(this.cbAccountValid);
             this.panel9.Location = new System.Drawing.Point(15, 97);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(722, 38);
             this.panel9.TabIndex = 1;
             // 
-            // checkBox2
+            // cbAccountValid
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.ForeColor = System.Drawing.Color.White;
-            this.checkBox2.Location = new System.Drawing.Point(20, 7);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(342, 24);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.Text = "The account holder identity has been verified";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.cbAccountValid.AutoSize = true;
+            this.cbAccountValid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAccountValid.ForeColor = System.Drawing.Color.White;
+            this.cbAccountValid.Location = new System.Drawing.Point(20, 7);
+            this.cbAccountValid.Name = "cbAccountValid";
+            this.cbAccountValid.Size = new System.Drawing.Size(342, 24);
+            this.cbAccountValid.TabIndex = 0;
+            this.cbAccountValid.Text = "The account holder identity has been verified";
+            this.cbAccountValid.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
@@ -460,7 +468,7 @@
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -498,16 +506,16 @@
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.TextBox tbRemarks;
+        private System.Windows.Forms.MaskedTextBox mtbTransactionDate;
+        private System.Windows.Forms.NumericUpDown nupAmountInUSD;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox cbConfirmDepositFund;
         private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox cbAccountValid;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label10;
     }
