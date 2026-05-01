@@ -223,6 +223,9 @@
     <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.resx">
       <DependentUpon>ctrlTransfareTransactionTypeAndInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlWithdrawelTransactionTypeAndInfo.resx">
+      <DependentUpon>ctrlWithdrawelTransactionTypeAndInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -372,6 +375,7 @@
     <None Include="Resources\icons8-attendance-50.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icons8-withdrawal-24.png" />
     <None Include="Resources\icons8-money-with-wings-50.png" />
     <None Include="Resources\icons8-unlocked-50.png" />
     <None Include="Resources\icons8-locked-48.png" />
