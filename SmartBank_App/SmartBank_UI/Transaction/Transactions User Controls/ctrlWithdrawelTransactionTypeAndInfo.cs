@@ -59,6 +59,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             {
                 tbAccountNumber.Text = _accountNumber;
                 _setTextboxStates(tbAccountNumber, false, true);
+                _enableOrDisableTransactionProps(true);
             }
         }
 
@@ -71,6 +72,13 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             OnAccountNumberChanged?.Invoke(tbAccountNumber.Text.Trim());
+            _enableOrDisableTransactionProps(true);
+        }
+
+        private void _enableOrDisableTransactionProps(bool enable)
+        {
+            nupAmountInUSD.Enabled = enable;
+            tbRemarks.Enabled = enable;
         }
     }
 }

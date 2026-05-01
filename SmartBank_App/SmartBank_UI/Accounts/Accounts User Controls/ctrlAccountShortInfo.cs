@@ -19,7 +19,7 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
             InitializeComponent();
         }
 
-        public async Task LoadAccount(string accountNumber)
+        public async Task LoadAccount(string accountNumber , Action onAccountLoad = null)
         {
             clsAccounts _currentAccount = await clsAccounts.FindAsync(accountNumber);
             if (_currentAccount == null)
@@ -40,6 +40,7 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
             lblAccountType.Text = lblSavingsOrChecking.Text;
             lblOpenDate.Text = _currentAccount.OpenedDate?.ToShortDateString();
             lblOpenByUsername.Text = (await clsUsers.FindAsync(_currentAccount.CreatedByUserID))?.Username ?? "Unknown";
+            onAccountLoad?.Invoke();
         }
     }
 }

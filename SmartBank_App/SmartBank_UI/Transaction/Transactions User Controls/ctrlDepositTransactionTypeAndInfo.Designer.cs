@@ -36,20 +36,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tbRemarks = new System.Windows.Forms.TextBox();
-            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
-            this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,13 +47,16 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbRemarks = new System.Windows.Forms.TextBox();
+            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
+            this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel7.SuspendLayout();
@@ -75,6 +64,8 @@
             this.panel8.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -165,195 +156,15 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Destination Account";
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.maskedTextBox1);
-            this.panel1.Controls.Add(this.numericUpDown1);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(0, 131);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(753, 236);
-            this.panel1.TabIndex = 26;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.MidnightBlue;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.label7);
-            this.panel5.Controls.Add(this.tbRemarks);
-            this.panel5.Controls.Add(this.mtbTransactionDate);
-            this.panel5.Controls.Add(this.nupAmountInUSD);
-            this.panel5.Controls.Add(this.label8);
-            this.panel5.Controls.Add(this.label9);
-            this.panel5.Location = new System.Drawing.Point(-1, -1);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(753, 236);
-            this.panel5.TabIndex = 70;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label7.Location = new System.Drawing.Point(14, 137);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 20);
-            this.label7.TabIndex = 67;
-            this.label7.Text = "Remarks";
-            // 
-            // tbRemarks
-            // 
-            this.tbRemarks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbRemarks.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRemarks.ForeColor = System.Drawing.Color.DimGray;
-            this.tbRemarks.Location = new System.Drawing.Point(17, 160);
-            this.tbRemarks.Multiline = true;
-            this.tbRemarks.Name = "tbRemarks";
-            this.tbRemarks.Size = new System.Drawing.Size(721, 59);
-            this.tbRemarks.TabIndex = 66;
-            this.tbRemarks.Tag = "Idle/Remarks/Optional internal note...";
-            this.tbRemarks.Text = "Optional internal note...";
-            this.tbRemarks.Enter += new System.EventHandler(this.tb_Enter);
-            this.tbRemarks.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // mtbTransactionDate
-            // 
-            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
-            this.mtbTransactionDate.Location = new System.Drawing.Point(275, 88);
-            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
-            this.mtbTransactionDate.Name = "mtbTransactionDate";
-            this.mtbTransactionDate.ReadOnly = true;
-            this.mtbTransactionDate.Size = new System.Drawing.Size(463, 31);
-            this.mtbTransactionDate.TabIndex = 69;
-            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
-            // 
-            // nupAmountInUSD
-            // 
-            this.nupAmountInUSD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.nupAmountInUSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nupAmountInUSD.ForeColor = System.Drawing.Color.White;
-            this.nupAmountInUSD.Location = new System.Drawing.Point(17, 88);
-            this.nupAmountInUSD.Maximum = new decimal(new int[] {
-            -1486618624,
-            232830643,
-            0,
-            0});
-            this.nupAmountInUSD.Name = "nupAmountInUSD";
-            this.nupAmountInUSD.Size = new System.Drawing.Size(230, 31);
-            this.nupAmountInUSD.TabIndex = 68;
-            this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label8.Location = new System.Drawing.Point(271, 65);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(48, 20);
-            this.label8.TabIndex = 67;
-            this.label8.Text = "Date ";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label9.Location = new System.Drawing.Point(14, 65);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(114, 20);
-            this.label9.TabIndex = 66;
-            this.label9.Text = "Amount (USD)";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label6.Location = new System.Drawing.Point(14, 146);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(73, 20);
-            this.label6.TabIndex = 67;
-            this.label6.Text = "Remarks";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(17, 169);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(721, 50);
-            this.textBox1.TabIndex = 66;
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.maskedTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
-            this.maskedTextBox1.Location = new System.Drawing.Point(275, 101);
-            this.maskedTextBox1.Mask = "00/00/0000 90:00";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(463, 31);
-            this.maskedTextBox1.TabIndex = 69;
-            this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown1.Location = new System.Drawing.Point(17, 101);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            -1486618624,
-            232830643,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(230, 31);
-            this.numericUpDown1.TabIndex = 68;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label5.Location = new System.Drawing.Point(271, 78);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 20);
-            this.label5.TabIndex = 67;
-            this.label5.Text = "Value Date ";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label2.Location = new System.Drawing.Point(14, 78);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 20);
-            this.label2.TabIndex = 66;
-            this.label2.Text = "Amount (USD)";
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.pictureBox2);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(0, 131);
+            this.panel2.Location = new System.Drawing.Point(-2, -1);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(752, 51);
+            this.panel2.Size = new System.Drawing.Size(754, 51);
             this.panel2.TabIndex = 2;
             // 
             // pictureBox2
@@ -457,15 +268,109 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.MidnightBlue;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.label7);
+            this.panel5.Controls.Add(this.tbRemarks);
+            this.panel5.Controls.Add(this.panel2);
+            this.panel5.Controls.Add(this.mtbTransactionDate);
+            this.panel5.Controls.Add(this.nupAmountInUSD);
+            this.panel5.Controls.Add(this.label8);
+            this.panel5.Controls.Add(this.label9);
+            this.panel5.Location = new System.Drawing.Point(1, 131);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(753, 236);
+            this.panel5.TabIndex = 74;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label7.Location = new System.Drawing.Point(14, 137);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 20);
+            this.label7.TabIndex = 67;
+            this.label7.Text = "Remarks";
+            // 
+            // tbRemarks
+            // 
+            this.tbRemarks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbRemarks.Enabled = false;
+            this.tbRemarks.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRemarks.ForeColor = System.Drawing.Color.DimGray;
+            this.tbRemarks.Location = new System.Drawing.Point(17, 160);
+            this.tbRemarks.Multiline = true;
+            this.tbRemarks.Name = "tbRemarks";
+            this.tbRemarks.Size = new System.Drawing.Size(721, 59);
+            this.tbRemarks.TabIndex = 66;
+            this.tbRemarks.Tag = "Idle/Remarks/Optional internal note...";
+            this.tbRemarks.Text = "Optional internal note...";
+            this.tbRemarks.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbRemarks.Leave += new System.EventHandler(this.tb_Leave);
+            // 
+            // mtbTransactionDate
+            // 
+            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.mtbTransactionDate.Location = new System.Drawing.Point(275, 88);
+            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
+            this.mtbTransactionDate.Name = "mtbTransactionDate";
+            this.mtbTransactionDate.ReadOnly = true;
+            this.mtbTransactionDate.Size = new System.Drawing.Size(463, 31);
+            this.mtbTransactionDate.TabIndex = 69;
+            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
+            // 
+            // nupAmountInUSD
+            // 
+            this.nupAmountInUSD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupAmountInUSD.Enabled = false;
+            this.nupAmountInUSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupAmountInUSD.ForeColor = System.Drawing.Color.White;
+            this.nupAmountInUSD.Location = new System.Drawing.Point(17, 88);
+            this.nupAmountInUSD.Maximum = new decimal(new int[] {
+            -1486618624,
+            232830643,
+            0,
+            0});
+            this.nupAmountInUSD.Name = "nupAmountInUSD";
+            this.nupAmountInUSD.Size = new System.Drawing.Size(230, 31);
+            this.nupAmountInUSD.TabIndex = 68;
+            this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label8.Location = new System.Drawing.Point(271, 65);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 20);
+            this.label8.TabIndex = 67;
+            this.label8.Text = "Date ";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label9.Location = new System.Drawing.Point(14, 65);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(114, 20);
+            this.label9.TabIndex = 66;
+            this.label9.Text = "Amount (USD)";
+            // 
             // ctrlDepositTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Name = "ctrlDepositTransactionTypeAndInfo";
             this.Size = new System.Drawing.Size(754, 522);
@@ -475,12 +380,6 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -492,6 +391,9 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -505,23 +407,9 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox tbRemarks;
-        private System.Windows.Forms.MaskedTextBox mtbTransactionDate;
-        private System.Windows.Forms.NumericUpDown nupAmountInUSD;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.CheckBox cbConfirmDepositFund;
@@ -530,5 +418,12 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbRemarks;
+        private System.Windows.Forms.MaskedTextBox mtbTransactionDate;
+        private System.Windows.Forms.NumericUpDown nupAmountInUSD;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }

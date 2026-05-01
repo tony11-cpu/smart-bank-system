@@ -1,5 +1,6 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
+using SmartBank_UI.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,6 +49,18 @@ namespace SmartBank_UI
 
             dgvRecentTransactions.RowTemplate.Height = 35;
             dgvRecentTransactions.ColumnHeadersHeight = 40;
+        }
+
+        private void btnNewDeposite_Click(object sender, EventArgs e) => _loadTransactionType(frmPerformNewTransaction.enTransactionType.Deposit);
+
+        private void btnNewWithdrawl_Click(object sender, EventArgs e) => _loadTransactionType(frmPerformNewTransaction.enTransactionType.Withdrawl);
+
+        private void btnTransfare_Click(object sender, EventArgs e) => _loadTransactionType(frmPerformNewTransaction.enTransactionType.Transfer);
+
+        private void _loadTransactionType(frmPerformNewTransaction.enTransactionType transactionType)
+        {
+           frmPerformNewTransaction frm = new frmPerformNewTransaction(string.Empty, transactionType);
+           frm.ShowDialog();
         }
     }
 }

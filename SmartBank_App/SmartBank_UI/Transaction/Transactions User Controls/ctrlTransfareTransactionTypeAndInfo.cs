@@ -59,9 +59,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             if (!string.IsNullOrEmpty(_accountNumber))
             {
                 tbFromAccountNumber.Text = _accountNumber;
-                btnLookUpToAccount.Enabled = true;
-
                 _setTextboxStates(tbFromAccountNumber, false, true);
+                _enableOrDisableTransactionProps(true);
             }
         }
 
@@ -74,7 +73,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             OnFromAccountNumberChanged?.Invoke(tbFromAccountNumber.Text);
-            btnLookUpToAccount.Enabled = true;
+            _enableOrDisableTransactionProps(true);
         }
 
         private void btnLookUpToAccount_Click(object sender, EventArgs e)
@@ -87,6 +86,17 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text , () => MessageBox.Show("Account Found!" , "To Account Found" , MessageBoxButtons.OK , MessageBoxIcon.Information));
             toAccountInfo.Show();
+        }
+
+        private void _enableOrDisableTransactionProps(bool enable)
+        {
+            tbToAccountNumber.Enabled = enable;
+            btnLookUpToAccount.Enabled = enable;
+            tbRefrenceOrRemark.Enabled = enable;
+            cbPriority.Enabled = enable;
+            cbScheduleTransfare.Enabled = enable;
+            nupAmountInUSD.Enabled = enable;
+            mtbTransactionDate.Enabled = enable;
         }
     }
 }

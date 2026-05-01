@@ -200,7 +200,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private async void cmsNewDeposite_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Deposit, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
 
-        private async void cmsNewWithdrawl_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Withdraw, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
+        private async void cmsNewWithdrawl_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Withdrawl, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
 
         private async void cmsNewTransfare_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Transfer, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
     }

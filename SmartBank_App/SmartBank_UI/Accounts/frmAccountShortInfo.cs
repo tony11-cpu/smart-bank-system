@@ -33,8 +33,7 @@ namespace SmartBank_UI.Accounts
             }
 
             this.Text = $"Account Short Info - {_accountNumber}";
-            await ctrlAccountShortInfo1.LoadAccount(_accountNumber);
-            _onAccountLoading?.Invoke();
+            await ctrlAccountShortInfo1.LoadAccount(_accountNumber , _onAccountLoading);
         }
     }
 }

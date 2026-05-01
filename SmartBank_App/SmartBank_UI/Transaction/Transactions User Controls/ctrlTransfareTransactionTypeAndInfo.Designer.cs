@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.tbToAccountNumber = new System.Windows.Forms.TextBox();
             this.btnLookUpToAccount = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -51,12 +52,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.tbFromAccountNumber = new System.Windows.Forms.TextBox();
             this.btnFromAccountLookUp = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbFromAccountNumber = new System.Windows.Forms.TextBox();
-            this.tbToAccountNumber = new System.Windows.Forms.TextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -83,6 +83,21 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(754, 136);
             this.panel6.TabIndex = 70;
+            // 
+            // tbToAccountNumber
+            // 
+            this.tbToAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbToAccountNumber.Enabled = false;
+            this.tbToAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbToAccountNumber.ForeColor = System.Drawing.Color.DimGray;
+            this.tbToAccountNumber.Location = new System.Drawing.Point(18, 90);
+            this.tbToAccountNumber.Name = "tbToAccountNumber";
+            this.tbToAccountNumber.Size = new System.Drawing.Size(602, 29);
+            this.tbToAccountNumber.TabIndex = 67;
+            this.tbToAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-678910";
+            this.tbToAccountNumber.Text = "e.g. SB-2026-678910";
+            this.tbToAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbToAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // btnLookUpToAccount
             // 
@@ -149,13 +164,18 @@
             // tbRefrenceOrRemark
             // 
             this.tbRefrenceOrRemark.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbRefrenceOrRemark.Enabled = false;
             this.tbRefrenceOrRemark.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRefrenceOrRemark.ForeColor = System.Drawing.Color.White;
+            this.tbRefrenceOrRemark.ForeColor = System.Drawing.Color.DimGray;
             this.tbRefrenceOrRemark.Location = new System.Drawing.Point(17, 163);
             this.tbRefrenceOrRemark.Multiline = true;
             this.tbRefrenceOrRemark.Name = "tbRefrenceOrRemark";
             this.tbRefrenceOrRemark.Size = new System.Drawing.Size(477, 54);
             this.tbRefrenceOrRemark.TabIndex = 66;
+            this.tbRefrenceOrRemark.Tag = "Idle/tbRefrenceOrRemark/Optional internal note...";
+            this.tbRefrenceOrRemark.Text = "Optional internal note...";
+            this.tbRefrenceOrRemark.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbRefrenceOrRemark.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // panel2
             // 
@@ -206,6 +226,7 @@
             // nupAmountInUSD
             // 
             this.nupAmountInUSD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.nupAmountInUSD.Enabled = false;
             this.nupAmountInUSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nupAmountInUSD.ForeColor = System.Drawing.Color.White;
             this.nupAmountInUSD.Location = new System.Drawing.Point(17, 88);
@@ -275,6 +296,7 @@
             // 
             this.cbPriority.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPriority.Enabled = false;
             this.cbPriority.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPriority.ForeColor = System.Drawing.Color.White;
             this.cbPriority.FormattingEnabled = true;
@@ -302,6 +324,7 @@
             // 
             this.cbScheduleTransfare.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.cbScheduleTransfare.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbScheduleTransfare.Enabled = false;
             this.cbScheduleTransfare.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbScheduleTransfare.ForeColor = System.Drawing.Color.White;
             this.cbScheduleTransfare.FormattingEnabled = true;
@@ -349,6 +372,20 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(754, 138);
             this.panel3.TabIndex = 68;
+            // 
+            // tbFromAccountNumber
+            // 
+            this.tbFromAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbFromAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbFromAccountNumber.ForeColor = System.Drawing.Color.DimGray;
+            this.tbFromAccountNumber.Location = new System.Drawing.Point(18, 92);
+            this.tbFromAccountNumber.Name = "tbFromAccountNumber";
+            this.tbFromAccountNumber.Size = new System.Drawing.Size(602, 29);
+            this.tbFromAccountNumber.TabIndex = 67;
+            this.tbFromAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
+            this.tbFromAccountNumber.Text = "e.g. SB-2026-12345";
+            this.tbFromAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbFromAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // btnFromAccountLookUp
             // 
@@ -400,34 +437,6 @@
             this.label4.Size = new System.Drawing.Size(130, 24);
             this.label4.TabIndex = 0;
             this.label4.Text = "From Account";
-            // 
-            // tbFromAccountNumber
-            // 
-            this.tbFromAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbFromAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbFromAccountNumber.ForeColor = System.Drawing.Color.DimGray;
-            this.tbFromAccountNumber.Location = new System.Drawing.Point(18, 92);
-            this.tbFromAccountNumber.Name = "tbFromAccountNumber";
-            this.tbFromAccountNumber.Size = new System.Drawing.Size(602, 29);
-            this.tbFromAccountNumber.TabIndex = 67;
-            this.tbFromAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
-            this.tbFromAccountNumber.Text = "e.g. SB-2026-12345";
-            this.tbFromAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
-            this.tbFromAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
-            // 
-            // tbToAccountNumber
-            // 
-            this.tbToAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbToAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbToAccountNumber.ForeColor = System.Drawing.Color.DimGray;
-            this.tbToAccountNumber.Location = new System.Drawing.Point(18, 90);
-            this.tbToAccountNumber.Name = "tbToAccountNumber";
-            this.tbToAccountNumber.Size = new System.Drawing.Size(602, 29);
-            this.tbToAccountNumber.TabIndex = 67;
-            this.tbToAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-678910";
-            this.tbToAccountNumber.Text = "e.g. SB-2026-678910";
-            this.tbToAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
-            this.tbToAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // errorProvider1
             // 

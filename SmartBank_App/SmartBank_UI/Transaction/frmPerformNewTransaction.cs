@@ -16,7 +16,7 @@ namespace SmartBank_UI.Transaction
         public enum enTransactionType
         {
             Deposit,
-            Withdraw,
+            Withdrawl,
             Transfer,
             None
         }
@@ -32,7 +32,7 @@ namespace SmartBank_UI.Transaction
 
         private void btnNewDeposite_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Deposit);
 
-        private void btnNewWithdrawl_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Withdraw);
+        private void btnNewWithdrawl_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Withdrawl);
 
         private void btnTransfare_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Transfer);
 
@@ -47,7 +47,7 @@ namespace SmartBank_UI.Transaction
                     lblTransactionTypeInDetails.Text = "Deposit Amount:";
                     break;
 
-                case enTransactionType.Withdraw:
+                case enTransactionType.Withdrawl:
                     lblTransactionDetails.Text = "Withdraw Details";
                     lblTransactionTypeInDetails.Text = "Withdraw Amount:";
                     break;
@@ -72,7 +72,7 @@ namespace SmartBank_UI.Transaction
                 case enTransactionType.Deposit:
                     control = new ctrlDepositTransactionTypeAndInfo(_accountNumber);
                     break;
-                case enTransactionType.Withdraw:
+                case enTransactionType.Withdrawl:
                     control = new ctrlWithdrawelTransactionTypeAndInfo(_accountNumber);
                     break;
                 case enTransactionType.Transfer:
@@ -97,7 +97,10 @@ namespace SmartBank_UI.Transaction
             ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += _onAccountNumberLoad;
 
             if (!string.IsNullOrEmpty(_accountNumber))
+            {
                 await ctrlAccountShortInfo1.LoadAccount(_accountNumber);
+                btnPerformTransaction.Enabled = true;
+            }
 
             _loadTransactionType(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
         }
