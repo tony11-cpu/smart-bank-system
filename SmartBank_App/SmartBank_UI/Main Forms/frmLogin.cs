@@ -124,6 +124,7 @@ namespace SmartBank_UI.Login
             tbUsername.Text = userEntry.Username;
 
             lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
