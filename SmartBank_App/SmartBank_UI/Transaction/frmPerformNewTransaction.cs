@@ -12,9 +12,21 @@ namespace SmartBank_UI.Transaction
 {
     public partial class frmPerformNewTransaction : Form
     {
-        public frmPerformNewTransaction()
+        public enum enTransactionType
+        {
+            Deposit,
+            Withdraw,
+            Transfer,
+            None
+        }
+
+        private enTransactionType _transactionType;
+        private string _accountNumber;
+        public frmPerformNewTransaction(string accountNumber , enTransactionType transactionType)
         {
             InitializeComponent();
+            _transactionType = transactionType;
+            _accountNumber = accountNumber;
         }
     }
 }

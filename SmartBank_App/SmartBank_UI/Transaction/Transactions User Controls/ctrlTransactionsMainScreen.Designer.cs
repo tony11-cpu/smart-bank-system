@@ -32,6 +32,14 @@
             this.lblTransactionsFormInfoToUser = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvAllTransactions = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsNewDeposite = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNewWithdrawl = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNewTransfare = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsAccountTransactionsLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsCustomerInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblClickToShowRow = new System.Windows.Forms.Label();
             this.lblNumberOfTransactions = new System.Windows.Forms.Label();
@@ -48,31 +56,23 @@
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblTransactionlStatus = new System.Windows.Forms.Label();
+            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
             this.lblTransactionType = new System.Windows.Forms.Label();
             this.btnSchedualedFillter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnNewTransactions = new System.Windows.Forms.Button();
-            this.pbAccountTypePhoto = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmsNewDeposite = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsNewWithdrawl = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmsNewTransfare = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsAccountTransactionsLog = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmsCustomerInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupBalanceAfter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupBalanceBefore)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTransactionsFormInfoToUser
@@ -83,10 +83,10 @@
             this.lblTransactionsFormInfoToUser.Location = new System.Drawing.Point(25, 43);
             this.lblTransactionsFormInfoToUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTransactionsFormInfoToUser.Name = "lblTransactionsFormInfoToUser";
-            this.lblTransactionsFormInfoToUser.Size = new System.Drawing.Size(646, 18);
+            this.lblTransactionsFormInfoToUser.Size = new System.Drawing.Size(764, 18);
             this.lblTransactionsFormInfoToUser.TabIndex = 12;
-            this.lblTransactionsFormInfoToUser.Text = "Process deposits, withdrawals, and transfers. Every transaction is permanent and " +
-    "recorded in full.";
+            this.lblTransactionsFormInfoToUser.Text = "Process deposits, withdrawals, transfers, and manage all transactions proccessed." +
+    " Every transaction is permanent.";
             // 
             // label1
             // 
@@ -120,6 +120,72 @@
             this.dgvAllTransactions.Size = new System.Drawing.Size(818, 599);
             this.dgvAllTransactions.TabIndex = 13;
             this.dgvAllTransactions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllTransactions_CellClick_1);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsNewDeposite,
+            this.cmsNewWithdrawl,
+            this.cmsNewTransfare,
+            this.toolStripSeparator1,
+            this.cmsAccountTransactionsLog,
+            this.toolStripMenuItem3,
+            this.cmsCustomerInfo});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(220, 166);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // cmsNewDeposite
+            // 
+            this.cmsNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_money_box_50;
+            this.cmsNewDeposite.Name = "cmsNewDeposite";
+            this.cmsNewDeposite.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewDeposite.Text = "New Deposit";
+            this.cmsNewDeposite.Click += new System.EventHandler(this.cmsNewDeposite_Click);
+            // 
+            // cmsNewWithdrawl
+            // 
+            this.cmsNewWithdrawl.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
+            this.cmsNewWithdrawl.Name = "cmsNewWithdrawl";
+            this.cmsNewWithdrawl.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewWithdrawl.Text = "New Withdrawl";
+            this.cmsNewWithdrawl.Click += new System.EventHandler(this.cmsNewWithdrawl_Click);
+            // 
+            // cmsNewTransfare
+            // 
+            this.cmsNewTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_money_with_wings_50;
+            this.cmsNewTransfare.Name = "cmsNewTransfare";
+            this.cmsNewTransfare.Size = new System.Drawing.Size(219, 30);
+            this.cmsNewTransfare.Tag = "DeactivateButton";
+            this.cmsNewTransfare.Text = "New Transfare";
+            this.cmsNewTransfare.Click += new System.EventHandler(this.cmsNewTransfare_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
+            // 
+            // cmsAccountTransactionsLog
+            // 
+            this.cmsAccountTransactionsLog.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
+            this.cmsAccountTransactionsLog.Name = "cmsAccountTransactionsLog";
+            this.cmsAccountTransactionsLog.Size = new System.Drawing.Size(219, 30);
+            this.cmsAccountTransactionsLog.Text = "Account Transactions Log";
+            this.cmsAccountTransactionsLog.Click += new System.EventHandler(this.cmsAccountTransactionsLog_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(216, 6);
+            // 
+            // cmsCustomerInfo
+            // 
+            this.cmsCustomerInfo.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
+            this.cmsCustomerInfo.Name = "cmsCustomerInfo";
+            this.cmsCustomerInfo.Size = new System.Drawing.Size(219, 30);
+            this.cmsCustomerInfo.Text = "Customer Information";
+            this.cmsCustomerInfo.Click += new System.EventHandler(this.cmsCustomerInfo_Click);
             // 
             // panel1
             // 
@@ -350,6 +416,16 @@
             this.lblTransactionlStatus.TabIndex = 25;
             this.lblTransactionlStatus.Text = "Status (Pending - Completed)";
             // 
+            // pbAccountTypePhoto
+            // 
+            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
+            this.pbAccountTypePhoto.Location = new System.Drawing.Point(27, 5);
+            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
+            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
+            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbAccountTypePhoto.TabIndex = 23;
+            this.pbAccountTypePhoto.TabStop = false;
+            // 
             // lblTransactionType
             // 
             this.lblTransactionType.AutoSize = true;
@@ -407,6 +483,16 @@
             this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
             this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
+            // ctrlAccountShortInfo1
+            // 
+            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(837, 160);
+            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
+            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
+            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
+            this.ctrlAccountShortInfo1.TabIndex = 14;
+            // 
             // btnExport
             // 
             this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
@@ -443,89 +529,7 @@
             this.btnNewTransactions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNewTransactions.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnNewTransactions.UseVisualStyleBackColor = false;
-            // 
-            // pbAccountTypePhoto
-            // 
-            this.pbAccountTypePhoto.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
-            this.pbAccountTypePhoto.Location = new System.Drawing.Point(27, 5);
-            this.pbAccountTypePhoto.Name = "pbAccountTypePhoto";
-            this.pbAccountTypePhoto.Size = new System.Drawing.Size(107, 63);
-            this.pbAccountTypePhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbAccountTypePhoto.TabIndex = 23;
-            this.pbAccountTypePhoto.TabStop = false;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsNewDeposite,
-            this.cmsNewWithdrawl,
-            this.cmsNewTransfare,
-            this.toolStripSeparator1,
-            this.cmsAccountTransactionsLog,
-            this.toolStripMenuItem3,
-            this.cmsCustomerInfo});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(220, 166);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // cmsNewDeposite
-            // 
-            this.cmsNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_money_box_50;
-            this.cmsNewDeposite.Name = "cmsNewDeposite";
-            this.cmsNewDeposite.Size = new System.Drawing.Size(219, 30);
-            this.cmsNewDeposite.Text = "New Deposit";
-            // 
-            // cmsNewWithdrawl
-            // 
-            this.cmsNewWithdrawl.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
-            this.cmsNewWithdrawl.Name = "cmsNewWithdrawl";
-            this.cmsNewWithdrawl.Size = new System.Drawing.Size(219, 30);
-            this.cmsNewWithdrawl.Text = "New Withdrawl";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
-            // 
-            // cmsNewTransfare
-            // 
-            this.cmsNewTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_money_with_wings_50;
-            this.cmsNewTransfare.Name = "cmsNewTransfare";
-            this.cmsNewTransfare.Size = new System.Drawing.Size(219, 30);
-            this.cmsNewTransfare.Tag = "DeactivateButton";
-            this.cmsNewTransfare.Text = "New Transfare";
-            // 
-            // cmsAccountTransactionsLog
-            // 
-            this.cmsAccountTransactionsLog.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
-            this.cmsAccountTransactionsLog.Name = "cmsAccountTransactionsLog";
-            this.cmsAccountTransactionsLog.Size = new System.Drawing.Size(219, 30);
-            this.cmsAccountTransactionsLog.Text = "Account Transactions Log";
-            this.cmsAccountTransactionsLog.Click += new System.EventHandler(this.cmsAccountTransactionsLog_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(216, 6);
-            // 
-            // cmsCustomerInfo
-            // 
-            this.cmsCustomerInfo.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
-            this.cmsCustomerInfo.Name = "cmsCustomerInfo";
-            this.cmsCustomerInfo.Size = new System.Drawing.Size(219, 30);
-            this.cmsCustomerInfo.Text = "Customer Information";
-            this.cmsCustomerInfo.Click += new System.EventHandler(this.cmsCustomerInfo_Click);
-            // 
-            // ctrlAccountShortInfo1
-            // 
-            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(837, 160);
-            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(1);
-            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
-            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(472, 369);
-            this.ctrlAccountShortInfo1.TabIndex = 14;
+            this.btnNewTransactions.Click += new System.EventHandler(this.btnNewTransactions_Click);
             // 
             // ctrlTransactionsMainScreen
             // 
@@ -549,6 +553,7 @@
             this.Load += new System.EventHandler(this.ctrlTransactionsMainScreen_Load);
             this.VisibleChanged += new System.EventHandler(this.ctrlTransactionsMainScreen_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllTransactions)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -558,7 +563,6 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAccountTypePhoto)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

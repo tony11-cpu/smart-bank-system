@@ -182,5 +182,26 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private async void ctrlTransactionsMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGrid(await _loadTransactionsLog());
+
+        private async void btnNewTransactions_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.None);
+
+        private async Task _openTransactionForm(frmPerformNewTransaction.enTransactionType transactionType, string accountNumber = null)
+        {
+            if(string.IsNullOrEmpty(accountNumber))
+            {
+                transactionType = frmPerformNewTransaction.enTransactionType.None;
+            }
+
+            frmPerformNewTransaction performNewTransaction = new frmPerformNewTransaction(accountNumber, transactionType);
+            performNewTransaction.ShowDialog();
+
+            _bindGrid(await _loadTransactionsLog());
+        }
+
+        private async void cmsNewDeposite_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Deposit, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
+
+        private async void cmsNewWithdrawl_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Withdraw, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
+
+        private async void cmsNewTransfare_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Transfer, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
     }
 }
