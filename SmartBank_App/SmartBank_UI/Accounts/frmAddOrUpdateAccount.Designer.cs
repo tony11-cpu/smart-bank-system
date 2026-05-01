@@ -442,7 +442,7 @@
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Silver;
             this.btnCancel.Location = new System.Drawing.Point(699, 51);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(95, 54);
             this.btnCancel.TabIndex = 57;
@@ -461,7 +461,7 @@
             this.btnOpenOrUpdateAccount.ForeColor = System.Drawing.Color.White;
             this.btnOpenOrUpdateAccount.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
             this.btnOpenOrUpdateAccount.Location = new System.Drawing.Point(799, 51);
-            this.btnOpenOrUpdateAccount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOpenOrUpdateAccount.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenOrUpdateAccount.Name = "btnOpenOrUpdateAccount";
             this.btnOpenOrUpdateAccount.Size = new System.Drawing.Size(164, 54);
             this.btnOpenOrUpdateAccount.TabIndex = 56;
@@ -737,7 +737,7 @@
             // 
             this.ctrlCustomerShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
             this.ctrlCustomerShortInfo1.Location = new System.Drawing.Point(11, 110);
-            this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.ctrlCustomerShortInfo1.Margin = new System.Windows.Forms.Padding(1);
             this.ctrlCustomerShortInfo1.Name = "ctrlCustomerShortInfo1";
             this.ctrlCustomerShortInfo1.Size = new System.Drawing.Size(455, 558);
             this.ctrlCustomerShortInfo1.TabIndex = 19;

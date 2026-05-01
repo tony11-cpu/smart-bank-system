@@ -70,16 +70,16 @@ namespace SmartBank_UI.Transaction
             switch (transactionType)
             {
                 case enTransactionType.Deposit:
-                    control = new ctrlDepositTransactionTypeAndInfo();
+                    control = new ctrlDepositTransactionTypeAndInfo(_accountNumber);
                     break;
                 case enTransactionType.Withdraw:
-                    control = new ctrlWithdrawelTransactionTypeAndInfo();
+                    control = new ctrlWithdrawelTransactionTypeAndInfo(_accountNumber);
                     break;
                 case enTransactionType.Transfer:
-                    control = new ctrlTransfareTransactionTypeAndInfo();
+                    control = new ctrlTransfareTransactionTypeAndInfo(_accountNumber);
                     break;
                 default:
-                    control = new ctrlDepositTransactionTypeAndInfo();
+                    control = new ctrlDepositTransactionTypeAndInfo(_accountNumber);
                     break;
             }
 

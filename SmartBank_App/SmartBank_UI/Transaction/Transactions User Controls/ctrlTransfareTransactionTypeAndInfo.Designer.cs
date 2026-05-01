@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnLookUpToAccount = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -56,6 +57,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tbAccountNumber = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -66,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel6
@@ -188,12 +191,13 @@
             // mtbTransactionDate
             // 
             this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mtbTransactionDate.Enabled = false;
+            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
             this.mtbTransactionDate.Location = new System.Drawing.Point(510, 163);
             this.mtbTransactionDate.Mask = "00/00/0000 90:00";
             this.mtbTransactionDate.Name = "mtbTransactionDate";
-            this.mtbTransactionDate.Size = new System.Drawing.Size(228, 38);
+            this.mtbTransactionDate.Size = new System.Drawing.Size(228, 31);
             this.mtbTransactionDate.TabIndex = 69;
             this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
             // 
@@ -422,6 +426,10 @@
             this.textBox1.Enter += new System.EventHandler(this.tb_Enter);
             this.textBox1.Leave += new System.EventHandler(this.tb_Leave);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // ctrlTransfareTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,6 +441,7 @@
             this.Controls.Add(this.panel3);
             this.Name = "ctrlTransfareTransactionTypeAndInfo";
             this.Size = new System.Drawing.Size(756, 528);
+            this.Load += new System.EventHandler(this.ctrlTransfareTransactionTypeAndInfo_Load);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel7.ResumeLayout(false);
@@ -449,6 +458,7 @@
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -483,5 +493,6 @@
         private System.Windows.Forms.ComboBox cbScheduleTransfare;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox tbAccountNumber;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

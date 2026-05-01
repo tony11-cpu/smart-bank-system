@@ -32,6 +32,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.lblAccountBalanceAfterTransaction = new System.Windows.Forms.Label();
+            this.lblTransactionTypeAmount = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblTransactionTypeInDetails = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.btnNewTransfare = new System.Windows.Forms.Button();
@@ -39,21 +45,17 @@
             this.btnNewDeposite = new System.Windows.Forms.Button();
             this.pMain = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.lblTransactionDetails = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.lblTransactionTypeInDetails = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblTransactionTypeAmount = new System.Windows.Forms.Label();
-            this.lblAccountBalanceAfterTransaction = new System.Windows.Forms.Label();
+            this.lblTransactionDetails = new System.Windows.Forms.Label();
+            this.btnPerformTransaction = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTransactionsFormInfoToUser
@@ -86,7 +88,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.ctrlAccountShortInfo1);
-            this.panel1.Location = new System.Drawing.Point(771, 178);
+            this.panel1.Location = new System.Drawing.Point(765, 202);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(471, 525);
             this.panel1.TabIndex = 15;
@@ -101,11 +103,80 @@
             this.panel3.Size = new System.Drawing.Size(473, 153);
             this.panel3.TabIndex = 1;
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.panel5.Controls.Add(this.lblAccountBalanceAfterTransaction);
+            this.panel5.Controls.Add(this.lblTransactionTypeAmount);
+            this.panel5.Controls.Add(this.label6);
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Controls.Add(this.lblTransactionTypeInDetails);
+            this.panel5.Location = new System.Drawing.Point(15, 53);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(443, 88);
+            this.panel5.TabIndex = 0;
+            // 
+            // lblAccountBalanceAfterTransaction
+            // 
+            this.lblAccountBalanceAfterTransaction.AutoSize = true;
+            this.lblAccountBalanceAfterTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccountBalanceAfterTransaction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblAccountBalanceAfterTransaction.Location = new System.Drawing.Point(230, 51);
+            this.lblAccountBalanceAfterTransaction.Name = "lblAccountBalanceAfterTransaction";
+            this.lblAccountBalanceAfterTransaction.Size = new System.Drawing.Size(30, 24);
+            this.lblAccountBalanceAfterTransaction.TabIndex = 7;
+            this.lblAccountBalanceAfterTransaction.Text = "00";
+            // 
+            // lblTransactionTypeAmount
+            // 
+            this.lblTransactionTypeAmount.AutoSize = true;
+            this.lblTransactionTypeAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTransactionTypeAmount.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.lblTransactionTypeAmount.Location = new System.Drawing.Point(192, 14);
+            this.lblTransactionTypeAmount.Name = "lblTransactionTypeAmount";
+            this.lblTransactionTypeAmount.Size = new System.Drawing.Size(30, 24);
+            this.lblTransactionTypeAmount.TabIndex = 6;
+            this.lblTransactionTypeAmount.Text = "00";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label6.Location = new System.Drawing.Point(22, 51);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(202, 24);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "New Account Balance:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.label5.Location = new System.Drawing.Point(22, 38);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(397, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "---------------------------------------------------------------------------------" +
+    "-------------------------------------------------";
+            // 
+            // lblTransactionTypeInDetails
+            // 
+            this.lblTransactionTypeInDetails.AutoSize = true;
+            this.lblTransactionTypeInDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTransactionTypeInDetails.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.lblTransactionTypeInDetails.Location = new System.Drawing.Point(21, 14);
+            this.lblTransactionTypeInDetails.Name = "lblTransactionTypeInDetails";
+            this.lblTransactionTypeInDetails.Size = new System.Drawing.Size(165, 24);
+            this.lblTransactionTypeInDetails.TabIndex = 3;
+            this.lblTransactionTypeInDetails.Text = "Deposite Amount: ";
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Location = new System.Drawing.Point(771, 105);
+            this.panel2.Location = new System.Drawing.Point(765, 129);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(471, 68);
             this.panel2.TabIndex = 1;
@@ -131,7 +202,7 @@
             this.btnNewTransfare.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewTransfare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnNewTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_38;
-            this.btnNewTransfare.Location = new System.Drawing.Point(521, 105);
+            this.btnNewTransfare.Location = new System.Drawing.Point(515, 129);
             this.btnNewTransfare.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewTransfare.Name = "btnNewTransfare";
             this.btnNewTransfare.Size = new System.Drawing.Size(244, 68);
@@ -151,7 +222,7 @@
             this.btnNewWithdrawl.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewWithdrawl.ForeColor = System.Drawing.Color.Red;
             this.btnNewWithdrawl.Image = global::SmartBank_UI.Properties.Resources.icons8_down_arrow_38;
-            this.btnNewWithdrawl.Location = new System.Drawing.Point(266, 105);
+            this.btnNewWithdrawl.Location = new System.Drawing.Point(260, 129);
             this.btnNewWithdrawl.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewWithdrawl.Name = "btnNewWithdrawl";
             this.btnNewWithdrawl.Size = new System.Drawing.Size(244, 68);
@@ -171,7 +242,7 @@
             this.btnNewDeposite.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewDeposite.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_38;
-            this.btnNewDeposite.Location = new System.Drawing.Point(11, 105);
+            this.btnNewDeposite.Location = new System.Drawing.Point(5, 129);
             this.btnNewDeposite.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewDeposite.Name = "btnNewDeposite";
             this.btnNewDeposite.Size = new System.Drawing.Size(244, 68);
@@ -184,7 +255,7 @@
             // 
             // pMain
             // 
-            this.pMain.Location = new System.Drawing.Point(11, 178);
+            this.pMain.Location = new System.Drawing.Point(5, 202);
             this.pMain.Name = "pMain";
             this.pMain.Size = new System.Drawing.Size(753, 524);
             this.pMain.TabIndex = 23;
@@ -195,10 +266,20 @@
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.pictureBox2);
             this.panel4.Controls.Add(this.lblTransactionDetails);
-            this.panel4.Location = new System.Drawing.Point(771, 550);
+            this.panel4.Location = new System.Drawing.Point(765, 574);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(469, 44);
             this.panel4.TabIndex = 3;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
+            this.pictureBox2.Location = new System.Drawing.Point(28, 5);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(47, 34);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
             // 
             // lblTransactionDetails
             // 
@@ -211,84 +292,41 @@
             this.lblTransactionDetails.TabIndex = 0;
             this.lblTransactionDetails.Text = "Transaction Details";
             // 
-            // pictureBox2
+            // btnPerformTransaction
             // 
-            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_transaction_50;
-            this.pictureBox2.Location = new System.Drawing.Point(28, 5);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(47, 34);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
+            this.btnPerformTransaction.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnPerformTransaction.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnPerformTransaction.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
+            this.btnPerformTransaction.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
+            this.btnPerformTransaction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPerformTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPerformTransaction.ForeColor = System.Drawing.Color.White;
+            this.btnPerformTransaction.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
+            this.btnPerformTransaction.Location = new System.Drawing.Point(1035, 70);
+            this.btnPerformTransaction.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPerformTransaction.Name = "btnPerformTransaction";
+            this.btnPerformTransaction.Size = new System.Drawing.Size(201, 54);
+            this.btnPerformTransaction.TabIndex = 58;
+            this.btnPerformTransaction.Text = "Perform Transaction";
+            this.btnPerformTransaction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPerformTransaction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnPerformTransaction.UseVisualStyleBackColor = false;
             // 
-            // panel5
+            // btnCancel
             // 
-            this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.panel5.Controls.Add(this.lblAccountBalanceAfterTransaction);
-            this.panel5.Controls.Add(this.lblTransactionTypeAmount);
-            this.panel5.Controls.Add(this.label6);
-            this.panel5.Controls.Add(this.label5);
-            this.panel5.Controls.Add(this.lblTransactionTypeInDetails);
-            this.panel5.Location = new System.Drawing.Point(15, 53);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(443, 88);
-            this.panel5.TabIndex = 0;
-            // 
-            // lblTransactionTypeInDetails
-            // 
-            this.lblTransactionTypeInDetails.AutoSize = true;
-            this.lblTransactionTypeInDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTransactionTypeInDetails.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblTransactionTypeInDetails.Location = new System.Drawing.Point(21, 14);
-            this.lblTransactionTypeInDetails.Name = "lblTransactionTypeInDetails";
-            this.lblTransactionTypeInDetails.Size = new System.Drawing.Size(165, 24);
-            this.lblTransactionTypeInDetails.TabIndex = 3;
-            this.lblTransactionTypeInDetails.Text = "Deposite Amount: ";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label5.Location = new System.Drawing.Point(22, 38);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(397, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "---------------------------------------------------------------------------------" +
-    "-------------------------------------------------";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label6.Location = new System.Drawing.Point(22, 51);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(202, 24);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "New Account Balance:";
-            // 
-            // lblTransactionTypeAmount
-            // 
-            this.lblTransactionTypeAmount.AutoSize = true;
-            this.lblTransactionTypeAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTransactionTypeAmount.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblTransactionTypeAmount.Location = new System.Drawing.Point(192, 14);
-            this.lblTransactionTypeAmount.Name = "lblTransactionTypeAmount";
-            this.lblTransactionTypeAmount.Size = new System.Drawing.Size(30, 24);
-            this.lblTransactionTypeAmount.TabIndex = 6;
-            this.lblTransactionTypeAmount.Text = "00";
-            // 
-            // lblAccountBalanceAfterTransaction
-            // 
-            this.lblAccountBalanceAfterTransaction.AutoSize = true;
-            this.lblAccountBalanceAfterTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccountBalanceAfterTransaction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblAccountBalanceAfterTransaction.Location = new System.Drawing.Point(230, 51);
-            this.lblAccountBalanceAfterTransaction.Name = "lblAccountBalanceAfterTransaction";
-            this.lblAccountBalanceAfterTransaction.Size = new System.Drawing.Size(30, 24);
-            this.lblAccountBalanceAfterTransaction.TabIndex = 7;
-            this.lblAccountBalanceAfterTransaction.Text = "00";
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.ForeColor = System.Drawing.Color.Silver;
+            this.btnCancel.Location = new System.Drawing.Point(936, 70);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(95, 54);
+            this.btnCancel.TabIndex = 59;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // ctrlAccountShortInfo1
             // 
@@ -305,7 +343,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1248, 710);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(1240, 732);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnPerformTransaction);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.pMain);
             this.Controls.Add(this.btnNewTransfare);
@@ -321,13 +362,13 @@
             this.Load += new System.EventHandler(this.frmPerformNewTransaction_Load);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,5 +395,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblTransactionTypeInDetails;
+        private System.Windows.Forms.Button btnPerformTransaction;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

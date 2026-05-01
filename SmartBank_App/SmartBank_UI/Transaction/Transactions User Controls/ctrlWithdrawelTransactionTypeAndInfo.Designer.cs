@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -52,6 +53,7 @@
             this.tbAccountNumber = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tbRemarks = new System.Windows.Forms.TextBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -63,6 +65,7 @@
             this.panel6.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -121,6 +124,7 @@
             this.mtbTransactionDate.Location = new System.Drawing.Point(276, 87);
             this.mtbTransactionDate.Mask = "00/00/0000 90:00";
             this.mtbTransactionDate.Name = "mtbTransactionDate";
+            this.mtbTransactionDate.ReadOnly = true;
             this.mtbTransactionDate.Size = new System.Drawing.Size(463, 31);
             this.mtbTransactionDate.TabIndex = 75;
             this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
@@ -353,6 +357,10 @@
             this.tbRemarks.Enter += new System.EventHandler(this.tb_Enter);
             this.tbRemarks.Leave += new System.EventHandler(this.tb_Leave);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // ctrlWithdrawelTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,6 +371,7 @@
             this.Controls.Add(this.panel3);
             this.Name = "ctrlWithdrawelTransactionTypeAndInfo";
             this.Size = new System.Drawing.Size(756, 525);
+            this.Load += new System.EventHandler(this.ctrlWithdrawelTransactionTypeAndInfo_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -381,6 +390,7 @@
             this.panel9.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -410,5 +420,6 @@
         private System.Windows.Forms.TextBox tbAccountNumber;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbRemarks;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

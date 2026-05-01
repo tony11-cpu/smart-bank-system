@@ -17,6 +17,13 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             InitializeComponent();
         }
 
+        private string _accountNumber;
+        public ctrlDepositTransactionTypeAndInfo(string accountNumber)
+        {
+            InitializeComponent();
+            _accountNumber = accountNumber;
+        }
+
         private bool _isIdle(TextBox sender) => sender.Tag.ToString().StartsWith("Idle");
 
         private void tb_Enter(object sender, EventArgs e) => _setTextboxStates((TextBox)sender, _isIdle((TextBox)sender), true);
@@ -40,6 +47,17 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             _setTextboxStates(tb, true, false);
+        }
+
+        private void ctrlDepositTransactionTypeAndInfo_Load(object sender, EventArgs e)
+        {
+            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy/HH:mm:ss");
+
+            if(!string.IsNullOrEmpty(_accountNumber))
+            {
+                tbAccountNumber.Text = _accountNumber;
+                _setTextboxStates(tbAccountNumber, false, true);
+            }
         }
     }
 }
