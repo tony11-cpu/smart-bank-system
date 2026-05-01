@@ -64,6 +64,12 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void btnLookUp_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrWhiteSpace(tbAccountNumber.Text) || _isIdle(tbAccountNumber))
+            {
+                MessageBox.Show("Please enter a valid account number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             OnAccountNumberChanged?.Invoke(tbAccountNumber.Text.Trim());
         }
     }

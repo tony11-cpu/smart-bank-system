@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartBank_UI.Accounts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -58,19 +59,34 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             if (!string.IsNullOrEmpty(_accountNumber))
             {
                 tbFromAccountNumber.Text = _accountNumber;
+                btnLookUpToAccount.Enabled = true;
+
                 _setTextboxStates(tbFromAccountNumber, false, true);
             }
         }
 
         private void btnFromAccountLookUp_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrWhiteSpace(tbFromAccountNumber.Text) || _isIdle(tbFromAccountNumber))
+            {
+                MessageBox.Show("Please enter a valid account number to transfer from.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             OnFromAccountNumberChanged?.Invoke(tbFromAccountNumber.Text);
             btnLookUpToAccount.Enabled = true;
         }
 
         private void btnLookUpToAccount_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrWhiteSpace(tbToAccountNumber.Text) || _isIdle(tbToAccountNumber))
+            {
+                MessageBox.Show("Please enter a valid account number to transfer to.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text , () => MessageBox.Show("Account Found!" , "To Account Found" , MessageBoxButtons.OK , MessageBoxIcon.Information));
+            toAccountInfo.Show();
         }
     }
 }
