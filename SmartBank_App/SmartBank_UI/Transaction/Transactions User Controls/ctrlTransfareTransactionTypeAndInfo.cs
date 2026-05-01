@@ -18,6 +18,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private string _accountNumber;
+        public static event Action<string> OnFromAccountNumberChanged;
+
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
             InitializeComponent();
@@ -55,9 +57,20 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             if (!string.IsNullOrEmpty(_accountNumber))
             {
-                tbAccountNumber.Text = _accountNumber;
-                _setTextboxStates(tbAccountNumber, false, true);
+                tbFromAccountNumber.Text = _accountNumber;
+                _setTextboxStates(tbFromAccountNumber, false, true);
             }
+        }
+
+        private void btnFromAccountLookUp_Click(object sender, EventArgs e)
+        {
+            OnFromAccountNumberChanged?.Invoke(tbFromAccountNumber.Text);
+            btnLookUpToAccount.Enabled = true;
+        }
+
+        private void btnLookUpToAccount_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

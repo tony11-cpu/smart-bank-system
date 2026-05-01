@@ -57,6 +57,12 @@
     <Compile Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.Designer.cs">
       <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Accounts\frmAccountShortInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccountShortInfo.Designer.cs">
+      <DependentUpon>frmAccountShortInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\frmAddOrUpdateAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +181,9 @@
     </Compile>
     <EmbeddedResource Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.resx">
       <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmAccountShortInfo.resx">
+      <DependentUpon>frmAccountShortInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Accounts\frmAddOrUpdateAccount.resx">
       <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>

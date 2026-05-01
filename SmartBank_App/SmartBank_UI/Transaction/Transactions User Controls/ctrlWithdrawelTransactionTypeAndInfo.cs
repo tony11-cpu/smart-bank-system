@@ -18,6 +18,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private string _accountNumber;
+        public static event Action<string> OnAccountNumberChanged;
+
         public ctrlWithdrawelTransactionTypeAndInfo(string accountNumber)
         {
             InitializeComponent();
@@ -58,6 +60,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 tbAccountNumber.Text = _accountNumber;
                 _setTextboxStates(tbAccountNumber, false, true);
             }
+        }
+
+        private void btnLookUp_Click(object sender, EventArgs e)
+        {
+            OnAccountNumberChanged?.Invoke(tbAccountNumber.Text.Trim());
         }
     }
 }

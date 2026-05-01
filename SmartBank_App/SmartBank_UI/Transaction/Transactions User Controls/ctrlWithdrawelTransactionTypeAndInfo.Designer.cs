@@ -305,6 +305,7 @@
             this.btnLookUp.Text = "Look Up";
             this.btnLookUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnLookUp.UseVisualStyleBackColor = false;
+            this.btnLookUp.Click += new System.EventHandler(this.btnLookUp_Click);
             // 
             // label3
             // 

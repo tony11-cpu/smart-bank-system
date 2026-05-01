@@ -88,9 +88,15 @@ namespace SmartBank_UI.Transaction
             pMain.Controls.Add(control);
         }
 
+        private async void _onAccountNumberLoad(string accountNumber) => await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+
         private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(_accountNumber))
+            ctrlDepositTransactionTypeAndInfo.OnAccountNumberChanged += _onAccountNumberLoad;
+            ctrlWithdrawelTransactionTypeAndInfo.OnAccountNumberChanged += _onAccountNumberLoad;
+            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += _onAccountNumberLoad;
+
+            if (!string.IsNullOrEmpty(_accountNumber))
                 await ctrlAccountShortInfo1.LoadAccount(_accountNumber);
 
             _loadTransactionType(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);

@@ -55,8 +55,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbAccountNumber = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbFromAccountNumber = new System.Windows.Forms.TextBox();
+            this.tbToAccountNumber = new System.Windows.Forms.TextBox();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -75,7 +75,7 @@
             // 
             this.panel6.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.textBox1);
+            this.panel6.Controls.Add(this.tbToAccountNumber);
             this.panel6.Controls.Add(this.btnLookUpToAccount);
             this.panel6.Controls.Add(this.label10);
             this.panel6.Controls.Add(this.panel7);
@@ -87,6 +87,7 @@
             // btnLookUpToAccount
             // 
             this.btnLookUpToAccount.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnLookUpToAccount.Enabled = false;
             this.btnLookUpToAccount.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnLookUpToAccount.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
             this.btnLookUpToAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
@@ -101,6 +102,7 @@
             this.btnLookUpToAccount.Text = "Look Up";
             this.btnLookUpToAccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnLookUpToAccount.UseVisualStyleBackColor = false;
+            this.btnLookUpToAccount.Click += new System.EventHandler(this.btnLookUpToAccount_Click);
             // 
             // label10
             // 
@@ -339,7 +341,7 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.tbAccountNumber);
+            this.panel3.Controls.Add(this.tbFromAccountNumber);
             this.panel3.Controls.Add(this.btnFromAccountLookUp);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.panel4);
@@ -365,6 +367,7 @@
             this.btnFromAccountLookUp.Text = "Look Up";
             this.btnFromAccountLookUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnFromAccountLookUp.UseVisualStyleBackColor = false;
+            this.btnFromAccountLookUp.Click += new System.EventHandler(this.btnFromAccountLookUp_Click);
             // 
             // label3
             // 
@@ -398,33 +401,33 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "From Account";
             // 
-            // tbAccountNumber
+            // tbFromAccountNumber
             // 
-            this.tbAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAccountNumber.ForeColor = System.Drawing.Color.DimGray;
-            this.tbAccountNumber.Location = new System.Drawing.Point(18, 92);
-            this.tbAccountNumber.Name = "tbAccountNumber";
-            this.tbAccountNumber.Size = new System.Drawing.Size(602, 29);
-            this.tbAccountNumber.TabIndex = 67;
-            this.tbAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
-            this.tbAccountNumber.Text = "e.g. SB-2026-12345";
-            this.tbAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
-            this.tbAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbFromAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbFromAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbFromAccountNumber.ForeColor = System.Drawing.Color.DimGray;
+            this.tbFromAccountNumber.Location = new System.Drawing.Point(18, 92);
+            this.tbFromAccountNumber.Name = "tbFromAccountNumber";
+            this.tbFromAccountNumber.Size = new System.Drawing.Size(602, 29);
+            this.tbFromAccountNumber.TabIndex = 67;
+            this.tbFromAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
+            this.tbFromAccountNumber.Text = "e.g. SB-2026-12345";
+            this.tbFromAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbFromAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
-            // textBox1
+            // tbToAccountNumber
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.DimGray;
-            this.textBox1.Location = new System.Drawing.Point(18, 90);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(602, 29);
-            this.textBox1.TabIndex = 67;
-            this.textBox1.Tag = "Idle/AccountNumber/e.g. SB-2026-678910";
-            this.textBox1.Text = "e.g. SB-2026-678910";
-            this.textBox1.Enter += new System.EventHandler(this.tb_Enter);
-            this.textBox1.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbToAccountNumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.tbToAccountNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbToAccountNumber.ForeColor = System.Drawing.Color.DimGray;
+            this.tbToAccountNumber.Location = new System.Drawing.Point(18, 90);
+            this.tbToAccountNumber.Name = "tbToAccountNumber";
+            this.tbToAccountNumber.Size = new System.Drawing.Size(602, 29);
+            this.tbToAccountNumber.TabIndex = 67;
+            this.tbToAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-678910";
+            this.tbToAccountNumber.Text = "e.g. SB-2026-678910";
+            this.tbToAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbToAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // errorProvider1
             // 
@@ -491,8 +494,8 @@
         private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cbScheduleTransfare;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox tbAccountNumber;
+        private System.Windows.Forms.TextBox tbToAccountNumber;
+        private System.Windows.Forms.TextBox tbFromAccountNumber;
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
