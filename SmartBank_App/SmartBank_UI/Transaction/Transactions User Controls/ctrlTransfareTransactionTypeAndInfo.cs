@@ -1,4 +1,5 @@
-﻿using SmartBank_UI.Accounts;
+﻿using SmartBank_BLL;
+using SmartBank_UI.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -62,11 +63,14 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 _setTextboxStates(tbFromAccountNumber, false, true);
                 _enableOrDisableTransactionProps(true);
             }
+
+            cbScheduleTransfare.SelectedIndex = 0;
+            cbPriority.SelectedIndex = 0;
         }
 
         private void btnFromAccountLookUp_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(tbFromAccountNumber.Text) || _isIdle(tbFromAccountNumber))
+            if (string.IsNullOrWhiteSpace(tbFromAccountNumber.Text) || _isIdle(tbFromAccountNumber))
             {
                 MessageBox.Show("Please enter a valid account number to transfer from.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -78,13 +82,13 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void btnLookUpToAccount_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(tbToAccountNumber.Text) || _isIdle(tbToAccountNumber))
+            if (string.IsNullOrWhiteSpace(tbToAccountNumber.Text) || _isIdle(tbToAccountNumber))
             {
                 MessageBox.Show("Please enter a valid account number to transfer to.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text , () => MessageBox.Show("Account Found!" , "To Account Found" , MessageBoxButtons.OK , MessageBoxIcon.Information));
+            frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text, () => MessageBox.Show("Account Found!", "To Account Found", MessageBoxButtons.OK, MessageBoxIcon.Information));
             toAccountInfo.Show();
         }
 
@@ -99,9 +103,30 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             mtbTransactionDate.Enabled = enable;
         }
 
-        private void tbAccountNumber_Validating(object sender, CancelEventArgs e)
+        private async void tbAccountNumber_Validating(object sender, CancelEventArgs e)
         {
+            e.Cancel = _isIdle((TextBox)sender) || !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text);
+            errorProvider1.SetError(tbToAccountNumber, _isIdle((TextBox)sender) ? "Please enter a valid account number." :
+                                                       !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text) ? "The account number does not exist." : null);
+        }
 
+        private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
+        {
+            e.Cancel = nupAmountInUSD.Value <= 0;
+            errorProvider1.SetError(nupAmountInUSD, nupAmountInUSD.Value <= 0 ? "Please enter a valid amount greater than zero." : null);
+        }
+
+        private void mtbTransactionDate_Validating(object sender, CancelEventArgs e)
+        {
+            bool isInvalidDate = string.IsNullOrEmpty(mtbTransactionDate.Text) || !DateTime.TryParse(mtbTransactionDate.Text, out _);
+            e.Cancel = isInvalidDate;
+            errorProvider1.SetError(mtbTransactionDate, isInvalidDate ? "Please enter a valid transaction date and time." : null);
+        }
+
+        private void cbScheduleTransfare_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbScheduleTransfare.SelectedIndex >= 0)
+                mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm:ss");
         }
     }
 }

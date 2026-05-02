@@ -109,32 +109,15 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
         {
-            bool isValidAmount = nupAmountInUSD.Value > 0;
-            e.Cancel = !isValidAmount;
-            errorProvider1.SetError(nupAmountInUSD, isValidAmount ? null : "Please enter a valid amount greater than zero.");
+            e.Cancel = nupAmountInUSD.Value > 0;
+            errorProvider1.SetError(nupAmountInUSD, nupAmountInUSD.Value > 0 ? null : "Please enter a valid amount greater than zero.");
         }
 
         private void cbValidation(object sender, CancelEventArgs e)
         {
-            if (!cbConfirmTransactionFund.Checked)
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(cbConfirmTransactionFund, "You must confirm the transaction details before proceeding.");
-            }
-            else
-            {
-                errorProvider1.SetError(cbConfirmTransactionFund, null);
-            }
-
-            if (!cbAccountValid.Checked)
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(cbAccountValid, "You must confirm the account details before proceeding.");
-            }
-            else
-            {
-                errorProvider1.SetError(cbAccountValid, null);
-            }
+            e.Cancel = !cbConfirmTransactionFund.Checked || !cbAccountValid.Checked;
+            errorProvider1.SetError(cbConfirmTransactionFund, !cbConfirmTransactionFund.Checked ? "You must confirm the transaction details before proceeding." : null);
+            errorProvider1.SetError(cbAccountValid, !cbAccountValid.Checked ? "You must confirm the account details before proceeding." : null);
         }
     }
 }
