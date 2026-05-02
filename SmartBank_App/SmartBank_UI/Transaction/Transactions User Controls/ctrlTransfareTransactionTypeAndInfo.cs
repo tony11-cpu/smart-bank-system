@@ -98,5 +98,10 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             nupAmountInUSD.Enabled = enable;
             mtbTransactionDate.Enabled = enable;
         }
+
+        private void tbAccountNumber_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 }

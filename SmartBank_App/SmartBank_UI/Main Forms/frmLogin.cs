@@ -109,7 +109,6 @@ namespace SmartBank_UI.Login
                     MessageBox.Show("An error occurred while locking your account. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                 }
-               
             }
         }
 

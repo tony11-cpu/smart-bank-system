@@ -529,5 +529,15 @@ namespace SmartBank_UI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_withdrawal_241 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-withdrawal-241", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

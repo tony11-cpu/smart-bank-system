@@ -1,4 +1,6 @@
-﻿using SmartBank_UI.Transaction.Transactions_User_Controls;
+﻿using SmartBank;
+using SmartBank_BLL;
+using SmartBank_UI.Transaction.Transactions_User_Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,16 +72,16 @@ namespace SmartBank_UI.Transaction
             switch (transactionType)
             {
                 case enTransactionType.Deposit:
-                    control = new ctrlDepositTransactionTypeAndInfo(_accountNumber);
+                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber , ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
                     break;
                 case enTransactionType.Withdrawl:
-                    control = new ctrlWithdrawelTransactionTypeAndInfo(_accountNumber);
+                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber , ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Withdrawl);
                     break;
                 case enTransactionType.Transfer:
                     control = new ctrlTransfareTransactionTypeAndInfo(_accountNumber);
                     break;
                 default:
-                    control = new ctrlDepositTransactionTypeAndInfo(_accountNumber);
+                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
                     break;
             }
 
@@ -88,21 +90,57 @@ namespace SmartBank_UI.Transaction
             pMain.Controls.Add(control);
         }
 
-        private async void _onAccountNumberLoad(string accountNumber) => await ctrlAccountShortInfo1.LoadAccount(accountNumber);
-
-        private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
+        private async void _checkAndLoadAccount(string accountNumber)
         {
-            ctrlDepositTransactionTypeAndInfo.OnAccountNumberChanged += _onAccountNumberLoad;
-            ctrlWithdrawelTransactionTypeAndInfo.OnAccountNumberChanged += _onAccountNumberLoad;
-            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += _onAccountNumberLoad;
-
-            if (!string.IsNullOrEmpty(_accountNumber))
+            if (!string.IsNullOrEmpty(accountNumber) && !await clsAccounts.IsAccountExistsAsync(accountNumber))
             {
-                await ctrlAccountShortInfo1.LoadAccount(_accountNumber);
-                btnPerformTransaction.Enabled = true;
+                MessageBox.Show("Account number is invalid.", "Invalid Account Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnPerformTransaction.Enabled = false;
+                return;
             }
 
+            await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+
+            if(ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Closed)
+            {
+                MessageBox.Show("Account is closed and cannot perform any type of transaction.", "Inactive Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnPerformTransaction.Enabled = false;
+                return;
+            }
+            else if(ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Frozen && clsGlobal.ActiveUser.Permissions.PermissionPresenter != clsPermissions.enPermissionPresenter.Admin)
+            {
+                MessageBox.Show("Account is frozen and cannot perform any transaction. Please choose another account or call an admin to perform the current transaction.", "Inactive Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnPerformTransaction.Enabled = false;
+                return;
+            }
+            else if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin && ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Frozen)
+            {
+                MessageBox.Show("Account is frozen but you have admin permissions, so make sure of the transaction your are proccessing very well.", "Frozen Account", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            btnPerformTransaction.Enabled = true;
+        }
+
+        private void frmPerformNewTransaction_Load(object sender, EventArgs e)
+        {
+            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAccountNumberChanged += _checkAndLoadAccount;
+            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += _checkAndLoadAccount;
+
+            if(!string.IsNullOrEmpty(_accountNumber))
+                _checkAndLoadAccount(_accountNumber);
+
             _loadTransactionType(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
+        }
+
+        private void btnPerformTransaction_Click(object sender, EventArgs e)
+        {
+            foreach (UserControl control in pMain.Controls)
+            {
+                if (!control.ValidateChildren())
+                {
+                    return;
+                }
+            }
         }
     }
 }

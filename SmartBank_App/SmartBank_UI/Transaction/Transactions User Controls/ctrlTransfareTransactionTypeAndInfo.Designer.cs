@@ -34,11 +34,9 @@
             this.btnLookUpToAccount = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tbRefrenceOrRemark = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
             this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
@@ -50,7 +48,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbScheduleTransfare = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tbFromAccountNumber = new System.Windows.Forms.TextBox();
             this.btnFromAccountLookUp = new System.Windows.Forms.Button();
@@ -58,17 +55,20 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel6
@@ -98,6 +98,7 @@
             this.tbToAccountNumber.Text = "e.g. SB-2026-678910";
             this.tbToAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
             this.tbToAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbToAccountNumber.Validating += new System.ComponentModel.CancelEventHandler(this.tbAccountNumber_Validating);
             // 
             // btnLookUpToAccount
             // 
@@ -140,16 +141,6 @@
             this.panel7.Size = new System.Drawing.Size(754, 51);
             this.panel7.TabIndex = 0;
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_38;
-            this.pictureBox3.Location = new System.Drawing.Point(17, 3);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(47, 43);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 1;
-            this.pictureBox3.TabStop = false;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -187,16 +178,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(755, 51);
             this.panel2.TabIndex = 67;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
-            this.pictureBox2.Location = new System.Drawing.Point(17, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(47, 43);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
             // 
             // label1
             // 
@@ -350,16 +331,6 @@
             this.label6.TabIndex = 67;
             this.label6.Text = "Reference / Remarks";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_sign_out_30;
-            this.pictureBox1.Location = new System.Drawing.Point(17, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(47, 43);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
@@ -386,6 +357,7 @@
             this.tbFromAccountNumber.Text = "e.g. SB-2026-12345";
             this.tbFromAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
             this.tbFromAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
+            this.tbFromAccountNumber.Validating += new System.ComponentModel.CancelEventHandler(this.tbAccountNumber_Validating);
             // 
             // btnFromAccountLookUp
             // 
@@ -442,6 +414,36 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_38;
+            this.pictureBox3.Location = new System.Drawing.Point(17, 3);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(47, 43);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 1;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_initiate_money_transfer_50;
+            this.pictureBox2.Location = new System.Drawing.Point(17, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(47, 43);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_sign_out_30;
+            this.pictureBox1.Location = new System.Drawing.Point(17, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(47, 43);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // ctrlTransfareTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,19 +460,19 @@
             this.panel6.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

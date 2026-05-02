@@ -322,6 +322,7 @@
             this.btnPerformTransaction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPerformTransaction.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnPerformTransaction.UseVisualStyleBackColor = false;
+            this.btnPerformTransaction.Click += new System.EventHandler(this.btnPerformTransaction_Click);
             // 
             // btnCancel
             // 

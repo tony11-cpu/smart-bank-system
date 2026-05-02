@@ -1,6 +1,6 @@
 ﻿namespace SmartBank_UI.Transaction.Transactions_User_Controls
 {
-    partial class ctrlDepositTransactionTypeAndInfo
+    partial class ctrlDepositOrWithdrawlTransactionTypeAndInfo
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,18 +34,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbAccountNumber = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblDestinationAccountLable = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblDepositeDetails = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
             this.cbAccountValid = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.cbConfirmDepositFund = new System.Windows.Forms.CheckBox();
+            this.cbConfirmTransactionFund = new System.Windows.Forms.CheckBox();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblAuthorization = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel5 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,11 +52,11 @@
             this.nupAmountInUSD = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.pbDepositDetailsPic = new System.Windows.Forms.PictureBox();
+            this.pbDestinationAccountPic = new System.Windows.Forms.PictureBox();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -66,6 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDepositDetailsPic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDestinationAccountPic)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -128,65 +128,45 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.pictureBox1);
-            this.panel4.Controls.Add(this.label4);
+            this.panel4.Controls.Add(this.pbDestinationAccountPic);
+            this.panel4.Controls.Add(this.lblDestinationAccountLable);
             this.panel4.Location = new System.Drawing.Point(-1, -1);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(754, 51);
             this.panel4.TabIndex = 0;
             // 
-            // pictureBox1
+            // lblDestinationAccountLable
             // 
-            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_coin_wallet_48;
-            this.pictureBox1.Location = new System.Drawing.Point(17, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(47, 43);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.label4.Location = new System.Drawing.Point(70, 13);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(177, 24);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Destination Account";
+            this.lblDestinationAccountLable.AutoSize = true;
+            this.lblDestinationAccountLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDestinationAccountLable.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblDestinationAccountLable.Location = new System.Drawing.Point(70, 13);
+            this.lblDestinationAccountLable.Name = "lblDestinationAccountLable";
+            this.lblDestinationAccountLable.Size = new System.Drawing.Size(177, 24);
+            this.lblDestinationAccountLable.TabIndex = 0;
+            this.lblDestinationAccountLable.Text = "Destination Account";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.pbDepositDetailsPic);
+            this.panel2.Controls.Add(this.lblDepositeDetails);
             this.panel2.Location = new System.Drawing.Point(-2, -1);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(754, 51);
             this.panel2.TabIndex = 2;
             // 
-            // pictureBox2
+            // lblDepositeDetails
             // 
-            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_38;
-            this.pictureBox2.Location = new System.Drawing.Point(17, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(47, 43);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(70, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Deposit Details";
+            this.lblDepositeDetails.AutoSize = true;
+            this.lblDepositeDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDepositeDetails.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblDepositeDetails.Location = new System.Drawing.Point(70, 13);
+            this.lblDepositeDetails.Name = "lblDepositeDetails";
+            this.lblDepositeDetails.Size = new System.Drawing.Size(133, 24);
+            this.lblDepositeDetails.TabIndex = 0;
+            this.lblDepositeDetails.Text = "Deposit Details";
             // 
             // panel7
             // 
@@ -220,49 +200,51 @@
             this.cbAccountValid.TabIndex = 0;
             this.cbAccountValid.Text = "The account holder identity has been verified";
             this.cbAccountValid.UseVisualStyleBackColor = true;
+            this.cbAccountValid.Validating += new System.ComponentModel.CancelEventHandler(this.cbValidation);
             // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.cbConfirmDepositFund);
+            this.panel8.Controls.Add(this.cbConfirmTransactionFund);
             this.panel8.Location = new System.Drawing.Point(15, 53);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(722, 38);
             this.panel8.TabIndex = 0;
             // 
-            // cbConfirmDepositFund
+            // cbConfirmTransactionFund
             // 
-            this.cbConfirmDepositFund.AutoSize = true;
-            this.cbConfirmDepositFund.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbConfirmDepositFund.ForeColor = System.Drawing.Color.White;
-            this.cbConfirmDepositFund.Location = new System.Drawing.Point(20, 7);
-            this.cbConfirmDepositFund.Name = "cbConfirmDepositFund";
-            this.cbConfirmDepositFund.Size = new System.Drawing.Size(468, 24);
-            this.cbConfirmDepositFund.TabIndex = 0;
-            this.cbConfirmDepositFund.Text = "I confirm the deposited funds have been received and counted";
-            this.cbConfirmDepositFund.UseVisualStyleBackColor = true;
+            this.cbConfirmTransactionFund.AutoSize = true;
+            this.cbConfirmTransactionFund.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbConfirmTransactionFund.ForeColor = System.Drawing.Color.White;
+            this.cbConfirmTransactionFund.Location = new System.Drawing.Point(20, 7);
+            this.cbConfirmTransactionFund.Name = "cbConfirmTransactionFund";
+            this.cbConfirmTransactionFund.Size = new System.Drawing.Size(468, 24);
+            this.cbConfirmTransactionFund.TabIndex = 0;
+            this.cbConfirmTransactionFund.Text = "I confirm the deposited funds have been received and counted";
+            this.cbConfirmTransactionFund.UseVisualStyleBackColor = true;
+            this.cbConfirmTransactionFund.Validating += new System.ComponentModel.CancelEventHandler(this.cbValidation);
             // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.label10);
+            this.panel6.Controls.Add(this.lblAuthorization);
             this.panel6.Location = new System.Drawing.Point(1, 373);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(752, 39);
             this.panel6.TabIndex = 29;
             // 
-            // label10
+            // lblAuthorization
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.label10.Location = new System.Drawing.Point(13, 9);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(103, 20);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Authorization";
+            this.lblAuthorization.AutoSize = true;
+            this.lblAuthorization.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAuthorization.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblAuthorization.Location = new System.Drawing.Point(13, 9);
+            this.lblAuthorization.Name = "lblAuthorization";
+            this.lblAuthorization.Size = new System.Drawing.Size(103, 20);
+            this.lblAuthorization.TabIndex = 0;
+            this.lblAuthorization.Text = "Authorization";
             // 
             // errorProvider1
             // 
@@ -340,6 +322,7 @@
             this.nupAmountInUSD.Size = new System.Drawing.Size(230, 31);
             this.nupAmountInUSD.TabIndex = 68;
             this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nupAmountInUSD.Validating += new System.ComponentModel.CancelEventHandler(this.nupAmountInUSD_Validating);
             // 
             // label8
             // 
@@ -363,7 +346,27 @@
             this.label9.TabIndex = 66;
             this.label9.Text = "Amount (USD)";
             // 
-            // ctrlDepositTransactionTypeAndInfo
+            // pbDepositDetailsPic
+            // 
+            this.pbDepositDetailsPic.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_38;
+            this.pbDepositDetailsPic.Location = new System.Drawing.Point(17, 3);
+            this.pbDepositDetailsPic.Name = "pbDepositDetailsPic";
+            this.pbDepositDetailsPic.Size = new System.Drawing.Size(47, 43);
+            this.pbDepositDetailsPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbDepositDetailsPic.TabIndex = 1;
+            this.pbDepositDetailsPic.TabStop = false;
+            // 
+            // pbDestinationAccountPic
+            // 
+            this.pbDestinationAccountPic.Image = global::SmartBank_UI.Properties.Resources.icons8_coin_wallet_48;
+            this.pbDestinationAccountPic.Location = new System.Drawing.Point(17, 3);
+            this.pbDestinationAccountPic.Name = "pbDestinationAccountPic";
+            this.pbDestinationAccountPic.Size = new System.Drawing.Size(47, 43);
+            this.pbDestinationAccountPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbDestinationAccountPic.TabIndex = 1;
+            this.pbDestinationAccountPic.TabStop = false;
+            // 
+            // ctrlDepositOrWithdrawlTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -372,17 +375,15 @@
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel3);
-            this.Name = "ctrlDepositTransactionTypeAndInfo";
+            this.Name = "ctrlDepositOrWithdrawlTransactionTypeAndInfo";
             this.Size = new System.Drawing.Size(754, 522);
             this.Load += new System.EventHandler(this.ctrlDepositTransactionTypeAndInfo_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
@@ -394,6 +395,8 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nupAmountInUSD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDepositDetailsPic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDestinationAccountPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -405,18 +408,18 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbAccountNumber;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pbDestinationAccountPic;
+        private System.Windows.Forms.Label lblDestinationAccountLable;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pbDepositDetailsPic;
+        private System.Windows.Forms.Label lblDepositeDetails;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.CheckBox cbConfirmDepositFund;
+        private System.Windows.Forms.CheckBox cbConfirmTransactionFund;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.CheckBox cbAccountValid;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblAuthorization;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label7;

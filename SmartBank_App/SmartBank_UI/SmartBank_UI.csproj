@@ -137,23 +137,17 @@
     <Compile Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.Designer.cs">
       <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\Transactions User Controls\ctrlDepositTransactionTypeAndInfo.cs">
+    <Compile Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Transaction\Transactions User Controls\ctrlDepositTransactionTypeAndInfo.Designer.cs">
-      <DependentUpon>ctrlDepositTransactionTypeAndInfo.cs</DependentUpon>
+    <Compile Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.Designer.cs">
+      <DependentUpon>ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.Designer.cs">
       <DependentUpon>ctrlTransfareTransactionTypeAndInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Transaction\Transactions User Controls\ctrlWithdrawelTransactionTypeAndInfo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Transaction\Transactions User Controls\ctrlWithdrawelTransactionTypeAndInfo.Designer.cs">
-      <DependentUpon>ctrlWithdrawelTransactionTypeAndInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Users\frmAddOrUpdateUser.cs">
       <SubType>Form</SubType>
@@ -226,14 +220,11 @@
     <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.resx">
       <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlDepositTransactionTypeAndInfo.resx">
-      <DependentUpon>ctrlDepositTransactionTypeAndInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.resx">
+      <DependentUpon>ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.resx">
       <DependentUpon>ctrlTransfareTransactionTypeAndInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlWithdrawelTransactionTypeAndInfo.resx">
-      <DependentUpon>ctrlWithdrawelTransactionTypeAndInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
@@ -384,6 +375,7 @@
     <None Include="Resources\icons8-attendance-50.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icons8-withdrawal-241.png" />
     <None Include="Resources\icons8-withdrawal-24.png" />
     <None Include="Resources\icons8-money-with-wings-50.png" />
     <None Include="Resources\icons8-unlocked-50.png" />
