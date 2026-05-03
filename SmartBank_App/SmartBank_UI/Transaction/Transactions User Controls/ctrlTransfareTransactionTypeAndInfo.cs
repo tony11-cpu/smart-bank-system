@@ -20,6 +20,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private string _accountNumber;
+        public static event Action<decimal> OnAmountChanged;
         public static event Action<string> OnFromAccountNumberChanged;
 
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
@@ -128,5 +129,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             if (cbScheduleTransfare.SelectedIndex >= 0)
                 mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm:ss");
         }
+
+        private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value);
+
+        public override bool ValidateChildren() => base.ValidateChildren();
     }
 }

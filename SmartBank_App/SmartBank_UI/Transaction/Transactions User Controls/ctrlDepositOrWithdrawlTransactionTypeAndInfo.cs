@@ -1,5 +1,6 @@
 ﻿using SmartBank_BLL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         public static event Action<string> OnAccountNumberChanged;
+        public static event Action<decimal , bool> OnAmountChanged;
         private string _accountNumber;
 
         private enTransactionAction _formType;
@@ -109,15 +111,35 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = nupAmountInUSD.Value > 0;
+            e.Cancel = nupAmountInUSD.Value <= 0;
             errorProvider1.SetError(nupAmountInUSD, nupAmountInUSD.Value > 0 ? null : "Please enter a valid amount greater than zero.");
         }
 
-        private void cbValidation(object sender, CancelEventArgs e)
+        private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value , _formType == enTransactionAction.Deposit);
+
+        public override bool ValidateChildren()
         {
-            e.Cancel = !cbConfirmTransactionFund.Checked || !cbAccountValid.Checked;
-            errorProvider1.SetError(cbConfirmTransactionFund, !cbConfirmTransactionFund.Checked ? "You must confirm the transaction details before proceeding." : null);
-            errorProvider1.SetError(cbAccountValid, !cbAccountValid.Checked ? "You must confirm the account details before proceeding." : null);
+            if (!cbConfirmTransactionFund.Checked)
+            {
+                errorProvider1.SetError(cbConfirmTransactionFund, "You must confirm the transaction details before proceeding.");
+                return false;
+            }
+            else
+            {
+                errorProvider1.SetError(cbConfirmTransactionFund, null);
+            }
+
+            if (!cbAccountValid.Checked)
+            {
+                errorProvider1.SetError(cbAccountValid, "You must confirm the account details before proceeding.");
+                return false;
+            }
+            else
+            {
+                errorProvider1.SetError(cbAccountValid, null);
+            }
+
+            return base.ValidateChildren();
         }
     }
 }

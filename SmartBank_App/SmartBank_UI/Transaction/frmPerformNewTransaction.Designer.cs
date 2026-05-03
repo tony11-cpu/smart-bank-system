@@ -38,7 +38,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblTransactionTypeInDetails = new System.Windows.Forms.Label();
-            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.btnNewTransfare = new System.Windows.Forms.Button();
@@ -50,6 +49,7 @@
             this.lblTransactionDetails = new System.Windows.Forms.Label();
             this.btnPerformTransaction = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.ctrlAccountShortInfo1 = new SmartBank_UI.Accounts.Accounts_User_Controls.ctrlAccountShortInfo();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -123,9 +123,9 @@
             this.lblAccountBalanceAfterTransaction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblAccountBalanceAfterTransaction.Location = new System.Drawing.Point(230, 51);
             this.lblAccountBalanceAfterTransaction.Name = "lblAccountBalanceAfterTransaction";
-            this.lblAccountBalanceAfterTransaction.Size = new System.Drawing.Size(30, 24);
+            this.lblAccountBalanceAfterTransaction.Size = new System.Drawing.Size(40, 24);
             this.lblAccountBalanceAfterTransaction.TabIndex = 7;
-            this.lblAccountBalanceAfterTransaction.Text = "00";
+            this.lblAccountBalanceAfterTransaction.Text = "$00";
             // 
             // lblTransactionTypeAmount
             // 
@@ -134,9 +134,9 @@
             this.lblTransactionTypeAmount.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.lblTransactionTypeAmount.Location = new System.Drawing.Point(192, 14);
             this.lblTransactionTypeAmount.Name = "lblTransactionTypeAmount";
-            this.lblTransactionTypeAmount.Size = new System.Drawing.Size(30, 24);
+            this.lblTransactionTypeAmount.Size = new System.Drawing.Size(40, 24);
             this.lblTransactionTypeAmount.TabIndex = 6;
-            this.lblTransactionTypeAmount.Text = "00";
+            this.lblTransactionTypeAmount.Text = "$00";
             // 
             // label6
             // 
@@ -171,16 +171,6 @@
             this.lblTransactionTypeInDetails.Size = new System.Drawing.Size(165, 24);
             this.lblTransactionTypeInDetails.TabIndex = 3;
             this.lblTransactionTypeInDetails.Text = "Deposite Amount: ";
-            // 
-            // ctrlAccountShortInfo1
-            // 
-            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(-1, -1);
-            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
-            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(471, 367);
-            this.ctrlAccountShortInfo1.TabIndex = 0;
             // 
             // panel2
             // 
@@ -339,6 +329,16 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // ctrlAccountShortInfo1
+            // 
+            this.ctrlAccountShortInfo1.BackColor = System.Drawing.Color.MidnightBlue;
+            this.ctrlAccountShortInfo1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ctrlAccountShortInfo1.Location = new System.Drawing.Point(-1, -1);
+            this.ctrlAccountShortInfo1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ctrlAccountShortInfo1.Name = "ctrlAccountShortInfo1";
+            this.ctrlAccountShortInfo1.Size = new System.Drawing.Size(471, 367);
+            this.ctrlAccountShortInfo1.TabIndex = 0;
             // 
             // frmPerformNewTransaction
             // 

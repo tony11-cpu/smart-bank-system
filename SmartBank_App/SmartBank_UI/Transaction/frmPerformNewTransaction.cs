@@ -2,12 +2,7 @@
 using SmartBank_BLL;
 using SmartBank_UI.Transaction.Transactions_User_Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,124 +18,150 @@ namespace SmartBank_UI.Transaction
             None
         }
 
-        private enTransactionType _transactionType;
-        private string _accountNumber;
-        public frmPerformNewTransaction(string accountNumber, enTransactionType transactionType)
+        private enTransactionType transactionType;
+        private string accountNumber;
+
+        public frmPerformNewTransaction(string acc, enTransactionType type)
         {
             InitializeComponent();
-            _transactionType = transactionType;
-            _accountNumber = accountNumber;
+            accountNumber = acc;
+            transactionType = type;
         }
 
-        private void btnNewDeposite_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Deposit);
+        private void btnNewDeposite_Click(object sender, EventArgs e) => LoadForm(enTransactionType.Deposit);
+        private void btnNewWithdrawl_Click(object sender, EventArgs e) => LoadForm(enTransactionType.Withdrawl);
+        private void btnTransfare_Click(object sender, EventArgs e) => LoadForm(enTransactionType.Transfer);
 
-        private void btnNewWithdrawl_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Withdrawl);
-
-        private void btnTransfare_Click(object sender, EventArgs e) => _loadTransactionType(enTransactionType.Transfer);
-
-        private void _loadTransactionType(enTransactionType transactionType)
+        private void LoadForm(enTransactionType type)
         {
-            _loadTransactionTypeUS(transactionType);
+            LoadControl(type);
+            SetLabels(type);
 
-            switch (transactionType)
+            lblTransactionTypeAmount.Text = 0.ToString("C");
+        }
+
+        private void SetLabels(enTransactionType type)
+        {
+            if (type == enTransactionType.Deposit)
             {
-                case enTransactionType.Deposit:
-                    lblTransactionDetails.Text = "Deposit Details";
-                    lblTransactionTypeInDetails.Text = "Deposit Amount:";
-                    break;
-
-                case enTransactionType.Withdrawl:
-                    lblTransactionDetails.Text = "Withdraw Details";
-                    lblTransactionTypeInDetails.Text = "Withdraw Amount:";
-                    break;
-
-                case enTransactionType.Transfer:
-                    lblTransactionDetails.Text = "Transfer Details";
-                    lblTransactionTypeInDetails.Text = "Transfer Amount:";
-                    break;
-
-                default:
-                    _loadTransactionType(enTransactionType.Deposit);
-                    break;
+                lblTransactionDetails.Text = "Deposit Details";
+                lblTransactionTypeInDetails.Text = "Deposit Amount:";
+                lblTransactionTypeAmount.ForeColor = Color.FromArgb(0, 192, 0);
+            }
+            else if (type == enTransactionType.Withdrawl)
+            {
+                lblTransactionDetails.Text = "Withdraw Details";
+                lblTransactionTypeInDetails.Text = "Withdraw Amount:";
+                lblTransactionTypeAmount.ForeColor = Color.Red;
+            }
+            else if (type == enTransactionType.Transfer)
+            {
+                lblTransactionDetails.Text = "Transfer Details";
+                lblTransactionTypeInDetails.Text = "Transfer Amount:";
+                lblTransactionTypeAmount.ForeColor = Color.LightSteelBlue;
             }
         }
 
-        private void _loadTransactionTypeUS(enTransactionType transactionType)
+        private void LoadControl(enTransactionType type)
         {
             UserControl control;
-
-            switch (transactionType)
-            {
-                case enTransactionType.Deposit:
-                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber , ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
-                    break;
-                case enTransactionType.Withdrawl:
-                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber , ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Withdrawl);
-                    break;
-                case enTransactionType.Transfer:
-                    control = new ctrlTransfareTransactionTypeAndInfo(_accountNumber);
-                    break;
-                default:
-                    control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(_accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
-                    break;
-            }
+            if (type == enTransactionType.Deposit) control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
+            else if (type == enTransactionType.Withdrawl) control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Withdrawl);
+            else control = new ctrlTransfareTransactionTypeAndInfo(accountNumber);
 
             pMain.Controls.Clear();
             control.Dock = DockStyle.Fill;
             pMain.Controls.Add(control);
         }
 
-        private async void _checkAndLoadAccount(string accountNumber)
+        private async Task CheckAccount(string acc)
         {
-            if (!string.IsNullOrEmpty(accountNumber) && !await clsAccounts.IsAccountExistsAsync(accountNumber))
+            if (!string.IsNullOrEmpty(acc) && !await clsAccounts.IsAccountExistsAsync(acc))
             {
-                MessageBox.Show("Account number is invalid.", "Invalid Account Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnPerformTransaction.Enabled = false;
                 return;
             }
 
-            await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+            await ctrlAccountShortInfo1.LoadAccount(acc);
 
-            if(ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Closed)
+            clsAccounts account = ctrlAccountShortInfo1.CurrentAccount;
+
+            lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
+            lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0 , 192 , 0) : Color.Red;
+
+            bool closed = account.Status == clsAccounts.enStatus.Closed;
+            bool frozen = account.Status == clsAccounts.enStatus.Frozen;
+            bool admin = clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
+
+            if (closed)
             {
-                MessageBox.Show("Account is closed and cannot perform any type of transaction.", "Inactive Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Account is closed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnPerformTransaction.Enabled = false;
                 return;
             }
-            else if(ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Frozen && clsGlobal.ActiveUser.Permissions.PermissionPresenter != clsPermissions.enPermissionPresenter.Admin)
+
+            if (frozen && !admin)
             {
-                MessageBox.Show("Account is frozen and cannot perform any transaction. Please choose another account or call an admin to perform the current transaction.", "Inactive Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Account is frozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnPerformTransaction.Enabled = false;
                 return;
             }
-            else if(clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin && ctrlAccountShortInfo1.CurrentAccount.Status == clsAccounts.enStatus.Frozen)
-            {
-                MessageBox.Show("Account is frozen but you have admin permissions, so make sure of the transaction your are proccessing very well.", "Frozen Account", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+
+            if (frozen && admin)
+                MessageBox.Show("Frozen account (Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             btnPerformTransaction.Enabled = true;
         }
 
-        private void frmPerformNewTransaction_Load(object sender, EventArgs e)
+        private string ApplyRules(decimal amount, bool isDeposit)
         {
-            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAccountNumberChanged += _checkAndLoadAccount;
-            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += _checkAndLoadAccount;
+            if (!isDeposit && amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
+                return "Insufficient funds.";
 
-            if(!string.IsNullOrEmpty(_accountNumber))
-                _checkAndLoadAccount(_accountNumber);
+            return string.Empty;
+        }
 
-            _loadTransactionType(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
+        private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
+        {
+            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
+            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += acc => _ = CheckAccount(acc);
+            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
+            ctrlTransfareTransactionTypeAndInfo.OnAmountChanged += amount => HandleUpdated(amount, false);
+
+            if (!string.IsNullOrEmpty(accountNumber))
+                await CheckAccount(accountNumber);
+
+            LoadForm(transactionType == enTransactionType.None ? enTransactionType.Deposit : transactionType);
+        }
+
+        private void HandleUpdated(decimal amount, bool isDeposit)
+        {
+            string msg = ApplyRules(amount, isDeposit);
+            bool isValid = string.IsNullOrEmpty(msg);
+            btnPerformTransaction.Enabled = isValid;
+
+            if (!isValid)
+            {
+                MessageBox.Show(msg, "Violation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Update(amount, isDeposit);
+        }
+
+        private void Update(decimal amount, bool isDeposit)
+        {
+            decimal balance = ctrlAccountShortInfo1.CurrentAccount.Balance;
+            lblAccountBalanceAfterTransaction.Text = (isDeposit ? balance + amount : balance - amount).ToString("C");
+            lblTransactionTypeAmount.Text = amount.ToString("C");
         }
 
         private void btnPerformTransaction_Click(object sender, EventArgs e)
         {
-            foreach (UserControl control in pMain.Controls)
-            {
-                if (!control.ValidateChildren())
-                {
+            foreach (UserControl c in pMain.Controls)
+                if (!c.ValidateChildren())
                     return;
-                }
-            }
 
 
         }

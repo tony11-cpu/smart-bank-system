@@ -49,6 +49,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbScheduleTransfare = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tbFromAccountNumber = new System.Windows.Forms.TextBox();
             this.btnFromAccountLookUp = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.mtbTransactionDate = new System.Windows.Forms.MaskedTextBox();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -227,6 +227,7 @@
             this.nupAmountInUSD.Size = new System.Drawing.Size(228, 31);
             this.nupAmountInUSD.TabIndex = 68;
             this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nupAmountInUSD.ValueChanged += new System.EventHandler(this.nupAmountInUSD_ValueChanged);
             this.nupAmountInUSD.Validating += new System.ComponentModel.CancelEventHandler(this.nupAmountInUSD_Validating);
             // 
             // label5
@@ -340,6 +341,20 @@
             this.label6.TabIndex = 67;
             this.label6.Text = "Reference / Remarks";
             // 
+            // mtbTransactionDate
+            // 
+            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
+            this.mtbTransactionDate.Location = new System.Drawing.Point(510, 163);
+            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
+            this.mtbTransactionDate.Name = "mtbTransactionDate";
+            this.mtbTransactionDate.ReadOnly = true;
+            this.mtbTransactionDate.Size = new System.Drawing.Size(228, 31);
+            this.mtbTransactionDate.TabIndex = 69;
+            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
+            this.mtbTransactionDate.Validating += new System.ComponentModel.CancelEventHandler(this.mtbTransactionDate_Validating);
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
@@ -432,20 +447,6 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // mtbTransactionDate
-            // 
-            this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
-            this.mtbTransactionDate.Location = new System.Drawing.Point(510, 163);
-            this.mtbTransactionDate.Mask = "00/00/0000 90:00";
-            this.mtbTransactionDate.Name = "mtbTransactionDate";
-            this.mtbTransactionDate.ReadOnly = true;
-            this.mtbTransactionDate.Size = new System.Drawing.Size(228, 31);
-            this.mtbTransactionDate.TabIndex = 69;
-            this.mtbTransactionDate.ValidatingType = typeof(System.DateTime);
-            this.mtbTransactionDate.Validating += new System.ComponentModel.CancelEventHandler(this.mtbTransactionDate_Validating);
             // 
             // ctrlTransfareTransactionTypeAndInfo
             // 
