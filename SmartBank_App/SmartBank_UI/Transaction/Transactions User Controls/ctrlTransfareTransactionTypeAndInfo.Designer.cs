@@ -227,6 +227,7 @@
             this.nupAmountInUSD.Size = new System.Drawing.Size(228, 31);
             this.nupAmountInUSD.TabIndex = 68;
             this.nupAmountInUSD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nupAmountInUSD.ThousandsSeparator = true;
             this.nupAmountInUSD.ValueChanged += new System.EventHandler(this.nupAmountInUSD_ValueChanged);
             this.nupAmountInUSD.Validating += new System.ComponentModel.CancelEventHandler(this.nupAmountInUSD_Validating);
             // 

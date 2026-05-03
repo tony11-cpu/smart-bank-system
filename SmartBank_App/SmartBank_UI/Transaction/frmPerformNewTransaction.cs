@@ -38,6 +38,7 @@ namespace SmartBank_UI.Transaction
             SetLabels(type);
 
             lblTransactionTypeAmount.Text = 0.ToString("C");
+            lblAccountBalanceAfterTransaction.Text = ctrlAccountShortInfo1.CurrentAccount != null ? ctrlAccountShortInfo1.CurrentAccount.Balance.ToString("C") : 0.ToString("C");
         }
 
         private void SetLabels(enTransactionType type)
@@ -65,8 +66,8 @@ namespace SmartBank_UI.Transaction
         private void LoadControl(enTransactionType type)
         {
             UserControl control;
-            if (type == enTransactionType.Deposit) control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Deposit);
-            else if (type == enTransactionType.Withdrawl) control = new ctrlDepositOrWithdrawlTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawlTransactionTypeAndInfo.enTransactionAction.Withdrawl);
+            if (type == enTransactionType.Deposit) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Deposit);
+            else if (type == enTransactionType.Withdrawl) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Withdrawal);
             else control = new ctrlTransfareTransactionTypeAndInfo(accountNumber);
 
             pMain.Controls.Clear();
@@ -98,7 +99,7 @@ namespace SmartBank_UI.Transaction
             {
                 MessageBox.Show("Account is closed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnPerformTransaction.Enabled = false;
-                return;
+                this.Close();
             }
 
             if (frozen && !admin)
@@ -124,15 +125,15 @@ namespace SmartBank_UI.Transaction
 
         private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
         {
-            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
+            ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
             ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += acc => _ = CheckAccount(acc);
-            ctrlDepositOrWithdrawlTransactionTypeAndInfo.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
+            ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
             ctrlTransfareTransactionTypeAndInfo.OnAmountChanged += amount => HandleUpdated(amount, false);
+
+            LoadForm(transactionType == enTransactionType.None ? enTransactionType.Deposit : transactionType);
 
             if (!string.IsNullOrEmpty(accountNumber))
                 await CheckAccount(accountNumber);
-
-            LoadForm(transactionType == enTransactionType.None ? enTransactionType.Deposit : transactionType);
         }
 
         private void HandleUpdated(decimal amount, bool isDeposit)

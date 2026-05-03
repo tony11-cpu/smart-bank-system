@@ -130,7 +130,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             lblTransactionType.Text = transactionData.TransactionType.ToString();
             lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
             nupBalanceAfter.Value = transactionData.Amount;
-            nupBalanceBefore.Value = transactionData.FromAccount.Balance - transactionData.Amount;
+            nupBalanceBefore.Value = transactionData.FromAccount.Balance == 0? 0 : transactionData.FromAccount.Balance - transactionData.Amount;
             tbDescription.Text = transactionData.Description;
             tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
             tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName;
@@ -156,11 +156,18 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             await _loadTransaction(transactionID);
         }
 
-        private async void dgvAllTransactions_CellClick_1(object sender, DataGridViewCellEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
+        private async void dgvAllTransactions_CellClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = dgvAllTransactions.CurrentRow;
+            if (row == null) 
+                return;
+
+            await _loadDefaultTransactionFullData(Convert.ToInt32(row.Cells["TransactionID"].Value));
+        }
 
         private void cmsAccountTransactionsLog_Click(object sender, EventArgs e)
         {
-            if(!_transactionsLogs.Any())
+            if(_transactionsLogs == null || !_transactionsLogs.Any())
             {
                 MessageBox.Show("No transactions available to filter.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -171,7 +178,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private async void cmsCustomerInfo_Click(object sender, EventArgs e)
         {
-            if (!_transactionsLogs.Any())
+            if (_transactionsLogs == null || !_transactionsLogs.Any())
             {
                 MessageBox.Show("No transactions available to filter.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
