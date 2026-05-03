@@ -366,7 +366,7 @@
             this.label9.TabIndex = 66;
             this.label9.Text = "Amount (USD)";
             // 
-            // ctrlDepositOrWithdrawlTransactionTypeAndInfo
+            // ctrlDepositOrWithdrawalTransactionTypeAndInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -375,7 +375,7 @@
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel3);
-            this.Name = "ctrlDepositOrWithdrawlTransactionTypeAndInfo";
+            this.Name = "ctrlDepositOrWithdrawalTransactionTypeAndInfo";
             this.Size = new System.Drawing.Size(754, 522);
             this.Load += new System.EventHandler(this.ctrlDepositTransactionTypeAndInfo_Load);
             this.panel3.ResumeLayout(false);

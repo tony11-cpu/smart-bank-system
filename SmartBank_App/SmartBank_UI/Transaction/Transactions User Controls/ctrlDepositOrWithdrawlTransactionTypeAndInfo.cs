@@ -97,7 +97,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void ctrlDepositTransactionTypeAndInfo_Load(object sender, EventArgs e)
         {
-            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy");
+            mtbTransactionDate.Text = DateTime.Now.ToString("G");
 
             if (!string.IsNullOrEmpty(_accountNumber))
             {

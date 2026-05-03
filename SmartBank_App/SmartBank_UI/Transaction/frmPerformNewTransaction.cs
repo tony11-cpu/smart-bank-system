@@ -89,7 +89,7 @@ namespace SmartBank_UI.Transaction
             clsAccounts account = ctrlAccountShortInfo1.CurrentAccount;
 
             lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
-            lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0 , 192 , 0) : Color.Red;
+            lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0, 192, 0) : Color.Red;
 
             bool closed = account.Status == clsAccounts.enStatus.Closed;
             bool frozen = account.Status == clsAccounts.enStatus.Frozen;
@@ -115,9 +115,15 @@ namespace SmartBank_UI.Transaction
             btnPerformTransaction.Enabled = true;
         }
 
-        private string ApplyRules(decimal amount, bool isDeposit)
-        {
-            if (!isDeposit && amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
+        private string ApplyRules(decimal amount , bool isDeposit)
+        {       
+            if (amount <= 0)
+                return "Amount must be greater than zero.";
+            else if (isDeposit)
+                return string.Empty;
+            else if (ctrlAccountShortInfo1.CurrentAccount == null)
+                return "Please enter a valid account number.";
+            else if (amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
                 return "Insufficient funds.";
 
             return string.Empty;
@@ -138,7 +144,7 @@ namespace SmartBank_UI.Transaction
 
         private void HandleUpdated(decimal amount, bool isDeposit)
         {
-            string msg = ApplyRules(amount, isDeposit);
+            string msg = ApplyRules(amount , isDeposit);
             bool isValid = string.IsNullOrEmpty(msg);
             btnPerformTransaction.Enabled = isValid;
 
