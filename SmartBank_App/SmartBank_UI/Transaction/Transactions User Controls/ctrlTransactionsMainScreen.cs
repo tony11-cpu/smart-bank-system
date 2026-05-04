@@ -141,8 +141,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 lblTransactionType.Text = transactionData.TransactionType.ToString();
                 lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
 
-                nupBalanceAfter.Value = transactionData.Amount;
-                nupBalanceBefore.Value = transactionData.Amount;
+                nupBalanceAfter.Value = 0;
+                nupBalanceBefore.Value = 0;
                 tbDescription.Text = string.IsNullOrWhiteSpace(transactionData.Description) ? "No Description" : transactionData.Description;
                 tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
                 tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName ?? "Unknown";
