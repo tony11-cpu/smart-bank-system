@@ -188,22 +188,27 @@ namespace SmartBank_UI.Transaction
             decimal amount = _getCurrentAmount();
             string description = _getCurrentDescription();
 
+            string successMessage = string.Empty;
             switch(_transactionType)
             {
                 case enTransactionType.Deposit:
                     await fromAccount.DepositAsync(amount, description);
+                    successMessage = $"Deposit of {amount:C} completed successfully.";
                     break;
                 case enTransactionType.Withdrawl:
                     await fromAccount.WithdrawAsync(amount, description);
+                    successMessage = $"Withdrawal of {amount:C} completed successfully.";
                     break;
                 case enTransactionType.Transfer:
                     var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
                     string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
                     clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
                     await fromAccount.TransferToAsync(toAccount, amount, description);
+                    successMessage = $"Transfer of {amount:C} to account {toAccountNumber} completed successfully.";
                     break;
             }
 
+            MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
 
