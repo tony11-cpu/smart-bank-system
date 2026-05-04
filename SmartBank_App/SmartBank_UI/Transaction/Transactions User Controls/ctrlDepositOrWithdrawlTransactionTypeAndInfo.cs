@@ -77,7 +77,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
 
             string[] textBoxField = textBox.Tag.ToString().Split('/');
-            if (textBoxField.Length < 3) return;
+            if (textBoxField.Length < 3) 
+                return;
 
             textBox.Tag = $"{(idle ? "Idle" : "Working")}/{textBoxField[1]}/{textBoxField[2]}";
             textBox.Text = idle ? (entering ? string.Empty : textBoxField[2]) : textBox.Text;
