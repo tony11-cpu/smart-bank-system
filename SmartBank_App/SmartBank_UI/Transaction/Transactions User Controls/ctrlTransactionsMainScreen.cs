@@ -157,9 +157,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                     balanceBefore = currentBalance + amount;
                 }
 
-                nupBalanceAfter.Value = balanceAfter;
-                nupBalanceBefore.Value = balanceBefore;
-                tbDescription.Text = transactionData.Description ?? string.Empty;
+                nupBalanceAfter.Value = balanceAfter >= 0 ? balanceAfter : 0;
+                nupBalanceBefore.Value = balanceBefore >= 0 ? balanceBefore : 0;
+                tbDescription.Text = string.IsNullOrWhiteSpace(transactionData.Description) ? "No Description" : transactionData.Description;
                 tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
                 tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName ?? "Unknown";
             }
