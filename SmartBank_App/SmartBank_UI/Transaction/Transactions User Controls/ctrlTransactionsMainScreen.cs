@@ -115,10 +115,13 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             string search = tbSearchBar.Text.Trim();
+            decimal searchAmount;
+            bool isNumeric = decimal.TryParse(search, out searchAmount);
+
             _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) || 
                                                   (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
                                                    t.TransactionType.ToString().StartsWith(search) || 
-                                                   t.FromAccount.Balance.Equals(Convert.ToDecimal(search))).ToList());
+                                                   (isNumeric && t.FromAccount.Balance.Equals(searchAmount))).ToList());
         }
 
         private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
@@ -188,7 +191,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             showAllCustomerAccounts.ShowDialog();
         }
 
-        private async void ctrlTransactionsMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGrid(await _loadTransactionsLog());
+        private async void ctrlTransactionsMainScreen_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+                _bindGrid(await _loadTransactionsLog());
+        }
 
         private async void btnNewTransactions_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.None);
 
