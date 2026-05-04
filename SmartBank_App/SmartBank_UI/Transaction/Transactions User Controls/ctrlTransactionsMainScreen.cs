@@ -132,11 +132,21 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             lblTransactionType.Text = transactionData.TransactionType.ToString();
             lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
-            nupBalanceAfter.Value = transactionData.Amount;
-            nupBalanceBefore.Value = transactionData.FromAccount.Balance == 0? 0 : transactionData.FromAccount.Balance - transactionData.Amount;
+
+            decimal balanceAfter = transactionData.BalanceAfterTransaction.FromAccount_BalanceAfter;
+            nupBalanceAfter.Value = balanceAfter;
+            nupBalanceBefore.Value = _calculateBalanceBefore(transactionData.TransactionType, balanceAfter, transactionData.Amount);
             tbDescription.Text = transactionData.Description;
             tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
             tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName;
+        }
+
+        private decimal _calculateBalanceBefore(clsTransactionLog.enTransactionType transactionType, decimal balanceAfter, decimal amount)
+        {
+            if (transactionType == clsTransactionLog.enTransactionType.Withdrawal || transactionType == clsTransactionLog.enTransactionType.Transfer_Out)
+                return balanceAfter + amount;
+            else
+                return balanceAfter - amount;
         }
 
         private async Task _loadDefaultTransactionFullData(int transactionID)
