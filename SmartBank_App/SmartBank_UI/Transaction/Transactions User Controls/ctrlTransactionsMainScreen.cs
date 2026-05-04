@@ -128,32 +128,45 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private async Task _loadTransaction(int transactionID)
         {
-            clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
-
-            lblTransactionType.Text = transactionData.TransactionType.ToString();
-            lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
-
-            decimal currentBalance = transactionData.FromAccount.Balance;
-            decimal amount = transactionData.Amount;
-            clsTransactionLog.enTransactionType type = transactionData.TransactionType;
-
-            decimal balanceAfter = currentBalance;
-            decimal balanceBefore = currentBalance;
-
-            if (type == clsTransactionLog.enTransactionType.Deposit || type == clsTransactionLog.enTransactionType.Transfer_In)
+            try
             {
-                balanceBefore = currentBalance - amount;
-            }
-            else if (type == clsTransactionLog.enTransactionType.Withdrawal || type == clsTransactionLog.enTransactionType.Transfer_Out)
-            {
-                balanceBefore = currentBalance + amount;
-            }
+                clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
 
-            nupBalanceAfter.Value = balanceAfter;
-            nupBalanceBefore.Value = balanceBefore;
-            tbDescription.Text = transactionData.Description;
-            tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
-            tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName;
+                if (transactionData == null || transactionData.FromAccount == null)
+                {
+                    MessageBox.Show("Transaction data not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                lblTransactionType.Text = transactionData.TransactionType.ToString();
+                lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
+
+                decimal currentBalance = transactionData.FromAccount.Balance;
+                decimal amount = transactionData.Amount;
+                clsTransactionLog.enTransactionType type = transactionData.TransactionType;
+
+                decimal balanceAfter = currentBalance;
+                decimal balanceBefore = currentBalance;
+
+                if (type == clsTransactionLog.enTransactionType.Deposit || type == clsTransactionLog.enTransactionType.Transfer_In)
+                {
+                    balanceBefore = currentBalance - amount;
+                }
+                else if (type == clsTransactionLog.enTransactionType.Withdrawal || type == clsTransactionLog.enTransactionType.Transfer_Out)
+                {
+                    balanceBefore = currentBalance + amount;
+                }
+
+                nupBalanceAfter.Value = balanceAfter;
+                nupBalanceBefore.Value = balanceBefore;
+                tbDescription.Text = transactionData.Description ?? string.Empty;
+                tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
+                tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName ?? "Unknown";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading transaction: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async Task _loadDefaultTransactionFullData(int transactionID)
@@ -164,16 +177,28 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
-
-            if(transactionData == null)
+            if (transactionID <= 0)
             {
-                MessageBox.Show("Failed to load transaction details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            await ctrlAccountShortInfo1.LoadAccount(transactionData.FromAccount.AccountNumber);
-            await _loadTransaction(transactionID);
+            try
+            {
+                clsTransactionLog transactionData = await clsTransactionLog.FindAsyncWithTransactionID(transactionID);
+
+                if(transactionData == null)
+                {
+                    MessageBox.Show("Failed to load transaction details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                await ctrlAccountShortInfo1.LoadAccount(transactionData.FromAccount.AccountNumber);
+                await _loadTransaction(transactionID);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading transaction: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void dgvAllTransactions_CellClick_1(object sender, DataGridViewCellEventArgs e)
