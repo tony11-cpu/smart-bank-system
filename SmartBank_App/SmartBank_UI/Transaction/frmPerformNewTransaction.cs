@@ -240,6 +240,10 @@ else
             }
 
             MessageBox.Show(message, isSuccess ? "Success" : "Error", MessageBoxButtons.OK, isSuccess ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+            
+            if (isSuccess)
+                clsGlobal.FireTransactionCompleted();
+
             this.Close();
         }
 

@@ -25,11 +25,19 @@ namespace SmartBank_UI
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
+
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
             lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
             lblTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
 
             await _loadTransactions();
+        }
+
+        private async void _onTransactionCompleted()
+        {
+            if (this.Visible)
+                await RefreshDashboardData();
         }
 
         public async Task RefreshDashboardData()
