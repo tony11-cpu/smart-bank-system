@@ -133,21 +133,27 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             lblTransactionType.Text = transactionData.TransactionType.ToString();
             lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
 
-            decimal storedBalanceAfter = transactionData.BalanceAfterTransaction.FromAccount_BalanceAfter;
-            decimal balanceAfter = storedBalanceAfter > 0 ? storedBalanceAfter : transactionData.FromAccount.Balance;
+            decimal currentBalance = transactionData.FromAccount.Balance;
+            decimal amount = transactionData.Amount;
+            clsTransactionLog.enTransactionType type = transactionData.TransactionType;
+
+            decimal balanceAfter = currentBalance;
+            decimal balanceBefore = currentBalance;
+
+            if (type == clsTransactionLog.enTransactionType.Deposit || type == clsTransactionLog.enTransactionType.Transfer_In)
+            {
+                balanceBefore = currentBalance - amount;
+            }
+            else if (type == clsTransactionLog.enTransactionType.Withdrawal || type == clsTransactionLog.enTransactionType.Transfer_Out)
+            {
+                balanceBefore = currentBalance + amount;
+            }
+
             nupBalanceAfter.Value = balanceAfter;
-            nupBalanceBefore.Value = _calculateBalanceBefore(transactionData.TransactionType, balanceAfter, transactionData.Amount);
+            nupBalanceBefore.Value = balanceBefore;
             tbDescription.Text = transactionData.Description;
             tbTransactionDate.Text = transactionData.TransactionDate.ToString("g");
             tbUserProccessedTheTransaction.Text = (await clsUsers.FindAsync(transactionData.UserResponsibleID))?.FullName;
-        }
-
-        private decimal _calculateBalanceBefore(clsTransactionLog.enTransactionType transactionType, decimal balanceAfter, decimal amount)
-        {
-            if (transactionType == clsTransactionLog.enTransactionType.Withdrawal || transactionType == clsTransactionLog.enTransactionType.Transfer_Out)
-                return balanceAfter + amount;
-            else
-                return balanceAfter - amount;
         }
 
         private async Task _loadDefaultTransactionFullData(int transactionID)
