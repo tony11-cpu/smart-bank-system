@@ -1,4 +1,6 @@
-﻿using SmartBack_DAL;
+﻿using SmartBank;
+using SmartBank_BLL;
+using SmartBack_DAL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
