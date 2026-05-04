@@ -36,11 +36,27 @@ namespace SmartBank_UI.Transaction
         private void LoadForm(enTransactionType type)
         {
             LoadControl(type);
+            _subscribeToControlEvents();
             SetTransactionLabels(type);
 
             _transactionType = type;
             lblTransactionTypeAmount.Text = 0.ToString("C");
             lblAccountBalanceAfterTransaction.Text = ctrlAccountShortInfo1.CurrentAccount != null ? ctrlAccountShortInfo1.CurrentAccount.Balance.ToString("C") : 0.ToString("C");
+        }
+
+        private void _subscribeToControlEvents()
+        {
+            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo depositControl)
+            {
+                depositControl.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
+                depositControl.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
+            }
+            else if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo transferControl)
+            {
+                transferControl.OnFromAccountNumberChanged += acc => _ = CheckAccount(acc);
+                transferControl.OnToAccountNumberChanged += acc => _toAccountNumber = acc;
+                transferControl.OnAmountChanged += amount => HandleUpdated(amount, false);
+            }
         }
 
         private void SetTransactionLabels(enTransactionType type)
@@ -134,13 +150,6 @@ namespace SmartBank_UI.Transaction
 
         private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
         {
-            ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
-            ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += acc => _ = CheckAccount(acc);
-            ctrlTransfareTransactionTypeAndInfo.OnToAccountNumberChanged += acc => _toAccountNumber = acc;
-
-            ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
-            ctrlTransfareTransactionTypeAndInfo.OnAmountChanged += amount => HandleUpdated(amount, false);
-
             LoadForm(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
 
             if (!string.IsNullOrEmpty(_fromAccountNumber))
@@ -169,26 +178,49 @@ namespace SmartBank_UI.Transaction
             lblTransactionTypeAmount.Text = amount.ToString("C");
         }
 
-        private void btnPerformTransaction_Click(object sender, EventArgs e)
+        private async void btnPerformTransaction_Click(object sender, EventArgs e)
         {
             foreach (UserControl c in pMain.Controls)
                 if (!c.ValidateChildren())
                     return;
 
+            clsAccounts fromAccount = await clsAccounts.FindAsync(_fromAccountNumber);
+            decimal amount = _getCurrentAmount();
+            string description = _getCurrentDescription();
+
             switch(_transactionType)
             {
                 case enTransactionType.Deposit:
-
+                    await fromAccount.DepositAsync(amount, description);
                     break;
                 case enTransactionType.Withdrawl:
-
+                    await fromAccount.WithdrawAsync(amount, description);
                     break;
                 case enTransactionType.Transfer:
-                    
+                    clsAccounts toAccount = await clsAccounts.FindAsync(_toAccountNumber);
+                    await fromAccount.TransferToAsync(toAccount, amount, description);
                     break;
             }
 
             this.Close();
+        }
+
+        private decimal _getCurrentAmount()
+        {
+            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo depositControl)
+                return depositControl.CurrentAmount;
+            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo transferControl)
+                return transferControl.CurrentAmount;
+            return 0;
+        }
+
+        private string _getCurrentDescription()
+        {
+            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo depositControl)
+                return depositControl.Description;
+            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo transferControl)
+                return transferControl.Description;
+            return string.Empty;
         }
     }
 }
