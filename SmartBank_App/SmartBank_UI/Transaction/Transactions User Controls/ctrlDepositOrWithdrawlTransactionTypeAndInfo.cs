@@ -14,8 +14,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 {
     public partial class ctrlDepositOrWithdrawalTransactionTypeAndInfo : UserControl
     {
-        public static event Action<string> OnAccountNumberChanged;
-        public static event Action<decimal, bool> OnAmountChanged;
+        public event Action<string> OnAccountNumberChanged;
+        public event Action<decimal, bool> OnAmountChanged;
 
         public enum enTransactionAction
         {
@@ -25,6 +25,9 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private string _accountNumber;
         private enTransactionAction _formType;
+
+        public decimal CurrentAmount => nupAmountInUSD.Value;
+        public string Description => _isIdle(tbRemarks) ? string.Empty : tbRemarks.Text.Trim();
 
         public enTransactionAction FormType
         {
