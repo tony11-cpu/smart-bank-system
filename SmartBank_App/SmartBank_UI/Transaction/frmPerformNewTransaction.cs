@@ -205,9 +205,26 @@ namespace SmartBank_UI.Transaction
                     case enTransactionType.Transfer:
                         var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
                         string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
-                        clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
-                        isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
-                        message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                        
+                        if (string.IsNullOrEmpty(toAccountNumber))
+                        {
+                            message = "Please enter a destination account number.";
+                            isSuccess = false;
+                        }
+                        else
+                        {
+                            clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
+                            if (toAccount == null)
+                            {
+                                message = "Destination account not found.";
+                                isSuccess = false;
+                            }
+                            else
+                            {
+                                isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
+                                message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                            }
+                        }
                         break;
                 }
             }
