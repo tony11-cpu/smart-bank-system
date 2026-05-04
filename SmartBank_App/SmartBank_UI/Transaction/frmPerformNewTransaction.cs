@@ -188,27 +188,28 @@ namespace SmartBank_UI.Transaction
             decimal amount = _getCurrentAmount();
             string description = _getCurrentDescription();
 
-            string successMessage = string.Empty;
+            bool isSuccess = false;
+            string message = string.Empty;
             switch(_transactionType)
             {
                 case enTransactionType.Deposit:
-                    await fromAccount.DepositAsync(amount, description);
-                    successMessage = $"Deposit of {amount:C} completed successfully.";
+                    isSuccess = await fromAccount.DepositAsync(amount, description);
+                    message = isSuccess ? $"Deposit of {amount:C} completed successfully." : "Deposit transaction failed.";
                     break;
                 case enTransactionType.Withdrawl:
-                    await fromAccount.WithdrawAsync(amount, description);
-                    successMessage = $"Withdrawal of {amount:C} completed successfully.";
+                    isSuccess = await fromAccount.WithdrawAsync(amount, description);
+                    message = isSuccess ? $"Withdrawal of {amount:C} completed successfully." : "Withdrawal transaction failed.";
                     break;
                 case enTransactionType.Transfer:
                     var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
                     string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
                     clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
-                    await fromAccount.TransferToAsync(toAccount, amount, description);
-                    successMessage = $"Transfer of {amount:C} to account {toAccountNumber} completed successfully.";
+                    isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
+                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
                     break;
             }
 
-            MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(message, isSuccess ? "Success" : "Error", MessageBoxButtons.OK, isSuccess ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             this.Close();
         }
 
