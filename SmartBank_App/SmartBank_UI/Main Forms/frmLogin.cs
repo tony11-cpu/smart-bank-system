@@ -139,7 +139,7 @@ namespace SmartBank_UI.Login
             }
         }
 
-        private async void frmLogin_Load(object sender, EventArgs e)
+private async void frmLogin_Load(object sender, EventArgs e)
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
@@ -149,16 +149,19 @@ namespace SmartBank_UI.Login
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
 
-            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-            
-            var todayTransactions = (await clsTransactionLog.GetAllTransactionsAsync())
-                .Where(t => t.TransactionDate.Date == DateTime.Today)
-                .OrderByDescending(t => t.TransactionDate)
-                .Take(10)
-                .ToList();
+            await _refreshLiveCounts();
+        }
 
-            lblNumberTransactionsToday.Text = todayTransactions.Count.ToString();
-            _loadTodayTransactionsToGrid(todayTransactions);
+        private async Task _refreshLiveCounts()
+        {
+            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+        }
+
+        private async void frmLogin_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+                await _refreshLiveCounts();
         }
 
         private void _loadTodayTransactionsToGrid(List<clsTransactionLog> transactions)
