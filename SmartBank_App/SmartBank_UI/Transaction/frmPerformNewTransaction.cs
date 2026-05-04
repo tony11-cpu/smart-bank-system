@@ -190,23 +190,31 @@ namespace SmartBank_UI.Transaction
 
             bool isSuccess = false;
             string message = string.Empty;
-            switch(_transactionType)
+            try
             {
-                case enTransactionType.Deposit:
-                    isSuccess = await fromAccount.DepositAsync(amount, description);
-                    message = isSuccess ? $"Deposit of {amount:C} completed successfully." : "Deposit transaction failed.";
-                    break;
-                case enTransactionType.Withdrawl:
-                    isSuccess = await fromAccount.WithdrawAsync(amount, description);
-                    message = isSuccess ? $"Withdrawal of {amount:C} completed successfully." : "Withdrawal transaction failed.";
-                    break;
-                case enTransactionType.Transfer:
-                    var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
-                    string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
-                    clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
-                    isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
-                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
-                    break;
+                switch(_transactionType)
+                {
+                    case enTransactionType.Deposit:
+                        isSuccess = await fromAccount.DepositAsync(amount, description);
+                        message = isSuccess ? $"Deposit of {amount:C} completed successfully." : "Deposit transaction failed.";
+                        break;
+                    case enTransactionType.Withdrawl:
+                        isSuccess = await fromAccount.WithdrawAsync(amount, description);
+                        message = isSuccess ? $"Withdrawal of {amount:C} completed successfully." : "Withdrawal transaction failed.";
+                        break;
+                    case enTransactionType.Transfer:
+                        var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                        string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
+                        clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
+                        isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
+                        message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+                message = $"Transaction failed: {ex.Message}";
             }
 
             MessageBox.Show(message, isSuccess ? "Success" : "Error", MessageBoxButtons.OK, isSuccess ? MessageBoxIcon.Information : MessageBoxIcon.Error);
