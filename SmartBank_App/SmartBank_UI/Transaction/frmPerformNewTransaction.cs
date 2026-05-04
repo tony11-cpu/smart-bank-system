@@ -197,7 +197,9 @@ namespace SmartBank_UI.Transaction
                     await fromAccount.WithdrawAsync(amount, description);
                     break;
                 case enTransactionType.Transfer:
-                    clsAccounts toAccount = await clsAccounts.FindAsync(_toAccountNumber);
+                    var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                    string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
+                    clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
                     await fromAccount.TransferToAsync(toAccount, amount, description);
                     break;
             }

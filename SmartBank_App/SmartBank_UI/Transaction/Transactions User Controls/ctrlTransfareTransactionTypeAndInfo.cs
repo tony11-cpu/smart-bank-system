@@ -26,6 +26,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         public decimal CurrentAmount => nupAmountInUSD.Value;
         public string Description => _isIdle(tbRefrenceOrRemark) ? string.Empty : tbRefrenceOrRemark.Text.Trim();
+        public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
 
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
@@ -137,7 +138,5 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value);
-
-        public override bool ValidateChildren() => base.ValidateChildren();
     }
 }
