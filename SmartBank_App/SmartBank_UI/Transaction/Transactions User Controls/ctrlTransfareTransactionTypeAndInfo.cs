@@ -138,5 +138,19 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value);
+
+        private void tbAccountNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                var textBox = (TextBox)sender;
+                _setTextboxStates(textBox, false, true);
+
+                if(textBox.Tag.ToString() == "FromAccount")
+                    btnFromAccountLookUp.PerformClick();
+                else if(textBox.Tag.ToString() == "ToAccount")
+                    btnLookUpToAccount.PerformClick();
+            }
+        }
     }
 }

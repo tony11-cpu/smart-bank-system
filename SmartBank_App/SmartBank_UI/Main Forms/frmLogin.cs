@@ -139,12 +139,6 @@ namespace SmartBank_UI.Login
             lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
         }
 
-        private async void frmLogin_VisibleChanged(object sender, EventArgs e)
-        {
-            if (this.Visible)
-                await _refreshCounts();
-        }
-
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
 
         private async void Login_KeyPress(object sender, KeyPressEventArgs e)

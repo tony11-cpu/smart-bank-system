@@ -178,9 +178,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             if (transactionID <= 0)
-            {
                 return;
-            }
 
             try
             {

@@ -115,10 +115,12 @@
             this.btnLookUpToAccount.Name = "btnLookUpToAccount";
             this.btnLookUpToAccount.Size = new System.Drawing.Size(105, 43);
             this.btnLookUpToAccount.TabIndex = 65;
+            this.btnLookUpToAccount.Tag = "ToAccount";
             this.btnLookUpToAccount.Text = "Look Up";
             this.btnLookUpToAccount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnLookUpToAccount.UseVisualStyleBackColor = false;
             this.btnLookUpToAccount.Click += new System.EventHandler(this.btnLookUpToAccount_Click);
+            this.btnLookUpToAccount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbAccountNumber_KeyPress);
             // 
             // label10
             // 
@@ -398,10 +400,12 @@
             this.btnFromAccountLookUp.Name = "btnFromAccountLookUp";
             this.btnFromAccountLookUp.Size = new System.Drawing.Size(105, 43);
             this.btnFromAccountLookUp.TabIndex = 65;
+            this.btnFromAccountLookUp.Tag = "FromAccount";
             this.btnFromAccountLookUp.Text = "Look Up";
             this.btnFromAccountLookUp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnFromAccountLookUp.UseVisualStyleBackColor = false;
             this.btnFromAccountLookUp.Click += new System.EventHandler(this.btnFromAccountLookUp_Click);
+            this.btnFromAccountLookUp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbAccountNumber_KeyPress);
             // 
             // label3
             // 

@@ -8,12 +8,6 @@ namespace SmartBank_BLL
 {
     internal class clsPerformTransaction : ITransactions
     {
-        private static void _validateAmount(decimal amount)
-        {
-            if (amount <= 0)
-                throw new ArgumentException("Amount must be greater than zero.");
-        }
-
         private static clsAccounts _validateAccount(clsAccounts account, string accountType, string action)
         {
             if (account == null)
@@ -41,14 +35,18 @@ namespace SmartBank_BLL
 
         public static async Task<bool> DepositAsync(int accountID, decimal amount, string description, int performedByUserID)
         {
-            _validateAmount(amount);
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+
             clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID), "Source", "receive deposits");
             return await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
         }
 
         public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
-            _validateAmount(amount);
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+            
             clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals");
             await _validateWithdrawal(account, amount, performedByUserID);
             return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
@@ -59,7 +57,9 @@ namespace SmartBank_BLL
             if (!fromAccountID.HasValue || !toAccountID.HasValue)
                 throw new ArgumentException("Either fromAccountID or toAccountID cannot be null.");
 
-            _validateAmount(amount);
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+            
             clsAccounts fromAccount = _validateAccount(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "initiate transfers");
             clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
 
