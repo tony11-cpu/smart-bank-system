@@ -22,6 +22,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private string _accountNumber;
         public static event Action<decimal> OnAmountChanged;
         public static event Action<string> OnFromAccountNumberChanged;
+        public static event Action<string> OnToAccountNumberChanged;
 
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
@@ -89,8 +90,10 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
+            OnToAccountNumberChanged?.Invoke(tbToAccountNumber.Text);
+
             frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text, () => MessageBox.Show("Account Found!", "To Account Found", MessageBoxButtons.OK, MessageBoxIcon.Information));
-            toAccountInfo.Show();
+            toAccountInfo.ShowDialog();
         }
 
         private void _enableOrDisableTransactionProps(bool enable)

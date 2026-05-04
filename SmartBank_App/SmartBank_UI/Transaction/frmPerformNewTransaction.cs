@@ -18,14 +18,15 @@ namespace SmartBank_UI.Transaction
             None
         }
 
-        private enTransactionType transactionType;
-        private string accountNumber;
+        private enTransactionType _transactionType;
+        private string _fromAccountNumber;
+        private string _toAccountNumber;
 
         public frmPerformNewTransaction(string acc, enTransactionType type)
         {
             InitializeComponent();
-            accountNumber = acc;
-            transactionType = type;
+            _fromAccountNumber = acc;
+            _transactionType = type;
         }
 
         private void btnNewDeposite_Click(object sender, EventArgs e) => LoadForm(enTransactionType.Deposit);
@@ -35,13 +36,14 @@ namespace SmartBank_UI.Transaction
         private void LoadForm(enTransactionType type)
         {
             LoadControl(type);
-            SetLabels(type);
+            SetTransactionLabels(type);
 
+            _transactionType = type;
             lblTransactionTypeAmount.Text = 0.ToString("C");
             lblAccountBalanceAfterTransaction.Text = ctrlAccountShortInfo1.CurrentAccount != null ? ctrlAccountShortInfo1.CurrentAccount.Balance.ToString("C") : 0.ToString("C");
         }
 
-        private void SetLabels(enTransactionType type)
+        private void SetTransactionLabels(enTransactionType type)
         {
             if (type == enTransactionType.Deposit)
             {
@@ -66,9 +68,9 @@ namespace SmartBank_UI.Transaction
         private void LoadControl(enTransactionType type)
         {
             UserControl control;
-            if (type == enTransactionType.Deposit) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Deposit);
-            else if (type == enTransactionType.Withdrawl) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(accountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Withdrawal);
-            else control = new ctrlTransfareTransactionTypeAndInfo(accountNumber);
+            if (type == enTransactionType.Deposit) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(_fromAccountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Deposit);
+            else if (type == enTransactionType.Withdrawl) control = new ctrlDepositOrWithdrawalTransactionTypeAndInfo(_fromAccountNumber, ctrlDepositOrWithdrawalTransactionTypeAndInfo.enTransactionAction.Withdrawal);
+            else control = new ctrlTransfareTransactionTypeAndInfo(_fromAccountNumber);
 
             pMain.Controls.Clear();
             control.Dock = DockStyle.Fill;
@@ -84,6 +86,7 @@ namespace SmartBank_UI.Transaction
                 return;
             }
 
+            _fromAccountNumber = acc;
             await ctrlAccountShortInfo1.LoadAccount(acc);
 
             clsAccounts account = ctrlAccountShortInfo1.CurrentAccount;
@@ -133,13 +136,15 @@ namespace SmartBank_UI.Transaction
         {
             ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAccountNumberChanged += acc => _ = CheckAccount(acc);
             ctrlTransfareTransactionTypeAndInfo.OnFromAccountNumberChanged += acc => _ = CheckAccount(acc);
+            ctrlTransfareTransactionTypeAndInfo.OnToAccountNumberChanged += acc => _toAccountNumber = acc;
+
             ctrlDepositOrWithdrawalTransactionTypeAndInfo.OnAmountChanged += (amount, isDeposit) => HandleUpdated(amount, isDeposit);
             ctrlTransfareTransactionTypeAndInfo.OnAmountChanged += amount => HandleUpdated(amount, false);
 
-            LoadForm(transactionType == enTransactionType.None ? enTransactionType.Deposit : transactionType);
+            LoadForm(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
 
-            if (!string.IsNullOrEmpty(accountNumber))
-                await CheckAccount(accountNumber);
+            if (!string.IsNullOrEmpty(_fromAccountNumber))
+                await CheckAccount(_fromAccountNumber);
         }
 
         private void HandleUpdated(decimal amount, bool isDeposit)
@@ -170,7 +175,20 @@ namespace SmartBank_UI.Transaction
                 if (!c.ValidateChildren())
                     return;
 
+            switch(_transactionType)
+            {
+                case enTransactionType.Deposit:
 
+                    break;
+                case enTransactionType.Withdrawl:
+
+                    break;
+                case enTransactionType.Transfer:
+                    
+                    break;
+            }
+
+            this.Close();
         }
     }
 }
