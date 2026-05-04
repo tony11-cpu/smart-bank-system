@@ -42,15 +42,26 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
-            if (!_returnAccountAndValidity(await clsAccounts.FindAsync(accountID)))
-                throw new ArgumentException("Invalid account.");
+            clsAccounts account = await clsAccounts.FindAsync(accountID);
+            if (account == null)
+                throw new ArgumentException("Account not found.");
+            
+            if (account.Status != clsAccounts.enStatus.Active)
+                throw new ArgumentException($"Account is {account.Status}. Only Active accounts can receive deposits.");
 
             return await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
         }
 
         public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
-            await _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount, performedByUserID);
+            clsAccounts account = await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null."));
+            if (account == null)
+                throw new ArgumentException("Account not found.");
+            
+            if (account.Status != clsAccounts.enStatus.Active)
+                throw new ArgumentException($"Account is {account.Status}. Only Active accounts can process withdrawals.");
+
+            await _validateWithdrawals(account, amount, performedByUserID);
             return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
         }
 
@@ -62,6 +73,14 @@ namespace SmartBank_BLL
             if(amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
+            clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
+
+            if (fromAccount == null)
+                throw new ArgumentException("Source account not found.");
+            
+            if (fromAccount.Status != clsAccounts.enStatus.Active)
+                throw new ArgumentException($"Source account is {fromAccount.Status}. Only Active accounts can initiate transfers.");
+
             clsAccounts toAccount = await clsAccounts.FindAsync(toAccountID.Value);
 
             if (toAccount == null)
@@ -70,7 +89,6 @@ namespace SmartBank_BLL
             if (toAccount.Status != clsAccounts.enStatus.Active)
                 throw new ArgumentException($"Destination account is {toAccount.Status}. Only Active accounts can receive transfers.");
 
-            clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
             await _validateWithdrawals(fromAccount, amount, performedByUserID);
 
             return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);

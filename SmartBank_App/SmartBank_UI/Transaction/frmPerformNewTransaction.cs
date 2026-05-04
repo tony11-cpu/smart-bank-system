@@ -211,25 +211,26 @@ namespace SmartBank_UI.Transaction
                             message = "Please enter a destination account number.";
                             isSuccess = false;
                         }
-else
+                        else
+                        {
+                            clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
+                            if (toAccount == null)
                             {
-                                clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
-                                if (toAccount == null)
-                                {
-                                    message = "Destination account not found.";
-                                    isSuccess = false;
-                                }
-                                else if (toAccount.Status != clsAccounts.enStatus.Active)
-                                {
-                                    message = $"Destination account is {toAccount.Status}. Only Active accounts can receive transfers.";
-                                    isSuccess = false;
-                                }
-                                else
-                                {
-                                    isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
-                                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
-                                }
+                                message = "Destination account not found.";
+                                isSuccess = false;
                             }
+                            else if (toAccount.Status != clsAccounts.enStatus.Active)
+                            {
+                                message = $"Destination account is {toAccount.Status}. Only Active accounts can receive transfers.";
+                                isSuccess = false;
+                            }
+                            else
+                            {
+                                isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
+                                message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                            }
+                        }
+
                         break;
                 }
             }

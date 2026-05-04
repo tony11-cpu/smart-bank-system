@@ -22,23 +22,10 @@ namespace SmartBank_UI
     public partial class frmMain : Form
     {
         private Form _frmLogin;
-        private Timer _refreshTimer;
         public frmMain(Form LoginForm)
         {
             InitializeComponent();
             _frmLogin = LoginForm;
-            _initRefreshTimer();
-        }
-
-        private void _initRefreshTimer()
-        {
-            _refreshTimer = new Timer();
-            _refreshTimer.Interval = 10000;
-            _refreshTimer.Tick += async (s, e) =>
-            {
-                if (_dashboard.Visible)
-                    await _dashboard.RefreshDashboardData();
-            };
         }
 
         private void btnSignOut_Click(object sender, EventArgs e)
@@ -85,7 +72,6 @@ namespace SmartBank_UI
                 return;
 
             DayTime.Start();
-            _refreshTimer.Start();
 
             _showView(_dashboard);
             _loadUser();
@@ -94,12 +80,6 @@ namespace SmartBank_UI
         }
 
         private void timer1_Tick(object sender, EventArgs e) => lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
-
-        private async void _refreshTimer_Tick(object sender, EventArgs e)
-        {
-            if (_dashboard.Visible)
-                _dashboard.RefreshData();
-        }
 
         private ctrlDashboard _dashboard = new ctrlDashboard();
         private void btnDashBoard_Click(object sender, EventArgs e) => _showView(_dashboard);

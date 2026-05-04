@@ -117,12 +117,20 @@ namespace SmartBank_UI.Login
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
+
             (string Username, string Password) userEntry = clsUtil.clsLogger.ReadUserDataFromRegistry();
 
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
 
             await _refreshCounts();
+        }
+
+        private async void _onTransactionCompleted()
+        {
+            if (this.Visible)
+                await _refreshCounts();
         }
 
         private async Task _refreshCounts()
