@@ -133,7 +133,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             lblTransactionType.Text = transactionData.TransactionType.ToString();
             lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
 
-            decimal balanceAfter = transactionData.BalanceAfterTransaction.FromAccount_BalanceAfter;
+            decimal storedBalanceAfter = transactionData.BalanceAfterTransaction.FromAccount_BalanceAfter;
+            decimal balanceAfter = storedBalanceAfter > 0 ? storedBalanceAfter : transactionData.FromAccount.Balance;
             nupBalanceAfter.Value = balanceAfter;
             nupBalanceBefore.Value = _calculateBalanceBefore(transactionData.TransactionType, balanceAfter, transactionData.Amount);
             tbDescription.Text = transactionData.Description;
