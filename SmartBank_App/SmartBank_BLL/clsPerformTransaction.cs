@@ -22,7 +22,7 @@ namespace SmartBank_BLL
                 throw new ArgumentException("Amount must be greater than zero.");
 
             clsUsers performingUser = await clsUsers.FindAsync(performedByUserID);
-            bool isManagerOrAdmin = performingUser != null && 
+            bool isManagerOrAdmin = performingUser?.Permissions != null && 
                 (performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager ||
                  performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
 
