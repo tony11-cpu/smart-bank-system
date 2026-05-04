@@ -19,8 +19,35 @@ namespace SmartBank_UI.Login
     {
         private int _userFailedLoginAttempsCounter = 0;
         private string _previouseUsername = string.Empty;
+        private DataGridView dgvTodayTransactions;
 
-        public frmLogin() => InitializeComponent();
+        public frmLogin()
+        {
+            InitializeComponent();
+            _initTransactionsGrid();
+        }
+
+        private void _initTransactionsGrid()
+        {
+            dgvTodayTransactions = new DataGridView();
+            dgvTodayTransactions.Name = "dgvTodayTransactions";
+            dgvTodayTransactions.Location = new System.Drawing.Point(490, 450);
+            dgvTodayTransactions.Size = new System.Drawing.Size(300, 150);
+            dgvTodayTransactions.ReadOnly = true;
+            dgvTodayTransactions.AllowUserToAddRows = false;
+            dgvTodayTransactions.AllowUserToDeleteRows = false;
+            dgvTodayTransactions.MultiSelect = false;
+            dgvTodayTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTodayTransactions.BackgroundColor = Color.FromArgb(30, 30, 50);
+            dgvTodayTransactions.DefaultCellStyle.ForeColor = Color.White;
+            dgvTodayTransactions.DefaultCellStyle.BackColor = Color.FromArgb(30, 30, 50);
+            dgvTodayTransactions.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 90, 150);
+            dgvTodayTransactions.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvTodayTransactions.EnableHeadersVisualStyles = false;
+            dgvTodayTransactions.RowHeadersVisible = false;
+            dgvTodayTransactions.BorderStyle = BorderStyle.None;
+            this.Controls.Add(dgvTodayTransactions);
+        }
 
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
 
@@ -123,7 +150,32 @@ namespace SmartBank_UI.Login
             tbUsername.Text = userEntry.Username;
 
             lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-            lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+            
+            var todayTransactions = (await clsTransactionLog.GetAllTransactionsAsync())
+                .Where(t => t.TransactionDate.Date == DateTime.Today)
+                .OrderByDescending(t => t.TransactionDate)
+                .Take(10)
+                .ToList();
+
+            lblNumberTransactionsToday.Text = todayTransactions.Count.ToString();
+            _loadTodayTransactionsToGrid(todayTransactions);
+        }
+
+        private void _loadTodayTransactionsToGrid(List<clsTransactionLog> transactions)
+        {
+            dgvTodayTransactions.DataSource = transactions;
+            dgvTodayTransactions.Columns["FromAccount"].HeaderText = "From Account";
+            dgvTodayTransactions.Columns["ToAccount"].HeaderText = "To Account";
+            dgvTodayTransactions.Columns["TransactionType"].HeaderText = "Type";
+            dgvTodayTransactions.Columns["Amount"].HeaderText = "Amount";
+            dgvTodayTransactions.Columns["TransactionDate"].HeaderText = "Time";
+            dgvTodayTransactions.Columns["Description"].Visible = false;
+            dgvTodayTransactions.Columns["UserResponsibleID"].Visible = false;
+            dgvTodayTransactions.Columns["TransactionID"].Visible = false;
+            dgvTodayTransactions.Columns["IsScheduled"].Visible = false;
+            dgvTodayTransactions.Columns["BalanceAfterTransaction"].Visible = false;
+            dgvTodayTransactions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvTodayTransactions.RowTemplate.Height = 28;
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
