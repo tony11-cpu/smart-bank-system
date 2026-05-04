@@ -64,8 +64,11 @@ namespace SmartBank_BLL
 
             clsAccounts toAccount = await clsAccounts.FindAsync(toAccountID.Value);
 
-            if (!_returnAccountAndValidity(toAccount))
-                throw new ArgumentException("Invalid destination account.");
+            if (toAccount == null)
+                throw new ArgumentException("Destination account not found.");
+            
+            if (toAccount.Status != clsAccounts.enStatus.Active)
+                throw new ArgumentException($"Destination account is {toAccount.Status}. Only Active accounts can receive transfers.");
 
             clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
             await _validateWithdrawals(fromAccount, amount, performedByUserID);

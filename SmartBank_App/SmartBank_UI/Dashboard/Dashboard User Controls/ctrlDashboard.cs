@@ -32,6 +32,13 @@ namespace SmartBank_UI
             await _loadTransactions();
         }
 
+        public async Task RefreshDashboardData()
+        {
+            lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            lblTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+            await _loadTransactions();
+        }
+
         private async Task _loadTransactions()
         {
             dgvRecentTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsListAsync(clsGlobal.ActiveUser.UserID);

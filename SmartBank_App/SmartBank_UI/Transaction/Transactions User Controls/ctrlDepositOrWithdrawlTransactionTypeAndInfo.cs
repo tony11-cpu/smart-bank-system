@@ -163,5 +163,14 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             return isValid;
         }
+
+        private void tbAccountNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                _setTextboxStates(tbAccountNumber, false , true);
+                btnLookUp.PerformClick();
+            }
+        }
     }
 }

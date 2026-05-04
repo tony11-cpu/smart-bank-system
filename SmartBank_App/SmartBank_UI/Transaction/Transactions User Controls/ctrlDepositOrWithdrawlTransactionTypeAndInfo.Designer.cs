@@ -123,6 +123,7 @@
             this.tbAccountNumber.Tag = "Idle/AccountNumber/e.g. SB-2026-12345";
             this.tbAccountNumber.Text = "e.g. SB-2026-12345";
             this.tbAccountNumber.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbAccountNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbAccountNumber_KeyPress);
             this.tbAccountNumber.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // panel4
