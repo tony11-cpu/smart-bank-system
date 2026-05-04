@@ -13,7 +13,7 @@ namespace SmartBank_BLL
         private static bool _returnAccountAndValidity(clsAccounts accountToCheck) => accountToCheck != null && accountToCheck.Status == clsAccounts.enStatus.Active;
 
         // need further functionality for the scheduled transfers since the win service is not implemented yet.
-        private static async Task _validateWithdrawals(clsAccounts accountToWithdraw, decimal amount)
+        private static async Task _validateWithdrawals(clsAccounts accountToWithdraw, decimal amount, int performedByUserID)
         {
             if (accountToWithdraw == null || accountToWithdraw.Status != clsAccounts.enStatus.Active)
                 throw new ArgumentException("Invalid account.");
@@ -21,12 +21,16 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
-            if (accountToWithdraw.Balance - amount < accountToWithdraw.MinimumBalance)
+            clsUsers performingUser = await clsUsers.FindAsync(performedByUserID);
+            bool isManagerOrAdmin = performingUser != null && 
+                (performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager ||
+                 performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
+
+            if (!isManagerOrAdmin && accountToWithdraw.Balance - amount < accountToWithdraw.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
 
-            if ((await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)).Value < amount)
+            if (!isManagerOrAdmin && (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)).Value < amount)
             {
-                // thought the win service raise a Fraud Flag to the database so the manager or admin can manage it later, but for now I will just throw an exception to prevent the transaction from happening
                 throw new ArgumentException("Withdrawal amount exceeds the large withdrawal threshold. Transaction flagged for review.");
             }
         }
@@ -44,7 +48,7 @@ namespace SmartBank_BLL
 
         public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
         {
-            await _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount);
+            await _validateWithdrawals(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), amount, performedByUserID);
             return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
         }
 
@@ -62,7 +66,7 @@ namespace SmartBank_BLL
                 throw new ArgumentException("Invalid destination account.");
 
             clsAccounts fromAccount = await clsAccounts.FindAsync(fromAccountID.Value);
-            await _validateWithdrawals(fromAccount, amount);
+            await _validateWithdrawals(fromAccount, amount, performedByUserID);
 
             return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
         }
