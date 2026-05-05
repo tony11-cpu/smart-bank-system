@@ -122,9 +122,8 @@ namespace SmartBank_BLL
 
             enTransactionType type = _parseTransactionType(dto.TransactionType.Replace(" ", "_"));
 
-            return new clsTransactionLog(dto.TransactionID, type, fromAccount, toAccount, 
-                dto.Amount, dto.Description, dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled,
-                fromAccount.Balance);
+            return new clsTransactionLog(dto.TransactionID, type, fromAccount, toAccount, dto.Amount, dto.Description, 
+                                         dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled, fromAccount.Balance);
         }
     }
 }
