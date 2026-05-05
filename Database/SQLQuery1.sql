@@ -317,3 +317,42 @@ BEGIN
     FROM Transactions
     WHERE TransactionID = @TransactionID;
 END
+GO
+
+IF EXISTS (SELECT * FROM sys.procedures WHERE name = 'sp_GetLatestTransactionByAccountID')
+    DROP PROCEDURE sp_GetLatestTransactionByAccountID;
+GO
+
+CREATE PROCEDURE sp_GetLatestTransactionByAccountID
+(
+    @AccountID INT,
+    @TransactionID INT OUTPUT,
+    @TransactionType NVARCHAR(20) OUTPUT,
+    @Amount DECIMAL(18,2) OUTPUT,
+    @RelatedAccountID INT OUTPUT,
+    @Description NVARCHAR(250) OUTPUT,
+    @TransactionDate DATETIME OUTPUT,
+    @ProcessedByUserID INT OUTPUT,
+    @IsScheduled BIT OUTPUT,
+    @BalanceBefore DECIMAL(18,2) OUTPUT,
+    @BalanceAfter DECIMAL(18,2) OUTPUT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT TOP 1
+        @TransactionID = TransactionID,
+        @TransactionType = TransactionType,
+        @Amount = Amount,
+        @RelatedAccountID = RelatedAccountID,
+        @Description = Description,
+        @TransactionDate = TransactionDate,
+        @ProcessedByUserID = ProcessedByUserID,
+        @IsScheduled = IsScheduled,
+        @BalanceBefore = BalanceBefore,
+        @BalanceAfter = BalanceAfter
+    FROM Transactions
+    WHERE AccountID = @AccountID
+    ORDER BY TransactionDate DESC;
+END
