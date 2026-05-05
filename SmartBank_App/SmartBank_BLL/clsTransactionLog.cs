@@ -20,10 +20,11 @@ namespace SmartBank_BLL
         public int UserResponsibleID { get; private set; }
         public bool IsScheduled { get; private set; }
         public decimal BalanceAfterTransaction { get; private set; }
+        public decimal BalanceBeforeTransaction { get; private set; }
 
         public clsTransactionLog(int transactionID, enTransactionType transactionType, clsAccounts fromAccount, clsAccounts toAccount,
                                 decimal amount, string description, DateTime transactionDate, int userResponsibleID, bool isScheduled,
-                                decimal balanceAfterTransaction = 0)
+                                decimal balanceAfterTransaction = 0, decimal balanceBeforeTransaction = 0)
         {
             TransactionID = transactionID;
             TransactionType = transactionType;
@@ -35,6 +36,7 @@ namespace SmartBank_BLL
             UserResponsibleID = userResponsibleID;
             IsScheduled = isScheduled;
             BalanceAfterTransaction = balanceAfterTransaction;
+            BalanceBeforeTransaction = balanceBeforeTransaction;
         }
 
         public static async Task<List<clsTransactionLog>> GetAllTransactionsAsync()
@@ -61,12 +63,19 @@ namespace SmartBank_BLL
 
                 clsTransactionLog transaction = new clsTransactionLog((int)row["TransactionID"], type, fromAccount, toAccount,
                     (decimal)row["Amount"], description, (DateTime)row["TransactionDate"], (int)row["ProcessedByUserID"], (bool)row["IsScheduled"],
-                    fromAccount?.Balance ?? 0);
+                    _getBalance(row, "BalanceAfter"), _getBalance(row, "BalanceBefore"));
 
                 transactions.Add(transaction);
             }
 
             return transactions;
+        }
+
+        private static decimal _getBalance(DataRow row, string columnName)
+        {
+            if (row.Table.Columns.Contains(columnName) && row[columnName] != DBNull.Value)
+                return Convert.ToDecimal(row[columnName]);
+            return 0;
         }
 
         private static enTransactionType _parseTransactionType(string typeString)
@@ -123,7 +132,7 @@ namespace SmartBank_BLL
             enTransactionType type = _parseTransactionType(dto.TransactionType.Replace(" ", "_"));
 
             return new clsTransactionLog(dto.TransactionID, type, fromAccount, toAccount, dto.Amount, dto.Description, 
-                                         dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled, fromAccount.Balance);
+                                         dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled, dto.BalanceAfter, dto.BalanceBefore);
         }
     }
 }

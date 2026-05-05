@@ -11,7 +11,8 @@ namespace SmartBack_DAL
     {
         public clsTransactionDto(int transactionID, int accountID, string transactionType, 
                                  decimal amount, int? relatedAccountID, string description, 
-                                 DateTime transactionDate, int processedByUserID, bool isScheduled)
+                                 DateTime transactionDate, int processedByUserID, bool isScheduled,
+                                 decimal balanceBefore = 0, decimal balanceAfter = 0)
         {
             TransactionID = transactionID;
             AccountID = accountID;
@@ -22,6 +23,8 @@ namespace SmartBack_DAL
             TransactionDate = transactionDate;
             ProcessedByUserID = processedByUserID;
             IsScheduled = isScheduled;
+            BalanceBefore = balanceBefore;
+            BalanceAfter = balanceAfter;
         }
 
         public int TransactionID { get; set; }
@@ -33,6 +36,8 @@ namespace SmartBack_DAL
         public DateTime TransactionDate { get; set; }
         public int ProcessedByUserID { get; set; }
         public bool IsScheduled { get; set; }
+        public decimal BalanceBefore { get; set; }
+        public decimal BalanceAfter { get; set; }
     }
 
     public static class clsTransactions_DAL
