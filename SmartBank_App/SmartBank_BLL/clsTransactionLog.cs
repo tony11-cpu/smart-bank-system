@@ -55,7 +55,13 @@ namespace SmartBank_BLL
                     row.Field<DateTime>("TransactionDate"), row.Field<int>("ProcessedByUserID"), row.Field<bool>("IsScheduled"));}))).ToList();
         }
 
-        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
+        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) 
+        {
+            var allTransactions = await GetAllTransactionsAsync();
+            if (!userID.HasValue || allTransactions == null)
+                return new List<clsTransactionLog>();
+            return allTransactions.Where(t => t.UserResponsibleID == userID.Value).ToList();
+        }
 
         public static async Task<clsTransactionLog> FindAsyncWithAccountID(int accountID)
         {

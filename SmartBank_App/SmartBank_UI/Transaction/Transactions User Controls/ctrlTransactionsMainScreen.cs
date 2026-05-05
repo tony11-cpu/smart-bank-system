@@ -124,7 +124,14 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                                                    (isNumeric && t.FromAccount.Balance.Equals(searchAmount))).ToList());
         }
 
-        private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => await _loadDefaultTransactionFullData((int)dgvAllTransactions.CurrentRow?.Cells["TransactionID"].Value);
+        private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            var transactionID = dgvAllTransactions.CurrentRow?.Cells["TransactionID"]?.Value;
+            if (transactionID == null)
+                return;
+            
+            await _loadDefaultTransactionFullData((int)transactionID);
+        }
 
         private async Task _loadTransaction(int transactionID)
         {
@@ -200,7 +207,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            _bindGrid(_transactionsLogs.Where(n => n.FromAccount.AccountNumber.Equals(dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString())).ToList());
+            var row = dgvAllTransactions.CurrentRow;
+            if (row?.Cells["FromAccount"]?.Value == null)
+                return;
+
+            _bindGrid(_transactionsLogs.Where(n => n.FromAccount?.AccountNumber == row.Cells["FromAccount"].Value.ToString()).ToList());
         }
 
         private async void cmsCustomerInfo_Click(object sender, EventArgs e)
