@@ -224,3 +224,33 @@ BEGIN
     END CATCH
 END;
 GO
+
+
+
+
+USE [SmartBankDB]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER FUNCTION [dbo].[fn_GetAllTransactions]()
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT
+        TransactionID,
+        AccountID,
+        TransactionType,
+        Amount,
+        RelatedAccountID,
+        Description,
+        TransactionDate,
+        ProcessedByUserID,
+        IsScheduled,
+        BalanceBefore,
+        BalanceAfter
+    FROM Transactions
+);
