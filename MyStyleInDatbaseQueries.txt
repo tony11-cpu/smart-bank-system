@@ -1,0 +1,495 @@
+SP EXAMPLES
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_Transfer]    Script Date: 5/5/2026 5:31:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_Transfer]
+(
+    @UserInActionID   INT,
+    @FromAccountID    INT,
+    @ToAccountID      INT,
+    @Amount           DECIMAL(18,2),
+    @Description      NVARCHAR(250),
+    @NewTransactionID INT OUTPUT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+            DECLARE @FromBalanceAfter DECIMAL(18,2);
+            DECLARE @ToBalanceAfter   DECIMAL(18,2);
+
+            SELECT @FromBalanceAfter = Balance - @Amount
+            FROM Accounts
+            WHERE AccountID = @FromAccountID;
+
+            SELECT @ToBalanceAfter = Balance + @Amount
+            FROM Accounts
+            WHERE AccountID = @ToAccountID;
+
+            UPDATE Accounts
+            SET Balance = @FromBalanceAfter
+            WHERE AccountID = @FromAccountID;
+            
+            IF @@ROWCOUNT = 0
+                THROW 52004, 'Source account update failed.', 1;
+            
+            UPDATE Accounts
+            SET Balance = @ToBalanceAfter
+            WHERE AccountID = @ToAccountID;
+            
+            IF @@ROWCOUNT = 0
+                THROW 52005, 'Destination account update failed.', 1;
+
+            INSERT INTO Transactions (AccountID, TransactionType, Amount,
+                                      RelatedAccountID, Description, TransactionDate,
+                                      ProcessedByUserID, IsScheduled)
+            VALUES (@FromAccountID, 'Transfare', @Amount, @ToAccountID , @Description, GETDATE() , @UserInActionID, 0);
+
+            SET @NewTransactionID = SCOPE_IDENTITY();
+
+            IF @NewTransactionID IS NULL
+                THROW 52003, 'Transfer transaction insertion failed.', 1;
+
+            INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+            VALUES (@UserInActionID, 'TRANSFER', 'Accounts', @FromAccountID,
+                    CAST(@FromAccountID AS NVARCHAR) + ' -> ' + CAST(@ToAccountID AS NVARCHAR),
+                    CAST(@FromBalanceAfter AS NVARCHAR), GETDATE());
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SET @NewTransactionID = -1;
+        THROW;
+    END CATCH
+END;
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_LockUser]    Script Date: 5/5/2026 5:54:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- LOCK
+ALTER   PROCEDURE [dbo].[sp_LockUser]
+(
+    @AdminUserID INT,
+    @UserID      INT,
+    @IsUpdated   BIT OUTPUT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        UPDATE Users
+        SET IsLocked = 1
+        WHERE UserID = @UserID;
+
+        IF @@ROWCOUNT = 0
+            THROW 51303, 'Lock User Failed.', 1;
+
+        INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+        VALUES (@AdminUserID, 'USER_LOCKED', 'Users', @UserID, '0', '1', GETDATE());
+
+        SET @IsUpdated = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SET @IsUpdated = 0;
+        THROW;
+    END CATCH
+END;
+
+
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_GetAccountByID]    Script Date: 5/5/2026 5:54:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   PROCEDURE [dbo].[sp_GetAccountByID]
+    @AccountID        INT,
+    @AccountNumber    NVARCHAR(20)    OUTPUT,
+    @CustomerID       INT             OUTPUT,
+    @AccountType      NVARCHAR(20)    OUTPUT,
+    @Balance          DECIMAL(18,2)   OUTPUT,
+    @MinimumBalance   DECIMAL(18,2)   OUTPUT,
+    @Status           NVARCHAR(20)    OUTPUT,
+    @OpenedDate       DATETIME        OUTPUT,
+    @ClosedDate       DATETIME        OUTPUT,
+    @CreatedByUserID  INT             OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT
+        @AccountNumber   = AccountNumber,
+        @CustomerID      = CustomerID,
+        @AccountType     = AccountType,
+        @Balance         = Balance,
+        @MinimumBalance  = MinimumBalance,
+        @Status          = Status,
+        @OpenedDate      = OpenedDate,
+        @ClosedDate      = ClosedDate,
+        @CreatedByUserID = CreatedByUserID
+    FROM Accounts
+    WHERE AccountID = @AccountID;
+END;
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_DeactivateCustomer]    Script Date: 5/5/2026 5:54:20 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   PROCEDURE [dbo].[sp_DeactivateCustomer]
+    @CustomerID INT,
+    @AdminUserID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+        UPDATE Customers
+        SET IsActive = 0
+        WHERE CustomerID = @CustomerID AND IsActive = 1;
+
+        IF @@ROWCOUNT = 0
+            THROW 51010, 'Customer not found or already inactive.', 1;
+
+        INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+        VALUES (@AdminUserID, 'CUSTOMER_DEACTIVATED', 'Customers', @CustomerID, '1', '0', GETDATE());
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        THROW;
+    END CATCH
+END;
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_CreateCustomer]    Script Date: 5/5/2026 5:54:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   PROCEDURE [dbo].[sp_CreateCustomer]
+    @UserInActionID INT,
+    @FirstName NVARCHAR(50),
+    @LastName NVARCHAR(50),
+    @NationalID NVARCHAR(50),
+    @DateOfBirth DATE,
+    @Phone NVARCHAR(20),
+    @Email NVARCHAR(250),
+    @Address NVARCHAR(250),
+	@RegisteredDate DateTime,
+	@IsActive Bit,
+	@ImagePath NVARCHAR(300),
+	@Gender Bit,
+    @NewCustomerID INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+        INSERT INTO Customers (
+            FirstName, LastName, NationalID,
+            DateOfBirth, Phone, Email, Address,
+            RegisteredDate, IsActive, CreatedByUserID , ImagePath , Gender
+        )
+        VALUES (
+            @FirstName, @LastName, @NationalID,
+            @DateOfBirth, @Phone, @Email, @Address,
+            @RegisteredDate, @IsActive, @UserInActionID , @ImagePath , @Gender
+        );
+
+        SET @NewCustomerID = SCOPE_IDENTITY();
+
+        IF @NewCustomerID IS NULL
+            THROW 50010, 'Customer insertion failed.', 1;
+
+        INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, Timestamp)
+        VALUES (@UserInActionID, 'CUSTOMER_CREATED', 'Customers', @NewCustomerID, GETDATE());
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SET @NewCustomerID = -1;
+        THROW;
+    END CATCH
+END;
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ActivateUser]    Script Date: 5/5/2026 5:54:32 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ACTIVATE
+ALTER   PROCEDURE [dbo].[sp_ActivateUser]
+(
+    @AdminUserID INT,
+    @UserID      INT,
+    @IsUpdated   BIT OUTPUT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        UPDATE Users
+        SET IsActive = 1
+        WHERE UserID = @UserID;
+
+        IF @@ROWCOUNT = 0
+            THROW 51302, 'Activate User Failed.', 1;
+
+        INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+        VALUES (@AdminUserID, 'USER_ACTIVATED', 'Users', @UserID, '0', '1', GETDATE());
+
+        SET @IsUpdated = 1;
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SET @IsUpdated = 0;
+        THROW;
+    END CATCH
+END;
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_Withdraw]    Script Date: 5/5/2026 5:54:37 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_Withdraw]
+(
+    @UserInActionID   INT,
+    @AccountID        INT,
+    @Amount           DECIMAL(18,2),
+    @Description      NVARCHAR(250),
+    @NewTransactionID INT OUTPUT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+            DECLARE @BalanceAfter DECIMAL(18,2);
+            DECLARE @BalanceBefore DECIMAL(18,2);
+
+            SELECT @BalanceBefore = Balance,
+                   @BalanceAfter = Balance - @Amount
+            FROM Accounts
+            WHERE AccountID = @AccountID;
+
+            UPDATE Accounts
+            SET Balance = @BalanceAfter
+            WHERE AccountID = @AccountID;
+
+            IF @@ROWCOUNT = 0
+               THROW 52004, 'account update failed.', 1;
+
+            INSERT INTO Transactions (AccountID, TransactionType, Amount,
+                                      RelatedAccountID, Description, TransactionDate,
+                                      ProcessedByUserID, IsScheduled)
+            VALUES (@AccountID, 'Withdrawal', @Amount,
+                    NULL, @Description, GETDATE(),
+                    @UserInActionID, 0);
+
+            SET @NewTransactionID = SCOPE_IDENTITY();
+
+            IF @NewTransactionID IS NULL
+                THROW 52002, 'Withdrawal transaction insertion failed.', 1;
+
+            INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue ,NewValue, Timestamp)
+            VALUES (@UserInActionID, 'WITHDRAWAL', 'Accounts', @AccountID, CAST(@BalanceBefore AS NVARCHAR) ,
+            CAST(@BalanceAfter AS NVARCHAR), GETDATE());
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SET @NewTransactionID = -1;
+        THROW;
+    END CATCH
+END;
+
+
+
+
+
+for other things 
+
+USE [SmartBankDB]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fn_GetAllAccounts]    Script Date: 5/5/2026 5:54:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER FUNCTION [dbo].[fn_GetAllAccounts]()
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT
+        a.AccountID,
+        a.AccountNumber,
+        a.CustomerID,
+        a.AccountType,
+        a.Balance,
+        a.MinimumBalance,
+        a.Status,
+        CAST(a.OpenedDate AS DATE) AS OpenedDate,
+        a.ClosedDate,
+        a.CreatedByUserID
+    FROM Accounts a
+)
+
+USE [SmartBankDB]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fn_GetAllUserLoginAttempt]    Script Date: 5/5/2026 5:54:57 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER   Function [dbo].[fn_GetAllUserLoginAttempt] (@userID INT)
+Returns Table 
+AS 
+Return
+Select Top 4 l.AttemptDate as [Attempt Date],
+       case l.WasSuccessful 
+	      When 1 then 'Successful'
+	      Else 'Failed'
+	   End as [Login State]
+From LoginAttempts l 
+Where UserID = @userID
+Order by l.AttemptDate desc
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsAccountExistsByID]    Script Date: 5/5/2026 5:55:02 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   FUNCTION [dbo].[IsAccountExistsByID] (@AccountID INT)
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @Result BIT = 0;
+
+    IF EXISTS (SELECT 1 FROM Accounts WHERE AccountID = @AccountID)
+        SET @Result = 1;
+
+    RETURN @Result;
+END;
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsAccountExistsByNumber]    Script Date: 5/5/2026 5:55:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   FUNCTION [dbo].[IsAccountExistsByNumber] (@AccountNumber NVARCHAR(20))
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @Result BIT = 0;
+
+    IF EXISTS (SELECT 1 FROM Accounts WHERE AccountNumber = @AccountNumber)
+        SET @Result = 1;
+
+    RETURN @Result;
+END;
+
+
+
+USE [SmartBankDB]
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsUserExistByID]    Script Date: 5/5/2026 5:55:12 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER   FUNCTION [dbo].[IsUserExistByID] (@UserID INT)
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @Result BIT = 0;
+
+    IF EXISTS (SELECT 1 FROM Users WHERE Users.UserID = @UserID)
+        SET @Result = 1;
+
+    RETURN @Result;
+END;
+
+
+
+
+
+
+
