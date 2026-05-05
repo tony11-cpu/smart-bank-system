@@ -58,6 +58,9 @@ namespace SmartBank_UI
 
         private void _loadUser()
         {
+            if (clsGlobal.ActiveUser == null)
+                return;
+
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
             lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");

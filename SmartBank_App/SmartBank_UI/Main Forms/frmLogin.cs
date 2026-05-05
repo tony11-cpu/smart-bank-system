@@ -86,7 +86,8 @@ namespace SmartBank_UI.Login
 
             notifyIcon1.Visible = true;
             notifyIcon1.Icon = SystemIcons.Application;
-            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {clsGlobal.ActiveUser.FullName.Split(' ')[0]}!", ToolTipIcon.Info);
+            string firstName = clsGlobal.ActiveUser.FullName?.Split(' ')[0] ?? "User";
+            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {firstName}!", ToolTipIcon.Info);
 
             this.Hide();
             frmMain mainForm = new frmMain(this);
