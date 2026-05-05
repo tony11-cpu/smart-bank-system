@@ -119,7 +119,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             bool isNumeric = decimal.TryParse(search, out searchAmount);
 
             _bindGrid(_transactionsLogs.Where(t => t.FromAccount.AccountNumber.StartsWith(search) || 
-                                                  (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search) ||
+                                                  (t.FromAccount.Customer != null && (t.FromAccount.Customer.FirstName + " " + t.FromAccount.Customer.LastName).StartsWith(search)) ||
                                                    t.TransactionType.ToString().StartsWith(search) || 
                                                    (isNumeric && t.FromAccount.Balance.Equals(searchAmount))).ToList());
         }

@@ -16,7 +16,7 @@ namespace SmartBank_BLL
         public int TransactionID { get; private set; }
         public clsAccounts FromAccount { get; private set; }
         /// <summary>
-        /// For deposits & withdrawls this will be null. Transfers, this will be the account from which the money is withdrawn.
+        /// For deposits & withdrawals this will be null. For transfers, this will be the account from which the money is withdrawn.
         /// </summary>
         public clsAccounts ToAccount { get; private set; } = null;
         public decimal Amount { get; private set; }
@@ -48,8 +48,9 @@ namespace SmartBank_BLL
             var cache = new ConcurrentDictionary<int, Task<clsAccounts>>();
             return (await Task.WhenAll(dt.Rows.Cast<DataRow>().Select(async row => {string normalized = row.Field<string>("TransactionType").Replace(" ", "_");
                 enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
-                return new clsTransactionLog(row.Field<int>("TransactionID"), type, await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync),
-                    row.Field<int?>("RelatedAccountID") is int rid ? await cache.GetOrAdd(rid, clsAccounts.FindAsync) : new clsAccounts { AccountNumber = "No Related Account" },
+                var fromAccount = await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync);
+                clsAccounts toAccount = row.Field<int?>("RelatedAccountID") is int rid ? await cache.GetOrAdd(rid, clsAccounts.FindAsync) : null;
+                return new clsTransactionLog(row.Field<int>("TransactionID"), type, fromAccount, toAccount,
                     row.Field<decimal>("Amount"), row.Field<string>("Description") is "No Description" ? null : row.Field<string>("Description"),
                     row.Field<DateTime>("TransactionDate"), row.Field<int>("ProcessedByUserID"), row.Field<bool>("IsScheduled"));}))).ToList();
         }
