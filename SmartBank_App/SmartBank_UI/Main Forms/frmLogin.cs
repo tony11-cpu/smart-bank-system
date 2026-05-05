@@ -127,6 +127,14 @@ namespace SmartBank_UI.Login
             await _refreshCounts();
         }
 
+        private async void frmLogin_Shown(object sender, EventArgs e)
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            await _refreshCounts();
+        }
+
         private async void _onTransactionCompleted()
         {
             if (this.Visible)
