@@ -68,10 +68,15 @@ namespace SmartBank_BLL
             clsTransactionDto transactionInfo = await clsTransactions_DAL.GetLatestTransactionByAccountIDAsync(accountID);
             if (transactionInfo == null) 
                 return null;
+
+            clsAccounts fromAccount = await clsAccounts.FindAsync(transactionInfo.AccountID);
+            if (fromAccount == null)
+                return null;
+
             string normalized = transactionInfo.TransactionType.Replace(" ", "_");
             enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
             return new clsTransactionLog(transactionInfo.TransactionID, type,
-                await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
+                fromAccount, transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
                 transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
         }
 
@@ -80,10 +85,15 @@ namespace SmartBank_BLL
             clsTransactionDto transactionInfo = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
             if (transactionInfo == null)
                 return null;
+
+            clsAccounts fromAccount = await clsAccounts.FindAsync(transactionInfo.AccountID);
+            if (fromAccount == null)
+                return null;
+
             string normalized = transactionInfo.TransactionType.Replace(" ", "_");
             enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
             return new clsTransactionLog(transactionInfo.TransactionID, type,
-                await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
+                fromAccount, transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
                 transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
         }
     }
