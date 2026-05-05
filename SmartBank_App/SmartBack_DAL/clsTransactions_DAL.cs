@@ -250,24 +250,9 @@ namespace SmartBack_DAL
                     return dt;
                 }
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                try
-                {
-                    using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                    using (SqlCommand cmd = new SqlCommand("SELECT TransactionID, AccountID, TransactionType, Amount, Description, TransactionDate, ProcessedByUserID, RelatedAccountID, IsScheduled FROM Transactions ORDER BY TransactionDate DESC", conn))
-                    {
-                        await conn.OpenAsync();
-                        using (SqlDataReader adapter = await cmd.ExecuteReaderAsync())
-                            dt.Load(adapter);
-
-                        return dt;
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                }
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
 
             return null;
