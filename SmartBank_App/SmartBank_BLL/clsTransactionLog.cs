@@ -73,8 +73,11 @@ namespace SmartBank_BLL
 
         private static decimal _getBalance(DataRow row, string columnName)
         {
-            if (row.Table.Columns.Contains(columnName) && row[columnName] != DBNull.Value)
-                return Convert.ToDecimal(row[columnName]);
+            foreach (DataColumn col in row.Table.Columns)
+            {
+                if (col.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase) && row[col] != DBNull.Value)
+                    return Convert.ToDecimal(row[col]);
+            }
             return 0;
         }
 

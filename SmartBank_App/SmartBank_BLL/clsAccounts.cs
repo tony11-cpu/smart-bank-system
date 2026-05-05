@@ -271,6 +271,7 @@ namespace SmartBank_BLL
             if (await clsPerformTransaction.DepositAsync(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance += amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
@@ -287,6 +288,7 @@ namespace SmartBank_BLL
             if (await clsPerformTransaction.WithdrawAsync(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance -= amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
@@ -307,6 +309,7 @@ namespace SmartBank_BLL
             {
                 this.Balance -= amount;
                 toAccount.Balance += amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
