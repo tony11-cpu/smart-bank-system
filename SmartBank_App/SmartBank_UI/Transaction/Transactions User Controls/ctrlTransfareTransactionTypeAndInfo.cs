@@ -27,6 +27,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         public decimal CurrentAmount => nupAmountInUSD.Value;
         public string Description => _isIdle(tbRefrenceOrRemark) ? string.Empty : tbRefrenceOrRemark.Text.Trim();
         public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
+        public string FromAccountNumber => _accountNumber;
 
         public void ClearToAccount()
         {
@@ -97,6 +98,14 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             if (string.IsNullOrWhiteSpace(tbToAccountNumber.Text) || _isIdle(tbToAccountNumber))
             {
                 MessageBox.Show("Please enter a valid account number to transfer to.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (tbToAccountNumber.Text.Trim() == _accountNumber)
+            {
+                tbToAccountNumber.Text = string.Empty;
+                _setTextboxStates(tbToAccountNumber, true, false);
+                MessageBox.Show("Cannot transfer to the same account.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
