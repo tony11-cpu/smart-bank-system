@@ -25,11 +25,28 @@ ALTER TABLE Transactions ADD BalanceAfter DECIMAL(18,2) NULL;
 GO
 
 UPDATE t
-SET t.BalanceBefore = a.Balance,
+SET t.BalanceBefore = a.Balance - t.Amount,
     t.BalanceAfter = a.Balance
 FROM Transactions t
 JOIN Accounts a ON t.AccountID = a.AccountID
-WHERE t.BalanceBefore IS NULL;
+WHERE t.TransactionType = 'Deposit'
+AND t.BalanceBefore IS NULL;
+
+UPDATE t
+SET t.BalanceBefore = a.Balance + t.Amount,
+    t.BalanceAfter = a.Balance
+FROM Transactions t
+JOIN Accounts a ON t.AccountID = a.AccountID
+WHERE t.TransactionType = 'Withdrawal'
+AND t.BalanceBefore IS NULL;
+
+UPDATE t
+SET t.BalanceBefore = a.Balance + t.Amount,
+    t.BalanceAfter = a.Balance
+FROM Transactions t
+JOIN Accounts a ON t.AccountID = a.AccountID
+WHERE t.TransactionType = 'Transfare'
+AND t.BalanceBefore IS NULL;
 GO
 
 
