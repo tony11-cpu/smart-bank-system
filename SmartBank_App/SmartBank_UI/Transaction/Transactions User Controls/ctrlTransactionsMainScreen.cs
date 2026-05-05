@@ -148,7 +148,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 lblTransactionType.Text = transactionData.TransactionType.ToString();
                 lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
 
-                decimal beforeBalance = transactionData.TransactionType == clsTransactionLog.enTransactionType.Withdrawal 
+                decimal beforeBalance = (transactionData.TransactionType == clsTransactionLog.enTransactionType.Withdrawal || 
+                                 transactionData.TransactionType == clsTransactionLog.enTransactionType.Transfer_In)
                     ? transactionData.BalanceAfterTransaction + transactionData.Amount 
                     : transactionData.BalanceAfterTransaction - transactionData.Amount;
                 nupBalanceBefore.Value = Math.Max(nupBalanceBefore.Minimum, Math.Min((decimal)nupBalanceBefore.Maximum, beforeBalance));
