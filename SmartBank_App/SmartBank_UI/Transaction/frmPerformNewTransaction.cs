@@ -211,6 +211,14 @@ namespace SmartBank_UI.Transaction
                             message = "Please enter a destination account number.";
                             isSuccess = false;
                         }
+                        else if (toAccountNumber == _fromAccountNumber)
+                        {
+                            if (transferControl != null)
+                                transferControl.ClearToAccount();
+                            _toAccountNumber = string.Empty;
+                            message = "Cannot transfer to the same account.";
+                            isSuccess = false;
+                        }
                         else
                         {
                             clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);

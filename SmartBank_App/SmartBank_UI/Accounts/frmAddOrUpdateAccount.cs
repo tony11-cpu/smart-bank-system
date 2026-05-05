@@ -107,7 +107,8 @@ namespace SmartBank_UI.Accounts
                 _setControlsEnabled(true);
                 lblCustomerNameLiveView.Text = $"{ctrlCustomerShortInfo1.Customer.FirstName} {ctrlCustomerShortInfo1.Customer.LastName}";
 
-                await _loadAutomatedAccountID();
+                if(_currentMode == enMode.Add)
+                    await _loadAutomatedAccountID();
 
                 if (string.IsNullOrEmpty(ctrlCustomerShortInfo1.Customer.ImagePath) || !File.Exists(ctrlCustomerShortInfo1.Customer.ImagePath))
                 {

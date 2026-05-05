@@ -28,6 +28,12 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         public string Description => _isIdle(tbRefrenceOrRemark) ? string.Empty : tbRefrenceOrRemark.Text.Trim();
         public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
 
+        public void ClearToAccount()
+        {
+            tbToAccountNumber.Text = string.Empty;
+            _setTextboxStates(tbToAccountNumber, true, false);
+        }
+
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
             InitializeComponent();
