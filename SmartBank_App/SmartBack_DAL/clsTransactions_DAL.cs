@@ -112,6 +112,8 @@ namespace SmartBack_DAL
                 SqlParameter pTransactionDate = new SqlParameter("@TransactionDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
                 SqlParameter pProcessedByUserID = new SqlParameter("@ProcessedByUserID", SqlDbType.Int) { Direction = ParameterDirection.Output };
                 SqlParameter pIsScheduled = new SqlParameter("@IsScheduled", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                SqlParameter pBalanceBefore = new SqlParameter("@BalanceBefore", SqlDbType.Decimal) { Direction = ParameterDirection.Output };
+                SqlParameter pBalanceAfter = new SqlParameter("@BalanceAfter", SqlDbType.Decimal) { Direction = ParameterDirection.Output };
 
                 cmd.Parameters.Add(pTransactionID);
                 cmd.Parameters.Add(pTransactionType);
@@ -121,6 +123,8 @@ namespace SmartBack_DAL
                 cmd.Parameters.Add(pTransactionDate);
                 cmd.Parameters.Add(pProcessedByUserID);
                 cmd.Parameters.Add(pIsScheduled);
+                cmd.Parameters.Add(pBalanceBefore);
+                cmd.Parameters.Add(pBalanceAfter);
 
                 try
                 {
@@ -131,7 +135,9 @@ namespace SmartBack_DAL
 
                     return new clsTransactionDto((int)pTransactionID.Value, accountID, (string)pTransactionType.Value, (decimal)pAmount.Value,
                         pRelatedAccountID.Value == DBNull.Value ? null : (int?)pRelatedAccountID.Value, 
-                        pDescription.Value == DBNull.Value ? null : (string)pDescription.Value, (DateTime)pTransactionDate.Value, (int)pProcessedByUserID.Value, (bool)pIsScheduled.Value);
+                        pDescription.Value == DBNull.Value ? null : (string)pDescription.Value, (DateTime)pTransactionDate.Value, (int)pProcessedByUserID.Value, (bool)pIsScheduled.Value,
+                        pBalanceBefore.Value == DBNull.Value ? 0 : (decimal)pBalanceBefore.Value,
+                        pBalanceAfter.Value == DBNull.Value ? 0 : (decimal)pBalanceAfter.Value);
                 }
                 catch (SqlException ex)
                 {
