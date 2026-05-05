@@ -46,19 +46,21 @@ namespace SmartBank_BLL
             if (dt == null || dt.Rows.Count == 0) return new List<clsTransactionLog>();
 
             var cache = new ConcurrentDictionary<int, Task<clsAccounts>>();
-            return (await Task.WhenAll(dt.Rows.Cast<DataRow>().Select(async row => new clsTransactionLog(
-                row.Field<int>("TransactionID"),
-                (enTransactionType)Enum.Parse(typeof(enTransactionType),
-                row.Field<string>("TransactionType").Replace(" ", "_")),
-                await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync),
-                row.Field<int?>("RelatedAccountID") is int rid ?
-                await cache.GetOrAdd(rid, clsAccounts.FindAsync) : new clsAccounts { AccountNumber = "No Related Account" },
-                row.Field<decimal>("Amount"),
-                row.Field<string>("Description") is "No Description" ? null : row.Field<string>("Description"),
-                row.Field<DateTime>("TransactionDate"),
-                row.Field<int>("ProcessedByUserID"),
-                row.Field<bool>("IsScheduled")
-            )))).ToList();
+            return (await Task.WhenAll(dt.Rows.Cast<DataRow>().Select(async row =>
+            {
+                string normalized = row.Field<string>("TransactionType").Replace(" ", "_");
+                enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
+                return new clsTransactionLog(
+                    row.Field<int>("TransactionID"),
+                    type,
+                    await cache.GetOrAdd(row.Field<int>("AccountID"), clsAccounts.FindAsync),
+                    row.Field<int?>("RelatedAccountID") is int rid ? await cache.GetOrAdd(rid, clsAccounts.FindAsync) : new clsAccounts { AccountNumber = "No Related Account" },
+                    row.Field<decimal>("Amount"),
+                    row.Field<string>("Description") is "No Description" ? null : row.Field<string>("Description"),
+                    row.Field<DateTime>("TransactionDate"),
+                    row.Field<int>("ProcessedByUserID"),
+                    row.Field<bool>("IsScheduled"));
+            }))).ToList();
         }
 
         public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
@@ -68,8 +70,9 @@ namespace SmartBank_BLL
             clsTransactionDto transactionInfo = await clsTransactions_DAL.GetLatestTransactionByAccountIDAsync(accountID);
             if (transactionInfo == null) 
                 return null;
-                
-            return new clsTransactionLog(transactionInfo.TransactionID, (enTransactionType)Enum.Parse(typeof(enTransactionType), transactionInfo.TransactionType.Replace(" ", "_")),
+            string normalized = transactionInfo.TransactionType.Replace(" ", "_");
+            enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
+            return new clsTransactionLog(transactionInfo.TransactionID, type,
                 await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
                 transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
         }
@@ -79,8 +82,9 @@ namespace SmartBank_BLL
             clsTransactionDto transactionInfo = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
             if (transactionInfo == null)
                 return null;
-
-            return new clsTransactionLog(transactionInfo.TransactionID, (enTransactionType)Enum.Parse(typeof(enTransactionType), transactionInfo.TransactionType.Replace(" ", "_")),
+            string normalized = transactionInfo.TransactionType.Replace(" ", "_");
+            enTransactionType type = Enum.TryParse<enTransactionType>(normalized, out var r) ? r : (normalized.Contains("Transfer") ? enTransactionType.Transfer_In : enTransactionType.Scheduled);
+            return new clsTransactionLog(transactionInfo.TransactionID, type,
                 await clsAccounts.FindAsync(transactionInfo.AccountID), transactionInfo.RelatedAccountID.HasValue ? await clsAccounts.FindAsync(transactionInfo.RelatedAccountID.Value) : null,
                 transactionInfo.Amount, transactionInfo.Description, transactionInfo.TransactionDate, transactionInfo.ProcessedByUserID, transactionInfo.IsScheduled);
         }
