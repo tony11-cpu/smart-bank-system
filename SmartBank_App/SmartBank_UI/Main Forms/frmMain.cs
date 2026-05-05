@@ -38,6 +38,7 @@ namespace SmartBank_UI
         {
             clsGlobal.ActiveUser = null;
             _frmLogin.Show();
+            _frmLogin.Activate();
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
