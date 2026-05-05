@@ -241,7 +241,7 @@ namespace SmartBack_DAL
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.fn_GetAllTransactions()", conn))
+                using (SqlCommand cmd = new SqlCommand("SELECT TransactionID, AccountID, TransactionType, Amount, Description, TransactionDate, ProcessedByUserID, RelatedAccountID, IsScheduled FROM Transactions ORDER BY TransactionDate DESC", conn))
                 {
                     await conn.OpenAsync();
                     using (SqlDataReader adapter = await cmd.ExecuteReaderAsync())
