@@ -39,6 +39,8 @@ namespace SmartBank_UI
             clsGlobal.ActiveUser = null;
             _frmLogin.Show();
             _frmLogin.Activate();
+            if (_frmLogin is frmLogin loginForm)
+                loginForm.RefreshCountsOnSignOut();
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)

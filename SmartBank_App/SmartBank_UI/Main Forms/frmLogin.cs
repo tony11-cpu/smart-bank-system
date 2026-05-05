@@ -141,6 +141,11 @@ namespace SmartBank_UI.Login
                 await _refreshCounts();
         }
 
+        public async void RefreshCountsOnSignOut()
+        {
+            await _refreshCounts();
+        }
+
         private async Task _refreshCounts()
         {
             lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
