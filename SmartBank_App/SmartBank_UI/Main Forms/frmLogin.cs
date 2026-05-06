@@ -86,8 +86,7 @@ namespace SmartBank_UI.Login
 
             notifyIcon1.Visible = true;
             notifyIcon1.Icon = SystemIcons.Application;
-            string firstName = clsGlobal.ActiveUser.FullName?.Split(' ')[0] ?? "User";
-            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {firstName}!", ToolTipIcon.Info);
+            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {clsGlobal.ActiveUser.FullName?.Split(' ')[0] ?? "User"}!", ToolTipIcon.Info);
 
             this.Hide();
             frmMain mainForm = new frmMain(this);
@@ -142,10 +141,7 @@ namespace SmartBank_UI.Login
                 await _refreshCounts();
         }
 
-        public async void RefreshCountsOnSignOut()
-        {
-            await _refreshCounts();
-        }
+        public async Task RefreshCountsOnSignOut() => await _refreshCounts();
 
         private async Task _refreshCounts()
         {

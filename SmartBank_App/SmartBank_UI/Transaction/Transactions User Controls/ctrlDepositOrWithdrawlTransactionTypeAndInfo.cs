@@ -39,11 +39,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
         }
 
-        public ctrlDepositOrWithdrawalTransactionTypeAndInfo()
-        {
-            InitializeComponent();
-        }
-
         public ctrlDepositOrWithdrawalTransactionTypeAndInfo(string accountNumber, enTransactionAction formType)
         {
             InitializeComponent();
@@ -129,11 +124,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             tbRemarks.Enabled = enable;
         }
 
-        private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
-        {
-            bool isValid = nupAmountInUSD.Value > 0;
-            errorProvider1.SetError(nupAmountInUSD, isValid ? null : "Please enter a valid amount greater than zero.");
-        }
+        private void nupAmountInUSD_Validating(object sender, CancelEventArgs e) => errorProvider1.SetError(nupAmountInUSD, nupAmountInUSD.Value > 0 ? null : "Please enter a valid amount greater than zero.");
 
         private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value, _formType == enTransactionAction.Deposit);
 
@@ -147,9 +138,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 isValid = false;
             }
             else
-            {
                 errorProvider1.SetError(cbConfirmTransactionFund, null);
-            }
 
             if (!cbAccountValid.Checked)
             {
@@ -157,9 +146,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 isValid = false;
             }
             else
-            {
                 errorProvider1.SetError(cbAccountValid, null);
-            }
 
             return isValid;
         }
