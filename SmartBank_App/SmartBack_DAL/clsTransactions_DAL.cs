@@ -274,5 +274,69 @@ namespace SmartBack_DAL
 
             return null;
         }
+
+        public static async Task<bool> ScheduleTransferAsync(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_ScheduleTransfer", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@UserInActionID", performedByUserID);
+                    cmd.Parameters.AddWithValue("@FromAccountID", fromAccountID);
+                    cmd.Parameters.AddWithValue("@ToAccountID", toAccountID);
+                    cmd.Parameters.AddWithValue("@Amount", amount);
+                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrEmpty(description) ? (object)DBNull.Value : description);
+                    cmd.Parameters.AddWithValue("@ScheduledDate", scheduledDate);
+
+                    SqlParameter pNewTransactionID = new SqlParameter("@NewTransactionID", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(pNewTransactionID);
+
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+
+                    return (int)pNewTransactionID.Value > 0;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return false;
+        }
+
+        public static async Task<int> ProcessScheduledTransfersAsync()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_ProcessScheduledTransfers", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter pProcessedCount = new SqlParameter("@ProcessedCount", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(pProcessedCount);
+
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+
+                    return (int)pProcessedCount.Value;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                throw;
+            }
+        }
     }
 }
