@@ -185,79 +185,49 @@ namespace SmartBank_UI.Transaction
 
             try
             {
-                clsAccounts fromAccount = await clsAccounts.FindAsync(_fromAccountNumber);
+                var fromAccount = await clsAccounts.FindAsync(_fromAccountNumber);
                 decimal amount = _getCurrentAmount();
-                string description = _getCurrentDescription();
-                bool isSuccess = false;
-                string message = string.Empty;
+                string desc = _getCurrentDescription();
+                bool success = false;
+                string msg = "Transaction failed";
 
                 if (_transactionType == enTransactionType.Transfer)
                 {
-                    var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
-                    string toAccountNumber = transferControl?.ToAccountNumber ?? _toAccountNumber;
+                    var tc = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                    var toAccount = await clsAccounts.FindAsync(tc?.ToAccountNumber ?? _toAccountNumber);
 
-                    if (string.IsNullOrEmpty(toAccountNumber))
-                    {
-                        MessageBox.Show("Please enter a destination account number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
                     if (toAccount == null || toAccount.Status != clsAccounts.enStatus.Active)
-                    {
-                        MessageBox.Show("Invalid destination account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    { MessageBox.Show("Invalid account.", "Error"); return; }
 
-                    DateTime scheduledDate = transferControl?.ScheduledDate ?? DateTime.Now;
-                    bool isScheduled = scheduledDate > DateTime.Now;
+                    bool isScheduled = tc?.ScheduledDate > DateTime.Now;
+                    success = isScheduled 
+                        ? await fromAccount.ScheduleTransferToAsync(toAccount, amount, desc, tc.ScheduledDate)
+                        : await fromAccount.TransferToAsync(toAccount, amount, desc);
 
-                    isSuccess = isScheduled 
-                        ? await fromAccount.ScheduleTransferToAsync(toAccount, amount, description, scheduledDate)
-                        : await fromAccount.TransferToAsync(toAccount, amount, description);
-
-                    message = isSuccess 
-                        ? (isScheduled ? $"Transfer scheduled for {scheduledDate:g}" : $"Transfer completed")
-                        : "Transfer failed";
+                    msg = success ? (isScheduled ? "Scheduled" : "Done") : "Failed";
                 }
                 else
                 {
-                    if (_transactionType == enTransactionType.Deposit)
-                        isSuccess = await fromAccount.DepositAsync(amount, description);
-                    else if (_transactionType == enTransactionType.Withdrawl)
-                        isSuccess = await fromAccount.WithdrawAsync(amount, description);
-
-                    message = isSuccess ? "Transaction completed" : "Transaction failed";
+                    success = _transactionType == enTransactionType.Deposit 
+                        ? await fromAccount.DepositAsync(amount, desc)
+                        : await fromAccount.WithdrawAsync(amount, desc);
+                    msg = success ? "Done" : "Failed";
                 }
 
-                if (isSuccess)
-                {
-                    clsGlobal.FireTransactionCompleted();
-                    MessageBox.Show(message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (success) clsGlobal.FireTransactionCompleted();
+                MessageBox.Show(msg, success ? "OK" : "Error", MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Error"); }
 
-            this.Close();
+            Close();
         }
 
         private decimal _getCurrentAmount()
-        {
-            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo tc) return tc.CurrentAmount;
-            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo dc) return dc.CurrentAmount;
-            return 0;
-        }
+            => (pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo)?.CurrentAmount 
+            ?? (pMain.Controls[0] as ctrlDepositOrWithdrawalTransactionTypeAndInfo)?.CurrentAmount ?? 0;
 
         private string _getCurrentDescription()
-        {
-            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo tc) return tc.Description;
-            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo dc) return dc.Description;
-            return string.Empty;
-        }
+            => (pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo)?.Description 
+            ?? (pMain.Controls[0] as ctrlDepositOrWithdrawalTransactionTypeAndInfo)?.Description ?? "";
     }
 }
