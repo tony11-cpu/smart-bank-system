@@ -67,9 +67,27 @@ namespace SmartBank_BLL
             return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
         }
 
-        public static async Task<bool> ScheduleTransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
+public static async Task<bool> ScheduleTransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
         {
-            throw new NotImplementedException();
+            if (!fromAccountID.HasValue || !toAccountID.HasValue)
+                throw new ArgumentException("From and To account IDs are required.");
+
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero.");
+
+            if (scheduledDate <= DateTime.Now)
+                throw new ArgumentException("Scheduled date must be in the future.");
+
+            clsAccounts fromAccount = _validateAccount(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "schedule transfers");
+            clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
+
+            return await clsTransactions_DAL.ScheduleTransferAsync(
+                fromAccountID.Value,
+                toAccountID.Value,
+                amount,
+                description,
+                scheduledDate,
+                performedByUserID);
         }
 
         async Task<bool> ITransactions.Deposit(int accountID, decimal amount, string description, int performedByUserID) => await DepositAsync(accountID, amount, description, performedByUserID);
