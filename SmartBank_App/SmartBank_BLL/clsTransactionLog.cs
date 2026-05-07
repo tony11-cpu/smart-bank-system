@@ -19,6 +19,7 @@ namespace SmartBank_BLL
         public DateTime TransactionDate { get; private set; }
         public int UserResponsibleID { get; private set; }
         public bool IsScheduled { get; private set; }
+        public bool IsPendingScheduled => IsScheduled && BalanceBeforeTransaction == BalanceAfterTransaction;
         public decimal BalanceAfterTransaction { get; private set; }
         public decimal BalanceBeforeTransaction { get; private set; }
 
