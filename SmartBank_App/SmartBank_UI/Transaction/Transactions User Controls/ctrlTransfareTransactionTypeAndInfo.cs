@@ -27,6 +27,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         public decimal CurrentAmount => nupAmountInUSD.Value;
         public string Description => _isIdle(tbRefrenceOrRemark) ? string.Empty : tbRefrenceOrRemark.Text.Trim();
         public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
+        public DateTime ScheduledDate => DateTime.TryParse(mtbTransactionDate.Text, out DateTime date) ? date : DateTime.Now;
 
         public void ClearToAccount()
         {

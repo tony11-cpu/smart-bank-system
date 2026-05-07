@@ -234,8 +234,19 @@ namespace SmartBank_UI.Transaction
                             }
                             else
                             {
-                                isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
-                                message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                                var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                                DateTime scheduledDate = transferControl?.ScheduledDate ?? DateTime.Now;
+
+                                if (scheduledDate > DateTime.Now)
+                                {
+                                    isSuccess = await fromAccount.ScheduleTransferToAsync(toAccount, amount, description, scheduledDate);
+                                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} scheduled for {scheduledDate:g}." : "Scheduled transfer failed.";
+                                }
+                                else
+                                {
+                                    isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
+                                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
+                                }
                             }
                         }
 
