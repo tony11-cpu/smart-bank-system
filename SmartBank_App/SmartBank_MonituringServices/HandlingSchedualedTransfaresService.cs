@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartBank_BLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,16 +16,41 @@ namespace SmartBank_MonituringServices
         public HandlingSchedualedTransfaresService()
         {
             InitializeComponent();
+
+            CanShutdown = true;
+            this.ServiceName = "HandlingSchedualedTransfaresService";
+
+        }
+
+        private void _logServiceMessage(string message)
+        {
+            clsUtil.clsLogger.Log(clsUtil.clsLogger.LogDirectory.SchedualTransfareFile, message);
         }
 
         protected override void OnStart(string[] args)
         {
-            // TODO: Add code here to start your service.
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+            
+            try
+            {
+
+                _logServiceMessage("Service started successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logServiceMessage($"An error occurred while starting the service: {ex.Message}");
+                this.OnStop();
+            }
         }
 
         protected override void OnStop()
         {
-            // TODO: Add code here to perform any tear-down necessary to stop your service.
+            _logServiceMessage("Service stopped.");
+        }
+
+        protected override void OnShutdown()
+        {
+            
         }
     }
 }
