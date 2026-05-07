@@ -180,108 +180,83 @@ namespace SmartBank_UI.Transaction
 
         private async void btnPerformTransaction_Click(object sender, EventArgs e)
         {
-            foreach (UserControl c in pMain.Controls)
-                if (!c.ValidateChildren())
-                    return;
+            if (!pMain.Controls[0].ValidateChildren())
+                return;
 
-            clsAccounts fromAccount = await clsAccounts.FindAsync(_fromAccountNumber);
-            decimal amount = _getCurrentAmount();
-            string description = _getCurrentDescription();
-
-            bool isSuccess = false;
-            string message = string.Empty;
             try
             {
-                switch(_transactionType)
+                clsAccounts fromAccount = await clsAccounts.FindAsync(_fromAccountNumber);
+                decimal amount = _getCurrentAmount();
+                string description = _getCurrentDescription();
+                bool isSuccess = false;
+                string message = string.Empty;
+
+                if (_transactionType == enTransactionType.Transfer)
                 {
-                    case enTransactionType.Deposit:
-                        isSuccess = await fromAccount.DepositAsync(amount, description);
-                        message = isSuccess ? $"Deposit of {amount:C} completed successfully." : "Deposit transaction failed.";
-                        break;
-                    case enTransactionType.Withdrawl:
-                        isSuccess = await fromAccount.WithdrawAsync(amount, description);
-                        message = isSuccess ? $"Withdrawal of {amount:C} completed successfully." : "Withdrawal transaction failed.";
-                        break;
-                    case enTransactionType.Transfer:
-                        var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
-                        string toAccountNumber = transferControl != null ? transferControl.ToAccountNumber : _toAccountNumber;
-                        
-                        if (string.IsNullOrEmpty(toAccountNumber))
-                        {
-                            message = "Please enter a destination account number.";
-                            isSuccess = false;
-                        }
-                        else if (toAccountNumber == _fromAccountNumber)
-                        {
-                            if (transferControl != null)
-                                transferControl.ClearToAccount();
-                            _toAccountNumber = string.Empty;
-                            message = "Cannot transfer to the same account.";
-                            isSuccess = false;
-                        }
-                        else
-                        {
-                            clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
-                            if (toAccount == null)
-                            {
-                                message = "Destination account not found.";
-                                isSuccess = false;
-                            }
-                            else if (toAccount.Status != clsAccounts.enStatus.Active)
-                            {
-                                message = $"Destination account is {toAccount.Status}. Only Active accounts can receive transfers.";
-                                isSuccess = false;
-                            }
-                            else
-                            {
-                                var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
-                                DateTime scheduledDate = transferControl?.ScheduledDate ?? DateTime.Now;
+                    var transferControl = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                    string toAccountNumber = transferControl?.ToAccountNumber ?? _toAccountNumber;
 
-                                if (scheduledDate > DateTime.Now)
-                                {
-                                    isSuccess = await fromAccount.ScheduleTransferToAsync(toAccount, amount, description, scheduledDate);
-                                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} scheduled for {scheduledDate:g}." : "Scheduled transfer failed.";
-                                }
-                                else
-                                {
-                                    isSuccess = await fromAccount.TransferToAsync(toAccount, amount, description);
-                                    message = isSuccess ? $"Transfer of {amount:C} to account {toAccountNumber} completed successfully." : "Transfer transaction failed.";
-                                }
-                            }
-                        }
+                    if (string.IsNullOrEmpty(toAccountNumber))
+                    {
+                        MessageBox.Show("Please enter a destination account number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                        break;
+                    clsAccounts toAccount = await clsAccounts.FindAsync(toAccountNumber);
+                    if (toAccount == null || toAccount.Status != clsAccounts.enStatus.Active)
+                    {
+                        MessageBox.Show("Invalid destination account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    DateTime scheduledDate = transferControl?.ScheduledDate ?? DateTime.Now;
+                    bool isScheduled = scheduledDate > DateTime.Now;
+
+                    isSuccess = isScheduled 
+                        ? await fromAccount.ScheduleTransferToAsync(toAccount, amount, description, scheduledDate)
+                        : await fromAccount.TransferToAsync(toAccount, amount, description);
+
+                    message = isSuccess 
+                        ? (isScheduled ? $"Transfer scheduled for {scheduledDate:g}" : $"Transfer completed")
+                        : "Transfer failed";
                 }
+                else
+                {
+                    if (_transactionType == enTransactionType.Deposit)
+                        isSuccess = await fromAccount.DepositAsync(amount, description);
+                    else if (_transactionType == enTransactionType.Withdrawl)
+                        isSuccess = await fromAccount.WithdrawAsync(amount, description);
+
+                    message = isSuccess ? "Transaction completed" : "Transaction failed";
+                }
+
+                if (isSuccess)
+                {
+                    clsGlobal.FireTransactionCompleted();
+                    MessageBox.Show(message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                isSuccess = false;
-                message = $"Transaction failed: {ex.Message}";
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            MessageBox.Show(message, isSuccess ? "Success" : "Error", MessageBoxButtons.OK, isSuccess ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-            
-            if (isSuccess)
-                clsGlobal.FireTransactionCompleted();
 
             this.Close();
         }
 
         private decimal _getCurrentAmount()
         {
-            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo depositControl)
-                return depositControl.CurrentAmount;
-            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo transferControl)
-                return transferControl.CurrentAmount;
+            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo tc) return tc.CurrentAmount;
+            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo dc) return dc.CurrentAmount;
             return 0;
         }
 
         private string _getCurrentDescription()
         {
-            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo depositControl)
-                return depositControl.Description;
-            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo transferControl)
-                return transferControl.Description;
+            if (pMain.Controls[0] is ctrlTransfareTransactionTypeAndInfo tc) return tc.Description;
+            if (pMain.Controls[0] is ctrlDepositOrWithdrawalTransactionTypeAndInfo dc) return dc.Description;
             return string.Empty;
         }
     }
