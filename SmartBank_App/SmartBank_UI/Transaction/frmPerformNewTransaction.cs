@@ -180,7 +180,7 @@ namespace SmartBank_UI.Transaction
 
         private async void btnPerformTransaction_Click(object sender, EventArgs e)
         {
-            if (!pMain.Controls[0].ValidateChildren())
+            if (pMain.Controls[0] is UserControl uc && !uc.ValidateChildren())
                 return;
 
             try
