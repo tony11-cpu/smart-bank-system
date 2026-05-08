@@ -306,9 +306,13 @@ namespace SmartBack_DAL
             catch (SqlException ex)
             {
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                throw new Exception($"Database error: {ex.Message}", ex);
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                throw;
+            }
         }
 
         public static async Task<int> ProcessScheduledTransfersAsync()
