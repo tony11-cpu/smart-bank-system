@@ -126,7 +126,7 @@ namespace SmartBank_BLL
                     switch (directory)
                     {
                         case LogDirectory.SchedualTransfareFile:
-                            basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SchedualTransfareLogs");
+                            basePath = @"C:\SmartBank\SchedualTransfareLogs";
                             break;
 
                         default:
@@ -141,10 +141,15 @@ namespace SmartBank_BLL
 
                     File.AppendAllText(logFile, logEntry, Encoding.UTF8);
                 }
+                catch (UnauthorizedAccessException ex)
+                {
+                    clsDB_Util.clsLogger.Log($"Permission Denied: {ex.Message}", EventLogEntryType.Error);
+                    throw new Exception($"Permission Denied: {ex.Message}", ex);
+                }
                 catch (Exception ex)
                 {
                     clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                    throw new Exception($"Failed to write log service error: {ex.Message}", ex);
+                    throw new Exception($"Failed to write log: {ex.Message}", ex);
                 }
             }
         }
