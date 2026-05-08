@@ -68,7 +68,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void ctrlTransfareTransactionTypeAndInfo_Load(object sender, EventArgs e)
         {
-            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy/HH:mm:ss");
+            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
 
             if (!string.IsNullOrEmpty(_accountNumber))
             {
@@ -149,7 +149,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private void cbScheduleTransfare_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbScheduleTransfare.SelectedIndex >= 0)
-                mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm:ss");
+                mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm");
         }
 
         private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value);
