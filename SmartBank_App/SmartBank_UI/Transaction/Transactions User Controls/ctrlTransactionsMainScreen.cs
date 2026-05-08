@@ -146,7 +146,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 }
 
                 lblTransactionType.Text = transactionData.TransactionType.ToString();
-                lblTransactionlStatus.Text = transactionData.IsPendingScheduled ? "Pending" : (transactionData.IsScheduled ? "Completed" : "Completed");
+                lblTransactionlStatus.Text = (transactionData.IsScheduled && transactionData.BalanceBeforeTransaction == transactionData.BalanceAfterTransaction) ? "Pending" : "Completed";
 
                 nupBalanceBefore.Value = transactionData.BalanceBeforeTransaction;
                 nupBalanceAfter.Value = transactionData.BalanceAfterTransaction;
