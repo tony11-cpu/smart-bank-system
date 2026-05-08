@@ -3,6 +3,7 @@ using SmartBack_DAL;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -95,8 +96,7 @@ namespace SmartBank_BLL
 
         public static class clsLogger
         {
-            static public bool SaveUserDataToRegistry(string username, string password) => 
-                                clsDB_Util.clsLogger.LogToRegistry(username, clsSecurity.clsCryptography.Encrypt(password));
+            static public bool SaveUserDataToRegistry(string username, string password) => clsDB_Util.clsLogger.LogToRegistry(username, clsSecurity.clsCryptography.Encrypt(password));
             static public (string Username , string Password) ReadUserDataFromRegistry()
             {
                 (string ,string Password) result = clsDB_Util.clsLogger.ReadUserDataFromRegistry();
@@ -105,6 +105,47 @@ namespace SmartBank_BLL
                     result.Password = clsSecurity.clsCryptography.Decrypt(result.Password);
 
                 return result;
+            }
+
+            public enum LogDirectory
+            {
+                SchedualTransfareFile
+            }
+
+            /// <summary>
+            /// Make Sure To Use Try-Catch When Using This Method To Avoid Unhandled Exceptions That May Occur During File Operations.
+            /// </summary>
+            /// <param name="directory">Directory to log the message.</param>
+            /// <param name="message">Message to log.</param>
+            public static void Log(LogDirectory directory, string message)
+            {
+                try
+                {
+                    string basePath;
+
+                    switch (directory)
+                    {
+                        case LogDirectory.SchedualTransfareFile:
+                            basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SchedualTransfareLogs");
+                            break;
+
+                        default:
+                            return;
+                    }
+
+                    if (!Directory.Exists(basePath))
+                        Directory.CreateDirectory(basePath);
+
+                    string logFile = Path.Combine(basePath, "service_logs.txt");
+                    string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}{Environment.NewLine}";
+
+                    File.AppendAllText(logFile, logEntry, Encoding.UTF8);
+                }
+                catch (Exception ex)
+                {
+                    clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                    throw new Exception($"Failed to write log service error: {ex.Message}", ex);
+                }
             }
         }
 
