@@ -29,12 +29,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
         public DateTime ScheduledDate => DateTime.TryParse(mtbTransactionDate.Text, out DateTime date) ? date : DateTime.Now;
 
-        public void ClearToAccount()
-        {
-            tbToAccountNumber.Text = string.Empty;
-            _setTextboxStates(tbToAccountNumber, true, false);
-        }
-
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
             InitializeComponent();
@@ -129,8 +123,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private async void tbAccountNumber_Validating(object sender, CancelEventArgs e)
         {
             e.Cancel = _isIdle((TextBox)sender) || !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text);
-            errorProvider1.SetError(tbToAccountNumber, _isIdle((TextBox)sender) ? "Please enter a valid account number." :
-                                                       !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text) ? "The account number does not exist." : null);
+            errorProvider1.SetError(tbToAccountNumber, _isIdle((TextBox)sender) ? "Please enter a valid account number." : !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text) ? "The account number does not exist." : null);
         }
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
@@ -158,13 +151,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             if (e.KeyChar == (char)13)
             {
-                var textBox = (TextBox)sender;
+                TextBox textBox = (TextBox)sender;
                 _setTextboxStates(textBox, false, true);
 
-                if(textBox.Tag.ToString() == "FromAccount")
-                    btnFromAccountLookUp.PerformClick();
-                else if(textBox.Tag.ToString() == "ToAccount")
-                    btnLookUpToAccount.PerformClick();
+                if(textBox.Tag.ToString() == "FromAccount") btnFromAccountLookUp.PerformClick();
+                else if(textBox.Tag.ToString() == "ToAccount") btnLookUpToAccount.PerformClick();
             }
         }
     }
