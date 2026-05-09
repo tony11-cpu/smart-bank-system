@@ -125,17 +125,30 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private async void tbAccountNumber_Validating(object sender, CancelEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            bool isIdle = _isIdle(textBox);
+            if (_isIdle(textBox))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "Please enter a valid account number.");
+                return;
+            }
+
             string accountNumber = textBox.Text.Trim();
+            if (!await clsAccounts.IsAccountExistsAsync(accountNumber))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "The account number does not exist.");
+                return;
+            }
 
-            bool isExists = !isIdle && await clsAccounts.IsAccountExistsAsync(accountNumber);
-            bool isSameAccount = textBox == tbToAccountNumber && !_isIdle(tbFromAccountNumber) && accountNumber == tbFromAccountNumber.Text.Trim();
+            if (textBox == tbToAccountNumber && !_isIdle(tbFromAccountNumber) && accountNumber == tbFromAccountNumber.Text.Trim())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "Cannot transfer to the same account.");
+                return;
+            }
 
-            e.Cancel = isIdle || !isExists || isSameAccount;
-            errorProvider1.SetError(textBox, isIdle ? "Please enter a valid account number."
-                               : !isExists ? "The account number does not exist."
-                               : isSameAccount ? "Cannot transfer to the same account."
-                               : null);
+            e.Cancel = false;
+            errorProvider1.SetError(textBox, null);
         }
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
@@ -163,7 +176,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             if (e.KeyChar == (char)13)
             {
-                if (sender is TextBox textBox)
+                TextBox textBox = sender as TextBox;
+                if (textBox != null)
                 {
                     _setTextboxStates(textBox, false, true);
 
@@ -171,8 +185,11 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                         btnFromAccountLookUp.PerformClick();
                     else if (textBox == tbToAccountNumber)
                         btnLookUpToAccount.PerformClick();
+
+                    return;
                 }
-                else if (sender == btnFromAccountLookUp)
+
+                if (sender == btnFromAccountLookUp)
                     btnFromAccountLookUp.PerformClick();
                 else if (sender == btnLookUpToAccount)
                     btnLookUpToAccount.PerformClick();

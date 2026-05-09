@@ -186,19 +186,7 @@ namespace SmartBank_UI.Transaction
 
             try
             {
-                if (string.IsNullOrWhiteSpace(_fromAccountNumber))
-                {
-                    MessageBox.Show("Please enter a valid source account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 clsAccounts account = await clsAccounts.FindAsync(_fromAccountNumber);
-                if (account == null)
-                {
-                    MessageBox.Show("Source account not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 decimal amount = _getCurrentAmount();
                 string desc = _getCurrentDescription();
                 bool ok = false;
@@ -208,13 +196,7 @@ namespace SmartBank_UI.Transaction
                     var tc = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
                     string toAccountNumber = tc?.ToAccountNumber ?? _toAccountNumber;
 
-                    if (string.IsNullOrWhiteSpace(toAccountNumber))
-                    {
-                        MessageBox.Show("Please enter a valid destination account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    if (toAccountNumber == account.AccountNumber)
+                    if (toAccountNumber == _fromAccountNumber)
                     {
                         MessageBox.Show("Cannot transfer to the same account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
