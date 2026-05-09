@@ -27,12 +27,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         public decimal CurrentAmount => nupAmountInUSD.Value;
         public string Description => _isIdle(tbRefrenceOrRemark) ? string.Empty : tbRefrenceOrRemark.Text.Trim();
         public string ToAccountNumber => _isIdle(tbToAccountNumber) ? string.Empty : tbToAccountNumber.Text.Trim();
-
-        public void ClearToAccount()
-        {
-            tbToAccountNumber.Text = string.Empty;
-            _setTextboxStates(tbToAccountNumber, true, false);
-        }
+        public DateTime ScheduledDate => DateTime.TryParse(mtbTransactionDate.Text, out DateTime date) ? date : DateTime.Now;
 
         public ctrlTransfareTransactionTypeAndInfo(string accountNumber)
         {
@@ -67,7 +62,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void ctrlTransfareTransactionTypeAndInfo_Load(object sender, EventArgs e)
         {
-            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy/HH:mm:ss");
+            mtbTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
 
             if (!string.IsNullOrEmpty(_accountNumber))
             {
@@ -88,7 +83,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            OnFromAccountNumberChanged?.Invoke(tbFromAccountNumber.Text.Trim());
+            _accountNumber = tbFromAccountNumber.Text.Trim();
+            OnFromAccountNumberChanged?.Invoke(_accountNumber);
             _enableOrDisableTransactionProps(true);
         }
 
@@ -100,7 +96,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            if (tbToAccountNumber.Text.Trim() == _accountNumber)
+            string fromAccountNumber = _isIdle(tbFromAccountNumber) ? _accountNumber : tbFromAccountNumber.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(fromAccountNumber) && tbToAccountNumber.Text.Trim() == fromAccountNumber)
             {
                 tbToAccountNumber.Text = string.Empty;
                 _setTextboxStates(tbToAccountNumber, true, false);
@@ -127,9 +124,31 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private async void tbAccountNumber_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = _isIdle((TextBox)sender) || !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text);
-            errorProvider1.SetError(tbToAccountNumber, _isIdle((TextBox)sender) ? "Please enter a valid account number." :
-                                                       !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text) ? "The account number does not exist." : null);
+            TextBox textBox = (TextBox)sender;
+            if (_isIdle(textBox))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "Please enter a valid account number.");
+                return;
+            }
+
+            string accountNumber = textBox.Text.Trim();
+            if (!await clsAccounts.IsAccountExistsAsync(accountNumber))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "The account number does not exist.");
+                return;
+            }
+
+            if (textBox == tbToAccountNumber && !_isIdle(tbFromAccountNumber) && accountNumber == tbFromAccountNumber.Text.Trim())
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(textBox, "Cannot transfer to the same account.");
+                return;
+            }
+
+            e.Cancel = false;
+            errorProvider1.SetError(textBox, null);
         }
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
@@ -148,23 +167,29 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private void cbScheduleTransfare_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbScheduleTransfare.SelectedIndex >= 0)
-                mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm:ss");
+                mtbTransactionDate.Text = DateTime.Now.AddHours(cbScheduleTransfare.SelectedIndex * 3).ToString("MM/dd/yyyy HH:mm");
         }
 
         private void nupAmountInUSD_ValueChanged(object sender, EventArgs e) => OnAmountChanged?.Invoke(nupAmountInUSD.Value);
 
         private void tbAccountNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)13)
+            if (e.KeyChar != (char)Keys.Enter)
+                return;
+
+            if (sender is TextBox textBox)
             {
-                var textBox = (TextBox)sender;
                 _setTextboxStates(textBox, false, true);
 
-                if(textBox.Tag.ToString() == "FromAccount")
+                if (textBox == tbFromAccountNumber)
                     btnFromAccountLookUp.PerformClick();
-                else if(textBox.Tag.ToString() == "ToAccount")
+                else if (textBox == tbToAccountNumber)
                     btnLookUpToAccount.PerformClick();
+
+                return;
             }
+
+            (sender as Button)?.PerformClick();
         }
     }
 }

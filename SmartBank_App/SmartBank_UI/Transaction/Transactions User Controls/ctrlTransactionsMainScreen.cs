@@ -104,7 +104,22 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void btnSchedualedFillter_Click(object sender, EventArgs e) => _fillter(clsTransactionLog.enTransactionType.Scheduled);
 
-        private void _fillter(clsTransactionLog.enTransactionType transactionType) =>  _bindGrid(_transactionsLogs.Any() ? _transactionsLogs.Where(n => n.TransactionType == transactionType).ToList() : _transactionsLogs);
+        private void _fillter(clsTransactionLog.enTransactionType transactionType)
+        {
+            if (_transactionsLogs == null || !_transactionsLogs.Any())
+            {
+                _bindGrid(_transactionsLogs);
+                return;
+            }
+
+            if (transactionType == clsTransactionLog.enTransactionType.Scheduled)
+            {
+                _bindGrid(_transactionsLogs.Where(n => n.IsScheduled).ToList());
+                return;
+            }
+
+            _bindGrid(_transactionsLogs.Where(n => n.TransactionType == transactionType).ToList());
+        }
 
         private void tbSearchBar_TextChanged(object sender, EventArgs e)
         {
@@ -146,7 +161,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 }
 
                 lblTransactionType.Text = transactionData.TransactionType.ToString();
-                lblTransactionlStatus.Text = transactionData.IsScheduled ? "Scheduled" : "Completed";
+                lblTransactionlStatus.Text = (transactionData.IsScheduled && transactionData.BalanceBeforeTransaction == transactionData.BalanceAfterTransaction) ? "Pending" : "Completed";
 
                 nupBalanceBefore.Value = transactionData.BalanceBeforeTransaction;
                 nupBalanceAfter.Value = transactionData.BalanceAfterTransaction;
