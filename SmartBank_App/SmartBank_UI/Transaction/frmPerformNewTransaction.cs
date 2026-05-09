@@ -181,7 +181,7 @@ namespace SmartBank_UI.Transaction
         private async void btnPerformTransaction_Click(object sender, EventArgs e)
         {
             UserControl uc = pMain.Controls[0] as UserControl;
-            if (uc == null || !uc.ValidateChildren()) 
+            if (uc == null || !uc.ValidateChildren())
                 return;
 
             try
@@ -189,11 +189,12 @@ namespace SmartBank_UI.Transaction
                 clsAccounts account = await clsAccounts.FindAsync(_fromAccountNumber);
                 decimal amount = _getCurrentAmount();
                 string desc = _getCurrentDescription();
-                bool ok = false;
+
+                bool ok;
 
                 if (_transactionType == enTransactionType.Transfer)
                 {
-                    var tc = pMain.Controls[0] as ctrlTransfareTransactionTypeAndInfo;
+                    ctrlTransfareTransactionTypeAndInfo tc = uc as ctrlTransfareTransactionTypeAndInfo;
                     string toAccountNumber = tc?.ToAccountNumber ?? _toAccountNumber;
 
                     if (toAccountNumber == _fromAccountNumber)
@@ -203,28 +204,26 @@ namespace SmartBank_UI.Transaction
                     }
 
                     clsAccounts to = await clsAccounts.FindAsync(toAccountNumber);
-                    if (to == null || to.Status != clsAccounts.enStatus.Active) 
-                    { 
+
+                    if (to?.Status != clsAccounts.enStatus.Active)
+                    {
                         MessageBox.Show("Invalid account");
-                        return; 
+                        return;
                     }
 
-                    bool scheduled = tc.ScheduledDate > DateTime.Now;
-                    ok = scheduled  ? await account.ScheduleTransferToAsync(to, amount, desc, tc.ScheduledDate) : await account.TransferToAsync(to, amount, desc);
+                    ok = tc.ScheduledDate > DateTime.Now ? await account.ScheduleTransferToAsync(to, amount, desc, tc.ScheduledDate) : await account.TransferToAsync(to, amount, desc);
                 }
                 else
-                {
                     ok = _transactionType == enTransactionType.Deposit ? await account.DepositAsync(amount, desc) : await account.WithdrawAsync(amount, desc);
-                }
 
-                if (ok) 
+                if (ok)
                     clsGlobal.FireTransactionCompleted();
 
-                MessageBox.Show(ok ? "Transaction completed successfully." : "Transaction failed.", ok ? "Success" : "Error", MessageBoxButtons.OK, ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+                MessageBox.Show( ok ? "Transaction completed successfully." : "Transaction failed.", ok ? "Success" : "Error", MessageBoxButtons.OK, ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error); 
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             this.Close();

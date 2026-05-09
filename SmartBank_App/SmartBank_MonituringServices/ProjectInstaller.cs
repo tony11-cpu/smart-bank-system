@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SmartBank_MonituringServices
 {
     [RunInstaller(true)]
-    public partial class ProjectInstaller : System.Configuration.Install.Installer
+    public partial class ProjectInstaller : Installer
     {
         private ServiceInstaller _serviceInstaller;
         private ServiceProcessInstaller _serviceProcessInstaller;
@@ -21,7 +21,7 @@ namespace SmartBank_MonituringServices
 
             _serviceProcessInstaller = new ServiceProcessInstaller()
             {
-                Account = ServiceAccount.NetworkService
+                Account = ServiceAccount.LocalSystem
             };
 
             _serviceInstaller = new ServiceInstaller()

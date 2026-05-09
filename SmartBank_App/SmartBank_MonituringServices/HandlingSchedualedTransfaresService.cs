@@ -24,6 +24,7 @@ namespace SmartBank_MonituringServices
         public HandlingSchedualedTransfaresService()
         {
             InitializeComponent();
+
             this.ServiceName = "HandlingSchedualedTransfaresService";
             _scheduledTransfersTimer.AutoReset = true;
             _scheduledTransfersTimer.Elapsed += _scheduledTransfersTimer_Elapsed;
@@ -78,10 +79,13 @@ namespace SmartBank_MonituringServices
         protected override void OnStop()
         {
             _isStoppingService = true;
+
             _scheduledTransfersTimer.Stop();
             _scheduledTransfersTimer.Dispose();
 
             _logServiceMessage("Service stopped.");
+
+            base.OnStop();
         }
     }
 }

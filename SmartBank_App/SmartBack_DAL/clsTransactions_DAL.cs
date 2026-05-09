@@ -160,7 +160,7 @@ namespace SmartBack_DAL
                     cmd.Parameters.AddWithValue("@UserInActionID", performedByUserID);
                     cmd.Parameters.AddWithValue("@AccountID", accountID);
                     cmd.Parameters.AddWithValue("@Amount", amount);
-                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? "No Description" : description);
 
                     SqlParameter pNewTransactionID = new SqlParameter("@NewTransactionID", SqlDbType.Int)
                     {
@@ -194,7 +194,7 @@ namespace SmartBack_DAL
                     cmd.Parameters.AddWithValue("@UserInActionID", performedByUserID);
                     cmd.Parameters.AddWithValue("@AccountID", accountID);
                     cmd.Parameters.AddWithValue("@Amount", amount);
-                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? "No Description" : description);
 
                     SqlParameter pNewTransactionID = new SqlParameter("@NewTransactionID", SqlDbType.Int)
                     {
@@ -229,7 +229,7 @@ namespace SmartBack_DAL
                     cmd.Parameters.AddWithValue("@FromAccountID", fromAccountID);
                     cmd.Parameters.AddWithValue("@ToAccountID", toAccountID);
                     cmd.Parameters.AddWithValue("@Amount", amount);
-                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? "No Description" : description);
 
                     SqlParameter pNewTransactionID = new SqlParameter("@NewTransactionID", SqlDbType.Int)
                     {
@@ -288,7 +288,7 @@ namespace SmartBack_DAL
                     cmd.Parameters.AddWithValue("@FromAccountID", fromAccountID);
                     cmd.Parameters.AddWithValue("@ToAccountID", toAccountID);
                     cmd.Parameters.AddWithValue("@Amount", amount);
-                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrEmpty(description) ? (object)DBNull.Value : description);
+                    cmd.Parameters.AddWithValue("@Description", string.IsNullOrWhiteSpace(description) ? "No Description" : description);
                     cmd.Parameters.AddWithValue("@ScheduledDate", scheduledDate);
 
                     SqlParameter pNewTransactionID = new SqlParameter("@NewTransactionID", SqlDbType.Int)
@@ -302,11 +302,6 @@ namespace SmartBack_DAL
 
                     return (int)pNewTransactionID.Value > 0;
                 }
-            }
-            catch (SqlException ex)
-            {
-                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-                throw new Exception($"Database error: {ex.Message}", ex);
             }
             catch (Exception ex)
             {

@@ -174,26 +174,22 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void tbAccountNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)13)
+            if (e.KeyChar != (char)Keys.Enter)
+                return;
+
+            if (sender is TextBox textBox)
             {
-                TextBox textBox = sender as TextBox;
-                if (textBox != null)
-                {
-                    _setTextboxStates(textBox, false, true);
+                _setTextboxStates(textBox, false, true);
 
-                    if (textBox == tbFromAccountNumber)
-                        btnFromAccountLookUp.PerformClick();
-                    else if (textBox == tbToAccountNumber)
-                        btnLookUpToAccount.PerformClick();
-
-                    return;
-                }
-
-                if (sender == btnFromAccountLookUp)
+                if (textBox == tbFromAccountNumber)
                     btnFromAccountLookUp.PerformClick();
-                else if (sender == btnLookUpToAccount)
+                else if (textBox == tbToAccountNumber)
                     btnLookUpToAccount.PerformClick();
+
+                return;
             }
+
+            (sender as Button)?.PerformClick();
         }
     }
 }
