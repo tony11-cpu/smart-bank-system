@@ -280,12 +280,9 @@ namespace SmartBack_DAL
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand(@"SELECT COUNT(*) 
-                                                         FROM Transactions 
-                                                         WHERE AccountID = @AccountID 
-                                                         AND IsScheduled = 0
-                                                         AND TransactionDate >= DATEADD(MINUTE, -@WindowMinutes, GETDATE())", conn))
+                using (SqlCommand cmd = new SqlCommand("sp_GetRecentTransactionsCount", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@AccountID", accountID);
                     cmd.Parameters.AddWithValue("@WindowMinutes", windowMinutes);
 
