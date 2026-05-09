@@ -27,7 +27,8 @@ namespace SmartBank_MonituringServices
             _serviceInstaller = new ServiceInstaller()
             {
                 ServiceName = "HandlingSchedualedTransfaresService",
-                StartType = ServiceStartMode.Manual,
+                StartType = ServiceStartMode.Automatic,
+                DelayedAutoStart = true,
                 DisplayName = "Handling Schedualed Transfares Service in Smart Bank System",
                 Description = "Service for handling schedualed transfare transactions throughout the system.",
                 ServicesDependedOn = new string[] 

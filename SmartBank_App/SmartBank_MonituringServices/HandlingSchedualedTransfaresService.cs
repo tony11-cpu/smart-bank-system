@@ -29,18 +29,15 @@ namespace SmartBank_MonituringServices
             _scheduledTransfersTimer.Elapsed += _scheduledTransfersTimer_Elapsed;
         }
 
-        private void _logServiceMessage(string message)
-        {
-            clsUtil.clsLogger.Log(clsUtil.clsLogger.LogDirectory.SchedualTransfareFile, message);
-        }
+        private void _logServiceMessage(string message) => clsUtil.clsLogger.Log(clsUtil.clsLogger.LogDirectory.SchedualTransfareFile, message);
 
-        private async Task _processScheduledTransfersAsync(string triggerSource)
+        private async Task _processScheduledTransfersAsync()
         {
             lock (_processLock)
             {
                 if (_isProcessingScheduledTransfers || _isStoppingService)
                 {
-                    _logServiceMessage($"Scheduled transfer processing skipped ({triggerSource}) because previous processing is still running or service is stopping.");
+                    _logServiceMessage($"Scheduled transfer processing skipped because previous processing is still running or service is stopping.");
                     return;
                 }
 
@@ -50,11 +47,11 @@ namespace SmartBank_MonituringServices
             try
             {
                 int numberOfTransactionsResolved = await clsTransactions_DAL.ProcessScheduledTransfersAsync();
-                _logServiceMessage($"{numberOfTransactionsResolved} scheduled transfers processed ({triggerSource}).");
+                _logServiceMessage($"{numberOfTransactionsResolved} scheduled transfers processed.");
             }
             catch (Exception ex)
             {
-                _logServiceMessage($"An error occurred while processing scheduled transfers ({triggerSource}): {ex.Message}");
+                _logServiceMessage($"An error occurred while processing scheduled transfers: {ex.Message}");
             }
             finally
             {
@@ -65,7 +62,7 @@ namespace SmartBank_MonituringServices
             }
         }
 
-        protected override void OnStart(string[] args)
+        protected override async void OnStart(string[] args)
         {
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             _isStoppingService = false;
@@ -73,13 +70,10 @@ namespace SmartBank_MonituringServices
             _logServiceMessage("Service started successfully.");
             _scheduledTransfersTimer.Start();
 
-            _ = _processScheduledTransfersAsync("OnStart");
+            await _processScheduledTransfersAsync();
         }
 
-        private async void _scheduledTransfersTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            await _processScheduledTransfersAsync("TimerElapsed");
-        }
+        private async void _scheduledTransfersTimer_Elapsed(object sender, ElapsedEventArgs e) => await _processScheduledTransfersAsync();
 
         protected override void OnStop()
         {
