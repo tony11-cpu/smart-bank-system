@@ -162,7 +162,7 @@ namespace SmartBank_BLL
             if (!allowedExtensions.Contains(ext))
                 return false;
 
-            string destinationFolder = @"C:\SmartBankCustomers_Images\";
+            string destinationFolder = @"C:\SmartBank\SmartBankCustomers_Images\";
 
             if (!Directory.Exists(destinationFolder))
                 Directory.CreateDirectory(destinationFolder);
