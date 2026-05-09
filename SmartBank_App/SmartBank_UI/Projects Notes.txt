@@ -7,3 +7,55 @@ Main Password: 123123asd
 
  ---> Tell the user in the readme file how to install the services you created , 
       how to set the fallbacks to resart the services and how to make it schedualed using the windows task scheduler.
+
+
+==================== README PREP NOTES ====================
+Project Name: Smart Bank System
+Main Branch Used For Final Integration: feature/transactions
+
+Recent Important Work Completed:
+1) Scheduled transfer Windows service added and integrated.
+2) Service timer runs every 5 minutes.
+3) Service logging moved to:
+   C:\SmartBank\SchedualTransfareLogs\service_logs.txt
+4) Transfer validations fixed in UI and BLL to block same source and destination account.
+5) Scheduled filter button in transactions main screen fixed to filter using IsScheduled.
+6) Description null handling fixed in DAL using fallback "No Description" to avoid SQL insert failure.
+7) Customer image folder moved under SmartBank root:
+   C:\SmartBank\SmartBankCustomers_Images
+
+Production Service Notes:
+1) Service Name: HandlingSchedualedTransfaresService
+2) StartType: Automatic (Delayed)
+3) Current expected runtime account: LocalSystem
+4) DB Connection uses Trusted_Connection=True
+5) SQL permissions are required for service account in each environment.
+
+SQL Permission Setup Needed In Deployment:
+USE [master]
+CREATE LOGIN [NT AUTHORITY\SYSTEM] FROM WINDOWS
+
+USE [SmartBankDB]
+CREATE USER [NT AUTHORITY\SYSTEM] FOR LOGIN [NT AUTHORITY\SYSTEM]
+ALTER ROLE [db_owner] ADD MEMBER [NT AUTHORITY\SYSTEM]
+
+Service Health Check Steps:
+1) Confirm service is running:
+   Get-Service HandlingSchedualedTransfaresService
+2) Confirm account:
+   sc.exe qc HandlingSchedualedTransfaresService
+3) Confirm log updates every 5 minutes with processed count.
+
+Important Operational Behavior:
+1) Scheduled transaction insert starts with BalanceBefore = BalanceAfter (Pending).
+2) After service processing, scheduled row BalanceAfter is updated and immediate transfer row is added.
+3) If log shows login failed, it is environment permission issue, not timer issue.
+
+Suggested README Sections:
+1) Project overview and architecture (UI, BLL, DAL, Service).
+2) Installation steps.
+3) Database setup and required SQL permissions.
+4) Service installation and restart steps.
+5) Troubleshooting common errors (SQL login failed, null description, pending scheduled transfers).
+6) Validation checklist after deployment.
+===========================================================
