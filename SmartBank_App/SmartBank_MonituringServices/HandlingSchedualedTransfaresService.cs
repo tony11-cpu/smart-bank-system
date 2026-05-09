@@ -32,6 +32,12 @@ namespace SmartBank_MonituringServices
 
         private void _logServiceMessage(string message) => clsUtil.clsLogger.Log(clsUtil.clsLogger.LogDirectory.SchedualTransfareFile, message);
 
+        private async Task<int> _getConfigValueAsync(clsConfigurations.enConfigKey key, int defaultValue)
+        {
+            int? configValue = await clsConfigurations.GetConfigValueAsync(key);
+            return configValue.HasValue && configValue.Value > 0 ? configValue.Value : defaultValue;
+        }
+
         private async Task _processScheduledTransfersAsync()
         {
             lock (_processLock)
@@ -47,12 +53,27 @@ namespace SmartBank_MonituringServices
 
             try
             {
-                int numberOfTransactionsResolved = await clsTransactions_DAL.ProcessScheduledTransfersAsync();
-                _logServiceMessage($"{numberOfTransactionsResolved} scheduled transfers processed.");
-            }
-            catch (Exception ex)
-            {
-                _logServiceMessage($"An error occurred while processing scheduled transfers: {ex.Message}");
+                int maxRetries = await _getConfigValueAsync(clsConfigurations.enConfigKey.MaxScheduledTransferRetries, 3);
+
+                for (int retryNumber = 0; retryNumber <= maxRetries; retryNumber++)
+                {
+                    try
+                    {
+                        int numberOfTransactionsResolved = await clsTransactions_DAL.ProcessScheduledTransfersAsync();
+                        _logServiceMessage($"{numberOfTransactionsResolved} scheduled transfers processed.");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (retryNumber == maxRetries)
+                        {
+                            _logServiceMessage($"Scheduled transfer processing failed after {maxRetries} retries. Error: {ex.Message}");
+                            break;
+                        }
+
+                        _logServiceMessage($"Scheduled transfer processing failed. retry {retryNumber + 1} of {maxRetries}. Error: {ex.Message}");
+                    }
+                }
             }
             finally
             {
@@ -68,7 +89,11 @@ namespace SmartBank_MonituringServices
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             _isStoppingService = false;
 
+            int serviceCheckIntervalSeconds = await _getConfigValueAsync(clsConfigurations.enConfigKey.ScheduledTransferCheckIntervalSeconds, 60);
+            _scheduledTransfersTimer.Interval = TimeSpan.FromSeconds(serviceCheckIntervalSeconds).TotalMilliseconds;
+
             _logServiceMessage("Service started successfully.");
+            _logServiceMessage($"Service check interval set to {serviceCheckIntervalSeconds} seconds.");
             _scheduledTransfersTimer.Start();
 
             await _processScheduledTransfersAsync();

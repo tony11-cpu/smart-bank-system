@@ -275,6 +275,32 @@ namespace SmartBack_DAL
             return null;
         }
 
+        public static async Task<int> GetRecentTransactionsCountAsync(int accountID, int windowMinutes)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand(@"SELECT COUNT(*) 
+                                                         FROM Transactions 
+                                                         WHERE AccountID = @AccountID 
+                                                         AND IsScheduled = 0
+                                                         AND TransactionDate >= DATEADD(MINUTE, -@WindowMinutes, GETDATE())", conn))
+                {
+                    cmd.Parameters.AddWithValue("@AccountID", accountID);
+                    cmd.Parameters.AddWithValue("@WindowMinutes", windowMinutes);
+
+                    await conn.OpenAsync();
+                    return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return 0;
+        }
+
         public static async Task<bool> ScheduleTransferAsync(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
         {
             try

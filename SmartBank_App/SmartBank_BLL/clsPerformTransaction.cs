@@ -1,7 +1,8 @@
-﻿using SmartBank;
+using SmartBank;
 using SmartBank_BLL;
 using SmartBack_DAL;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace SmartBank_BLL
@@ -29,8 +30,22 @@ namespace SmartBank_BLL
             if (!isManagerOrAdmin && account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
 
-            if (!isManagerOrAdmin && (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)).Value < amount)
-                throw new ArgumentException("Withdrawal amount exceeds the large withdrawal threshold. Transaction flagged for review.");
+            int largeWithdrawalThreshold = (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)) ?? 10000;
+            if (amount > largeWithdrawalThreshold)
+                clsDB_Util.clsLogger.Log($"LARGE_WITHDRAWAL flag raised for account {account.AccountID} with amount {amount}.", EventLogEntryType.Warning);
+        }
+
+        private static async Task _checkRapidTransactionsAsync(int accountID)
+        {
+            int rapidTransactionMaxCount = (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.RapidTransactionMaxCount)) ?? 5;
+            int rapidTransactionWindowMinutes = (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.RapidTransactionWindowMinutes)) ?? 10;
+
+            if (rapidTransactionMaxCount <= 0 || rapidTransactionWindowMinutes <= 0)
+                return;
+
+            int transactionsCount = await clsTransactions_DAL.GetRecentTransactionsCountAsync(accountID, rapidTransactionWindowMinutes);
+            if (transactionsCount > rapidTransactionMaxCount)
+                clsDB_Util.clsLogger.Log($"RAPID_TRANSACTIONS flag raised for account {accountID}. Count {transactionsCount} in {rapidTransactionWindowMinutes} minutes.", EventLogEntryType.Warning);
         }
 
         public static async Task<bool> DepositAsync(int accountID, decimal amount, string description, int performedByUserID)
@@ -39,7 +54,12 @@ namespace SmartBank_BLL
                 throw new ArgumentException("Amount must be greater than zero.");
 
             clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID), "Source", "receive deposits");
-            return await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
+            bool isDone = await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
+
+            if (isDone)
+                await _checkRapidTransactionsAsync(accountID);
+
+            return isDone;
         }
 
         public static async Task<bool> WithdrawAsync(int? accountID, decimal amount, string description, int performedByUserID, bool dynamic = true)
@@ -49,7 +69,13 @@ namespace SmartBank_BLL
             
             clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals");
             await _validateWithdrawal(account, amount, performedByUserID);
-            return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
+
+            bool isDone = await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
+
+            if (isDone)
+                await _checkRapidTransactionsAsync(accountID.Value);
+
+            return isDone;
         }
 
         public static async Task<bool> TransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID)
@@ -67,7 +93,12 @@ namespace SmartBank_BLL
             clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
 
             await _validateWithdrawal(fromAccount, amount, performedByUserID);
-            return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
+            bool isDone = await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
+
+            if (isDone)
+                await _checkRapidTransactionsAsync(fromAccountID.Value);
+
+            return isDone;
         }
 
         public static async Task<bool> ScheduleTransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
