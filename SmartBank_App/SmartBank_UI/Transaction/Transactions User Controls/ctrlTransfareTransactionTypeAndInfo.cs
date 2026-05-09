@@ -83,7 +83,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            OnFromAccountNumberChanged?.Invoke(tbFromAccountNumber.Text.Trim());
+            _accountNumber = tbFromAccountNumber.Text.Trim();
+            OnFromAccountNumberChanged?.Invoke(_accountNumber);
             _enableOrDisableTransactionProps(true);
         }
 
@@ -95,7 +96,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            if (tbToAccountNumber.Text.Trim() == _accountNumber)
+            string fromAccountNumber = _isIdle(tbFromAccountNumber) ? _accountNumber : tbFromAccountNumber.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(fromAccountNumber) && tbToAccountNumber.Text.Trim() == fromAccountNumber)
             {
                 tbToAccountNumber.Text = string.Empty;
                 _setTextboxStates(tbToAccountNumber, true, false);
@@ -122,8 +124,18 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private async void tbAccountNumber_Validating(object sender, CancelEventArgs e)
         {
-            e.Cancel = _isIdle((TextBox)sender) || !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text);
-            errorProvider1.SetError(tbToAccountNumber, _isIdle((TextBox)sender) ? "Please enter a valid account number." : !await clsAccounts.IsAccountExistsAsync(tbToAccountNumber.Text) ? "The account number does not exist." : null);
+            TextBox textBox = (TextBox)sender;
+            bool isIdle = _isIdle(textBox);
+            string accountNumber = textBox.Text.Trim();
+
+            bool isExists = !isIdle && await clsAccounts.IsAccountExistsAsync(accountNumber);
+            bool isSameAccount = textBox == tbToAccountNumber && !_isIdle(tbFromAccountNumber) && accountNumber == tbFromAccountNumber.Text.Trim();
+
+            e.Cancel = isIdle || !isExists || isSameAccount;
+            errorProvider1.SetError(textBox, isIdle ? "Please enter a valid account number."
+                               : !isExists ? "The account number does not exist."
+                               : isSameAccount ? "Cannot transfer to the same account."
+                               : null);
         }
 
         private void nupAmountInUSD_Validating(object sender, CancelEventArgs e)
@@ -151,11 +163,19 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             if (e.KeyChar == (char)13)
             {
-                TextBox textBox = (TextBox)sender;
-                _setTextboxStates(textBox, false, true);
+                if (sender is TextBox textBox)
+                {
+                    _setTextboxStates(textBox, false, true);
 
-                if(textBox.Tag.ToString() == "FromAccount") btnFromAccountLookUp.PerformClick();
-                else if(textBox.Tag.ToString() == "ToAccount") btnLookUpToAccount.PerformClick();
+                    if (textBox == tbFromAccountNumber)
+                        btnFromAccountLookUp.PerformClick();
+                    else if (textBox == tbToAccountNumber)
+                        btnLookUpToAccount.PerformClick();
+                }
+                else if (sender == btnFromAccountLookUp)
+                    btnFromAccountLookUp.PerformClick();
+                else if (sender == btnLookUpToAccount)
+                    btnLookUpToAccount.PerformClick();
             }
         }
     }

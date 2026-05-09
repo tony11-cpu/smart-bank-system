@@ -57,6 +57,9 @@ namespace SmartBank_BLL
             if (!fromAccountID.HasValue || !toAccountID.HasValue)
                 throw new ArgumentException("Either fromAccountID or toAccountID cannot be null.");
 
+            if (fromAccountID.Value == toAccountID.Value)
+                throw new ArgumentException("Source and destination accounts cannot be the same.");
+
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
             
@@ -71,6 +74,9 @@ namespace SmartBank_BLL
         {
             if (!fromAccountID.HasValue || !toAccountID.HasValue)
                 throw new ArgumentException("From and To account IDs are required.");
+
+            if (fromAccountID.Value == toAccountID.Value)
+                throw new ArgumentException("Source and destination accounts cannot be the same.");
 
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
