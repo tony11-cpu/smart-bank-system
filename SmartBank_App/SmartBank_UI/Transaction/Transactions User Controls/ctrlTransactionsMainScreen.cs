@@ -23,6 +23,19 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private List<clsTransactionLog> _transactionsLogs;
 
+        private void _applyTransactionPermissions()
+        {
+            bool canDeposit = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanDeposit) ?? false;
+            bool canWithdraw = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanWithdraw) ?? false;
+            bool canTransfer = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanTransfer) ?? false;
+
+            cmsNewDeposite.Enabled = canDeposit;
+            cmsNewWithdrawl.Enabled = canWithdraw;
+            cmsNewTransfare.Enabled = canTransfer;
+
+            btnNewTransactions.Enabled = canDeposit || canWithdraw || canTransfer;
+        }
+
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string filterTag = tbSearchBar.Tag.ToString();
@@ -65,6 +78,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
+
+            _applyTransactionPermissions();
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;

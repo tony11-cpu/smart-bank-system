@@ -22,6 +22,22 @@ namespace SmartBank_UI.Transaction
         private string _fromAccountNumber;
         private string _toAccountNumber;
 
+        private bool _hasPermissionForTransaction(enTransactionType transactionType)
+        {
+            if (clsGlobal.ActiveUser?.Permissions == null)
+                return false;
+
+            switch (transactionType)
+            {
+                case enTransactionType.Deposit: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanDeposit);
+                case enTransactionType.Withdrawl: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanWithdraw);
+                case enTransactionType.Transfer: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanTransfer);
+                default: return true;
+            }
+        }
+
+        private bool _isScheduleTransferAllowed() => clsGlobal.ActiveUser?.Permissions != null && clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanScheduleTransfer);
+
         public frmPerformNewTransaction(string acc, enTransactionType type)
         {
             InitializeComponent();
@@ -35,6 +51,12 @@ namespace SmartBank_UI.Transaction
 
         private void LoadForm(enTransactionType type)
         {
+            if (!_hasPermissionForTransaction(type))
+            {
+                MessageBox.Show("You do not have permission for this transaction type.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             LoadControl(type);
             _subscribeToControlEvents();
             SetTransactionLabels(type);
@@ -150,7 +172,15 @@ namespace SmartBank_UI.Transaction
 
         private async void frmPerformNewTransaction_Load(object sender, EventArgs e)
         {
-            LoadForm(_transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType);
+            enTransactionType defaultType = _transactionType == enTransactionType.None ? enTransactionType.Deposit : _transactionType;
+            if (!_hasPermissionForTransaction(defaultType))
+            {
+                MessageBox.Show("You do not have permission to create transactions here.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
+
+            LoadForm(defaultType);
 
             if (!string.IsNullOrEmpty(_fromAccountNumber))
                 await CheckAccount(_fromAccountNumber);
@@ -211,7 +241,14 @@ namespace SmartBank_UI.Transaction
                         return;
                     }
 
-                    ok = tc.ScheduledDate > DateTime.Now ? await account.ScheduleTransferToAsync(to, amount, desc, tc.ScheduledDate) : await account.TransferToAsync(to, amount, desc);
+                    bool isScheduledTransfer = tc.ScheduledDate > DateTime.Now;
+                    if (isScheduledTransfer && !_isScheduleTransferAllowed())
+                    {
+                        MessageBox.Show("You do not have permission to schedule transfers.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    ok = isScheduledTransfer ? await account.ScheduleTransferToAsync(to, amount, desc, tc.ScheduledDate) : await account.TransferToAsync(to, amount, desc);
                 }
                 else
                     ok = _transactionType == enTransactionType.Deposit ? await account.DepositAsync(amount, desc) : await account.WithdrawAsync(amount, desc);

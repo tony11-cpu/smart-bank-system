@@ -20,6 +20,20 @@ namespace SmartBank_UI
             InitializeComponent();
         }
 
+        private bool _hasPermissionForTransaction(frmPerformNewTransaction.enTransactionType transactionType)
+        {
+            if (clsGlobal.ActiveUser?.Permissions == null)
+                return false;
+
+            switch (transactionType)
+            {
+                case frmPerformNewTransaction.enTransactionType.Deposit: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanDeposit);
+                case frmPerformNewTransaction.enTransactionType.Withdrawl: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanWithdraw);
+                case frmPerformNewTransaction.enTransactionType.Transfer: return clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanTransfer);
+                default: return true;
+            }
+        }
+
         private async void ctrlDashboard_Load(object sender, EventArgs e)
         {
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
@@ -78,6 +92,12 @@ namespace SmartBank_UI
 
         private void _loadTransactionType(frmPerformNewTransaction.enTransactionType transactionType)
         {
+           if (!_hasPermissionForTransaction(transactionType))
+           {
+               MessageBox.Show("You do not have permission for this transaction type.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               return;
+           }
+
            frmPerformNewTransaction frm = new frmPerformNewTransaction(string.Empty, transactionType);
            frm.ShowDialog();
         }
