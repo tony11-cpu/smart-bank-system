@@ -35,6 +35,47 @@ namespace SmartBank_UI.Main_Form_UC
             return _allAccounts;
         }
 
+        private void _bindRecentTransactionsGrid(List<clsTransactionLog> transactions)
+        {
+            dgvAccountRecentTransactions.DataSource = transactions.Select(n => new
+            {
+                Date = n.TransactionDate,
+                Type = n.TransactionType.ToString().Replace("_", " "),
+                n.Amount,
+                Status = (n.IsScheduled && n.BalanceBeforeTransaction == n.BalanceAfterTransaction) ? "Pending" : "Completed"
+            }).ToList();
+
+            if (dgvAccountRecentTransactions.RowCount == 0)
+                return;
+
+            dgvAccountRecentTransactions.Columns["Date"].HeaderText = "Date";
+            dgvAccountRecentTransactions.Columns["Type"].HeaderText = "Type";
+            dgvAccountRecentTransactions.Columns["Amount"].HeaderText = "Amount";
+            dgvAccountRecentTransactions.Columns["Status"].HeaderText = "Status";
+
+            dgvAccountRecentTransactions.RowTemplate.Height = 35;
+            dgvAccountRecentTransactions.ColumnHeadersHeight = 40;
+        }
+
+        private async Task _loadRecentTransactionsForCurrentAccountAsync()
+        {
+            if (_currentAccount?.AccountID == null)
+            {
+                _bindRecentTransactionsGrid(new List<clsTransactionLog>());
+                return;
+            }
+
+            List<clsTransactionLog> allTransactions = await clsTransactionLog.GetAllTransactionsAsync();
+
+            List<clsTransactionLog> recentTransactions = allTransactions
+                .Where(n => n.FromAccount?.AccountID == _currentAccount.AccountID || n.ToAccount?.AccountID == _currentAccount.AccountID)
+                .OrderByDescending(n => n.TransactionDate)
+                .Take(100)
+                .ToList();
+
+            _bindRecentTransactionsGrid(recentTransactions);
+        }
+
         private void _bindGrid(IEnumerable<clsAccounts> accountView)
         {
             if (!_allAccounts.Any())
@@ -69,8 +110,11 @@ namespace SmartBank_UI.Main_Form_UC
 
             dgvAccounts.RowTemplate.Height = 35;
             dgvAccounts.ColumnHeadersHeight = 40;
+            dgvAccountRecentTransactions.RowTemplate.Height = 35;
+            dgvAccountRecentTransactions.ColumnHeadersHeight = 40;
 
             _bindGrid(await _loadAccountsList());
+            await _loadUserFromDGVAsync();
 
             if (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Teller)
             {
@@ -130,15 +174,20 @@ namespace SmartBank_UI.Main_Form_UC
 
         private async Task _loadUserFromDGVAsync()
         {
-            if (dgvAccounts.Rows.Count > 0)
+            if (dgvAccounts.Rows.Count == 0)
             {
-                string accountNumber = dgvAccounts.CurrentRow?.Cells["AccountNumber"].Value.ToString();
-                if(string.IsNullOrEmpty(accountNumber))
-                    return;
-
-                _currentAccount = await clsAccounts.FindAsync(accountNumber);
-                await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+                _currentAccount = null;
+                _bindRecentTransactionsGrid(new List<clsTransactionLog>());
+                return;
             }
+
+            string accountNumber = dgvAccounts.CurrentRow?.Cells["AccountNumber"].Value.ToString();
+            if(string.IsNullOrEmpty(accountNumber))
+                return;
+
+            _currentAccount = await clsAccounts.FindAsync(accountNumber);
+            await ctrlAccountShortInfo1.LoadAccount(accountNumber);
+            await _loadRecentTransactionsForCurrentAccountAsync();
         }
         
         private async void OpenAccount_Click(object sender, EventArgs e)
@@ -168,7 +217,11 @@ namespace SmartBank_UI.Main_Form_UC
             withdrawalToolStripMenuItem.Enabled = notClosed && canTransact;
         }
 
-        private async void ctrlAccounts_VisibleChanged(object sender, EventArgs e) => _bindGrid(await _loadAccountsList());
+        private async void ctrlAccounts_VisibleChanged(object sender, EventArgs e)
+        {
+            _bindGrid(await _loadAccountsList());
+            await _loadUserFromDGVAsync();
+        }
 
         private async void updateAccount_Click(object sender, EventArgs e)
         {
