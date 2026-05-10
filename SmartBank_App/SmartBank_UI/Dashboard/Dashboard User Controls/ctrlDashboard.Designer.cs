@@ -297,7 +297,7 @@
             this.dgvRecentTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRecentTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvRecentTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRecentTransactions.Location = new System.Drawing.Point(12, 213);
+            this.dgvRecentTransactions.Location = new System.Drawing.Point(14, 213);
             this.dgvRecentTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.dgvRecentTransactions.Name = "dgvRecentTransactions";
             this.dgvRecentTransactions.ReadOnly = true;

@@ -58,8 +58,7 @@ namespace SmartBank_UI
             await _refreshTransactionWidgets();
         }
 
-        private static bool _isPendingScheduledTransfer(clsTransactionLog transaction)
-            => transaction.IsScheduled && transaction.BalanceBeforeTransaction == transaction.BalanceAfterTransaction;
+        private static bool _isPendingScheduledTransfer(clsTransactionLog transaction) => transaction.IsScheduled && transaction.BalanceBeforeTransaction == transaction.BalanceAfterTransaction;
 
         private async Task _refreshTransactionWidgets()
         {
