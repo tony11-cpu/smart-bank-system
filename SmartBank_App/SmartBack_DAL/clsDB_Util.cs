@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -90,6 +91,21 @@ namespace SmartBack_DAL
                 {
                     return false;
                 }
+            }
+        }
+
+        public static bool IsServiceRunning(string serviceName = "HandlingSchedualedTransfaresService")
+        {
+            try
+            {
+                using (ServiceController serviceController = new ServiceController(serviceName))
+                {
+                    return serviceController.Status == ServiceControllerStatus.Running;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
     }

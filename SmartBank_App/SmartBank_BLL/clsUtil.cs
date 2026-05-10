@@ -182,5 +182,6 @@ namespace SmartBank_BLL
         }
 
         public static bool IsDatabaseConnected() => clsDB_Util.IsDatabaseConnected();
+        public static bool IsServiceRunning() => clsDB_Util.IsServiceRunning();
     }
 }
