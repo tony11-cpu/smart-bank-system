@@ -120,6 +120,11 @@ namespace SmartBank_UI.Transaction
             if (!string.IsNullOrEmpty(acc) && !await clsAccounts.IsAccountExistsAsync(acc))
             {
                 MessageBox.Show("Invalid account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _fromAccountNumber = string.Empty;
+                _toAccountNumber = string.Empty;
+                await ctrlAccountShortInfo1.LoadAccount(string.Empty);
+                lblAccountBalanceAfterTransaction.Text = 0.ToString("C");
+                lblTransactionTypeAmount.Text = 0.ToString("C");
                 btnPerformTransaction.Enabled = false;
                 return;
             }
@@ -181,10 +186,10 @@ namespace SmartBank_UI.Transaction
         {       
             if (amount <= 0)
                 return "Amount must be greater than zero.";
-            else if (isDeposit)
-                return string.Empty;
             else if (ctrlAccountShortInfo1.CurrentAccount == null)
                 return "Please enter a valid account number.";
+            else if (isDeposit)
+                return string.Empty;
             else if (amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
                 return "Insufficient funds.";
             else if (ctrlAccountShortInfo1.CurrentAccount.Balance - amount < ctrlAccountShortInfo1.CurrentAccount.MinimumBalance)
@@ -240,6 +245,13 @@ namespace SmartBank_UI.Transaction
             try
             {
                 clsAccounts account = await clsAccounts.FindAsync(_fromAccountNumber);
+                if (account == null)
+                {
+                    MessageBox.Show("Invalid account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    btnPerformTransaction.Enabled = false;
+                    return;
+                }
+
                 decimal amount = _getCurrentAmount();
                 string desc = _getCurrentDescription();
 
@@ -275,9 +287,6 @@ namespace SmartBank_UI.Transaction
                 }
                 else
                     ok = _transactionType == enTransactionType.Deposit ? await account.DepositAsync(amount, desc) : await account.WithdrawAsync(amount, desc);
-
-                if (ok)
-                    clsGlobal.FireTransactionCompleted();
 
                 MessageBox.Show( ok ? "Transaction completed successfully." : "Transaction failed.", ok ? "Success" : "Error", MessageBoxButtons.OK, ok ? MessageBoxIcon.Information : MessageBoxIcon.Error);
             }
