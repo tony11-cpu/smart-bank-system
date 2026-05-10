@@ -80,7 +80,7 @@ namespace SmartBack_DAL
                     if (pAccountID.Value == DBNull.Value) 
                         return null;
 
-                    return new clsTransactionDto((int)pAccountID.Value, (int)pAccountID.Value, (string)pTransactionType.Value,
+                    return new clsTransactionDto(transactionID, (int)pAccountID.Value, (string)pTransactionType.Value,
                         (decimal)pAmount.Value, pRelatedAccountID.Value == DBNull.Value ? null : (int?)pRelatedAccountID.Value,
                         pDescription.Value == DBNull.Value ? null : (string)pDescription.Value, (DateTime)pTransactionDate.Value,
                         (int)pProcessedByUserID.Value, (bool)pIsScheduled.Value,
@@ -273,29 +273,6 @@ namespace SmartBack_DAL
             }
 
             return null;
-        }
-
-        public static async Task<int> GetRecentTransactionsCountAsync(int accountID, int windowMinutes)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand("sp_GetRecentTransactionsCount", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@AccountID", accountID);
-                    cmd.Parameters.AddWithValue("@WindowMinutes", windowMinutes);
-
-                    await conn.OpenAsync();
-                    return Convert.ToInt32(await cmd.ExecuteScalarAsync());
-                }
-            }
-            catch (SqlException ex)
-            {
-                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
-            }
-
-            return 0;
         }
 
         public static async Task<bool> ScheduleTransferAsync(int fromAccountID, int toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)
