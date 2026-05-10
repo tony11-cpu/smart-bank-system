@@ -128,9 +128,8 @@ namespace SmartBank_UI.Transaction
             await ctrlAccountShortInfo1.LoadAccount(acc);
 
             clsAccounts account = ctrlAccountShortInfo1.CurrentAccount;
-
-            lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
-            lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0, 192, 0) : Color.Red;
+            decimal currentAmount = _getCurrentAmount();
+            bool isDepositTransaction = _transactionType == enTransactionType.Deposit;
 
             bool closed = account.Status == clsAccounts.enStatus.Closed;
             bool frozen = account.Status == clsAccounts.enStatus.Frozen;
@@ -153,7 +152,29 @@ namespace SmartBank_UI.Transaction
             if (frozen && admin)
                 MessageBox.Show("Frozen account (Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            btnPerformTransaction.Enabled = true;
+            if (currentAmount > 0)
+            {
+                string violationMessage = ApplyRules(currentAmount, isDepositTransaction);
+                if (string.IsNullOrEmpty(violationMessage))
+                {
+                    Update(currentAmount, isDepositTransaction);
+                    btnPerformTransaction.Enabled = true;
+                }
+                else
+                {
+                    lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
+                    lblTransactionTypeAmount.Text = currentAmount.ToString("C");
+                    btnPerformTransaction.Enabled = false;
+                }
+            }
+            else
+            {
+                lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
+                lblTransactionTypeAmount.Text = 0.ToString("C");
+                btnPerformTransaction.Enabled = true;
+            }
+
+            lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0, 192, 0) : Color.Red;
         }
 
         private string ApplyRules(decimal amount , bool isDeposit)
