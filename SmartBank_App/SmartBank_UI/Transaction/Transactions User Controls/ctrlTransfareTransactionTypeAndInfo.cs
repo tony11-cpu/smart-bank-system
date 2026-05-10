@@ -72,7 +72,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             }
 
             cbScheduleTransfare.SelectedIndex = 0;
-            cbPriority.SelectedIndex = 0;
         }
 
         private void btnFromAccountLookUp_Click(object sender, EventArgs e)
@@ -116,7 +115,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             tbToAccountNumber.Enabled = enable;
             btnLookUpToAccount.Enabled = enable;
             tbRefrenceOrRemark.Enabled = enable;
-            cbPriority.Enabled = enable;
             cbScheduleTransfare.Enabled = enable;
             nupAmountInUSD.Enabled = enable;
             mtbTransactionDate.Enabled = enable;

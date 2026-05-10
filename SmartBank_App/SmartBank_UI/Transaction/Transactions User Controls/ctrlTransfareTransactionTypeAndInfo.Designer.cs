@@ -44,8 +44,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbPriority = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cbScheduleTransfare = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -173,7 +171,7 @@
             this.tbRefrenceOrRemark.Location = new System.Drawing.Point(17, 163);
             this.tbRefrenceOrRemark.Multiline = true;
             this.tbRefrenceOrRemark.Name = "tbRefrenceOrRemark";
-            this.tbRefrenceOrRemark.Size = new System.Drawing.Size(477, 54);
+            this.tbRefrenceOrRemark.Size = new System.Drawing.Size(721, 54);
             this.tbRefrenceOrRemark.TabIndex = 66;
             this.tbRefrenceOrRemark.Tag = "Idle/tbRefrenceOrRemark/Optional internal note...";
             this.tbRefrenceOrRemark.Text = "Optional internal note...";
@@ -238,7 +236,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label5.Location = new System.Drawing.Point(506, 140);
+            this.label5.Location = new System.Drawing.Point(506, 68);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(93, 20);
             this.label5.TabIndex = 67;
@@ -259,8 +257,6 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.cbPriority);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.cbScheduleTransfare);
             this.panel1.Controls.Add(this.label6);
@@ -273,34 +269,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(756, 236);
             this.panel1.TabIndex = 69;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.label7.Location = new System.Drawing.Point(506, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 20);
-            this.label7.TabIndex = 75;
-            this.label7.Text = "Priority";
-            // 
-            // cbPriority
-            // 
-            this.cbPriority.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPriority.Enabled = false;
-            this.cbPriority.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbPriority.ForeColor = System.Drawing.Color.White;
-            this.cbPriority.FormattingEnabled = true;
-            this.cbPriority.Items.AddRange(new object[] {
-            "Normal",
-            "High",
-            "Urgent"});
-            this.cbPriority.Location = new System.Drawing.Point(510, 91);
-            this.cbPriority.Name = "cbPriority";
-            this.cbPriority.Size = new System.Drawing.Size(228, 28);
-            this.cbPriority.TabIndex = 74;
             // 
             // label8
             // 
@@ -349,7 +317,7 @@
             this.mtbTransactionDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.mtbTransactionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mtbTransactionDate.ForeColor = System.Drawing.Color.White;
-            this.mtbTransactionDate.Location = new System.Drawing.Point(510, 163);
+            this.mtbTransactionDate.Location = new System.Drawing.Point(510, 91);
             this.mtbTransactionDate.Mask = "00/00/0000 90:00";
             this.mtbTransactionDate.Name = "mtbTransactionDate";
             this.mtbTransactionDate.ReadOnly = true;
@@ -509,8 +477,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cbScheduleTransfare;
         private System.Windows.Forms.TextBox tbToAccountNumber;

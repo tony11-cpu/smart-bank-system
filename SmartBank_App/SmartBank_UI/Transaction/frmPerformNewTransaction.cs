@@ -128,50 +128,50 @@ namespace SmartBank_UI.Transaction
             await ctrlAccountShortInfo1.LoadAccount(acc);
 
             clsAccounts account = ctrlAccountShortInfo1.CurrentAccount;
-            decimal currentAmount = _getCurrentAmount();
-            bool isDepositTransaction = _transactionType == enTransactionType.Deposit;
-
-            bool closed = account.Status == clsAccounts.enStatus.Closed;
-            bool frozen = account.Status == clsAccounts.enStatus.Frozen;
-            bool admin = clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
-
-            if (closed)
+            if (account == null)
             {
-                MessageBox.Show("Account is closed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnPerformTransaction.Enabled = false;
-                this.Close();
-            }
-
-            if (frozen && !admin)
-            {
-                MessageBox.Show("Account is frozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnPerformTransaction.Enabled = false;
                 return;
             }
 
-            if (frozen && admin)
-                MessageBox.Show("Frozen account (Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            decimal amount = _getCurrentAmount();
+            bool isDeposit = _transactionType == enTransactionType.Deposit;
 
-            if (currentAmount > 0)
+            if (account.Status == clsAccounts.enStatus.Closed)
             {
-                string violationMessage = ApplyRules(currentAmount, isDepositTransaction);
-                if (string.IsNullOrEmpty(violationMessage))
+                MessageBox.Show("Account is closed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnPerformTransaction.Enabled = false;
+                this.Close();
+                return;
+            }
+
+            if (account.Status == clsAccounts.enStatus.Frozen)
+            {
+                if (!(clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin))
                 {
-                    Update(currentAmount, isDepositTransaction);
-                    btnPerformTransaction.Enabled = true;
-                }
-                else
-                {
-                    lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
-                    lblTransactionTypeAmount.Text = currentAmount.ToString("C");
+                    MessageBox.Show("Account is frozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnPerformTransaction.Enabled = false;
+                    return;
                 }
+
+                MessageBox.Show("Frozen account (Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
+            lblTransactionTypeAmount.Text = amount.ToString("C");
+
+            if (amount <= 0)
+            {
+                btnPerformTransaction.Enabled = false;
             }
             else
             {
-                lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
-                lblTransactionTypeAmount.Text = 0.ToString("C");
-                btnPerformTransaction.Enabled = true;
+                bool isAllowed = string.IsNullOrEmpty(ApplyRules(amount, isDeposit));
+
+                if (isAllowed)
+                    Update(amount, isDeposit);
+
+                btnPerformTransaction.Enabled = isAllowed;
             }
 
             lblAccountBalanceAfterTransaction.ForeColor = account.Balance >= 0 ? Color.FromArgb(0, 192, 0) : Color.Red;
