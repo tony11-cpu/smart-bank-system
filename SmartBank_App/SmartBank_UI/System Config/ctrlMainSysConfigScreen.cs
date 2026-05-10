@@ -29,7 +29,7 @@ namespace SmartBank_UI.System_Config
                 Interval = 5000
             };
             _serviceStatusTimer.Tick += _serviceStatusTimer_Tick;
-            this.Disposed += ctrlMainSysConfigScreen_Disposed;
+            this.Disposed += (s, e) => _serviceStatusTimer.Dispose();
 
             _fields = new (NumericUpDown, enConfigKey)[]
             {
@@ -78,15 +78,9 @@ namespace SmartBank_UI.System_Config
 
         private void _loadServiceRunningStatus()
         {
-            if (clsUtil.IsServiceRunning())
-            {
-                lblIsWindowsServiceRunning.Text = "Running";
-                lblIsWindowsServiceRunning.ForeColor = Color.FromArgb(0, 192, 0);
-                return;
-            }
-
-            lblIsWindowsServiceRunning.Text = "Not Running";
-            lblIsWindowsServiceRunning.ForeColor = Color.Red;
+            bool isRunning = clsUtil.IsServiceRunning();
+            lblIsWindowsServiceRunning.Text = isRunning ? "Running" : "Not Running";
+            lblIsWindowsServiceRunning.ForeColor = isRunning ? Color.FromArgb(0, 192, 0) : Color.Red;
         }
 
         private void _loadChanges(int unsavedChangesCount)
@@ -203,12 +197,5 @@ namespace SmartBank_UI.System_Config
         }
 
         private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
-
-        private void ctrlMainSysConfigScreen_Disposed(object sender, EventArgs e)
-        {
-            _serviceStatusTimer.Stop();
-            _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
-            _serviceStatusTimer.Dispose();
-        }
     }
 }

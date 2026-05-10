@@ -138,14 +138,6 @@ namespace SmartBank_UI.Login
             _serviceStatusTimer.Start();
         }
 
-        private async void frmLogin_Shown(object sender, EventArgs e)
-        {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return;
-
-            await _refreshCounts();
-        }
-
         private async void _onTransactionCompleted()
         {
             if (this.Visible)
@@ -163,15 +155,9 @@ namespace SmartBank_UI.Login
 
         private void _loadServiceRunningStatus()
         {
-            if (clsUtil.IsServiceRunning())
-            {
-                lblRerviceRunning.Text = "RUNNING";
-                lblRerviceRunning.ForeColor = Color.FromArgb(0, 192, 0);
-                return;
-            }
-
-            lblRerviceRunning.Text = "NOT RUNNING";
-            lblRerviceRunning.ForeColor = Color.Red;
+            bool isRunning = clsUtil.IsServiceRunning();
+            lblRerviceRunning.Text = isRunning ? "RUNNING" : "NOT RUNNING";
+            lblRerviceRunning.ForeColor = isRunning ? Color.FromArgb(0, 192, 0) : Color.Red;
         }
 
         private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
@@ -190,23 +176,6 @@ namespace SmartBank_UI.Login
             _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
 
             base.OnFormClosed(e);
-        }
-
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            base.OnVisibleChanged(e);
-
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return;
-
-            if (this.Visible)
-            {
-                _serviceStatusTimer.Start();
-                _loadServiceRunningStatus();
-                return;
-            }
-
-            _serviceStatusTimer.Stop();
         }
     }
 }
