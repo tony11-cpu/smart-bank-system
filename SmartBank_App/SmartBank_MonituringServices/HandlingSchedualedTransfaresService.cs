@@ -86,20 +86,38 @@ namespace SmartBank_MonituringServices
 
         protected override async void OnStart(string[] args)
         {
-            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
-            _isStoppingService = false;
+            try
+            {
+                Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                _isStoppingService = false;
 
-            int serviceCheckIntervalSeconds = await _getConfigValueAsync(clsConfigurations.enConfigKey.ScheduledTransferCheckIntervalSeconds, 60);
-            _scheduledTransfersTimer.Interval = TimeSpan.FromSeconds(serviceCheckIntervalSeconds).TotalMilliseconds;
+                int serviceCheckIntervalSeconds = await _getConfigValueAsync(clsConfigurations.enConfigKey.ScheduledTransferCheckIntervalSeconds, 60);
+                _scheduledTransfersTimer.Interval = TimeSpan.FromSeconds(serviceCheckIntervalSeconds).TotalMilliseconds;
 
-            _logServiceMessage("Service started successfully.");
-            _logServiceMessage($"Service check interval set to {serviceCheckIntervalSeconds} seconds.");
-            _scheduledTransfersTimer.Start();
+                _logServiceMessage("Service started successfully.");
+                _logServiceMessage($"Service check interval set to {serviceCheckIntervalSeconds} seconds.");
+                _scheduledTransfersTimer.Start();
 
-            await _processScheduledTransfersAsync();
+                await _processScheduledTransfersAsync();
+            }
+            catch (Exception ex)
+            {
+                _logServiceMessage($"Service failed to start correctly. Error: {ex.Message}");
+                throw;
+            }
         }
 
-        private async void _scheduledTransfersTimer_Elapsed(object sender, ElapsedEventArgs e) => await _processScheduledTransfersAsync();
+        private async void _scheduledTransfersTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                await _processScheduledTransfersAsync();
+            }
+            catch (Exception ex)
+            {
+                _logServiceMessage($"Unexpected error while processing scheduled transfers: {ex.Message}");
+            }
+        }
 
         protected override void OnStop()
         {
