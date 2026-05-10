@@ -166,6 +166,8 @@ namespace SmartBank_UI.Transaction
                 return "Please enter a valid account number.";
             else if (amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
                 return "Insufficient funds.";
+            else if (ctrlAccountShortInfo1.CurrentAccount.Balance - amount < ctrlAccountShortInfo1.CurrentAccount.MinimumBalance)
+                return "Cannot perform this transaction because it exceeds the account minimum balance.";
 
             return string.Empty;
         }
