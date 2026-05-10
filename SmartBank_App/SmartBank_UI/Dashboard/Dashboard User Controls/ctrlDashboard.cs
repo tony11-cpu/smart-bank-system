@@ -40,12 +40,10 @@ namespace SmartBank_UI
                 return;
 
             clsGlobal.OnTransactionCompleted += async () => await _onTransactionCompleted();
+            this.VisibleChanged += ctrlDashboard_VisibleChanged;
 
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
-            lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-            lblTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
-
-            await _loadTransactions();
+            await RefreshDashboardData();
         }
 
         private async Task _onTransactionCompleted()
@@ -57,16 +55,31 @@ namespace SmartBank_UI
         public async Task RefreshDashboardData()
         {
             lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-            lblTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
-            await _loadTransactions();
+            await _refreshTransactionWidgets();
         }
 
-        private async Task _loadTransactions()
-        {
-            if (clsGlobal.ActiveUser == null)
-                return;
+        private static bool _isPendingScheduledTransfer(clsTransactionLog transaction)
+            => transaction.IsScheduled && transaction.BalanceBeforeTransaction == transaction.BalanceAfterTransaction;
 
-            dgvRecentTransactions.DataSource = await clsTransactionLog.GetAllUserTransactionsListAsync(clsGlobal.ActiveUser.UserID);
+        private async Task _refreshTransactionWidgets()
+        {
+            List<clsTransactionLog> transactions = await clsTransactionLog.GetAllTransactionsAsync();
+
+            lblTransactionsToday.Text = transactions.Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+            lblPendingTransfares.Text = transactions.Count(_isPendingScheduledTransfer).ToString();
+
+            if (clsGlobal.ActiveUser == null || !clsGlobal.ActiveUser.UserID.HasValue)
+            {
+                _bindTransactions(new List<clsTransactionLog>());
+                return;
+            }
+
+            _bindTransactions(transactions.Where(n => n.UserResponsibleID == clsGlobal.ActiveUser.UserID.Value).ToList());
+        }
+
+        private void _bindTransactions(List<clsTransactionLog> transactions)
+        {
+            dgvRecentTransactions.DataSource = transactions;
 
             if (dgvRecentTransactions.RowCount <= 0)
                 return;
@@ -82,6 +95,14 @@ namespace SmartBank_UI
 
             dgvRecentTransactions.RowTemplate.Height = 35;
             dgvRecentTransactions.ColumnHeadersHeight = 40;
+        }
+
+        private async void ctrlDashboard_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            await RefreshDashboardData();
         }
 
         private void btnNewDeposite_Click(object sender, EventArgs e) => _loadTransactionType(frmPerformNewTransaction.enTransactionType.Deposit);
