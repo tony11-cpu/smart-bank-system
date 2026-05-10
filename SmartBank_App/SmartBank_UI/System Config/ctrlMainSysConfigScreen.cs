@@ -17,12 +17,20 @@ namespace SmartBank_UI.System_Config
     {
         private int _unsavedChangesCount = 0;
         private bool _isReady = false;
+        private readonly Timer _serviceStatusTimer;
         private readonly (NumericUpDown Control, enConfigKey Key)[] _fields;
         private Dictionary<enConfigKey, (int Saved, bool Changed)> _changes = new Dictionary<enConfigKey, (int Saved, bool Changed)>();
 
         public ctrlMainSysConfigScreen()
         {
             InitializeComponent();
+            _serviceStatusTimer = new Timer()
+            {
+                Interval = 5000
+            };
+            _serviceStatusTimer.Tick += _serviceStatusTimer_Tick;
+            this.Disposed += ctrlMainSysConfigScreen_Disposed;
+
             _fields = new (NumericUpDown, enConfigKey)[]
             {
                 (nupNumberOfLogin,        enConfigKey.MaxLoginAttempts),
@@ -63,8 +71,22 @@ namespace SmartBank_UI.System_Config
                 lblIsDataBaseConnected.ForeColor = Color.Red;
             }
 
+            _loadServiceRunningStatus();
             lblTotalActiveAccountsCount.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
             lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
+        }
+
+        private void _loadServiceRunningStatus()
+        {
+            if (clsUtil.IsServiceRunning())
+            {
+                lblIsWindowsServiceRunning.Text = "Running";
+                lblIsWindowsServiceRunning.ForeColor = Color.FromArgb(0, 192, 0);
+                return;
+            }
+
+            lblIsWindowsServiceRunning.Text = "Not Running";
+            lblIsWindowsServiceRunning.ForeColor = Color.Red;
         }
 
         private void _loadChanges(int unsavedChangesCount)
@@ -103,6 +125,7 @@ namespace SmartBank_UI.System_Config
         {
             _isReady = true;
             await _loadForm();
+            _startServiceStatusTimer();
         }
 
         private async void ctrlMainSysConfigScreen_VisibleChanged(object sender, EventArgs e)
@@ -110,7 +133,14 @@ namespace SmartBank_UI.System_Config
             if (!_isReady) 
                 return;
 
+            if (!this.Visible)
+            {
+                _stopServiceStatusTimer();
+                return;
+            }
+
             await _loadForm();
+            _startServiceStatusTimer();
         }
 
         private async void btnResetToDefault_Click(object sender, EventArgs e)
@@ -170,6 +200,31 @@ namespace SmartBank_UI.System_Config
 
             await _loadDefault();
             MessageBox.Show("All changes have been saved successfully.", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void _startServiceStatusTimer()
+        {
+            if (_serviceStatusTimer.Enabled || !this.Visible)
+                return;
+
+            _serviceStatusTimer.Start();
+        }
+
+        private void _stopServiceStatusTimer()
+        {
+            if (!_serviceStatusTimer.Enabled)
+                return;
+
+            _serviceStatusTimer.Stop();
+        }
+
+        private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
+
+        private void ctrlMainSysConfigScreen_Disposed(object sender, EventArgs e)
+        {
+            _stopServiceStatusTimer();
+            _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
+            _serviceStatusTimer.Dispose();
         }
     }
 }
