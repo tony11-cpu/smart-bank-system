@@ -105,7 +105,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                     sw.WriteLine("Transaction Type, Transaction ID, From Account, To Account, Amount, Transaction Date, User Responsible ID, Is Scheduled, Balance After Transaction");
                     foreach (clsTransactionLog tr in _transactionsLogs)
                         sw.WriteLine($"{tr.TransactionType},\"{$"{tr.TransactionID} {tr.FromAccount.AccountNumber}".Trim()}\"" +
-                                     $",{tr.ToAccount.AccountNumber},{tr.Amount},{tr.TransactionDate},{tr.UserResponsibleID}" +
+                                     $",{tr.ToAccount?.AccountNumber},{tr.Amount},{tr.TransactionDate},{tr.UserResponsibleID}" +
                                      $",{tr.IsScheduled},{tr.BalanceAfterTransaction}");
                 }
 
