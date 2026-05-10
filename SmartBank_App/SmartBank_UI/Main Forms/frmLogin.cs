@@ -20,7 +20,6 @@ namespace SmartBank_UI.Login
         private int _userFailedLoginAttempsCounter = 0;
         private string _previouseUsername = string.Empty;
         private readonly Timer _serviceStatusTimer;
-        private bool _isRefreshingCounts = false;
 
         public frmLogin()
         {
@@ -136,7 +135,7 @@ namespace SmartBank_UI.Login
             tbUsername.Text = userEntry.Username;
 
             await _refreshCounts();
-            _startServiceStatusTimer();
+            _serviceStatusTimer.Start();
         }
 
         private async void frmLogin_Shown(object sender, EventArgs e)
@@ -145,7 +144,6 @@ namespace SmartBank_UI.Login
                 return;
 
             await _refreshCounts();
-            _startServiceStatusTimer();
         }
 
         private async void _onTransactionCompleted()
@@ -158,20 +156,9 @@ namespace SmartBank_UI.Login
 
         private async Task _refreshCounts()
         {
-            if (_isRefreshingCounts)
-                return;
-
-            _isRefreshingCounts = true;
-            try
-            {
-                lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-                lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
-                _loadServiceRunningStatus();
-            }
-            finally
-            {
-                _isRefreshingCounts = false;
-            }
+            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+            _loadServiceRunningStatus();
         }
 
         private void _loadServiceRunningStatus()
@@ -187,23 +174,7 @@ namespace SmartBank_UI.Login
             lblRerviceRunning.ForeColor = Color.Red;
         }
 
-        private void _startServiceStatusTimer()
-        {
-            if (_serviceStatusTimer.Enabled)
-                return;
-
-            _serviceStatusTimer.Start();
-        }
-
-        private void _stopServiceStatusTimer()
-        {
-            if (!_serviceStatusTimer.Enabled)
-                return;
-
-            _serviceStatusTimer.Stop();
-        }
-
-        private async void _serviceStatusTimer_Tick(object sender, EventArgs e) => await _refreshCounts();
+        private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
 
@@ -215,7 +186,7 @@ namespace SmartBank_UI.Login
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            _stopServiceStatusTimer();
+            _serviceStatusTimer.Stop();
             _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
 
             base.OnFormClosed(e);
@@ -230,11 +201,12 @@ namespace SmartBank_UI.Login
 
             if (this.Visible)
             {
-                _startServiceStatusTimer();
+                _serviceStatusTimer.Start();
+                _loadServiceRunningStatus();
                 return;
             }
 
-            _stopServiceStatusTimer();
+            _serviceStatusTimer.Stop();
         }
     }
 }
