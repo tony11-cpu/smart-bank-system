@@ -179,7 +179,7 @@ namespace SmartBank_UI.Login
             if (clsUtil.IsServiceRunning())
             {
                 lblRerviceRunning.Text = "RUNNING";
-                lblRerviceRunning.ForeColor = Color.LimeGreen;
+                lblRerviceRunning.ForeColor = Color.FromArgb(0, 192, 0);
                 return;
             }
 
