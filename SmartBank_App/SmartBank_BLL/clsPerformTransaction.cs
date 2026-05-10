@@ -87,6 +87,7 @@ namespace SmartBank_BLL
             clsAccounts fromAccount = _validateAccount(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "schedule transfers");
             clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
 
+            await _validateWithdrawal(fromAccount, amount, performedByUserID);
             return await clsTransactions_DAL.ScheduleTransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, scheduledDate, performedByUserID);
         }
 

@@ -46,14 +46,15 @@ namespace SmartBank_BLL
                 return new List<clsTransactionLog>();
 
             List<clsTransactionLog> transactions = new List<clsTransactionLog>();
+            Dictionary<int, clsAccounts> accountsCache = new Dictionary<int, clsAccounts>();
 
             foreach (DataRow row in dt.Rows)
             {
-                clsAccounts fromAccount = await clsAccounts.FindAsync((int)row["AccountID"]);
+                clsAccounts fromAccount = await _getAccountFromCacheAsync(accountsCache, (int)row["AccountID"]);
                 clsAccounts toAccount = null;
 
                 if (row["RelatedAccountID"] != DBNull.Value)
-                    toAccount = await clsAccounts.FindAsync((int)row["RelatedAccountID"]);
+                    toAccount = await _getAccountFromCacheAsync(accountsCache, (int)row["RelatedAccountID"]);
 
                 enTransactionType type = _parseTransactionType(row["TransactionType"].ToString().Replace(" ", "_"));
 
@@ -69,6 +70,16 @@ namespace SmartBank_BLL
             }
 
             return transactions;
+        }
+
+        private static async Task<clsAccounts> _getAccountFromCacheAsync(Dictionary<int, clsAccounts> accountsCache, int accountID)
+        {
+            if (accountsCache.TryGetValue(accountID, out clsAccounts account))
+                return account;
+
+            account = await clsAccounts.FindAsync(accountID);
+            accountsCache[accountID] = account;
+            return account;
         }
 
         private static decimal _getBalance(DataRow row, string columnName)
