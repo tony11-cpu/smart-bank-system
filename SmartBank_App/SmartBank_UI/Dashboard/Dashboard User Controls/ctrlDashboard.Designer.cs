@@ -91,7 +91,7 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(12, 110);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(319, 99);
             this.panel1.TabIndex = 2;
@@ -139,7 +139,7 @@
             this.panel2.Controls.Add(this.lblTransactionsToday);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Location = new System.Drawing.Point(339, 110);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(319, 99);
             this.panel2.TabIndex = 5;
@@ -187,7 +187,7 @@
             this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.label11);
             this.panel3.Location = new System.Drawing.Point(662, 110);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(319, 99);
             this.panel3.TabIndex = 5;
@@ -235,7 +235,7 @@
             this.panel4.Controls.Add(this.lblPendingTransfares);
             this.panel4.Controls.Add(this.label12);
             this.panel4.Location = new System.Drawing.Point(989, 110);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(319, 99);
             this.panel4.TabIndex = 5;
@@ -282,7 +282,7 @@
             this.dgvFraudFlags.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvFraudFlags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFraudFlags.Location = new System.Drawing.Point(662, 213);
-            this.dgvFraudFlags.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvFraudFlags.Margin = new System.Windows.Forms.Padding(2);
             this.dgvFraudFlags.Name = "dgvFraudFlags";
             this.dgvFraudFlags.RowHeadersVisible = false;
             this.dgvFraudFlags.RowHeadersWidth = 62;
@@ -297,8 +297,8 @@
             this.dgvRecentTransactions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRecentTransactions.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvRecentTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRecentTransactions.Location = new System.Drawing.Point(12, 213);
-            this.dgvRecentTransactions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvRecentTransactions.Location = new System.Drawing.Point(14, 213);
+            this.dgvRecentTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.dgvRecentTransactions.Name = "dgvRecentTransactions";
             this.dgvRecentTransactions.ReadOnly = true;
             this.dgvRecentTransactions.RowHeadersVisible = false;
@@ -317,7 +317,7 @@
             this.btnTransfare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnTransfare.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_50;
             this.btnTransfare.Location = new System.Drawing.Point(886, 732);
-            this.btnTransfare.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTransfare.Margin = new System.Windows.Forms.Padding(2);
             this.btnTransfare.Name = "btnTransfare";
             this.btnTransfare.Size = new System.Drawing.Size(417, 79);
             this.btnTransfare.TabIndex = 10;
@@ -325,6 +325,7 @@
             this.btnTransfare.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnTransfare.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.btnTransfare.UseVisualStyleBackColor = true;
+            this.btnTransfare.Click += new System.EventHandler(this.btnTransfare_Click);
             // 
             // btnNewWithdrawl
             // 
@@ -336,7 +337,7 @@
             this.btnNewWithdrawl.ForeColor = System.Drawing.Color.Red;
             this.btnNewWithdrawl.Image = ((System.Drawing.Image)(resources.GetObject("btnNewWithdrawl.Image")));
             this.btnNewWithdrawl.Location = new System.Drawing.Point(448, 732);
-            this.btnNewWithdrawl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNewWithdrawl.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewWithdrawl.Name = "btnNewWithdrawl";
             this.btnNewWithdrawl.Size = new System.Drawing.Size(417, 79);
             this.btnNewWithdrawl.TabIndex = 9;
@@ -344,6 +345,7 @@
             this.btnNewWithdrawl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNewWithdrawl.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.btnNewWithdrawl.UseVisualStyleBackColor = true;
+            this.btnNewWithdrawl.Click += new System.EventHandler(this.btnNewWithdrawl_Click);
             // 
             // btnNewDeposite
             // 
@@ -355,7 +357,7 @@
             this.btnNewDeposite.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewDeposite.Image = global::SmartBank_UI.Properties.Resources.icons8_up_arrow_50;
             this.btnNewDeposite.Location = new System.Drawing.Point(14, 732);
-            this.btnNewDeposite.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNewDeposite.Margin = new System.Windows.Forms.Padding(2);
             this.btnNewDeposite.Name = "btnNewDeposite";
             this.btnNewDeposite.Size = new System.Drawing.Size(417, 79);
             this.btnNewDeposite.TabIndex = 7;
@@ -363,6 +365,7 @@
             this.btnNewDeposite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNewDeposite.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.btnNewDeposite.UseVisualStyleBackColor = true;
+            this.btnNewDeposite.Click += new System.EventHandler(this.btnNewDeposite_Click);
             // 
             // ctrlDashboard
             // 
@@ -380,7 +383,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblMorningToUserWithName);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlDashboard";
             this.Size = new System.Drawing.Size(1320, 829);
             this.Load += new System.EventHandler(this.ctrlDashboard_Load);

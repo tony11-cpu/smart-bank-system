@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="SmartBack_DAL/SmartBack_DAL.csproj" Id="52b86fae-3d1c-4528-93ac-ed322355c42b" />
   <Project Path="SmartBank_BLL/SmartBank_BLL.csproj" Id="7eb20a84-f330-47f1-ba63-5f7c94cce5cb" />
+  <Project Path="SmartBank_MonituringServices/SmartBank_MonituringServices.csproj" Id="16b7d628-077e-4af0-92a0-bf8c28439c2c" />
   <Project Path="SmartBank_UI/SmartBank_UI.csproj" Id="c17cc30d-fa0e-4df0-a250-9972b1e4573c" />
 </Solution>

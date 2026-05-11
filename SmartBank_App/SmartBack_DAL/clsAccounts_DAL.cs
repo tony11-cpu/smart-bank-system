@@ -191,12 +191,10 @@ public static class clsAccounts_DAL
                 if (pAccountID.Value == DBNull.Value)
                     return null;
 
-                accountDto = new clsAccountsDto((int)pAccountID.Value, (int)pCustomerID.Value, accountNumber,
+                return new clsAccountsDto((int)pAccountID.Value, (int)pCustomerID.Value, accountNumber,
                                                (string)pAccountType.Value, (decimal)pBalance.Value, (decimal)pMinimumBalance.Value,
                                                (string)pStatus.Value, (DateTime)pOpenedDate.Value, pClosedDate.Value == DBNull.Value ? (DateTime?)null : (DateTime)pClosedDate.Value,
                                                (int)pCreatedByUserID.Value);
-
-                return accountDto;
             }
             catch (SqlException ex)
             {
@@ -250,9 +248,7 @@ public static class clsAccounts_DAL
             {
                 await conn.OpenAsync();
                 using (var reader = await cmd.ExecuteReaderAsync())
-                {
                     dt.Load(reader); 
-                }
 
                 return dt;
             }
@@ -270,6 +266,7 @@ public static class clsAccounts_DAL
         using (SqlCommand cmd = new SqlCommand("SELECT dbo.IsAccountExistsByID(@AccountID)", conn))
         {
             cmd.Parameters.AddWithValue("@AccountID", accountID);
+
             try
             {
                 await conn.OpenAsync();
@@ -280,6 +277,7 @@ public static class clsAccounts_DAL
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
         }
+
         return false;
     }
 
@@ -322,6 +320,7 @@ public static class clsAccounts_DAL
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }
         }
+
         return false;
     }
 }

@@ -154,7 +154,8 @@ namespace SmartBank_UI.Users
             tbAccountCreatedDay.Text = _currentUser.CreatedDate.HasValue ? _currentUser.CreatedDate.Value.ToShortDateString() : "N/A";
             tbLastLoginDate.Text = _currentUser.LastLoginDate.HasValue ? _currentUser.LastLoginDate.Value.ToString() : "No login record for this user yet.";
             tbCreatedByUsername.Text = _currentUser.CreatedByUserUsername;
-            lblUserName.Text = _currentUser.FullName.Split(' ')[0] + " -- Details";
+            string firstName = _currentUser.FullName?.Split(' ')[0] ?? "User";
+            lblUserName.Text = firstName + " -- Details";
 
             if (string.IsNullOrEmpty(_currentUser.ImagePath)) pbUserImage.Image = Resources.icons8_user_50;
             else pbUserImage.ImageLocation = _currentUser.ImagePath;

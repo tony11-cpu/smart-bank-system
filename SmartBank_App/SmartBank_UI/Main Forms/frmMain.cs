@@ -28,22 +28,28 @@ namespace SmartBank_UI
             _frmLogin = LoginForm;
         }
 
-        private void btnSignOut_Click(object sender, EventArgs e)
+        private async void btnSignOut_Click(object sender, EventArgs e)
         {
-            _signOut();
+            await _signOut();
             this.Close();
         }
 
-        private void _signOut()
+        private async Task _signOut()
         {
             clsGlobal.ActiveUser = null;
-            _frmLogin.Show();
+
+            if (_frmLogin is frmLogin f)
+            {
+                f.Show();
+                f.Activate();
+                await f.RefreshCountsOnSignOut();
+            }
         }
 
-        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        private async void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (clsGlobal.ActiveUser != null)
-                _signOut();
+                await _signOut();
         }
 
         private void _showView(UserControl control)
@@ -55,6 +61,9 @@ namespace SmartBank_UI
 
         private void _loadUser()
         {
+            if (clsGlobal.ActiveUser == null)
+                return;
+
             lblUSerFullName.Text = clsGlobal.ActiveUser.FullName;
             lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");

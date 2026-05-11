@@ -19,27 +19,29 @@ namespace SmartBank_UI.Accounts.Accounts_User_Controls
             InitializeComponent();
         }
 
-        public async Task LoadAccount(string accountNumber)
+        public clsAccounts CurrentAccount;
+        public async Task LoadAccount(string accountNumber , Action onAccountLoad = null)
         {
-            clsAccounts _currentAccount = await clsAccounts.FindAsync(accountNumber);
-            if (_currentAccount == null)
+            CurrentAccount = await clsAccounts.FindAsync(accountNumber);
+            if (CurrentAccount == null)
             {
                 MessageBox.Show("Failed to load account details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            bool isSavings = _currentAccount.AccountType == clsAccounts.enAccountType.Savings;
-            lblAccountName.Text = _currentAccount.AccountNumber;
-            lblSavingsOrChecking.Text = _currentAccount.AccountType.ToString();
+            bool isSavings = CurrentAccount.AccountType == clsAccounts.enAccountType.Savings;
+            lblAccountName.Text = CurrentAccount.AccountNumber;
+            lblSavingsOrChecking.Text = CurrentAccount.AccountType.ToString();
             lblSavingsOrChecking.ForeColor = isSavings ? Color.FromArgb(0, 200, 0) : Color.Orange;
             pbAccountTypePhoto.Image = isSavings ? Properties.Resources.icons8_wallet_64 : Properties.Resources.icons8_bank_64;
-            lblCurrentBalance.Text = $"${_currentAccount.Balance}";
-            lblCurrentBalance.ForeColor = _currentAccount.Balance >= 0 ? Color.FromArgb(0, 200, 0) : Color.Red;
-            lblMinimunBalance.Text = $"${_currentAccount.MinimumBalance}";
-            lblCustomerAccountFullName.Text = $"{_currentAccount.Customer?.FirstName} {_currentAccount.Customer?.LastName}".Trim();
+            lblCurrentBalance.Text = $"${CurrentAccount.Balance}";
+            lblCurrentBalance.ForeColor = CurrentAccount.Balance >= 0 ? Color.FromArgb(0, 200, 0) : Color.Red;
+            lblMinimunBalance.Text = $"${CurrentAccount.MinimumBalance}";
+            lblCustomerAccountFullName.Text = $"{CurrentAccount.Customer?.FirstName} {CurrentAccount.Customer?.LastName}".Trim();
             lblAccountType.Text = lblSavingsOrChecking.Text;
-            lblOpenDate.Text = _currentAccount.OpenedDate?.ToShortDateString();
-            lblOpenByUsername.Text = (await clsUsers.FindAsync(_currentAccount.CreatedByUserID))?.Username ?? "Unknown";
+            lblOpenDate.Text = CurrentAccount.OpenedDate?.ToShortDateString();
+            lblOpenByUsername.Text = (await clsUsers.FindAsync(CurrentAccount.CreatedByUserID))?.Username ?? "Unknown";
+            onAccountLoad?.Invoke();
         }
     }
 }

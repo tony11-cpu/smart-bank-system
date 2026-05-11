@@ -19,8 +19,18 @@ namespace SmartBank_UI.Login
     {
         private int _userFailedLoginAttempsCounter = 0;
         private string _previouseUsername = string.Empty;
+        private readonly Timer _serviceStatusTimer;
 
-        public frmLogin() => InitializeComponent();
+        public frmLogin()
+        {
+            InitializeComponent();
+
+            _serviceStatusTimer = new Timer()
+            {
+                Interval = 5000
+            };
+            _serviceStatusTimer.Tick += _serviceStatusTimer_Tick;
+        }
 
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
 
@@ -86,7 +96,7 @@ namespace SmartBank_UI.Login
 
             notifyIcon1.Visible = true;
             notifyIcon1.Icon = SystemIcons.Application;
-            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {clsGlobal.ActiveUser.FullName.Split(' ')[0]}!", ToolTipIcon.Info);
+            notifyIcon1.ShowBalloonTip(3000, "SmartBank", $"Welcome back, {clsGlobal.ActiveUser.FullName?.Split(' ')[0] ?? "User"}!", ToolTipIcon.Info);
 
             this.Hide();
             frmMain mainForm = new frmMain(this);
@@ -109,7 +119,6 @@ namespace SmartBank_UI.Login
                     MessageBox.Show("An error occurred while locking your account. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                 }
-               
             }
         }
 
@@ -118,13 +127,40 @@ namespace SmartBank_UI.Login
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
+
             (string Username, string Password) userEntry = clsUtil.clsLogger.ReadUserDataFromRegistry();
 
             tbPassword.Text = userEntry.Password;
             tbUsername.Text = userEntry.Username;
 
-            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            await _refreshCounts();
+            _serviceStatusTimer.Start();
         }
+
+        private async void _onTransactionCompleted()
+        {
+            if (this.Visible)
+                await _refreshCounts();
+        }
+
+        public async Task RefreshCountsOnSignOut() => await _refreshCounts();
+
+        private async Task _refreshCounts()
+        {
+            lblNumberActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+            lblNumberTransactionsToday.Text = (await clsTransactionLog.GetAllTransactionsAsync()).Count(n => n.TransactionDate.Date == DateTime.Today).ToString();
+            _loadServiceRunningStatus();
+        }
+
+        private void _loadServiceRunningStatus()
+        {
+            bool isRunning = clsUtil.IsServiceRunning();
+            lblRerviceRunning.Text = isRunning ? "RUNNING" : "NOT RUNNING";
+            lblRerviceRunning.ForeColor = isRunning ? Color.FromArgb(0, 192, 0) : Color.Red;
+        }
+
+        private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
 
@@ -132,6 +168,14 @@ namespace SmartBank_UI.Login
         {
             if (e.KeyChar == (char)Keys.Enter)
                  await _signIn();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            _serviceStatusTimer.Stop();
+            _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
+
+            base.OnFormClosed(e);
         }
     }
 }

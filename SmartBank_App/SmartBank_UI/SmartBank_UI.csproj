@@ -57,6 +57,12 @@
     <Compile Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.Designer.cs">
       <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Accounts\frmAccountShortInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Accounts\frmAccountShortInfo.Designer.cs">
+      <DependentUpon>frmAccountShortInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\frmAddOrUpdateAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,11 +125,29 @@
     <Compile Include="System Config\ctrlMainSysConfigScreen.Designer.cs">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Transaction\frmPerformNewTransaction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPerformNewTransaction.Designer.cs">
+      <DependentUpon>frmPerformNewTransaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.Designer.cs">
       <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.Designer.cs">
+      <DependentUpon>ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.Designer.cs">
+      <DependentUpon>ctrlTransfareTransactionTypeAndInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Users\frmAddOrUpdateUser.cs">
       <SubType>Form</SubType>
@@ -151,6 +175,9 @@
     </Compile>
     <EmbeddedResource Include="Accounts\Accounts User Controls\ctrlAccountShortInfo.resx">
       <DependentUpon>ctrlAccountShortInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Accounts\frmAccountShortInfo.resx">
+      <DependentUpon>frmAccountShortInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Accounts\frmAddOrUpdateAccount.resx">
       <DependentUpon>frmAddOrUpdateAccount.cs</DependentUpon>
@@ -187,8 +214,17 @@
     <EmbeddedResource Include="System Config\ctrlMainSysConfigScreen.resx">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPerformNewTransaction.resx">
+      <DependentUpon>frmPerformNewTransaction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransactionsMainScreen.resx">
       <DependentUpon>ctrlTransactionsMainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlDepositOrWithdrawlTransactionTypeAndInfo.resx">
+      <DependentUpon>ctrlDepositOrWithdrawlTransactionTypeAndInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\Transactions User Controls\ctrlTransfareTransactionTypeAndInfo.resx">
+      <DependentUpon>ctrlTransfareTransactionTypeAndInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddOrUpdateUser.resx">
       <DependentUpon>frmAddOrUpdateUser.cs</DependentUpon>
@@ -339,6 +375,9 @@
     <None Include="Resources\icons8-attendance-50.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\icons8-withdrawal-241.png" />
+    <None Include="Resources\icons8-withdrawal-24.png" />
+    <None Include="Resources\icons8-money-with-wings-50.png" />
     <None Include="Resources\icons8-unlocked-50.png" />
     <None Include="Resources\icons8-locked-48.png" />
     <None Include="Resources\icons8-unlocked-501.png" />

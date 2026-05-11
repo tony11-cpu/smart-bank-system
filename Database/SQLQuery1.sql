@@ -1,3 +1,5 @@
+USE [SmartBankDB]
+GO
 
 Delete From LoginAttempts
 DBCC CHECKIDENT ('LoginAttempts', RESEED, 0);
@@ -16,3 +18,4 @@ DBCC CHECKIDENT ('Customers', RESEED, 0);
 
 Delete From Users
 Where UserID <> 1
+GO

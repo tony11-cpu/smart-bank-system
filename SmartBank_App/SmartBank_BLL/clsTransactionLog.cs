@@ -3,83 +3,142 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartBank_BLL
 {
     public class clsTransactionLog
     {
-        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out }
+        public enum enTransactionType { Deposit, Withdrawal, Transfer_In, Transfer_Out, Scheduled }
         public enTransactionType TransactionType { get; private set; }
         public int TransactionID { get; private set; }
         public clsAccounts FromAccount { get; private set; }
-        /// <summary>
-        /// For deposits & withdrawls this will be null. Transfers, this will be the account from which the money is withdrawn.
-        /// </summary>
-        public clsAccounts ToAccount { get; private set; } = null;
+        public clsAccounts ToAccount { get; private set; }
         public decimal Amount { get; private set; }
         public string Description { get; private set; }
         public DateTime TransactionDate { get; private set; }
         public int UserResponsibleID { get; private set; }
         public bool IsScheduled { get; private set; }
-        public (decimal FromAccount_BalanceAfter, decimal ToAccountBalanceAfter) BalanceAfterTransaction { get; private set; }
+        public decimal BalanceAfterTransaction { get; private set; }
+        public decimal BalanceBeforeTransaction { get; private set; }
 
         public clsTransactionLog(int transactionID, enTransactionType transactionType, clsAccounts fromAccount, clsAccounts toAccount,
-                                decimal amount, string description, DateTime transactionDate, int userResponsibleID, bool isScheduled)
+                                decimal amount, string description, DateTime transactionDate, int userResponsibleID, bool isScheduled,
+                                decimal balanceAfterTransaction = 0, decimal balanceBeforeTransaction = 0)
         {
-            this.TransactionID = transactionID;
-            this.TransactionType = transactionType;
-            this.FromAccount = fromAccount;
-            this.ToAccount = toAccount;
-            this.Amount = amount;
-            this.Description = description;
-            this.TransactionDate = transactionDate;
-            this.UserResponsibleID = userResponsibleID;
-            this.IsScheduled = isScheduled;
+            TransactionID = transactionID;
+            TransactionType = transactionType;
+            FromAccount = fromAccount;
+            ToAccount = toAccount;
+            Amount = amount;
+            Description = description;
+            TransactionDate = transactionDate;
+            UserResponsibleID = userResponsibleID;
+            IsScheduled = isScheduled;
+            BalanceAfterTransaction = balanceAfterTransaction;
+            BalanceBeforeTransaction = balanceBeforeTransaction;
         }
 
         public static async Task<List<clsTransactionLog>> GetAllTransactionsAsync()
         {
             DataTable dt = await clsTransactions_DAL.GetAllTransactionsAsync();
-            if (dt == null || dt.Rows.Count == 0) return new List<clsTransactionLog>();
+            if (dt == null || dt.Rows.Count == 0)
+                return new List<clsTransactionLog>();
 
-            
-            var accountCache = new Dictionary<int, clsAccounts>();
-
-            async Task<clsAccounts> GetAccountFromCache(int? id)
-            {
-                if (id == null) return null;
-                if (!accountCache.ContainsKey(id.Value))
-                    accountCache[id.Value] = await clsAccounts.FindAsync(id.Value);
-                return accountCache[id.Value];
-            }
-
-            var transactionList = new List<clsTransactionLog>();
+            List<clsTransactionLog> transactions = new List<clsTransactionLog>();
+            Dictionary<int, clsAccounts> accountsCache = new Dictionary<int, clsAccounts>();
 
             foreach (DataRow row in dt.Rows)
             {
-                int accountId = row.Field<int>("AccountID");
-                int? relatedAccountId = row.Field<int?>("RelatedAccountID");
-                string typeRaw = row.Field<string>("TransactionType").Replace(" ", "_");
-                string desc = row.Field<string>("Description");
+                clsAccounts fromAccount = await _getAccountFromCacheAsync(accountsCache, (int)row["AccountID"]);
+                clsAccounts toAccount = row["RelatedAccountID"] == DBNull.Value ? null : await _getAccountFromCacheAsync(accountsCache, (int)row["RelatedAccountID"]);
 
-                transactionList.Add(new clsTransactionLog(
-                    row.Field<int>("TransactionID"),
-                    (enTransactionType)Enum.Parse(typeof(enTransactionType), typeRaw),
-                    await GetAccountFromCache(accountId),
-                    await GetAccountFromCache(relatedAccountId),
-                    row.Field<decimal>("Amount"),
-                    desc == "No Description" ? null : desc,
-                    row.Field<DateTime>("TransactionDate"),
-                    row.Field<int>("ProcessedByUserID"),
-                    row.Field<bool>("IsScheduled")
+                string description = row["Description"]?.ToString();
+                description = description == "No Description" ? null : description;
+
+                transactions.Add(new clsTransactionLog((int)row["TransactionID"], _parseTransactionType(row["TransactionType"].ToString().Replace(" ", "_")),
+                    fromAccount, toAccount, (decimal)row["Amount"], description, (DateTime)row["TransactionDate"],
+                    (int)row["ProcessedByUserID"], (bool)row["IsScheduled"], _getBalance(row, "BalanceAfter"), _getBalance(row, "BalanceBefore")
                 ));
             }
 
-            return transactionList;
+            return transactions;
         }
 
-        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsList(int? userID) => userID.HasValue ? (await GetAllTransactionsAsync()).Where(t => t.UserResponsibleID == userID).ToList() : new List<clsTransactionLog>();
+        private static async Task<clsAccounts> _getAccountFromCacheAsync(Dictionary<int, clsAccounts> accountsCache, int accountID)
+        {
+            if (accountsCache.TryGetValue(accountID, out clsAccounts account))
+                return account;
+
+            account = await clsAccounts.FindAsync(accountID);
+            accountsCache[accountID] = account;
+            return account;
+        }
+
+        private static decimal _getBalance(DataRow row, string columnName)
+        {
+            foreach (DataColumn col in row.Table.Columns)
+            {
+                if (col.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase) && row[col] != DBNull.Value)
+                    return Convert.ToDecimal(row[col]);
+            }
+            return 0;
+        }
+
+        private static enTransactionType _parseTransactionType(string typeString)
+        {
+            if (Enum.TryParse<enTransactionType>(typeString, out enTransactionType type))
+                return type;
+
+            if (typeString.Contains("Transfer") || typeString.Contains("Transfare"))
+                return enTransactionType.Transfer_In;
+
+            if (typeString.Contains("Withdrawal") || typeString.Contains("Withdraw"))
+                return enTransactionType.Withdrawal;
+
+            if (typeString.Contains("Deposit"))
+                return enTransactionType.Deposit;
+
+            if (typeString.Contains("Scheduled"))
+                return enTransactionType.Scheduled;
+
+            return enTransactionType.Scheduled;
+        }
+
+        public static async Task<List<clsTransactionLog>> GetAllUserTransactionsListAsync(int? userID) 
+        {
+            List<clsTransactionLog> allTransactions = await GetAllTransactionsAsync();
+            if (!userID.HasValue || allTransactions == null)
+                return new List<clsTransactionLog>();
+
+            return allTransactions.Where(t => t.UserResponsibleID == userID.Value).ToList();
+        }
+
+        public static async Task<clsTransactionLog> FindAsyncWithAccountID(int accountID)
+        {
+            clsTransactionDto dto = await clsTransactions_DAL.GetLatestTransactionByAccountIDAsync(accountID);
+            return dto == null ? null : await _createTransactionFromDto(dto);
+        }
+
+        public static async Task<clsTransactionLog> FindAsyncWithTransactionID(int transactionID)
+        {
+            clsTransactionDto dto = await clsTransactions_DAL.GetTransactionByIDAsync(transactionID);
+            return dto == null ? null : await _createTransactionFromDto(dto);
+        }
+
+        private static async Task<clsTransactionLog> _createTransactionFromDto(clsTransactionDto dto)
+        {
+            clsAccounts fromAccount = await clsAccounts.FindAsync(dto.AccountID);
+            if (fromAccount == null)
+                return null;
+
+            clsAccounts toAccount = null;
+            if (dto.RelatedAccountID.HasValue)
+                toAccount = await clsAccounts.FindAsync(dto.RelatedAccountID.Value);
+
+            enTransactionType type = _parseTransactionType(dto.TransactionType.Replace(" ", "_"));
+            return new clsTransactionLog(dto.TransactionID, type, fromAccount, toAccount, dto.Amount, dto.Description, 
+                                         dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled, dto.BalanceAfter, dto.BalanceBefore);
+        }
     }
 }

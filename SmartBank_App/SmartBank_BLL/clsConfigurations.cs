@@ -77,15 +77,25 @@ namespace SmartBank_BLL
         }
 
         private static Dictionary<string, int> _configCache = new Dictionary<string, int>();
+        private static readonly Dictionary<enConfigKey, int> _defaultConfigValues = new Dictionary<enConfigKey, int>
+        {
+            { enConfigKey.LargeWithdrawalThreshold, 10000 },
+            { enConfigKey.MaxLoginAttempts, 5 },
+            { enConfigKey.MaxScheduledTransferRetries, 3 },
+            { enConfigKey.RapidTransactionMaxCount, 5 },
+            { enConfigKey.RapidTransactionWindowMinutes, 10 },
+            { enConfigKey.ScheduledTransferCheckIntervalSeconds, 60 }
+        };
 
-        public static async Task<int?> GetConfigValueAsync(enConfigKey Config)
+        public static async Task<int?> GetConfigValueAsync(enConfigKey config)
         {
             if (_configCache.Count == 0)
-            {
                 _configCache = await clsConfigurations_DAL.GetAllConfigAsync();
-            }
 
-            return _configCache.Count == 0 ? (int?)null : _configCache[Config.ToString()];
+            if (_configCache.TryGetValue(config.ToString(), out int configValue))
+                return configValue;
+
+            return _defaultConfigValues.TryGetValue(config, out int defaultValue) ? defaultValue : (int?)null;
         }
 
         public static async Task<bool> ResetToDefaultAsync()

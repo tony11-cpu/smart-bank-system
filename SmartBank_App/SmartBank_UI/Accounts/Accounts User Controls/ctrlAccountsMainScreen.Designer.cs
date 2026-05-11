@@ -51,6 +51,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.depositeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.withdrawalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transfareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnClosedAccountsFilter = new System.Windows.Forms.Button();
@@ -199,9 +200,10 @@
             this.closeToolStripMenuItem,
             this.toolStripMenuItem2,
             this.depositeToolStripMenuItem,
-            this.withdrawalToolStripMenuItem});
+            this.withdrawalToolStripMenuItem,
+            this.transfareToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(187, 226);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(187, 256);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening_1);
             // 
             // openNewAccountToolStripMenuItem
@@ -260,6 +262,7 @@
             this.depositeToolStripMenuItem.Name = "depositeToolStripMenuItem";
             this.depositeToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
             this.depositeToolStripMenuItem.Text = "Deposite";
+            this.depositeToolStripMenuItem.Click += new System.EventHandler(this.depositeToolStripMenuItem_Click);
             // 
             // withdrawalToolStripMenuItem
             // 
@@ -267,6 +270,15 @@
             this.withdrawalToolStripMenuItem.Name = "withdrawalToolStripMenuItem";
             this.withdrawalToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
             this.withdrawalToolStripMenuItem.Text = "Withdrawal";
+            this.withdrawalToolStripMenuItem.Click += new System.EventHandler(this.withdrawalToolStripMenuItem_Click);
+            // 
+            // transfareToolStripMenuItem
+            // 
+            this.transfareToolStripMenuItem.Image = global::SmartBank_UI.Properties.Resources.icons8_right_arrow_50;
+            this.transfareToolStripMenuItem.Name = "transfareToolStripMenuItem";
+            this.transfareToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
+            this.transfareToolStripMenuItem.Text = "Transfare";
+            this.transfareToolStripMenuItem.Click += new System.EventHandler(this.transfareToolStripMenuItem_Click);
             // 
             // label2
             // 
@@ -542,6 +554,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem depositeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem withdrawalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transfareToolStripMenuItem;
         private Accounts.Accounts_User_Controls.ctrlAccountShortInfo ctrlAccountShortInfo1;
     }
 }

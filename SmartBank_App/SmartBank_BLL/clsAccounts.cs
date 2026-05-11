@@ -247,20 +247,15 @@ namespace SmartBank_BLL
 
             foreach (DataRow row in dt.Rows)
             {
-                accounts.Add(new clsAccounts(
-                    (int)row["AccountID"],
-                              row["AccountNumber"].ToString(),
+                accounts.Add(new clsAccounts((int)row["AccountID"], row["AccountNumber"].ToString(),
                     await clsCustomers.FindAsync((int)row["CustomerID"]),
                     (enAccountType)Enum.Parse(typeof(enAccountType), row["AccountType"].ToString()),
                     (decimal)row["Balance"],
                     (decimal)row["MinimumBalance"],
                     (enStatus)Enum.Parse(typeof(enStatus), row["Status"].ToString()),
                     (DateTime)row["OpenedDate"],
-                    row["ClosedDate"] == DBNull.Value
-                              ? (DateTime?)null
-                              : (DateTime)row["ClosedDate"],
-                    (int)row["CreatedByUserID"]
-                ));
+                    row["ClosedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ClosedDate"],
+                    (int)row["CreatedByUserID"]));
             }
 
             return accounts;
@@ -276,6 +271,7 @@ namespace SmartBank_BLL
             if (await clsPerformTransaction.DepositAsync(this.AccountID ?? throw new Exception("Account Not Setted!"), amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance += amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
@@ -292,6 +288,7 @@ namespace SmartBank_BLL
             if (await clsPerformTransaction.WithdrawAsync(this.AccountID, amount, description, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
             {
                 this.Balance -= amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
@@ -312,6 +309,7 @@ namespace SmartBank_BLL
             {
                 this.Balance -= amount;
                 toAccount.Balance += amount;
+                clsGlobal.FireTransactionCompleted();
                 return true;
             }
 
@@ -323,9 +321,19 @@ namespace SmartBank_BLL
         /// </summary>
         /// <returns>True if the scheduled transfer was successful, otherwise false.</returns>
         /// <exception cref="Exception">Throws an exception if: the account ID is not set, the destination account ID is not set, the user responsible is not set, or the scheduled date is invalid.</exception>
-        public async Task<bool> ScheduleTransferToAsync(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate) =>
-            await clsPerformTransaction.ScheduleTransferAsync(this.AccountID ?? throw new Exception("Account ID is not set!"), toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
-             amount, description, scheduledDate, clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible"));
+        public async Task<bool> ScheduleTransferToAsync(clsAccounts toAccount, decimal amount, string description, DateTime scheduledDate)
+        {
+            if (await clsPerformTransaction.ScheduleTransferAsync(this.AccountID ?? throw new Exception("Account ID is not set!"),
+                                                                  toAccount.AccountID ?? throw new Exception("Destination Account ID is not set!"),
+                                                                  amount, description, scheduledDate,
+                                                                  clsGlobal.ActiveUser.UserID ?? throw new Exception("No User Responsible")))
+            {
+                clsGlobal.FireTransactionCompleted();
+                return true;
+            }
+
+            return false;
+        }
 
         public override string ToString() => $"{AccountNumber}";
     }
