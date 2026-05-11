@@ -1,6 +1,7 @@
 ﻿using SmartBank;
 using SmartBank_BLL;
 using SmartBank_UI.Accounts;
+using SmartBank_UI.Transaction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,14 +67,14 @@ namespace SmartBank_UI.Main_Form_UC
             }
 
             List<clsTransactionLog> allTransactions = await clsTransactionLog.GetAllTransactionsAsync();
+            if (allTransactions == null || !allTransactions.Any())
+            {
+                _bindRecentTransactionsGrid(new List<clsTransactionLog>());
+                return;
+            }
 
-            List<clsTransactionLog> recentTransactions = allTransactions
-                .Where(n => n.FromAccount?.AccountID == _currentAccount.AccountID || n.ToAccount?.AccountID == _currentAccount.AccountID)
-                .OrderByDescending(n => n.TransactionDate)
-                .Take(100)
-                .ToList();
-
-            _bindRecentTransactionsGrid(recentTransactions);
+            _bindRecentTransactionsGrid(allTransactions.Where(n => n.FromAccount?.AccountID == _currentAccount.AccountID ||
+                 n.ToAccount?.AccountID == _currentAccount.AccountID).OrderByDescending(n => n.TransactionDate).Take(100).ToList());
         }
 
         private void _bindGrid(IEnumerable<clsAccounts> accountView)
@@ -219,6 +220,25 @@ namespace SmartBank_UI.Main_Form_UC
 
         private async void ctrlAccounts_VisibleChanged(object sender, EventArgs e)
         {
+            if (!this.Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            _bindGrid(await _loadAccountsList());
+            await _loadUserFromDGVAsync();
+        }
+
+        private async Task _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType transactionType)
+        {
+            if (dgvAccounts.CurrentRow?.Cells["AccountNumber"]?.Value == null)
+                return;
+
+            string accountNumber = dgvAccounts.CurrentRow.Cells["AccountNumber"].Value.ToString();
+            if (string.IsNullOrWhiteSpace(accountNumber))
+                return;
+
+            frmPerformNewTransaction form = new frmPerformNewTransaction(accountNumber, transactionType);
+            form.ShowDialog();
+
             _bindGrid(await _loadAccountsList());
             await _loadUserFromDGVAsync();
         }
@@ -295,5 +315,9 @@ namespace SmartBank_UI.Main_Form_UC
                 MessageBox.Show($"Failed to close account: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private async void depositeToolStripMenuItem_Click(object sender, EventArgs e) => await _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType.Deposit);
+
+        private async void withdrawalToolStripMenuItem_Click(object sender, EventArgs e) => await _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType.Withdrawl);
     }
 }

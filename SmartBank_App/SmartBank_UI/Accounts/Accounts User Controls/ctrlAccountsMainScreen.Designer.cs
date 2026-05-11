@@ -260,6 +260,7 @@
             this.depositeToolStripMenuItem.Name = "depositeToolStripMenuItem";
             this.depositeToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
             this.depositeToolStripMenuItem.Text = "Deposite";
+            this.depositeToolStripMenuItem.Click += new System.EventHandler(this.depositeToolStripMenuItem_Click);
             // 
             // withdrawalToolStripMenuItem
             // 
@@ -267,6 +268,7 @@
             this.withdrawalToolStripMenuItem.Name = "withdrawalToolStripMenuItem";
             this.withdrawalToolStripMenuItem.Size = new System.Drawing.Size(186, 30);
             this.withdrawalToolStripMenuItem.Text = "Withdrawal";
+            this.withdrawalToolStripMenuItem.Click += new System.EventHandler(this.withdrawalToolStripMenuItem_Click);
             // 
             // label2
             // 
