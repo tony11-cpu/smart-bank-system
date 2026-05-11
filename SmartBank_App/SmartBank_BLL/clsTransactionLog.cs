@@ -51,22 +51,15 @@ namespace SmartBank_BLL
             foreach (DataRow row in dt.Rows)
             {
                 clsAccounts fromAccount = await _getAccountFromCacheAsync(accountsCache, (int)row["AccountID"]);
-                clsAccounts toAccount = null;
-
-                if (row["RelatedAccountID"] != DBNull.Value)
-                    toAccount = await _getAccountFromCacheAsync(accountsCache, (int)row["RelatedAccountID"]);
-
-                enTransactionType type = _parseTransactionType(row["TransactionType"].ToString().Replace(" ", "_"));
+                clsAccounts toAccount = row["RelatedAccountID"] == DBNull.Value ? null : await _getAccountFromCacheAsync(accountsCache, (int)row["RelatedAccountID"]);
 
                 string description = row["Description"]?.ToString();
-                if (description == "No Description")
-                    description = null;
+                description = description == "No Description" ? null : description;
 
-                clsTransactionLog transaction = new clsTransactionLog((int)row["TransactionID"], type, fromAccount, toAccount,
-                    (decimal)row["Amount"], description, (DateTime)row["TransactionDate"], (int)row["ProcessedByUserID"], (bool)row["IsScheduled"],
-                    _getBalance(row, "BalanceAfter"), _getBalance(row, "BalanceBefore"));
-
-                transactions.Add(transaction);
+                transactions.Add(new clsTransactionLog((int)row["TransactionID"], _parseTransactionType(row["TransactionType"].ToString().Replace(" ", "_")),
+                    fromAccount, toAccount, (decimal)row["Amount"], description, (DateTime)row["TransactionDate"],
+                    (int)row["ProcessedByUserID"], (bool)row["IsScheduled"], _getBalance(row, "BalanceAfter"), _getBalance(row, "BalanceBefore")
+                ));
             }
 
             return transactions;
@@ -144,7 +137,6 @@ namespace SmartBank_BLL
                 toAccount = await clsAccounts.FindAsync(dto.RelatedAccountID.Value);
 
             enTransactionType type = _parseTransactionType(dto.TransactionType.Replace(" ", "_"));
-
             return new clsTransactionLog(dto.TransactionID, type, fromAccount, toAccount, dto.Amount, dto.Description, 
                                          dto.TransactionDate, dto.ProcessedByUserID, dto.IsScheduled, dto.BalanceAfter, dto.BalanceBefore);
         }
