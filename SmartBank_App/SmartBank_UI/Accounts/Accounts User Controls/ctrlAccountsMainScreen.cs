@@ -209,6 +209,7 @@ namespace SmartBank_UI.Main_Form_UC
             bool frozen = _currentAccount?.Status == clsAccounts.enStatus.Frozen;
             bool isAdmin = clsGlobal.ActiveUser?.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin;
             bool canTransact = !(frozen && !isAdmin);
+            bool canTransfer = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanTransfer) ?? false;
 
             updateAccountToolStripMenuItem.Enabled = notClosed && isAdmin;
             unfreezeAccountToolStripMenuItem.Enabled = notClosed && isAdmin && frozen;
@@ -216,6 +217,7 @@ namespace SmartBank_UI.Main_Form_UC
             closeToolStripMenuItem.Enabled = notClosed && isAdmin;
             depositeToolStripMenuItem.Enabled = notClosed && canTransact;
             withdrawalToolStripMenuItem.Enabled = notClosed && canTransact;
+            transfareToolStripMenuItem.Enabled = notClosed && canTransact && canTransfer;
         }
 
         private async void ctrlAccounts_VisibleChanged(object sender, EventArgs e)
@@ -319,5 +321,7 @@ namespace SmartBank_UI.Main_Form_UC
         private async void depositeToolStripMenuItem_Click(object sender, EventArgs e) => await _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType.Deposit);
 
         private async void withdrawalToolStripMenuItem_Click(object sender, EventArgs e) => await _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType.Withdrawl);
+
+        private async void transfareToolStripMenuItem_Click(object sender, EventArgs e) => await _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType.Transfer);
     }
 }
