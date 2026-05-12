@@ -2,6 +2,7 @@
 using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
 using SmartBank_UI.Properties;
+using SmartBank_UI.Audit_Log;
 using SmartBank_UI.System_Config;
 using SmartBank_UI.Transaction.Transactions_User_Controls;
 using SmartBank_UI.Users;
@@ -110,5 +111,8 @@ namespace SmartBank_UI
 
         private ctrlTransactionsMainScreen _transactions = new ctrlTransactionsMainScreen();
         private void btnTransactions_Click(object sender, EventArgs e) => _showView(_transactions);
+
+        private ctrlAuditLogMainScreen _auditLog = new ctrlAuditLogMainScreen();
+        private void btnAuditLog_Click(object sender, EventArgs e) => _showView(_auditLog);
     }
 }

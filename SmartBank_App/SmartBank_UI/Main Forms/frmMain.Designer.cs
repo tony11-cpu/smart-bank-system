@@ -278,6 +278,7 @@
             this.btnAuditLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAuditLog.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAuditLog.UseVisualStyleBackColor = true;
+            this.btnAuditLog.Click += new System.EventHandler(this.btnAuditLog_Click);
             // 
             // btnFraudFlags
             // 
