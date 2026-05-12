@@ -39,19 +39,15 @@ namespace SmartBank_UI.Audit_Log
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblStatTodayValue = new System.Windows.Forms.Label();
             this.lblStatTodayText = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblStatSensitiveValue = new System.Windows.Forms.Label();
             this.lblStatSensitiveText = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblStatSecurityValue = new System.Windows.Forms.Label();
             this.lblStatSecurityText = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lblStatFailedValue = new System.Windows.Forms.Label();
             this.lblStatFailedText = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.dgvAuditTrail = new System.Windows.Forms.DataGridView();
             this.panel5 = new System.Windows.Forms.Panel();
             this.lblClickToInspectAudit = new System.Windows.Forms.Label();
@@ -83,14 +79,15 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditSubTitle = new System.Windows.Forms.Label();
             this.lblAuditDetailTitle = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.lblInforamtionAboutForm = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditTrail)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -103,10 +100,10 @@ namespace SmartBank_UI.Audit_Log
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(23, 17);
+            this.label1.Location = new System.Drawing.Point(29, 12);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 29);
+            this.label1.Size = new System.Drawing.Size(114, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Audit Log";
             // 
@@ -115,22 +112,23 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditLogFormInfoToUser.AutoSize = true;
             this.lblAuditLogFormInfoToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditLogFormInfoToUser.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblAuditLogFormInfoToUser.Location = new System.Drawing.Point(25, 43);
+            this.lblAuditLogFormInfoToUser.Location = new System.Drawing.Point(31, 41);
             this.lblAuditLogFormInfoToUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditLogFormInfoToUser.Name = "lblAuditLogFormInfoToUser";
-            this.lblAuditLogFormInfoToUser.Size = new System.Drawing.Size(798, 18);
+            this.lblAuditLogFormInfoToUser.Size = new System.Drawing.Size(653, 18);
             this.lblAuditLogFormInfoToUser.TabIndex = 1;
-            this.lblAuditLogFormInfoToUser.Text = "Complete immutable record of security, customer, account, transaction, and configuration actions.";
+            this.lblAuditLogFormInfoToUser.Text = "Complete immutable record of security, customer, account, transaction, and config" +
+    "uration actions.";
             // 
             // tbSearchBar
             // 
             this.tbSearchBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSearchBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSearchBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbSearchBar.Location = new System.Drawing.Point(10, 190);
+            this.tbSearchBar.Location = new System.Drawing.Point(16, 206);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(625, 26);
+            this.tbSearchBar.Size = new System.Drawing.Size(621, 31);
             this.tbSearchBar.TabIndex = 10;
             this.tbSearchBar.Tag = "Search by user, action, account, customer, table, or record ID...";
             this.tbSearchBar.Text = "Search by user, action, account, customer, table, or record ID...";
@@ -140,7 +138,7 @@ namespace SmartBank_UI.Audit_Log
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(6, 167);
+            this.label2.Location = new System.Drawing.Point(12, 183);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 20);
@@ -154,12 +152,12 @@ namespace SmartBank_UI.Audit_Log
             this.dtpFromDate.CalendarTitleBackColor = System.Drawing.Color.MidnightBlue;
             this.dtpFromDate.CalendarTitleForeColor = System.Drawing.Color.White;
             this.dtpFromDate.CalendarTrailingForeColor = System.Drawing.Color.DarkGray;
-            this.dtpFromDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFromDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFromDate.Location = new System.Drawing.Point(639, 189);
+            this.dtpFromDate.Location = new System.Drawing.Point(641, 207);
             this.dtpFromDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtpFromDate.Name = "dtpFromDate";
-            this.dtpFromDate.Size = new System.Drawing.Size(170, 26);
+            this.dtpFromDate.Size = new System.Drawing.Size(152, 30);
             this.dtpFromDate.TabIndex = 11;
             // 
             // cbActionFilter
@@ -167,7 +165,7 @@ namespace SmartBank_UI.Audit_Log
             this.cbActionFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.cbActionFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbActionFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbActionFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbActionFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbActionFilter.ForeColor = System.Drawing.Color.White;
             this.cbActionFilter.FormattingEnabled = true;
             this.cbActionFilter.Items.AddRange(new object[] {
@@ -178,11 +176,10 @@ namespace SmartBank_UI.Audit_Log
             "Security",
             "Permission",
             "Config"});
-            this.cbActionFilter.Location = new System.Drawing.Point(813, 189);
+            this.cbActionFilter.Location = new System.Drawing.Point(798, 205);
             this.cbActionFilter.Margin = new System.Windows.Forms.Padding(2);
             this.cbActionFilter.Name = "cbActionFilter";
-            this.cbActionFilter.SelectedIndex = 0;
-            this.cbActionFilter.Size = new System.Drawing.Size(165, 28);
+            this.cbActionFilter.Size = new System.Drawing.Size(152, 32);
             this.cbActionFilter.TabIndex = 12;
             // 
             // cbResultFilter
@@ -190,7 +187,7 @@ namespace SmartBank_UI.Audit_Log
             this.cbResultFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.cbResultFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbResultFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbResultFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbResultFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbResultFilter.ForeColor = System.Drawing.Color.White;
             this.cbResultFilter.FormattingEnabled = true;
             this.cbResultFilter.Items.AddRange(new object[] {
@@ -198,11 +195,10 @@ namespace SmartBank_UI.Audit_Log
             "Success",
             "Failed",
             "Warning"});
-            this.cbResultFilter.Location = new System.Drawing.Point(983, 189);
+            this.cbResultFilter.Location = new System.Drawing.Point(954, 205);
             this.cbResultFilter.Margin = new System.Windows.Forms.Padding(2);
             this.cbResultFilter.Name = "cbResultFilter";
-            this.cbResultFilter.SelectedIndex = 0;
-            this.cbResultFilter.Size = new System.Drawing.Size(165, 28);
+            this.cbResultFilter.Size = new System.Drawing.Size(152, 32);
             this.cbResultFilter.TabIndex = 13;
             // 
             // btnExportCsv
@@ -215,191 +211,152 @@ namespace SmartBank_UI.Audit_Log
             this.btnExportCsv.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportCsv.ForeColor = System.Drawing.Color.White;
             this.btnExportCsv.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnExportCsv.Location = new System.Drawing.Point(1149, 66);
+            this.btnExportCsv.Location = new System.Drawing.Point(1150, 194);
             this.btnExportCsv.Margin = new System.Windows.Forms.Padding(2);
             this.btnExportCsv.Name = "btnExportCsv";
-            this.btnExportCsv.Size = new System.Drawing.Size(164, 54);
+            this.btnExportCsv.Size = new System.Drawing.Size(164, 45);
             this.btnExportCsv.TabIndex = 7;
             this.btnExportCsv.Text = "Export CSV";
             this.btnExportCsv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnExportCsv.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnExportCsv.UseVisualStyleBackColor = false;
+            this.btnExportCsv.Click += new System.EventHandler(this.btnExportCsv_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lblInforamtionAboutForm);
             this.panel1.Controls.Add(this.lblStatTodayValue);
             this.panel1.Controls.Add(this.lblStatTodayText);
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(10, 66);
+            this.panel1.Location = new System.Drawing.Point(34, 74);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(210, 74);
+            this.panel1.Size = new System.Drawing.Size(250, 95);
             this.panel1.TabIndex = 2;
             // 
             // lblStatTodayValue
             // 
             this.lblStatTodayValue.AutoSize = true;
-            this.lblStatTodayValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatTodayValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatTodayValue.ForeColor = System.Drawing.Color.White;
-            this.lblStatTodayValue.Location = new System.Drawing.Point(146, 36);
+            this.lblStatTodayValue.Location = new System.Drawing.Point(17, 37);
             this.lblStatTodayValue.Name = "lblStatTodayValue";
-            this.lblStatTodayValue.Size = new System.Drawing.Size(30, 24);
+            this.lblStatTodayValue.Size = new System.Drawing.Size(20, 24);
             this.lblStatTodayValue.TabIndex = 2;
             this.lblStatTodayValue.Text = "0";
             // 
             // lblStatTodayText
             // 
             this.lblStatTodayText.AutoSize = true;
-            this.lblStatTodayText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatTodayText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatTodayText.ForeColor = System.Drawing.Color.White;
-            this.lblStatTodayText.Location = new System.Drawing.Point(60, 12);
+            this.lblStatTodayText.Location = new System.Drawing.Point(17, 6);
             this.lblStatTodayText.Name = "lblStatTodayText";
-            this.lblStatTodayText.Size = new System.Drawing.Size(72, 17);
+            this.lblStatTodayText.Size = new System.Drawing.Size(109, 24);
             this.lblStatTodayText.TabIndex = 1;
             this.lblStatTodayText.Text = "Logs Today";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(42, 40);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.lblStatSensitiveValue);
             this.panel2.Controls.Add(this.lblStatSensitiveText);
-            this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(224, 66);
+            this.panel2.Location = new System.Drawing.Point(300, 74);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(210, 74);
+            this.panel2.Size = new System.Drawing.Size(250, 95);
             this.panel2.TabIndex = 3;
             // 
             // lblStatSensitiveValue
             // 
             this.lblStatSensitiveValue.AutoSize = true;
-            this.lblStatSensitiveValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatSensitiveValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatSensitiveValue.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblStatSensitiveValue.Location = new System.Drawing.Point(146, 36);
+            this.lblStatSensitiveValue.Location = new System.Drawing.Point(19, 36);
             this.lblStatSensitiveValue.Name = "lblStatSensitiveValue";
-            this.lblStatSensitiveValue.Size = new System.Drawing.Size(30, 24);
+            this.lblStatSensitiveValue.Size = new System.Drawing.Size(20, 24);
             this.lblStatSensitiveValue.TabIndex = 2;
             this.lblStatSensitiveValue.Text = "0";
             // 
             // lblStatSensitiveText
             // 
             this.lblStatSensitiveText.AutoSize = true;
-            this.lblStatSensitiveText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatSensitiveText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatSensitiveText.ForeColor = System.Drawing.Color.White;
-            this.lblStatSensitiveText.Location = new System.Drawing.Point(60, 12);
+            this.lblStatSensitiveText.Location = new System.Drawing.Point(19, 6);
             this.lblStatSensitiveText.Name = "lblStatSensitiveText";
-            this.lblStatSensitiveText.Size = new System.Drawing.Size(65, 17);
+            this.lblStatSensitiveText.Size = new System.Drawing.Size(85, 24);
             this.lblStatSensitiveText.TabIndex = 1;
             this.lblStatSensitiveText.Text = "Sensitive";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::SmartBank_UI.Properties.Resources.icons8_view_50;
-            this.pictureBox2.Location = new System.Drawing.Point(10, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(42, 40);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.lblStatSecurityValue);
             this.panel3.Controls.Add(this.lblStatSecurityText);
-            this.panel3.Controls.Add(this.pictureBox3);
-            this.panel3.Location = new System.Drawing.Point(438, 66);
+            this.panel3.Location = new System.Drawing.Point(566, 74);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(210, 74);
+            this.panel3.Size = new System.Drawing.Size(250, 95);
             this.panel3.TabIndex = 4;
             // 
             // lblStatSecurityValue
             // 
             this.lblStatSecurityValue.AutoSize = true;
-            this.lblStatSecurityValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatSecurityValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatSecurityValue.ForeColor = System.Drawing.Color.Orange;
-            this.lblStatSecurityValue.Location = new System.Drawing.Point(146, 36);
+            this.lblStatSecurityValue.Location = new System.Drawing.Point(17, 36);
             this.lblStatSecurityValue.Name = "lblStatSecurityValue";
-            this.lblStatSecurityValue.Size = new System.Drawing.Size(30, 24);
+            this.lblStatSecurityValue.Size = new System.Drawing.Size(20, 24);
             this.lblStatSecurityValue.TabIndex = 2;
             this.lblStatSecurityValue.Text = "0";
             // 
             // lblStatSecurityText
             // 
             this.lblStatSecurityText.AutoSize = true;
-            this.lblStatSecurityText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatSecurityText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatSecurityText.ForeColor = System.Drawing.Color.White;
-            this.lblStatSecurityText.Location = new System.Drawing.Point(60, 12);
+            this.lblStatSecurityText.Location = new System.Drawing.Point(17, 6);
             this.lblStatSecurityText.Name = "lblStatSecurityText";
-            this.lblStatSecurityText.Size = new System.Drawing.Size(56, 17);
+            this.lblStatSecurityText.Size = new System.Drawing.Size(77, 24);
             this.lblStatSecurityText.TabIndex = 1;
             this.lblStatSecurityText.Text = "Security";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::SmartBank_UI.Properties.Resources.icons8_lock_64;
-            this.pictureBox3.Location = new System.Drawing.Point(10, 12);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(42, 40);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.lblStatFailedValue);
             this.panel4.Controls.Add(this.lblStatFailedText);
-            this.panel4.Controls.Add(this.pictureBox4);
-            this.panel4.Location = new System.Drawing.Point(652, 66);
+            this.panel4.Location = new System.Drawing.Point(832, 74);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(210, 74);
+            this.panel4.Size = new System.Drawing.Size(250, 95);
             this.panel4.TabIndex = 5;
             // 
             // lblStatFailedValue
             // 
             this.lblStatFailedValue.AutoSize = true;
-            this.lblStatFailedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatFailedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatFailedValue.ForeColor = System.Drawing.Color.Red;
-            this.lblStatFailedValue.Location = new System.Drawing.Point(146, 36);
+            this.lblStatFailedValue.Location = new System.Drawing.Point(15, 36);
             this.lblStatFailedValue.Name = "lblStatFailedValue";
-            this.lblStatFailedValue.Size = new System.Drawing.Size(30, 24);
+            this.lblStatFailedValue.Size = new System.Drawing.Size(20, 24);
             this.lblStatFailedValue.TabIndex = 2;
             this.lblStatFailedValue.Text = "0";
             // 
             // lblStatFailedText
             // 
             this.lblStatFailedText.AutoSize = true;
-            this.lblStatFailedText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatFailedText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatFailedText.ForeColor = System.Drawing.Color.White;
-            this.lblStatFailedText.Location = new System.Drawing.Point(60, 12);
+            this.lblStatFailedText.Location = new System.Drawing.Point(16, 6);
             this.lblStatFailedText.Name = "lblStatFailedText";
-            this.lblStatFailedText.Size = new System.Drawing.Size(44, 17);
+            this.lblStatFailedText.Size = new System.Drawing.Size(62, 24);
             this.lblStatFailedText.TabIndex = 1;
             this.lblStatFailedText.Text = "Failed";
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::SmartBank_UI.Properties.Resources.icons8_close_40;
-            this.pictureBox4.Location = new System.Drawing.Point(10, 12);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(42, 40);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 0;
-            this.pictureBox4.TabStop = false;
             // 
             // dgvAuditTrail
             // 
@@ -408,7 +365,7 @@ namespace SmartBank_UI.Audit_Log
             this.dgvAuditTrail.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAuditTrail.BackgroundColor = System.Drawing.Color.MidnightBlue;
             this.dgvAuditTrail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAuditTrail.Location = new System.Drawing.Point(10, 225);
+            this.dgvAuditTrail.Location = new System.Drawing.Point(16, 243);
             this.dgvAuditTrail.Margin = new System.Windows.Forms.Padding(2);
             this.dgvAuditTrail.MultiSelect = false;
             this.dgvAuditTrail.Name = "dgvAuditTrail";
@@ -417,7 +374,7 @@ namespace SmartBank_UI.Audit_Log
             this.dgvAuditTrail.RowHeadersWidth = 62;
             this.dgvAuditTrail.RowTemplate.Height = 28;
             this.dgvAuditTrail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAuditTrail.Size = new System.Drawing.Size(818, 532);
+            this.dgvAuditTrail.Size = new System.Drawing.Size(818, 514);
             this.dgvAuditTrail.TabIndex = 15;
             // 
             // panel5
@@ -426,7 +383,7 @@ namespace SmartBank_UI.Audit_Log
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.lblClickToInspectAudit);
             this.panel5.Controls.Add(this.lblNumberOfAuditLogs);
-            this.panel5.Location = new System.Drawing.Point(10, 761);
+            this.panel5.Location = new System.Drawing.Point(16, 761);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(818, 57);
             this.panel5.TabIndex = 16;
@@ -440,7 +397,7 @@ namespace SmartBank_UI.Audit_Log
             this.lblClickToInspectAudit.Location = new System.Drawing.Point(567, 16);
             this.lblClickToInspectAudit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblClickToInspectAudit.Name = "lblClickToInspectAudit";
-            this.lblClickToInspectAudit.Size = new System.Drawing.Size(234, 24);
+            this.lblClickToInspectAudit.Size = new System.Drawing.Size(244, 24);
             this.lblClickToInspectAudit.TabIndex = 1;
             this.lblClickToInspectAudit.Text = "Click a row to inspect details";
             // 
@@ -453,7 +410,7 @@ namespace SmartBank_UI.Audit_Log
             this.lblNumberOfAuditLogs.Location = new System.Drawing.Point(13, 16);
             this.lblNumberOfAuditLogs.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNumberOfAuditLogs.Name = "lblNumberOfAuditLogs";
-            this.lblNumberOfAuditLogs.Size = new System.Drawing.Size(214, 24);
+            this.lblNumberOfAuditLogs.Size = new System.Drawing.Size(213, 24);
             this.lblNumberOfAuditLogs.TabIndex = 0;
             this.lblNumberOfAuditLogs.Text = "Showing 0 audit records";
             // 
@@ -484,10 +441,10 @@ namespace SmartBank_UI.Audit_Log
             this.panel6.Controls.Add(this.tbAuditID);
             this.panel6.Controls.Add(this.lblAuditID);
             this.panel6.Controls.Add(this.panel7);
-            this.panel6.Location = new System.Drawing.Point(837, 225);
+            this.panel6.Location = new System.Drawing.Point(843, 243);
             this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(471, 593);
+            this.panel6.Size = new System.Drawing.Size(471, 575);
             this.panel6.TabIndex = 17;
             // 
             // btnCopyAuditID
@@ -496,7 +453,7 @@ namespace SmartBank_UI.Audit_Log
             this.btnCopyAuditID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopyAuditID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCopyAuditID.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.btnCopyAuditID.Location = new System.Drawing.Point(240, 548);
+            this.btnCopyAuditID.Location = new System.Drawing.Point(240, 525);
             this.btnCopyAuditID.Margin = new System.Windows.Forms.Padding(2);
             this.btnCopyAuditID.Name = "btnCopyAuditID";
             this.btnCopyAuditID.Size = new System.Drawing.Size(208, 33);
@@ -513,7 +470,7 @@ namespace SmartBank_UI.Audit_Log
             this.btnOpenRelatedRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenRelatedRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenRelatedRecord.ForeColor = System.Drawing.Color.White;
-            this.btnOpenRelatedRecord.Location = new System.Drawing.Point(21, 548);
+            this.btnOpenRelatedRecord.Location = new System.Drawing.Point(21, 525);
             this.btnOpenRelatedRecord.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenRelatedRecord.Name = "btnOpenRelatedRecord";
             this.btnOpenRelatedRecord.Size = new System.Drawing.Size(208, 33);
@@ -527,7 +484,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbTimestamp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTimestamp.ForeColor = System.Drawing.Color.White;
-            this.tbTimestamp.Location = new System.Drawing.Point(21, 514);
+            this.tbTimestamp.Location = new System.Drawing.Point(21, 491);
             this.tbTimestamp.Margin = new System.Windows.Forms.Padding(2);
             this.tbTimestamp.Name = "tbTimestamp";
             this.tbTimestamp.ReadOnly = true;
@@ -541,10 +498,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblTimeStamp.AutoSize = true;
             this.lblTimeStamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeStamp.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblTimeStamp.Location = new System.Drawing.Point(18, 494);
+            this.lblTimeStamp.Location = new System.Drawing.Point(18, 471);
             this.lblTimeStamp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTimeStamp.Name = "lblTimeStamp";
-            this.lblTimeStamp.Size = new System.Drawing.Size(95, 18);
+            this.lblTimeStamp.Size = new System.Drawing.Size(94, 18);
             this.lblTimeStamp.TabIndex = 20;
             this.lblTimeStamp.Text = "TIMESTAMP";
             // 
@@ -552,14 +509,14 @@ namespace SmartBank_UI.Audit_Log
             // 
             this.tbNewValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbNewValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbNewValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbNewValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbNewValue.ForeColor = System.Drawing.Color.LimeGreen;
-            this.tbNewValue.Location = new System.Drawing.Point(240, 374);
+            this.tbNewValue.Location = new System.Drawing.Point(240, 380);
             this.tbNewValue.Margin = new System.Windows.Forms.Padding(2);
             this.tbNewValue.Multiline = true;
             this.tbNewValue.Name = "tbNewValue";
             this.tbNewValue.ReadOnly = true;
-            this.tbNewValue.Size = new System.Drawing.Size(208, 110);
+            this.tbNewValue.Size = new System.Drawing.Size(208, 80);
             this.tbNewValue.TabIndex = 18;
             this.tbNewValue.Text = "After value";
             // 
@@ -568,10 +525,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblNewValue.AutoSize = true;
             this.lblNewValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNewValue.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblNewValue.Location = new System.Drawing.Point(237, 354);
+            this.lblNewValue.Location = new System.Drawing.Point(237, 360);
             this.lblNewValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNewValue.Name = "lblNewValue";
-            this.lblNewValue.Size = new System.Drawing.Size(88, 18);
+            this.lblNewValue.Size = new System.Drawing.Size(95, 18);
             this.lblNewValue.TabIndex = 17;
             this.lblNewValue.Text = "NEW VALUE";
             // 
@@ -579,14 +536,14 @@ namespace SmartBank_UI.Audit_Log
             // 
             this.tbOldValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbOldValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbOldValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbOldValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbOldValue.ForeColor = System.Drawing.Color.Red;
-            this.tbOldValue.Location = new System.Drawing.Point(21, 374);
+            this.tbOldValue.Location = new System.Drawing.Point(21, 380);
             this.tbOldValue.Margin = new System.Windows.Forms.Padding(2);
             this.tbOldValue.Multiline = true;
             this.tbOldValue.Name = "tbOldValue";
             this.tbOldValue.ReadOnly = true;
-            this.tbOldValue.Size = new System.Drawing.Size(208, 110);
+            this.tbOldValue.Size = new System.Drawing.Size(208, 80);
             this.tbOldValue.TabIndex = 16;
             this.tbOldValue.Text = "Before value";
             // 
@@ -595,10 +552,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblOldValue.AutoSize = true;
             this.lblOldValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOldValue.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblOldValue.Location = new System.Drawing.Point(18, 354);
+            this.lblOldValue.Location = new System.Drawing.Point(18, 360);
             this.lblOldValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOldValue.Name = "lblOldValue";
-            this.lblOldValue.Size = new System.Drawing.Size(84, 18);
+            this.lblOldValue.Size = new System.Drawing.Size(90, 18);
             this.lblOldValue.TabIndex = 15;
             this.lblOldValue.Text = "OLD VALUE";
             // 
@@ -606,14 +563,14 @@ namespace SmartBank_UI.Audit_Log
             // 
             this.tbDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.tbDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbDescription.ForeColor = System.Drawing.Color.White;
-            this.tbDescription.Location = new System.Drawing.Point(21, 308);
+            this.tbDescription.Location = new System.Drawing.Point(21, 296);
             this.tbDescription.Margin = new System.Windows.Forms.Padding(2);
             this.tbDescription.Multiline = true;
             this.tbDescription.Name = "tbDescription";
             this.tbDescription.ReadOnly = true;
-            this.tbDescription.Size = new System.Drawing.Size(427, 38);
+            this.tbDescription.Size = new System.Drawing.Size(427, 47);
             this.tbDescription.TabIndex = 14;
             this.tbDescription.Text = "Audit action description";
             // 
@@ -622,10 +579,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblDescription.AutoSize = true;
             this.lblDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDescription.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblDescription.Location = new System.Drawing.Point(18, 288);
+            this.lblDescription.Location = new System.Drawing.Point(18, 276);
             this.lblDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(102, 18);
+            this.lblDescription.Size = new System.Drawing.Size(109, 18);
             this.lblDescription.TabIndex = 13;
             this.lblDescription.Text = "DESCRIPTION";
             // 
@@ -635,7 +592,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbRecordID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbRecordID.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRecordID.ForeColor = System.Drawing.Color.White;
-            this.tbRecordID.Location = new System.Drawing.Point(240, 258);
+            this.tbRecordID.Location = new System.Drawing.Point(240, 236);
             this.tbRecordID.Margin = new System.Windows.Forms.Padding(2);
             this.tbRecordID.Name = "tbRecordID";
             this.tbRecordID.ReadOnly = true;
@@ -649,10 +606,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblRecordID.AutoSize = true;
             this.lblRecordID.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRecordID.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblRecordID.Location = new System.Drawing.Point(237, 238);
+            this.lblRecordID.Location = new System.Drawing.Point(237, 216);
             this.lblRecordID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRecordID.Name = "lblRecordID";
-            this.lblRecordID.Size = new System.Drawing.Size(84, 18);
+            this.lblRecordID.Size = new System.Drawing.Size(92, 18);
             this.lblRecordID.TabIndex = 11;
             this.lblRecordID.Text = "RECORD ID";
             // 
@@ -662,7 +619,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbEntity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbEntity.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbEntity.ForeColor = System.Drawing.Color.White;
-            this.tbEntity.Location = new System.Drawing.Point(21, 258);
+            this.tbEntity.Location = new System.Drawing.Point(21, 236);
             this.tbEntity.Margin = new System.Windows.Forms.Padding(2);
             this.tbEntity.Name = "tbEntity";
             this.tbEntity.ReadOnly = true;
@@ -676,10 +633,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblEntity.AutoSize = true;
             this.lblEntity.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEntity.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblEntity.Location = new System.Drawing.Point(18, 238);
+            this.lblEntity.Location = new System.Drawing.Point(18, 216);
             this.lblEntity.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEntity.Name = "lblEntity";
-            this.lblEntity.Size = new System.Drawing.Size(56, 18);
+            this.lblEntity.Size = new System.Drawing.Size(59, 18);
             this.lblEntity.TabIndex = 9;
             this.lblEntity.Text = "ENTITY";
             // 
@@ -689,7 +646,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbRole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRole.ForeColor = System.Drawing.Color.White;
-            this.tbRole.Location = new System.Drawing.Point(240, 210);
+            this.tbRole.Location = new System.Drawing.Point(240, 188);
             this.tbRole.Margin = new System.Windows.Forms.Padding(2);
             this.tbRole.Name = "tbRole";
             this.tbRole.ReadOnly = true;
@@ -703,10 +660,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblRole.AutoSize = true;
             this.lblRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRole.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblRole.Location = new System.Drawing.Point(237, 190);
+            this.lblRole.Location = new System.Drawing.Point(237, 168);
             this.lblRole.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRole.Name = "lblRole";
-            this.lblRole.Size = new System.Drawing.Size(44, 18);
+            this.lblRole.Size = new System.Drawing.Size(49, 18);
             this.lblRole.TabIndex = 7;
             this.lblRole.Text = "ROLE";
             // 
@@ -716,7 +673,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbUser.ForeColor = System.Drawing.Color.White;
-            this.tbUser.Location = new System.Drawing.Point(21, 210);
+            this.tbUser.Location = new System.Drawing.Point(21, 188);
             this.tbUser.Margin = new System.Windows.Forms.Padding(2);
             this.tbUser.Name = "tbUser";
             this.tbUser.ReadOnly = true;
@@ -730,10 +687,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblUser.AutoSize = true;
             this.lblUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUser.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblUser.Location = new System.Drawing.Point(18, 190);
+            this.lblUser.Location = new System.Drawing.Point(18, 168);
             this.lblUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(45, 18);
+            this.lblUser.Size = new System.Drawing.Size(50, 18);
             this.lblUser.TabIndex = 5;
             this.lblUser.Text = "USER";
             // 
@@ -743,7 +700,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbResult.ForeColor = System.Drawing.Color.White;
-            this.tbResult.Location = new System.Drawing.Point(240, 162);
+            this.tbResult.Location = new System.Drawing.Point(240, 140);
             this.tbResult.Margin = new System.Windows.Forms.Padding(2);
             this.tbResult.Name = "tbResult";
             this.tbResult.ReadOnly = true;
@@ -757,10 +714,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblResult.AutoSize = true;
             this.lblResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblResult.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblResult.Location = new System.Drawing.Point(237, 142);
+            this.lblResult.Location = new System.Drawing.Point(237, 120);
             this.lblResult.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(62, 18);
+            this.lblResult.Size = new System.Drawing.Size(67, 18);
             this.lblResult.TabIndex = 3;
             this.lblResult.Text = "RESULT";
             // 
@@ -770,7 +727,7 @@ namespace SmartBank_UI.Audit_Log
             this.tbAuditID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbAuditID.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbAuditID.ForeColor = System.Drawing.Color.White;
-            this.tbAuditID.Location = new System.Drawing.Point(21, 162);
+            this.tbAuditID.Location = new System.Drawing.Point(21, 140);
             this.tbAuditID.Margin = new System.Windows.Forms.Padding(2);
             this.tbAuditID.Name = "tbAuditID";
             this.tbAuditID.ReadOnly = true;
@@ -784,10 +741,10 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditID.AutoSize = true;
             this.lblAuditID.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditID.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblAuditID.Location = new System.Drawing.Point(18, 142);
+            this.lblAuditID.Location = new System.Drawing.Point(18, 120);
             this.lblAuditID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditID.Name = "lblAuditID";
-            this.lblAuditID.Size = new System.Drawing.Size(67, 18);
+            this.lblAuditID.Size = new System.Drawing.Size(69, 18);
             this.lblAuditID.TabIndex = 1;
             this.lblAuditID.Text = "AUDIT ID";
             // 
@@ -798,21 +755,21 @@ namespace SmartBank_UI.Audit_Log
             this.panel7.Controls.Add(this.lblAuditSubTitle);
             this.panel7.Controls.Add(this.lblAuditDetailTitle);
             this.panel7.Controls.Add(this.pictureBox5);
-            this.panel7.Location = new System.Drawing.Point(-1, 1);
+            this.panel7.Location = new System.Drawing.Point(-1, -1);
             this.panel7.Margin = new System.Windows.Forms.Padding(2);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(472, 122);
+            this.panel7.Size = new System.Drawing.Size(472, 102);
             this.panel7.TabIndex = 0;
             // 
             // lblAuditSubTitle
             // 
             this.lblAuditSubTitle.AutoSize = true;
-            this.lblAuditSubTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAuditSubTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditSubTitle.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblAuditSubTitle.Location = new System.Drawing.Point(121, 68);
+            this.lblAuditSubTitle.Location = new System.Drawing.Point(120, 55);
             this.lblAuditSubTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditSubTitle.Name = "lblAuditSubTitle";
-            this.lblAuditSubTitle.Size = new System.Drawing.Size(215, 17);
+            this.lblAuditSubTitle.Size = new System.Drawing.Size(223, 18);
             this.lblAuditSubTitle.TabIndex = 2;
             this.lblAuditSubTitle.Text = "Select an audit record to inspect.";
             // 
@@ -821,22 +778,71 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditDetailTitle.AutoSize = true;
             this.lblAuditDetailTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditDetailTitle.ForeColor = System.Drawing.Color.White;
-            this.lblAuditDetailTitle.Location = new System.Drawing.Point(121, 38);
+            this.lblAuditDetailTitle.Location = new System.Drawing.Point(120, 25);
             this.lblAuditDetailTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditDetailTitle.Name = "lblAuditDetailTitle";
-            this.lblAuditDetailTitle.Size = new System.Drawing.Size(196, 24);
+            this.lblAuditDetailTitle.Size = new System.Drawing.Size(191, 24);
             this.lblAuditDetailTitle.TabIndex = 1;
             this.lblAuditDetailTitle.Text = "Audit Record - Details";
             // 
             // pictureBox5
             // 
             this.pictureBox5.Image = global::SmartBank_UI.Properties.Resources.icons8_log_50;
-            this.pictureBox5.Location = new System.Drawing.Point(19, 28);
+            this.pictureBox5.Location = new System.Drawing.Point(18, 15);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(84, 66);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox5.TabIndex = 0;
             this.pictureBox5.TabStop = false;
+            // 
+            // lblInforamtionAboutForm
+            // 
+            this.lblInforamtionAboutForm.AutoSize = true;
+            this.lblInforamtionAboutForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInforamtionAboutForm.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblInforamtionAboutForm.Location = new System.Drawing.Point(18, 67);
+            this.lblInforamtionAboutForm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblInforamtionAboutForm.Name = "lblInforamtionAboutForm";
+            this.lblInforamtionAboutForm.Size = new System.Drawing.Size(127, 18);
+            this.lblInforamtionAboutForm.TabIndex = 25;
+            this.lblInforamtionAboutForm.Text = "all tracked actions";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.DarkGray;
+            this.label3.Location = new System.Drawing.Point(20, 67);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(154, 18);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "full National ID access";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.DarkGray;
+            this.label4.Location = new System.Drawing.Point(18, 67);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(192, 18);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "login and permission activity";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkGray;
+            this.label5.Location = new System.Drawing.Point(16, 67);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(134, 18);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "blocked or rejected";
             // 
             // ctrlAuditLogMainScreen
             // 
@@ -845,8 +851,8 @@ namespace SmartBank_UI.Audit_Log
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
-            this.Controls.Add(this.dgvAuditTrail);
             this.Controls.Add(this.panel4);
+            this.Controls.Add(this.dgvAuditTrail);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -860,19 +866,16 @@ namespace SmartBank_UI.Audit_Log
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctrlAuditLogMainScreen";
-            this.Size = new System.Drawing.Size(1318, 833);
+            this.Size = new System.Drawing.Size(1331, 833);
+            this.Load += new System.EventHandler(this.ctrlAuditLogMainScreen_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuditTrail)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
@@ -899,19 +902,15 @@ namespace SmartBank_UI.Audit_Log
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblStatTodayValue;
         private System.Windows.Forms.Label lblStatTodayText;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblStatSensitiveValue;
         private System.Windows.Forms.Label lblStatSensitiveText;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label lblStatSecurityValue;
         private System.Windows.Forms.Label lblStatSecurityText;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label lblStatFailedValue;
         private System.Windows.Forms.Label lblStatFailedText;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.DataGridView dgvAuditTrail;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lblClickToInspectAudit;
@@ -943,5 +942,10 @@ namespace SmartBank_UI.Audit_Log
         private System.Windows.Forms.Label lblTimeStamp;
         private System.Windows.Forms.Button btnCopyAuditID;
         private System.Windows.Forms.Button btnOpenRelatedRecord;
+        private System.Windows.Forms.Label lblInforamtionAboutForm;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
