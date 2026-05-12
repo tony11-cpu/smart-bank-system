@@ -8,23 +8,31 @@ namespace SmartBank_BLL
 {
     internal class clsPerformTransaction : ITransactions
     {
-        private static clsAccounts _validateAccount(clsAccounts account, string accountType, string action)
+        private static async Task<bool> _isManagerOrAdminAsync(int performedByUserID)
+        {
+            clsUsers performingUser = await clsUsers.FindAsync(performedByUserID);
+            return performingUser?.Permissions != null &&
+                (performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager ||
+                 performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
+        }
+
+        private static async Task<clsAccounts> _validateAccountAsync(clsAccounts account, string accountType, string action, int performedByUserID, bool allowFrozenForPrivilegedUsers = false)
         {
             if (account == null)
                 throw new ArgumentException($"{accountType} account not found.");
-            
-            if (account.Status != clsAccounts.enStatus.Active)
-                throw new ArgumentException($"{accountType} account is {account.Status}. Only Active accounts can {action}.");
 
-            return account;
+            if (account.Status == clsAccounts.enStatus.Active)
+                return account;
+
+            if (allowFrozenForPrivilegedUsers && account.Status == clsAccounts.enStatus.Frozen && await _isManagerOrAdminAsync(performedByUserID))
+                return account;
+
+            throw new ArgumentException($"{accountType} account is {account.Status}. Only Active accounts can {action}.");
         }
 
         private static async Task _validateWithdrawal(clsAccounts account, decimal amount, int performedByUserID)
         {
-            clsUsers performingUser = await clsUsers.FindAsync(performedByUserID);
-            bool isManagerOrAdmin = performingUser?.Permissions != null && 
-                (performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager ||
-                 performingUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
+            bool isManagerOrAdmin = await _isManagerOrAdminAsync(performedByUserID);
 
             if (!isManagerOrAdmin && account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
@@ -38,7 +46,7 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
-            clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID), "Source", "receive deposits");
+            clsAccounts account = await _validateAccountAsync(await clsAccounts.FindAsync(accountID), "Source", "receive deposits", performedByUserID, true);
             return await clsTransactions_DAL.DepositAsync(accountID, amount, description, performedByUserID);
         }
 
@@ -47,7 +55,7 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
             
-            clsAccounts account = _validateAccount(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals");
+            clsAccounts account = await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals", performedByUserID, true);
             await _validateWithdrawal(account, amount, performedByUserID);
             return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
         }
@@ -63,8 +71,8 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
             
-            clsAccounts fromAccount = _validateAccount(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "initiate transfers");
-            clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
+            clsAccounts fromAccount = await _validateAccountAsync(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "initiate transfers", performedByUserID, true);
+            clsAccounts toAccount = await _validateAccountAsync(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers", performedByUserID);
 
             await _validateWithdrawal(fromAccount, amount, performedByUserID);
             return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
@@ -84,8 +92,8 @@ namespace SmartBank_BLL
             if (scheduledDate <= DateTime.Now)
                 throw new ArgumentException("Scheduled date must be in the future.");
 
-            clsAccounts fromAccount = _validateAccount(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "schedule transfers");
-            clsAccounts toAccount = _validateAccount(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers");
+            clsAccounts fromAccount = await _validateAccountAsync(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "schedule transfers", performedByUserID, true);
+            clsAccounts toAccount = await _validateAccountAsync(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers", performedByUserID);
 
             await _validateWithdrawal(fromAccount, amount, performedByUserID);
             return await clsTransactions_DAL.ScheduleTransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, scheduledDate, performedByUserID);
