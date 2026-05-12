@@ -20,6 +20,7 @@ namespace SmartBank_UI.Main_Form_UC
     {
         private List<clsAccounts> _allAccounts = new List<clsAccounts>();
         private clsAccounts _currentAccount = null;
+        private bool _isRefreshingLiveData = false;
 
         public ctrlAccounts() => InitializeComponent();
 
@@ -109,13 +110,15 @@ namespace SmartBank_UI.Main_Form_UC
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
+            this.Disposed += (s, args) => clsGlobal.OnTransactionCompleted -= _onTransactionCompleted;
+
             dgvAccounts.RowTemplate.Height = 35;
             dgvAccounts.ColumnHeadersHeight = 40;
             dgvAccountRecentTransactions.RowTemplate.Height = 35;
             dgvAccountRecentTransactions.ColumnHeadersHeight = 40;
 
-            _bindGrid(await _loadAccountsList());
-            await _loadUserFromDGVAsync();
+            await _refreshLiveDataAsync();
 
             if (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Teller)
             {
@@ -225,8 +228,26 @@ namespace SmartBank_UI.Main_Form_UC
             if (!this.Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            _bindGrid(await _loadAccountsList());
-            await _loadUserFromDGVAsync();
+            await _refreshLiveDataAsync();
+        }
+
+        private async void _onTransactionCompleted() => await _refreshLiveDataAsync();
+
+        private async Task _refreshLiveDataAsync()
+        {
+            if (_isRefreshingLiveData || !this.Visible)
+                return;
+
+            try
+            {
+                _isRefreshingLiveData = true;
+                _bindGrid(await _loadAccountsList());
+                await _loadUserFromDGVAsync();
+            }
+            finally
+            {
+                _isRefreshingLiveData = false;
+            }
         }
 
         private async Task _openTransactionFormFromContextAsync(frmPerformNewTransaction.enTransactionType transactionType)
