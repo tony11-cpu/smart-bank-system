@@ -22,6 +22,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         }
 
         private List<clsTransactionLog> _transactionsLogs;
+        private bool _isRefreshingTransactions = false;
 
         private void _applyTransactionPermissions()
         {
@@ -79,12 +80,15 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
+            this.Disposed += (s, args) => clsGlobal.OnTransactionCompleted -= _onTransactionCompleted;
+
             _applyTransactionPermissions();
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;
 
-            _bindGrid(await _loadTransactionsLog());
+            await _refreshTransactionsAsync();
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -259,7 +263,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private async void ctrlTransactionsMainScreen_VisibleChanged(object sender, EventArgs e)
         {
             if (this.Visible)
-                _bindGrid(await _loadTransactionsLog());
+                await _refreshTransactionsAsync();
         }
 
         private async void btnNewTransactions_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.None);
@@ -274,7 +278,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             frmPerformNewTransaction performNewTransaction = new frmPerformNewTransaction(accountNumber, transactionType);
             performNewTransaction.ShowDialog();
 
-            _bindGrid(await _loadTransactionsLog());
+            await _refreshTransactionsAsync();
         }
 
         private async void cmsNewDeposite_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Deposit, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
@@ -282,5 +286,23 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private async void cmsNewWithdrawl_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Withdrawl, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
 
         private async void cmsNewTransfare_Click(object sender, EventArgs e) => await _openTransactionForm(frmPerformNewTransaction.enTransactionType.Transfer, dgvAllTransactions.CurrentRow?.Cells["FromAccount"].Value.ToString());
+
+        private async void _onTransactionCompleted() => await _refreshTransactionsAsync();
+
+        private async Task _refreshTransactionsAsync()
+        {
+            if (_isRefreshingTransactions || !this.Visible)
+                return;
+
+            try
+            {
+                _isRefreshingTransactions = true;
+                _bindGrid(await _loadTransactionsLog());
+            }
+            finally
+            {
+                _isRefreshingTransactions = false;
+            }
+        }
     }
 }

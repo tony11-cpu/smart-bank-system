@@ -15,9 +15,22 @@ namespace SmartBank_UI
 {
     public partial class ctrlDashboard : UserControl
     {
+        private readonly Timer _liveRefreshTimer;
+        private bool _isRefreshing = false;
+
         public ctrlDashboard()
         {
             InitializeComponent();
+            _liveRefreshTimer = new Timer()
+            {
+                Interval = 5000
+            };
+            _liveRefreshTimer.Tick += _liveRefreshTimer_Tick;
+            this.Disposed += (s, e) =>
+            {
+                clsGlobal.OnTransactionCompleted -= _onTransactionCompleted;
+                _liveRefreshTimer.Dispose();
+            };
         }
 
         private bool _hasPermissionForTransaction(frmPerformNewTransaction.enTransactionType transactionType)
@@ -39,17 +52,17 @@ namespace SmartBank_UI
             if(LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
 
-            clsGlobal.OnTransactionCompleted += async () => await _onTransactionCompleted();
+            clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
             this.VisibleChanged += ctrlDashboard_VisibleChanged;
 
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
-            await RefreshDashboardData();
+            await _refreshDashboardDataSafely();
+            _liveRefreshTimer.Start();
         }
 
-        private async Task _onTransactionCompleted()
+        private async void _onTransactionCompleted()
         {
-            if (this.Visible)
-                await RefreshDashboardData();
+            await _refreshDashboardDataSafely();
         }
 
         public async Task RefreshDashboardData()
@@ -99,10 +112,32 @@ namespace SmartBank_UI
         private async void ctrlDashboard_VisibleChanged(object sender, EventArgs e)
         {
             if (!this.Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+            {
+                _liveRefreshTimer.Stop();
+                return;
+            }
+
+            await _refreshDashboardDataSafely();
+            _liveRefreshTimer.Start();
+        }
+
+        private async Task _refreshDashboardDataSafely()
+        {
+            if (_isRefreshing || !this.Visible)
                 return;
 
-            await RefreshDashboardData();
+            try
+            {
+                _isRefreshing = true;
+                await RefreshDashboardData();
+            }
+            finally
+            {
+                _isRefreshing = false;
+            }
         }
+
+        private async void _liveRefreshTimer_Tick(object sender, EventArgs e) => await _refreshDashboardDataSafely();
 
         private void btnNewDeposite_Click(object sender, EventArgs e) => _loadTransactionType(frmPerformNewTransaction.enTransactionType.Deposit);
 

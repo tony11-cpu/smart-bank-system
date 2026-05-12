@@ -20,6 +20,7 @@ namespace SmartBank_UI.Login
         private int _userFailedLoginAttempsCounter = 0;
         private string _previouseUsername = string.Empty;
         private readonly Timer _serviceStatusTimer;
+        private bool _isRefreshingCounts = false;
 
         public frmLogin()
         {
@@ -160,7 +161,21 @@ namespace SmartBank_UI.Login
             lblRerviceRunning.ForeColor = isRunning ? Color.FromArgb(0, 192, 0) : Color.Red;
         }
 
-        private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
+        private async void _serviceStatusTimer_Tick(object sender, EventArgs e)
+        {
+            if (!this.Visible || _isRefreshingCounts)
+                return;
+
+            try
+            {
+                _isRefreshingCounts = true;
+                await _refreshCounts();
+            }
+            finally
+            {
+                _isRefreshingCounts = false;
+            }
+        }
 
         private void tbPassword_TextChanged(object sender, EventArgs e) => btnSignIn.Enabled = tbPassword.Text.Length > 0 ? true : false;
 
@@ -172,6 +187,7 @@ namespace SmartBank_UI.Login
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
+            clsGlobal.OnTransactionCompleted -= _onTransactionCompleted;
             _serviceStatusTimer.Stop();
             _serviceStatusTimer.Tick -= _serviceStatusTimer_Tick;
 
