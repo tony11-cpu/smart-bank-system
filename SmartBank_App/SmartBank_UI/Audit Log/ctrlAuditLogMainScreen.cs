@@ -2,6 +2,7 @@ using SmartBank;
 using SmartBank_BLL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace SmartBank_UI.Audit_Log
     {
         private List<clsAuditLog> _allAuditLogs = new List<clsAuditLog>();
         private List<clsAuditLog> _auditLogsView = new List<clsAuditLog>();
+        private const int _loginAttemptAuditBaseID = 900000000;
 
         public ctrlAuditLogMainScreen()
         {
@@ -36,7 +38,7 @@ namespace SmartBank_UI.Audit_Log
                 return;
 
             _loadForm();
-            if (true)
+            if (!_hasViewPermissions())
             {
                 MessageBox.Show("You don't have permission to view audit logs.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnExportCsv.Enabled = false;
@@ -62,8 +64,39 @@ namespace SmartBank_UI.Audit_Log
         private async Task _reloadAuditLogs()
         {
             _allAuditLogs = await clsAuditLog.GetAllAuditLogsAsync();
+            _allAuditLogs.AddRange(await _getLoginAttemptsAuditLogsAsync());
             _refreshCardsNumbers(_allAuditLogs);
             _applyFillter();
+        }
+
+        private async Task<List<clsAuditLog>> _getLoginAttemptsAuditLogsAsync()
+        {
+            List<clsAuditLog> loginAuditLogs = new List<clsAuditLog>();
+            DataTable dt = await clsUsers.GetAllLoginAttemptsAsync();
+            if (dt == null || dt.Rows.Count == 0)
+                return loginAuditLogs;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                int attemptID = Convert.ToInt32(row["AttemptID"]);
+                int userID = Convert.ToInt32(row["UserID"]);
+                bool wasSuccessful = Convert.ToBoolean(row["WasSuccessful"]);
+
+                loginAuditLogs.Add(new clsAuditLog(
+                    _loginAttemptAuditBaseID + attemptID,
+                    userID,
+                    row["Username"] == DBNull.Value ? "Unknown User" : row["Username"].ToString(),
+                    wasSuccessful ? "LOGIN_SUCCESS" : "LOGIN_FAILED",
+                    "Users",
+                    userID,
+                    null,
+                    null,
+                    Convert.ToDateTime(row["AttemptDate"]),
+                    "LoginAttempts"
+                ));
+            }
+
+            return loginAuditLogs;
         }
 
         private void _refreshCardsNumbers(List<clsAuditLog> logs)
@@ -179,7 +212,8 @@ namespace SmartBank_UI.Audit_Log
 
             if (action.Contains("PASSWORD") || action.Contains("SALT") || action.Contains("PERMISSION") ||
                 action.Contains("NATIONALID") || action.Contains("IMAGE") || action.Contains("LOCK") ||
-                action.Contains("UNLOCK") || entityType.Contains("USERS") || entityType.Contains("SYSTEMCONFIG"))
+                action.Contains("UNLOCK") || action.Contains("LOGIN") || action.Contains("USER_UPDATED") ||
+                entityType.Contains("USERS") || entityType.Contains("SYSTEMCONFIG"))
                 return true;
 
             return !string.IsNullOrWhiteSpace(log.OldValue) && !string.IsNullOrWhiteSpace(log.NewValue);
@@ -190,12 +224,18 @@ namespace SmartBank_UI.Audit_Log
             string text = $"{log.Action} {log.Notes}".ToUpper();
             return text.Contains("LOGIN") || text.Contains("LOCK") || text.Contains("UNLOCK") ||
                    text.Contains("PASSWORD") || text.Contains("SECURITY") || text.Contains("FRAUD") ||
-                   text.Contains("ATTEMPT");
+                   text.Contains("ATTEMPT") || text.Contains("USER_UPDATED");
         }
 
         private string _getResultTypeByAction(clsAuditLog log)
         {
             string text = $"{log.Action} {log.Notes}".ToUpper();
+            if (text.Contains("LOGIN_SUCCESS"))
+                return "Success";
+
+            if (text.Contains("LOGIN_FAILED"))
+                return "Failed";
+
             if (text.Contains("FAIL") || text.Contains("ERROR") || text.Contains("DENIED") || text.Contains("REJECT") ||
                 text.Contains("INVALID") || text.Contains("BLOCK"))
                 return "Failed";
