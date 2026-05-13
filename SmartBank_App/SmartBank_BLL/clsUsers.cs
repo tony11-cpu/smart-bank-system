@@ -171,6 +171,8 @@ namespace SmartBank
         /// <returns></returns>
         public async Task<DataTable> GetUserLoginRecorsAsync() => await clsUsers_DAL.GetAllUserLoginAttemptsAsync(this.UserID ?? throw new Exception("User ID is not set."));
 
+        public static async Task<DataTable> GetAllLoginAttemptsAsync() => await clsUsers_DAL.GetAllLoginAttemptsAsync();
+
         public async Task<bool> SaveAsync()
         {
             switch(_mode)

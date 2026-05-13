@@ -298,6 +298,40 @@ namespace SmartBank
             return null;
         }
 
+        public static async Task<DataTable> GetAllLoginAttemptsAsync()
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT 
+                          la.AttemptID,
+                          la.UserID,
+                          Username = u.Username,
+                          la.AttemptDate,
+                          la.WasSuccessful
+                      FROM LoginAttempts la
+                      LEFT JOIN Users u ON u.UserID = la.UserID
+                      ORDER BY la.AttemptDate DESC", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    await conn.OpenAsync();
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        dt.Load(reader);
+
+                    return dt;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return null;
+        }
+
         public static async Task<clsUserDto> GetUserByUserIDAsync(int userID)
         {
             try
