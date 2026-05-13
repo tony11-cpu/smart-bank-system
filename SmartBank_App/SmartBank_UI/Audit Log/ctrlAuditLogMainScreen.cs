@@ -18,18 +18,6 @@ namespace SmartBank_UI.Audit_Log
         public ctrlAuditLogMainScreen()
         {
             InitializeComponent();
-
-            tbSearchBar.Enter += tbSearchBar_EnterLeave;
-            tbSearchBar.Leave += tbSearchBar_EnterLeave;
-            tbSearchBar.TextChanged += filter_Changed;
-            cbActionFilter.SelectedIndexChanged += filter_Changed;
-            cbResultFilter.SelectedIndexChanged += filter_Changed;
-            dtpFromDate.ValueChanged += filter_Changed;
-
-            dgvAuditTrail.CellClick += dgvAuditTrail_CellClick;
-            btnCopyAuditID.Click += btnCopyAuditID_Click;
-            btnOpenRelatedRecord.Click += btnOpenRelatedRecord_Click;
-            this.VisibleChanged += ctrlAuditLogMainScreen_VisibleChanged;
         }
 
         private void _loadForm()
@@ -48,7 +36,10 @@ namespace SmartBank_UI.Audit_Log
 
             _loadForm();
             if (!_hasViewPermissions())
+            {
+                MessageBox.Show("You don't have permission to view audit logs.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
 
             _applyPermissions();
             await _reloadAuditLogs();
@@ -103,11 +94,12 @@ namespace SmartBank_UI.Audit_Log
 
             if (!string.IsNullOrWhiteSpace(search) && !search.Equals(filterTag, StringComparison.OrdinalIgnoreCase))
             {
+                search = search.ToLower();
                 filteredLogs = filteredLogs.Where(n =>
-                    (n.Username ?? "System").StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
-                    (n.Action ?? string.Empty).StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
-                    (n.EntityType ?? string.Empty).StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
-                    (n.EntityID?.ToString() ?? string.Empty).StartsWith(search, StringComparison.OrdinalIgnoreCase));
+                {
+                    string searchText = $"{n.AuditID} AUD-{n.AuditID:D6} {n.Username} {n.Action} {n.EntityType} {n.EntityID}";
+                    return searchText.ToLower().Contains(search);
+                });
             }
 
             _bindGridToAuditDGV(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
