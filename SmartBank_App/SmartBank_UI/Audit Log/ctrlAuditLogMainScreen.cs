@@ -83,7 +83,8 @@ namespace SmartBank_UI.Audit_Log
             if (cbActionFilter.SelectedIndex > 0)
             {
                 string actionFilter = cbActionFilter.SelectedItem.ToString();
-                filteredLogs = filteredLogs.Where(n => _isActionMatchingFilter(n, actionFilter));
+                filteredLogs = filteredLogs.Where(n => (n.Action ?? string.Empty).IndexOf(actionFilter, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                                       (n.EntityType ?? string.Empty).IndexOf(actionFilter, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
             if (cbResultFilter.SelectedIndex > 0)
@@ -103,37 +104,6 @@ namespace SmartBank_UI.Audit_Log
             }
 
             _bindGridToAuditDGV(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
-        }
-
-        private bool _isActionMatchingFilter(clsAuditLog log, string actionFilterName)
-        {
-            string action = (log.Action ?? string.Empty).ToUpper();
-            string entity = (log.EntityType ?? string.Empty).ToUpper();
-
-            switch (actionFilterName)
-            {
-                case "Customer":
-                    return action.Contains("CUSTOMER") || entity.Contains("CUSTOMER");
-
-                case "Account":
-                    return action.Contains("ACCOUNT") || entity.Contains("ACCOUNT");
-
-                case "Transaction":
-                    return action.Contains("DEPOSIT") || action.Contains("WITHDRAW") || action.Contains("TRANSFER") ||
-                           action.Contains("TRANSFARE") || action.Contains("TRANSACTION") || entity.Contains("TRANSACTION");
-
-                case "Security":
-                    return _isSecurityAction(log.Action ?? string.Empty);
-
-                case "Permission":
-                    return action.Contains("PERMISSION") || action.Contains("ROLE");
-
-                case "Config":
-                    return action.Contains("CONFIG") || action.Contains("SYSTEM");
-
-                default:
-                    return true;
-            }
         }
 
         private bool _isSecurityAction(string action)
@@ -261,7 +231,8 @@ namespace SmartBank_UI.Audit_Log
 
         private void btnOpenRelatedRecord_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Open Related Record form will be connected in the next step.", "Coming Next", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (dgvAuditTrail.CurrentRow == null)
+                return;
         }
 
         private async void ctrlAuditLogMainScreen_VisibleChanged(object sender, EventArgs e)
