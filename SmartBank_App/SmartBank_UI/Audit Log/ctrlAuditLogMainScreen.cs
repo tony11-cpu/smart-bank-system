@@ -25,6 +25,7 @@ namespace SmartBank_UI.Audit_Log
             dtpFromDate.Value = DateTime.Today;
             cbActionFilter.SelectedIndex = 0;
             cbResultFilter.SelectedIndex = 0;
+            _setTextboxStates(tbSearchBar, true, false);
             saveFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
             saveFileDialog1.FileName = $"audit_logs_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
         }
@@ -77,7 +78,7 @@ namespace SmartBank_UI.Audit_Log
         {
             IEnumerable<clsAuditLog> filteredLogs = _allAuditLogs ?? new List<clsAuditLog>();
             string search = tbSearchBar.Text.Trim();
-            string filterTag = tbSearchBar.Tag?.ToString() ?? string.Empty;
+            string filterTag = _getTextboxTagText(tbSearchBar);
 
             filteredLogs = filteredLogs.Where(n => n.Timestamp.Date >= dtpFromDate.Value.Date);
 
@@ -104,6 +105,40 @@ namespace SmartBank_UI.Audit_Log
             }
 
             _bindGridToAuditDGV(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
+        }
+
+        private bool _isIdle(TextBox sender) => sender.Tag.ToString().StartsWith("Idle");
+
+        private string _getTextboxTagText(TextBox textBox)
+        {
+            string[] textBoxField = textBox.Tag.ToString().Split('/');
+            return textBoxField.Length >= 3 ? textBoxField[2] : textBox.Tag.ToString();
+        }
+
+        private void tb_Enter(object sender, EventArgs e) => _setTextboxStates((TextBox)sender, _isIdle((TextBox)sender), true);
+
+        private void _setTextboxStates(TextBox textBox, bool idle, bool entering)
+        {
+            string[] textBoxField = textBox.Tag.ToString().Split('/');
+            if (textBoxField.Length < 3)
+                return;
+
+            textBox.Tag = $"{(idle ? "Idle" : "Working")}/{textBoxField[1]}/{textBoxField[2]}";
+            textBox.Text = idle ? (entering ? string.Empty : textBoxField[2]) : textBox.Text;
+            textBox.ForeColor = entering ? Color.White : Color.DimGray;
+        }
+
+        private void tb_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            string[] textBoxFields = tb.Tag.ToString().Split('/');
+            if (!string.IsNullOrWhiteSpace(tb.Text) && tb.Text.Trim() != textBoxFields[2])
+            {
+                tb.Tag = $"Working/{textBoxFields[1]}/{textBoxFields[2]}";
+                return;
+            }
+
+            _setTextboxStates(tb, true, false);
         }
 
         private bool _isActionMatchingFilter(clsAuditLog log, string actionFilter)
@@ -201,13 +236,6 @@ namespace SmartBank_UI.Audit_Log
             dgvAuditTrail.ColumnHeadersHeight = 40;
 
             _loadAuditDetailsByAuditID(logsView[0].AuditID);
-        }
-
-        private void tbSearchBar_EnterLeave(object sender, EventArgs e)
-        {
-            string filterTag = tbSearchBar.Tag.ToString();
-            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
-            tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
         private void filter_Changed(object sender, EventArgs e) => _applyFillter();

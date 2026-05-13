@@ -129,11 +129,11 @@ namespace SmartBank_UI.Audit_Log
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(621, 31);
             this.tbSearchBar.TabIndex = 10;
-            this.tbSearchBar.Tag = "Search by user, action, account, customer, table, or record ID...";
+            this.tbSearchBar.Tag = "Idle/SearchBar/Search by user, action, account, customer, table, or record ID...";
             this.tbSearchBar.Text = "Search by user, action, account, customer, table, or record ID...";
             this.tbSearchBar.TextChanged += new System.EventHandler(this.filter_Changed);
-            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
-            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            this.tbSearchBar.Enter += new System.EventHandler(this.tb_Enter);
+            this.tbSearchBar.Leave += new System.EventHandler(this.tb_Leave);
             // 
             // label2
             // 
