@@ -66,9 +66,9 @@ namespace SmartBank_UI.Audit_Log
         private void _refreshCardsNumbers(List<clsAuditLog> logs)
         {
             lblStatTodayValue.Text = logs.Count(n => n.Timestamp.Date == DateTime.Today).ToString();
-            lblStatSensitiveValue.Text = logs.Count(n => !string.IsNullOrWhiteSpace(n.OldValue) || !string.IsNullOrWhiteSpace(n.NewValue)).ToString();
-            lblStatSecurityValue.Text = logs.Count(n => _isSecurityAction(n.Action ?? string.Empty)).ToString();
-            lblStatFailedValue.Text = logs.Count(n => _getResultTypeByAction(n.Action ?? string.Empty) == "Failed").ToString();
+            lblStatSensitiveValue.Text = logs.Count(n => _isSensitiveLog(n)).ToString();
+            lblStatSecurityValue.Text = logs.Count(n => _isSecurityAction(n)).ToString();
+            lblStatFailedValue.Text = logs.Count(n => _getResultTypeByAction(n) == "Failed").ToString();
         }
 
         private void _applyFillter()
@@ -82,14 +82,13 @@ namespace SmartBank_UI.Audit_Log
             if (cbActionFilter.SelectedIndex > 0)
             {
                 string actionFilter = cbActionFilter.SelectedItem.ToString();
-                filteredLogs = filteredLogs.Where(n => (n.Action ?? string.Empty).IndexOf(actionFilter, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                                       (n.EntityType ?? string.Empty).IndexOf(actionFilter, StringComparison.OrdinalIgnoreCase) >= 0);
+                filteredLogs = filteredLogs.Where(n => _isActionMatchingFilter(n, actionFilter));
             }
 
             if (cbResultFilter.SelectedIndex > 0)
             {
                 string resultFilter = cbResultFilter.SelectedItem.ToString();
-                filteredLogs = filteredLogs.Where(n => _getResultTypeByAction(n.Action ?? string.Empty) == resultFilter);
+                filteredLogs = filteredLogs.Where(n => _getResultTypeByAction(n) == resultFilter);
             }
 
             if (!string.IsNullOrWhiteSpace(search) && !search.Equals(filterTag, StringComparison.OrdinalIgnoreCase))
@@ -105,20 +104,66 @@ namespace SmartBank_UI.Audit_Log
             _bindGridToAuditDGV(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
         }
 
-        private bool _isSecurityAction(string action)
+        private bool _isActionMatchingFilter(clsAuditLog log, string actionFilter)
         {
-            action = action.ToUpper();
-            return action.Contains("LOGIN") || action.Contains("LOCK") || action.Contains("UNLOCK") ||
-                   action.Contains("PASSWORD") || action.Contains("SECURITY");
+            string action = (log.Action ?? string.Empty).ToUpper();
+            string entityType = (log.EntityType ?? string.Empty).ToUpper();
+
+            switch (actionFilter)
+            {
+                case "Customer":
+                    return action.Contains("CUSTOMER") || entityType.Contains("CUSTOMER");
+
+                case "Account":
+                    return action.Contains("ACCOUNT") || entityType.Contains("ACCOUNT");
+
+                case "Transaction":
+                    return action.Contains("DEPOSIT") || action.Contains("WITHDRAW") || action.Contains("TRANSFER") ||
+                           action.Contains("TRANSFARE") || action.Contains("SCHEDULE") || entityType.Contains("TRANSACTION");
+
+                case "Security":
+                    return _isSecurityAction(log);
+
+                case "Permission":
+                    return action.Contains("PERMISSION") || action.Contains("ROLE");
+
+                case "Config":
+                    return action.Contains("CONFIG") || entityType.Contains("CONFIG") || action.Contains("SYSTEM");
+
+                default:
+                    return true;
+            }
         }
 
-        private string _getResultTypeByAction(string action)
+        private bool _isSensitiveLog(clsAuditLog log)
         {
-            action = action.ToUpper();
-            if (action.Contains("FAIL") || action.Contains("ERROR") || action.Contains("DENIED") || action.Contains("REJECT"))
+            string action = (log.Action ?? string.Empty).ToUpper();
+            string entityType = (log.EntityType ?? string.Empty).ToUpper();
+
+            if (action.Contains("PASSWORD") || action.Contains("SALT") || action.Contains("PERMISSION") ||
+                action.Contains("NATIONALID") || action.Contains("IMAGE") || action.Contains("LOCK") ||
+                action.Contains("UNLOCK") || entityType.Contains("USERS") || entityType.Contains("SYSTEMCONFIG"))
+                return true;
+
+            return !string.IsNullOrWhiteSpace(log.OldValue) && !string.IsNullOrWhiteSpace(log.NewValue);
+        }
+
+        private bool _isSecurityAction(clsAuditLog log)
+        {
+            string text = $"{log.Action} {log.Notes}".ToUpper();
+            return text.Contains("LOGIN") || text.Contains("LOCK") || text.Contains("UNLOCK") ||
+                   text.Contains("PASSWORD") || text.Contains("SECURITY") || text.Contains("FRAUD") ||
+                   text.Contains("ATTEMPT");
+        }
+
+        private string _getResultTypeByAction(clsAuditLog log)
+        {
+            string text = $"{log.Action} {log.Notes}".ToUpper();
+            if (text.Contains("FAIL") || text.Contains("ERROR") || text.Contains("DENIED") || text.Contains("REJECT") ||
+                text.Contains("INVALID") || text.Contains("BLOCK"))
                 return "Failed";
 
-            if (action.Contains("WARN"))
+            if (text.Contains("WARN") || text.Contains("PENDING") || text.Contains("REVIEW"))
                 return "Warning";
 
             return "Success";
@@ -132,7 +177,7 @@ namespace SmartBank_UI.Audit_Log
             dgvAuditTrail.DataSource = logsView.Select(n => new
             {
                 n.AuditID, User = string.IsNullOrWhiteSpace(n.Username) ? "System" : n.Username, n.Action,
-                Entity = n.EntityType, RecordID = n.EntityID, Result = _getResultTypeByAction(n.Action ?? string.Empty),
+                Entity = n.EntityType, RecordID = n.EntityID, Result = _getResultTypeByAction(n),
                 TimeStamp = n.Timestamp, n.Notes
             }).ToList();
 
@@ -203,7 +248,7 @@ namespace SmartBank_UI.Audit_Log
             }
 
             tbAuditID.Text = $"AUD-{selectedLog.AuditID:D6}";
-            tbResult.Text = _getResultTypeByAction(selectedLog.Action ?? string.Empty);
+            tbResult.Text = _getResultTypeByAction(selectedLog);
             tbUser.Text = string.IsNullOrWhiteSpace(selectedLog.Username) ? "System" : selectedLog.Username;
             tbRole.Text = selectedLog.UserID.HasValue ? "User" : "System";
             tbEntity.Text = selectedLog.EntityType ?? "N/A";
