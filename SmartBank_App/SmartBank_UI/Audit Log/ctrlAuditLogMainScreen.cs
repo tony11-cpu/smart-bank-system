@@ -13,22 +13,19 @@ namespace SmartBank_UI.Audit_Log
     public partial class ctrlAuditLogMainScreen : UserControl
     {
         private List<clsAuditLog> _allAuditLogs = new List<clsAuditLog>();
-        private List<clsAuditLog> _lastAuditLogsView = new List<clsAuditLog>();
+        private List<clsAuditLog> _auditLogsView = new List<clsAuditLog>();
 
         public ctrlAuditLogMainScreen()
         {
             InitializeComponent();
-            _wireEvents();
-        }
 
-        private void _wireEvents()
-        {
             tbSearchBar.Enter += tbSearchBar_EnterLeave;
             tbSearchBar.Leave += tbSearchBar_EnterLeave;
-            tbSearchBar.TextChanged += mainFilterChanged;
-            cbActionFilter.SelectedIndexChanged += mainFilterChanged;
-            cbResultFilter.SelectedIndexChanged += mainFilterChanged;
-            dtpFromDate.ValueChanged += mainFilterChanged;
+            tbSearchBar.TextChanged += filter_Changed;
+            cbActionFilter.SelectedIndexChanged += filter_Changed;
+            cbResultFilter.SelectedIndexChanged += filter_Changed;
+            dtpFromDate.ValueChanged += filter_Changed;
+
             dgvAuditTrail.CellClick += dgvAuditTrail_CellClick;
             btnCopyAuditID.Click += btnCopyAuditID_Click;
             btnOpenRelatedRecord.Click += btnOpenRelatedRecord_Click;
@@ -46,68 +43,65 @@ namespace SmartBank_UI.Audit_Log
 
         private async void ctrlAuditLogMainScreen_Load(object sender, EventArgs e)
         {
-            if (this.DesignMode)
+            if (DesignMode)
                 return;
 
             _loadForm();
-
-            if (!_applyPermissionsOnForm())
+            if (!_hasViewPermissions())
                 return;
 
-            await _loadAuditLogsAsync();
+            _applyPermissions();
+            await _reloadAuditLogs();
         }
 
-        private bool _applyPermissionsOnForm()
+        private bool _hasViewPermissions() => clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanViewAuditLog) ?? false;
+
+        private void _applyPermissions()
         {
-            bool canView = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanViewAuditLog) ?? false;
+            bool canView = _hasViewPermissions();
             bool canExport = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanExportAuditLog) ?? false;
 
             btnExportCsv.Enabled = canExport;
             btnCopyAuditID.Enabled = canView;
             btnOpenRelatedRecord.Enabled = canView;
-
-            if (canView)
-                return true;
-
-            dgvAuditTrail.DataSource = null;
-            _clearDetails();
-            MessageBox.Show("You don't have permission to view audit logs.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return false;
         }
 
-        private async Task _loadAuditLogsAsync()
+        private async Task _reloadAuditLogs()
         {
             _allAuditLogs = await clsAuditLog.GetAllAuditLogsAsync();
-            _updateCardsNumbers(_allAuditLogs);
-            _applyFilters();
+            _refreshCardsNumbers(_allAuditLogs);
+            _applyFillter();
         }
 
-        private void _updateCardsNumbers(List<clsAuditLog> logs)
+        private void _refreshCardsNumbers(List<clsAuditLog> logs)
         {
-            logs = logs ?? new List<clsAuditLog>();
-
             lblStatTodayValue.Text = logs.Count(n => n.Timestamp.Date == DateTime.Today).ToString();
             lblStatSensitiveValue.Text = logs.Count(n => !string.IsNullOrWhiteSpace(n.OldValue) || !string.IsNullOrWhiteSpace(n.NewValue)).ToString();
-            lblStatSecurityValue.Text = logs.Count(n => _isSecurityAction(n.Action)).ToString();
-            lblStatFailedValue.Text = logs.Count(n => _getResultType(n.Action) == "Failed").ToString();
+            lblStatSecurityValue.Text = logs.Count(n => _isSecurityAction(n.Action ?? string.Empty)).ToString();
+            lblStatFailedValue.Text = logs.Count(n => _getResultTypeByAction(n.Action ?? string.Empty) == "Failed").ToString();
         }
 
-        private void _applyFilters()
+        private void _applyFillter()
         {
             IEnumerable<clsAuditLog> filteredLogs = _allAuditLogs ?? new List<clsAuditLog>();
-
             string search = tbSearchBar.Text.Trim();
-            string searchTag = tbSearchBar.Tag?.ToString() ?? string.Empty;
+            string filterTag = tbSearchBar.Tag?.ToString() ?? string.Empty;
 
             filteredLogs = filteredLogs.Where(n => n.Timestamp.Date >= dtpFromDate.Value.Date);
 
             if (cbActionFilter.SelectedIndex > 0)
-                filteredLogs = filteredLogs.Where(n => _matchesActionFilter(n, cbActionFilter.SelectedItem.ToString()));
+            {
+                string actionFilter = cbActionFilter.SelectedItem.ToString();
+                filteredLogs = filteredLogs.Where(n => _isActionMatchingFilter(n, actionFilter));
+            }
 
             if (cbResultFilter.SelectedIndex > 0)
-                filteredLogs = filteredLogs.Where(n => _getResultType(n.Action) == cbResultFilter.SelectedItem.ToString());
+            {
+                string resultFilter = cbResultFilter.SelectedItem.ToString();
+                filteredLogs = filteredLogs.Where(n => _getResultTypeByAction(n.Action ?? string.Empty) == resultFilter);
+            }
 
-            if (!string.IsNullOrWhiteSpace(search) && !search.Equals(searchTag, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(search) && !search.Equals(filterTag, StringComparison.OrdinalIgnoreCase))
             {
                 filteredLogs = filteredLogs.Where(n =>
                     (n.Username ?? "System").StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
@@ -116,10 +110,10 @@ namespace SmartBank_UI.Audit_Log
                     (n.EntityID?.ToString() ?? string.Empty).StartsWith(search, StringComparison.OrdinalIgnoreCase));
             }
 
-            _bindGrid(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
+            _bindGridToAuditDGV(filteredLogs.OrderByDescending(n => n.Timestamp).ToList());
         }
 
-        private bool _matchesActionFilter(clsAuditLog log, string actionFilterName)
+        private bool _isActionMatchingFilter(clsAuditLog log, string actionFilterName)
         {
             string action = (log.Action ?? string.Empty).ToUpper();
             string entity = (log.EntityType ?? string.Empty).ToUpper();
@@ -137,7 +131,7 @@ namespace SmartBank_UI.Audit_Log
                            action.Contains("TRANSFARE") || action.Contains("TRANSACTION") || entity.Contains("TRANSACTION");
 
                 case "Security":
-                    return _isSecurityAction(action);
+                    return _isSecurityAction(log.Action ?? string.Empty);
 
                 case "Permission":
                     return action.Contains("PERMISSION") || action.Contains("ROLE");
@@ -152,14 +146,14 @@ namespace SmartBank_UI.Audit_Log
 
         private bool _isSecurityAction(string action)
         {
-            action = (action ?? string.Empty).ToUpper();
+            action = action.ToUpper();
             return action.Contains("LOGIN") || action.Contains("LOCK") || action.Contains("UNLOCK") ||
                    action.Contains("PASSWORD") || action.Contains("SECURITY");
         }
 
-        private string _getResultType(string action)
+        private string _getResultTypeByAction(string action)
         {
-            action = (action ?? string.Empty).ToUpper();
+            action = action.ToUpper();
             if (action.Contains("FAIL") || action.Contains("ERROR") || action.Contains("DENIED") || action.Contains("REJECT"))
                 return "Failed";
 
@@ -169,10 +163,10 @@ namespace SmartBank_UI.Audit_Log
             return "Success";
         }
 
-        private void _bindGrid(List<clsAuditLog> logsView)
+        private void _bindGridToAuditDGV(List<clsAuditLog> logsView)
         {
             logsView = logsView ?? new List<clsAuditLog>();
-            _lastAuditLogsView = logsView;
+            _auditLogsView = logsView;
 
             dgvAuditTrail.DataSource = logsView.Select(n => new
             {
@@ -181,7 +175,7 @@ namespace SmartBank_UI.Audit_Log
                 n.Action,
                 Entity = n.EntityType,
                 RecordID = n.EntityID,
-                Result = _getResultType(n.Action),
+                Result = _getResultTypeByAction(n.Action ?? string.Empty),
                 TimeStamp = n.Timestamp,
                 n.Notes
             }).ToList();
@@ -213,7 +207,7 @@ namespace SmartBank_UI.Audit_Log
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
         }
 
-        private void mainFilterChanged(object sender, EventArgs e) => _applyFilters();
+        private void filter_Changed(object sender, EventArgs e) => _applyFillter();
 
         private void dgvAuditTrail_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -225,7 +219,7 @@ namespace SmartBank_UI.Audit_Log
 
         private void _loadAuditDetailsByAuditID(int auditID)
         {
-            clsAuditLog selectedLog = _lastAuditLogsView.FirstOrDefault(n => n.AuditID == auditID);
+            clsAuditLog selectedLog = _auditLogsView.FirstOrDefault(n => n.AuditID == auditID);
             if (selectedLog == null)
                 selectedLog = _allAuditLogs.FirstOrDefault(n => n.AuditID == auditID);
 
@@ -236,7 +230,7 @@ namespace SmartBank_UI.Audit_Log
             }
 
             tbAuditID.Text = $"AUD-{selectedLog.AuditID:D6}";
-            tbResult.Text = _getResultType(selectedLog.Action);
+            tbResult.Text = _getResultTypeByAction(selectedLog.Action ?? string.Empty);
             tbUser.Text = string.IsNullOrWhiteSpace(selectedLog.Username) ? "System" : selectedLog.Username;
             tbRole.Text = selectedLog.UserID.HasValue ? "User" : "System";
             tbEntity.Text = selectedLog.EntityType ?? "N/A";
@@ -280,13 +274,14 @@ namespace SmartBank_UI.Audit_Log
 
         private async void ctrlAuditLogMainScreen_VisibleChanged(object sender, EventArgs e)
         {
-            if (!this.Visible || this.DesignMode)
+            if (!Visible || DesignMode)
                 return;
 
-            if (!_applyPermissionsOnForm())
+            if (!_hasViewPermissions())
                 return;
 
-            await _loadAuditLogsAsync();
+            _applyPermissions();
+            await _reloadAuditLogs();
         }
 
         private void btnExportCsv_Click(object sender, EventArgs e)
