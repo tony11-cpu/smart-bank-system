@@ -305,18 +305,9 @@ namespace SmartBank
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT 
-                          la.AttemptID,
-                          la.UserID,
-                          Username = u.Username,
-                          la.AttemptDate,
-                          la.WasSuccessful
-                      FROM LoginAttempts la
-                      LEFT JOIN Users u ON u.UserID = la.UserID
-                      ORDER BY la.AttemptDate DESC", conn))
+                using (SqlCommand cmd = new SqlCommand("sp_GetAllLoginAttempts", conn))
                 {
-                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandType = CommandType.StoredProcedure;
                     await conn.OpenAsync();
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         dt.Load(reader);
