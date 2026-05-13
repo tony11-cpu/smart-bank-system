@@ -35,9 +35,11 @@ namespace SmartBank_UI.Audit_Log
                 return;
 
             _loadForm();
-            if (!_hasViewPermissions())
+            if (true)
             {
                 MessageBox.Show("You don't have permission to view audit logs.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnExportCsv.Enabled = false;
+                btnCopyAuditID.Enabled = false;
                 return;
             }
 
@@ -204,25 +206,8 @@ namespace SmartBank_UI.Audit_Log
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string filterTag = tbSearchBar.Tag.ToString();
-            if (tbSearchBar.Focused)
-            {
-                if (tbSearchBar.Text == filterTag)
-                    tbSearchBar.Text = string.Empty;
-
-                _resetMainFillters();
-                _applyFillter();
-            }
-            else if (string.IsNullOrWhiteSpace(tbSearchBar.Text))
-                tbSearchBar.Text = filterTag;
-
+            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
-        }
-
-        private void _resetMainFillters()
-        {
-            cbActionFilter.SelectedIndex = 0;
-            cbResultFilter.SelectedIndex = 0;
-            dtpFromDate.Value = _allAuditLogs.Any() ? _allAuditLogs.Min(n => n.Timestamp).Date : DateTime.Today;
         }
 
         private void filter_Changed(object sender, EventArgs e) => _applyFillter();
