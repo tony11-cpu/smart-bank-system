@@ -113,7 +113,7 @@ namespace SmartBank_UI.Audit_Log
             string search = tbSearchBar.Text.Trim();
             string filterTag = _getTextboxTagText(tbSearchBar);
 
-            filteredLogs = filteredLogs.Where(n => n.Timestamp.Date >= dtpFromDate.Value.Date);
+            filteredLogs = filteredLogs.Where(n => n.Timestamp.Date == dtpFromDate.Value.Date);
 
             if (cbActionFilter.SelectedIndex > 0)
             {
