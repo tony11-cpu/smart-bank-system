@@ -29,6 +29,10 @@ namespace SmartBank_UI.Audit_Log
             cbActionFilter.SelectedIndexChanged += mainFilterChanged;
             cbResultFilter.SelectedIndexChanged += mainFilterChanged;
             dtpFromDate.ValueChanged += mainFilterChanged;
+            dgvAuditTrail.CellClick += dgvAuditTrail_CellClick;
+            btnCopyAuditID.Click += btnCopyAuditID_Click;
+            btnOpenRelatedRecord.Click += btnOpenRelatedRecord_Click;
+            this.VisibleChanged += ctrlAuditLogMainScreen_VisibleChanged;
         }
 
         private void _loadForm()
@@ -46,7 +50,29 @@ namespace SmartBank_UI.Audit_Log
                 return;
 
             _loadForm();
+
+            if (!_applyPermissionsOnForm())
+                return;
+
             await _loadAuditLogsAsync();
+        }
+
+        private bool _applyPermissionsOnForm()
+        {
+            bool canView = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanViewAuditLog) ?? false;
+            bool canExport = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanExportAuditLog) ?? false;
+
+            btnExportCsv.Enabled = canExport;
+            btnCopyAuditID.Enabled = canView;
+            btnOpenRelatedRecord.Enabled = canView;
+
+            if (canView)
+                return true;
+
+            dgvAuditTrail.DataSource = null;
+            _clearDetails();
+            MessageBox.Show("You don't have permission to view audit logs.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
         }
 
         private async Task _loadAuditLogsAsync()
@@ -165,7 +191,10 @@ namespace SmartBank_UI.Audit_Log
             lblClickToInspectAudit.Visible = count > 0;
 
             if (dgvAuditTrail.RowCount == 0)
+            {
+                _clearDetails();
                 return;
+            }
 
             dgvAuditTrail.Columns["AuditID"].HeaderText = "Audit ID";
             dgvAuditTrail.Columns["RecordID"].HeaderText = "Record ID";
@@ -173,6 +202,8 @@ namespace SmartBank_UI.Audit_Log
 
             dgvAuditTrail.RowTemplate.Height = 35;
             dgvAuditTrail.ColumnHeadersHeight = 40;
+
+            _loadAuditDetailsByAuditID(logsView[0].AuditID);
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
@@ -183,6 +214,80 @@ namespace SmartBank_UI.Audit_Log
         }
 
         private void mainFilterChanged(object sender, EventArgs e) => _applyFilters();
+
+        private void dgvAuditTrail_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvAuditTrail.CurrentRow?.Cells["AuditID"]?.Value == null)
+                return;
+
+            _loadAuditDetailsByAuditID(Convert.ToInt32(dgvAuditTrail.CurrentRow.Cells["AuditID"].Value));
+        }
+
+        private void _loadAuditDetailsByAuditID(int auditID)
+        {
+            clsAuditLog selectedLog = _lastAuditLogsView.FirstOrDefault(n => n.AuditID == auditID);
+            if (selectedLog == null)
+                selectedLog = _allAuditLogs.FirstOrDefault(n => n.AuditID == auditID);
+
+            if (selectedLog == null)
+            {
+                _clearDetails();
+                return;
+            }
+
+            tbAuditID.Text = $"AUD-{selectedLog.AuditID:D6}";
+            tbResult.Text = _getResultType(selectedLog.Action);
+            tbUser.Text = string.IsNullOrWhiteSpace(selectedLog.Username) ? "System" : selectedLog.Username;
+            tbRole.Text = selectedLog.UserID.HasValue ? "User" : "System";
+            tbEntity.Text = selectedLog.EntityType ?? "N/A";
+            tbRecordID.Text = selectedLog.EntityID.HasValue ? selectedLog.EntityID.Value.ToString() : "N/A";
+            tbDescription.Text = string.IsNullOrWhiteSpace(selectedLog.Action) ? "No Description" : selectedLog.Action.Replace("_", " ");
+            tbOldValue.Text = string.IsNullOrWhiteSpace(selectedLog.OldValue) ? "NULL" : selectedLog.OldValue;
+            tbNewValue.Text = string.IsNullOrWhiteSpace(selectedLog.NewValue) ? "NULL" : selectedLog.NewValue;
+            tbTimestamp.Text = selectedLog.Timestamp.ToString("MM/dd/yyyy HH:mm:ss");
+
+            lblAuditSubTitle.Text = $"Selected Action: {tbDescription.Text}";
+        }
+
+        private void _clearDetails()
+        {
+            tbAuditID.Text = "AUD-000000";
+            tbResult.Text = "Result";
+            tbUser.Text = "User";
+            tbRole.Text = "Role";
+            tbEntity.Text = "Entity";
+            tbRecordID.Text = "REC-000";
+            tbDescription.Text = "Audit action description";
+            tbOldValue.Text = "Previous state";
+            tbNewValue.Text = "Updated state";
+            tbTimestamp.Text = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            lblAuditSubTitle.Text = "Select an audit record to inspect.";
+        }
+
+        private void btnCopyAuditID_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbAuditID.Text))
+                return;
+
+            Clipboard.SetText(tbAuditID.Text.Trim());
+            MessageBox.Show("Audit ID copied.", "Copied", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnOpenRelatedRecord_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Open Related Record form will be connected in the next step.", "Coming Next", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async void ctrlAuditLogMainScreen_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.Visible || this.DesignMode)
+                return;
+
+            if (!_applyPermissionsOnForm())
+                return;
+
+            await _loadAuditLogsAsync();
+        }
 
         private void btnExportCsv_Click(object sender, EventArgs e)
         {
