@@ -54,7 +54,6 @@ namespace SmartBank_UI.Audit_Log
 
             btnExportCsv.Enabled = canExport;
             btnCopyAuditID.Enabled = canView;
-            btnOpenRelatedRecord.Enabled = canView;
         }
 
         private async Task _reloadAuditLogs()
@@ -132,14 +131,9 @@ namespace SmartBank_UI.Audit_Log
 
             dgvAuditTrail.DataSource = logsView.Select(n => new
             {
-                n.AuditID,
-                User = string.IsNullOrWhiteSpace(n.Username) ? "System" : n.Username,
-                n.Action,
-                Entity = n.EntityType,
-                RecordID = n.EntityID,
-                Result = _getResultTypeByAction(n.Action ?? string.Empty),
-                TimeStamp = n.Timestamp,
-                n.Notes
+                n.AuditID, User = string.IsNullOrWhiteSpace(n.Username) ? "System" : n.Username, n.Action,
+                Entity = n.EntityType, RecordID = n.EntityID, Result = _getResultTypeByAction(n.Action ?? string.Empty),
+                TimeStamp = n.Timestamp, n.Notes
             }).ToList();
 
             int count = logsView.Count;
@@ -165,8 +159,25 @@ namespace SmartBank_UI.Audit_Log
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
             string filterTag = tbSearchBar.Tag.ToString();
-            tbSearchBar.Text = tbSearchBar.Focused && tbSearchBar.Text == filterTag ? string.Empty : !tbSearchBar.Focused && string.IsNullOrWhiteSpace(tbSearchBar.Text) ? filterTag : tbSearchBar.Text;
+            if (tbSearchBar.Focused)
+            {
+                if (tbSearchBar.Text == filterTag)
+                    tbSearchBar.Text = string.Empty;
+
+                _resetMainFillters();
+                _applyFillter();
+            }
+            else if (string.IsNullOrWhiteSpace(tbSearchBar.Text))
+                tbSearchBar.Text = filterTag;
+
             tbSearchBar.ForeColor = tbSearchBar.Text == filterTag ? Color.DimGray : Color.White;
+        }
+
+        private void _resetMainFillters()
+        {
+            cbActionFilter.SelectedIndex = 0;
+            cbResultFilter.SelectedIndex = 0;
+            dtpFromDate.Value = _allAuditLogs.Any() ? _allAuditLogs.Min(n => n.Timestamp).Date : DateTime.Today;
         }
 
         private void filter_Changed(object sender, EventArgs e) => _applyFillter();
@@ -227,12 +238,6 @@ namespace SmartBank_UI.Audit_Log
 
             Clipboard.SetText(tbAuditID.Text.Trim());
             MessageBox.Show("Audit ID copied.", "Copied", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnOpenRelatedRecord_Click(object sender, EventArgs e)
-        {
-            if (dgvAuditTrail.CurrentRow == null)
-                return;
         }
 
         private async void ctrlAuditLogMainScreen_VisibleChanged(object sender, EventArgs e)

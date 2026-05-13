@@ -37,15 +37,19 @@ namespace SmartBank_UI.Audit_Log
             this.cbResultFilter = new System.Windows.Forms.ComboBox();
             this.btnExportCsv = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblInforamtionAboutForm = new System.Windows.Forms.Label();
             this.lblStatTodayValue = new System.Windows.Forms.Label();
             this.lblStatTodayText = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.lblStatSensitiveValue = new System.Windows.Forms.Label();
             this.lblStatSensitiveText = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.lblStatSecurityValue = new System.Windows.Forms.Label();
             this.lblStatSecurityText = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
             this.lblStatFailedValue = new System.Windows.Forms.Label();
             this.lblStatFailedText = new System.Windows.Forms.Label();
             this.dgvAuditTrail = new System.Windows.Forms.DataGridView();
@@ -54,7 +58,6 @@ namespace SmartBank_UI.Audit_Log
             this.lblNumberOfAuditLogs = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnCopyAuditID = new System.Windows.Forms.Button();
-            this.btnOpenRelatedRecord = new System.Windows.Forms.Button();
             this.tbTimestamp = new System.Windows.Forms.TextBox();
             this.lblTimeStamp = new System.Windows.Forms.Label();
             this.tbNewValue = new System.Windows.Forms.TextBox();
@@ -79,10 +82,6 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditSubTitle = new System.Windows.Forms.Label();
             this.lblAuditDetailTitle = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.lblInforamtionAboutForm = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -132,6 +131,9 @@ namespace SmartBank_UI.Audit_Log
             this.tbSearchBar.TabIndex = 10;
             this.tbSearchBar.Tag = "Search by user, action, account, customer, table, or record ID...";
             this.tbSearchBar.Text = "Search by user, action, account, customer, table, or record ID...";
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.filter_Changed);
+            this.tbSearchBar.Enter += new System.EventHandler(this.tbSearchBar_EnterLeave);
+            this.tbSearchBar.Leave += new System.EventHandler(this.tbSearchBar_EnterLeave);
             // 
             // label2
             // 
@@ -159,6 +161,7 @@ namespace SmartBank_UI.Audit_Log
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(152, 30);
             this.dtpFromDate.TabIndex = 11;
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.filter_Changed);
             // 
             // cbActionFilter
             // 
@@ -181,6 +184,7 @@ namespace SmartBank_UI.Audit_Log
             this.cbActionFilter.Name = "cbActionFilter";
             this.cbActionFilter.Size = new System.Drawing.Size(152, 32);
             this.cbActionFilter.TabIndex = 12;
+            this.cbActionFilter.SelectedIndexChanged += new System.EventHandler(this.filter_Changed);
             // 
             // cbResultFilter
             // 
@@ -200,6 +204,7 @@ namespace SmartBank_UI.Audit_Log
             this.cbResultFilter.Name = "cbResultFilter";
             this.cbResultFilter.Size = new System.Drawing.Size(152, 32);
             this.cbResultFilter.TabIndex = 13;
+            this.cbResultFilter.SelectedIndexChanged += new System.EventHandler(this.filter_Changed);
             // 
             // btnExportCsv
             // 
@@ -233,6 +238,18 @@ namespace SmartBank_UI.Audit_Log
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(250, 95);
             this.panel1.TabIndex = 2;
+            // 
+            // lblInforamtionAboutForm
+            // 
+            this.lblInforamtionAboutForm.AutoSize = true;
+            this.lblInforamtionAboutForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInforamtionAboutForm.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblInforamtionAboutForm.Location = new System.Drawing.Point(18, 67);
+            this.lblInforamtionAboutForm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblInforamtionAboutForm.Name = "lblInforamtionAboutForm";
+            this.lblInforamtionAboutForm.Size = new System.Drawing.Size(127, 18);
+            this.lblInforamtionAboutForm.TabIndex = 25;
+            this.lblInforamtionAboutForm.Text = "all tracked actions";
             // 
             // lblStatTodayValue
             // 
@@ -268,6 +285,19 @@ namespace SmartBank_UI.Audit_Log
             this.panel2.Size = new System.Drawing.Size(250, 95);
             this.panel2.TabIndex = 3;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.DarkGray;
+            this.label3.Location = new System.Drawing.Point(20, 67);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(154, 18);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "full National ID access";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lblStatSensitiveValue
             // 
             this.lblStatSensitiveValue.AutoSize = true;
@@ -302,6 +332,18 @@ namespace SmartBank_UI.Audit_Log
             this.panel3.Size = new System.Drawing.Size(250, 95);
             this.panel3.TabIndex = 4;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.DarkGray;
+            this.label4.Location = new System.Drawing.Point(18, 67);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(192, 18);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "login and permission activity";
+            // 
             // lblStatSecurityValue
             // 
             this.lblStatSecurityValue.AutoSize = true;
@@ -335,6 +377,18 @@ namespace SmartBank_UI.Audit_Log
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(250, 95);
             this.panel4.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkGray;
+            this.label5.Location = new System.Drawing.Point(16, 67);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(134, 18);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "blocked or rejected";
             // 
             // lblStatFailedValue
             // 
@@ -376,6 +430,7 @@ namespace SmartBank_UI.Audit_Log
             this.dgvAuditTrail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuditTrail.Size = new System.Drawing.Size(818, 514);
             this.dgvAuditTrail.TabIndex = 15;
+            this.dgvAuditTrail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAuditTrail_CellClick);
             // 
             // panel5
             // 
@@ -419,7 +474,6 @@ namespace SmartBank_UI.Audit_Log
             this.panel6.BackColor = System.Drawing.Color.MidnightBlue;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.btnCopyAuditID);
-            this.panel6.Controls.Add(this.btnOpenRelatedRecord);
             this.panel6.Controls.Add(this.tbTimestamp);
             this.panel6.Controls.Add(this.lblTimeStamp);
             this.panel6.Controls.Add(this.tbNewValue);
@@ -453,30 +507,14 @@ namespace SmartBank_UI.Audit_Log
             this.btnCopyAuditID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopyAuditID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCopyAuditID.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.btnCopyAuditID.Location = new System.Drawing.Point(240, 525);
+            this.btnCopyAuditID.Location = new System.Drawing.Point(21, 525);
             this.btnCopyAuditID.Margin = new System.Windows.Forms.Padding(2);
             this.btnCopyAuditID.Name = "btnCopyAuditID";
-            this.btnCopyAuditID.Size = new System.Drawing.Size(208, 33);
+            this.btnCopyAuditID.Size = new System.Drawing.Size(427, 33);
             this.btnCopyAuditID.TabIndex = 24;
             this.btnCopyAuditID.Text = "Copy Audit ID";
             this.btnCopyAuditID.UseVisualStyleBackColor = true;
-            // 
-            // btnOpenRelatedRecord
-            // 
-            this.btnOpenRelatedRecord.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnOpenRelatedRecord.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnOpenRelatedRecord.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
-            this.btnOpenRelatedRecord.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.btnOpenRelatedRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenRelatedRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenRelatedRecord.ForeColor = System.Drawing.Color.White;
-            this.btnOpenRelatedRecord.Location = new System.Drawing.Point(21, 525);
-            this.btnOpenRelatedRecord.Margin = new System.Windows.Forms.Padding(2);
-            this.btnOpenRelatedRecord.Name = "btnOpenRelatedRecord";
-            this.btnOpenRelatedRecord.Size = new System.Drawing.Size(208, 33);
-            this.btnOpenRelatedRecord.TabIndex = 23;
-            this.btnOpenRelatedRecord.Text = "Open Related Record";
-            this.btnOpenRelatedRecord.UseVisualStyleBackColor = false;
+            this.btnCopyAuditID.Click += new System.EventHandler(this.btnCopyAuditID_Click);
             // 
             // tbTimestamp
             // 
@@ -795,55 +833,6 @@ namespace SmartBank_UI.Audit_Log
             this.pictureBox5.TabIndex = 0;
             this.pictureBox5.TabStop = false;
             // 
-            // lblInforamtionAboutForm
-            // 
-            this.lblInforamtionAboutForm.AutoSize = true;
-            this.lblInforamtionAboutForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInforamtionAboutForm.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblInforamtionAboutForm.Location = new System.Drawing.Point(18, 67);
-            this.lblInforamtionAboutForm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblInforamtionAboutForm.Name = "lblInforamtionAboutForm";
-            this.lblInforamtionAboutForm.Size = new System.Drawing.Size(127, 18);
-            this.lblInforamtionAboutForm.TabIndex = 25;
-            this.lblInforamtionAboutForm.Text = "all tracked actions";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.DarkGray;
-            this.label3.Location = new System.Drawing.Point(20, 67);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(154, 18);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "full National ID access";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.DarkGray;
-            this.label4.Location = new System.Drawing.Point(18, 67);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(192, 18);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "login and permission activity";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.DarkGray;
-            this.label5.Location = new System.Drawing.Point(16, 67);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(134, 18);
-            this.label5.TabIndex = 28;
-            this.label5.Text = "blocked or rejected";
-            // 
             // ctrlAuditLogMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -868,6 +857,7 @@ namespace SmartBank_UI.Audit_Log
             this.Name = "ctrlAuditLogMainScreen";
             this.Size = new System.Drawing.Size(1331, 833);
             this.Load += new System.EventHandler(this.ctrlAuditLogMainScreen_Load);
+            this.VisibleChanged += new System.EventHandler(this.ctrlAuditLogMainScreen_VisibleChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -941,7 +931,6 @@ namespace SmartBank_UI.Audit_Log
         private System.Windows.Forms.TextBox tbTimestamp;
         private System.Windows.Forms.Label lblTimeStamp;
         private System.Windows.Forms.Button btnCopyAuditID;
-        private System.Windows.Forms.Button btnOpenRelatedRecord;
         private System.Windows.Forms.Label lblInforamtionAboutForm;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
