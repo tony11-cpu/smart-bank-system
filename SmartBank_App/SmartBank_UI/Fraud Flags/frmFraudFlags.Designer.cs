@@ -366,6 +366,8 @@ namespace SmartBank_UI.Fraud_Flags
             this.tbSearch.TabIndex = 10;
             this.tbSearch.Tag = "Idle/SearchBar/Search by account number, customer name, flag type, or details...";
             this.tbSearch.Text = "Search by account number, customer name, flag type, or details...";
+            this.tbSearch.Enter += new System.EventHandler(this.tbSearch_EnterLeave);
+            this.tbSearch.Leave += new System.EventHandler(this.tbSearch_EnterLeave);
             // 
             // btnFilterAll
             // 
