@@ -18,4 +18,5 @@ DBCC CHECKIDENT ('Customers', RESEED, 0);
 
 Delete From Users
 Where UserID <> 1
+DBCC CHECKIDENT ('Users', RESEED, 1)
 GO

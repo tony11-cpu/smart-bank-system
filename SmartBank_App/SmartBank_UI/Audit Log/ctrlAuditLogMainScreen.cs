@@ -78,22 +78,9 @@ namespace SmartBank_UI.Audit_Log
 
             foreach (DataRow row in dt.Rows)
             {
-                int attemptID = Convert.ToInt32(row["AttemptID"]);
                 int userID = Convert.ToInt32(row["UserID"]);
-                bool wasSuccessful = Convert.ToBoolean(row["WasSuccessful"]);
-
-                loginAuditLogs.Add(new clsAuditLog(
-                    _loginAttemptAuditBaseID + attemptID,
-                    userID,
-                    row["Username"] == DBNull.Value ? "Unknown User" : row["Username"].ToString(),
-                    wasSuccessful ? "LOGIN_SUCCESS" : "LOGIN_FAILED",
-                    "Users",
-                    userID,
-                    null,
-                    null,
-                    Convert.ToDateTime(row["AttemptDate"]),
-                    "LoginAttempts"
-                ));
+                loginAuditLogs.Add(new clsAuditLog(_loginAttemptAuditBaseID + Convert.ToInt32(row["AttemptID"]), userID, row["Username"] == DBNull.Value ? "Unknown User" : row["Username"].ToString(),
+                                       Convert.ToBoolean(row["WasSuccessful"]) ? "LOGIN_SUCCESS" : "LOGIN_FAILED", "Users", userID, null, null, Convert.ToDateTime(row["AttemptDate"]), "LoginAttempts"));
             }
 
             return loginAuditLogs;
@@ -310,7 +297,6 @@ namespace SmartBank_UI.Audit_Log
             tbOldValue.Text = string.IsNullOrWhiteSpace(selectedLog.OldValue) ? "NULL" : selectedLog.OldValue;
             tbNewValue.Text = string.IsNullOrWhiteSpace(selectedLog.NewValue) ? "NULL" : selectedLog.NewValue;
             tbTimestamp.Text = selectedLog.Timestamp.ToString("MM/dd/yyyy HH:mm:ss");
-
             lblAuditSubTitle.Text = $"Selected Action: {tbDescription.Text}";
         }
 
@@ -373,11 +359,7 @@ namespace SmartBank_UI.Audit_Log
                         if (row.IsNewRow)
                             continue;
 
-                        sw.WriteLine(string.Join(",", columns.Select(c =>
-                        {
-                            string value = Convert.ToString(row.Cells[c.Name].Value);
-                            return $"\"{value?.Replace("\"", "\"\"")}\"";
-                        })));
+                        sw.WriteLine(string.Join(",", columns.Select(c => $"\"{Convert.ToString(row.Cells[c.Name].Value)?.Replace("\"", "\"\"")}\"")));
                     }
                 }
 
