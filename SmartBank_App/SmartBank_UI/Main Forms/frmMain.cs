@@ -117,10 +117,7 @@ namespace SmartBank_UI
         private ctrlAuditLogMainScreen _auditLog = new ctrlAuditLogMainScreen();
         private void btnAuditLog_Click(object sender, EventArgs e) => _showView(_auditLog);
 
-        private void btnFraudFlags_Click(object sender, EventArgs e)
-        {
-            using (frmFraudFlags frm = new frmFraudFlags())
-                frm.ShowDialog();
-        }
+        private ctrlFraudFlagsMainScreen _fraudFlags = new ctrlFraudFlagsMainScreen();
+        private void btnFraudFlags_Click(object sender, EventArgs e) => _showView(_fraudFlags);
     }
 }
