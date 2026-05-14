@@ -246,6 +246,10 @@ namespace SmartBank_UI.Users
             {
                 MessageBox.Show("User is not exist!", "Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (_currentUser.UserID == clsGlobal.ActiveUser.UserID)
+            {
+                MessageBox.Show("You cannot update your account while you are logged in, please use current account screen.", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             else
             {
                 frmAddOrUpdateUser frm = new frmAddOrUpdateUser(_currentUser.Username);

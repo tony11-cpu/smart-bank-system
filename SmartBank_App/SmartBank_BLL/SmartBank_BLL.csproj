@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsAccounts.cs" />
+    <Compile Include="clsAuditLog.cs" />
     <Compile Include="clsConfigurations.cs" />
     <Compile Include="clsCustomers.cs" />
     <Compile Include="clsGlobal.cs" />

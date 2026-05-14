@@ -105,6 +105,12 @@
     <Compile Include="Dashboard\Dashboard User Controls\ctrlDashboard.Designer.cs">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Audit Log\ctrlAuditLogMainScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Audit Log\ctrlAuditLogMainScreen.Designer.cs">
+      <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main Forms\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard\Dashboard User Controls\ctrlDashboard.resx">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audit Log\ctrlAuditLogMainScreen.resx">
+      <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Forms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>

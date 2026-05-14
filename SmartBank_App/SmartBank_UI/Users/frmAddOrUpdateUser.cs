@@ -131,6 +131,13 @@ namespace SmartBank_UI.Users
                 try
                 {
                     _selectedUser = await clsUsers.FindAsync(_userName); 
+                    if (_selectedUser != null && _selectedUser.UserID == clsGlobal.ActiveUser.UserID)
+                    {
+                        MessageBox.Show("You cannot update your account while you are logged in.", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        this.Close();
+                        return;
+                    }
+
                     _mode = enMode.Update;
                     _loadUserInfo();
                     _checkPasswordStrength();
