@@ -249,6 +249,30 @@ namespace SmartBank_UI.Fraud_Flags
             tbSearch.ForeColor = tbSearch.Text == filterTag ? Color.DimGray : Color.White;
         }
 
+        private void tbSearch_TextChanged(object sender, EventArgs e) => _applyFilter();
+
+        private void btnFilterAll_Click(object sender, EventArgs e)
+        {
+            _statusFilter = enStatusFilter.All;
+            _applyFilter();
+        }
+
+        private void btnFilterOpen_Click(object sender, EventArgs e)
+        {
+            _statusFilter = enStatusFilter.Unresolved;
+            _applyFilter();
+        }
+
+        private void btnFilterResolved_Click(object sender, EventArgs e)
+        {
+            _statusFilter = enStatusFilter.Resolved;
+            _applyFilter();
+        }
+
+        private void cbType_SelectedIndexChanged(object sender, EventArgs e) => _applyFilter();
+
+        private void dgvFraudFlags_CellClick(object sender, DataGridViewCellEventArgs e) => _loadFraudFlagDetailsFromDGV();
+
         private void btnExport_Click(object sender, EventArgs e)
         {
             if (dgvFraudFlags == null || dgvFraudFlags.Rows.Count == 0)
