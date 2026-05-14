@@ -99,6 +99,79 @@ namespace SmartBank_UI.Fraud_Flags
             btnResolveFlag.Enabled = false;
         }
 
+        private void _bindGrid(List<clsFraudFlags> fraudFlagsView)
+        {
+            _fraudFlagsView = fraudFlagsView ?? new List<clsFraudFlags>();
+            dgvFraudFlags.Rows.Clear();
+
+            foreach (clsFraudFlags fraudFlag in _fraudFlagsView)
+            {
+                int rowIndex = dgvFraudFlags.Rows.Add();
+                DataGridViewRow row = dgvFraudFlags.Rows[rowIndex];
+                row.Tag = fraudFlag.FlagID;
+
+                row.Cells["colFlag"].Value = $"{fraudFlag.FlagType} - {fraudFlag.Account?.AccountNumber ?? "N/A"}";
+                row.Cells["colDetails"].Value = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
+                row.Cells["colDate"].Value = fraudFlag.FlaggedDate.ToString("g");
+                row.Cells["colStatus"].Value = fraudFlag.IsResolved ? "Resolved" : "Unresolved";
+            }
+
+            lblLeftFooterCount.Text = $"Showing {_fraudFlagsView.Count} of {_allFraudFlags.Count} fraud flags";
+            lblLeftFooterHint.Visible = _fraudFlagsView.Count > 0;
+
+            if (_fraudFlagsView.Count == 0)
+            {
+                _currentFraudFlag = null;
+                _clearDetails();
+                return;
+            }
+
+            dgvFraudFlags.ClearSelection();
+            dgvFraudFlags.Rows[0].Selected = true;
+            _loadFraudFlagDetailsFromDGV();
+        }
+
+        private void _loadFraudFlagDetails(clsFraudFlags fraudFlag)
+        {
+            if (fraudFlag == null)
+            {
+                _clearDetails();
+                return;
+            }
+
+            tbAccount.Text = fraudFlag.Account?.AccountNumber ?? "N/A";
+            tbCustomer.Text = fraudFlag.Account?.Customer == null ? "N/A" : $"{fraudFlag.Account.Customer.FirstName} {fraudFlag.Account.Customer.LastName}".Trim();
+            tbFlaggedDate.Text = fraudFlag.FlaggedDate.ToString("g");
+            tbDetectedBy.Text = fraudFlag.FlagType == "Manual Review" ? "Manual Flag" : "Monitoring Service";
+            tbRisk.Text = _getRiskLevel(fraudFlag);
+            tbAccountStatus.Text = fraudFlag.Account?.Status.ToString() ?? "N/A";
+            tbDetails.Text = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
+            tbRecentActivity.Text = fraudFlag.IsResolved ? $"Resolved at {fraudFlag.ResolvedDate?.ToString("g")}" : "Awaiting resolution.";
+            tbResolutionNotes.Text = fraudFlag.IsResolved
+                ? $"Resolved by {fraudFlag.ResolvedByUser?.FullName ?? "Unknown"} at {fraudFlag.ResolvedDate?.ToString("g")}"
+                : "No notes.";
+
+            lblRightSub.Text = $"Selected: {fraudFlag.FlagType}";
+
+            btnViewAccount.Enabled = fraudFlag.Account != null;
+            btnKeepOpen.Enabled = !fraudFlag.IsResolved;
+            btnResolveFlag.Enabled = !fraudFlag.IsResolved && _canResolveFlags();
+        }
+
+        private void _loadFraudFlagDetailsFromDGV()
+        {
+            if (dgvFraudFlags.CurrentRow?.Tag == null)
+            {
+                _currentFraudFlag = null;
+                _clearDetails();
+                return;
+            }
+
+            int flagID = Convert.ToInt32(dgvFraudFlags.CurrentRow.Tag);
+            _currentFraudFlag = _fraudFlagsView.FirstOrDefault(n => n.FlagID == flagID);
+            _loadFraudFlagDetails(_currentFraudFlag);
+        }
+
         private void tbSearch_EnterLeave(object sender, System.EventArgs e)
         {
             string filterTag = tbSearch.Tag.ToString();
