@@ -303,6 +303,89 @@ namespace SmartBank_UI.Fraud_Flags
             frm.ShowDialog();
         }
 
+        private async void btnResolveFlag_Click(object sender, EventArgs e)
+        {
+            if (_currentFraudFlag == null)
+            {
+                MessageBox.Show("Please select a flag first.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!_canResolveFlags())
+            {
+                MessageBox.Show("You do not have permission to resolve flags.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_currentFraudFlag.IsResolved)
+            {
+                MessageBox.Show("Flag is already resolved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure you want to resolve this flag?", "Confirm Resolve", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                return;
+
+            try
+            {
+                if (await _currentFraudFlag.ResolveAsync())
+                {
+                    MessageBox.Show("Flag resolved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await _refreshDataAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to resolve flag.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to resolve flag: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void btnManualFlag_Click(object sender, EventArgs e)
+        {
+            if (!_canResolveFlags())
+            {
+                MessageBox.Show("You do not have permission to create manual flags.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_currentFraudFlag?.Account == null)
+            {
+                MessageBox.Show("Select a row first to create a manual flag for its account.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("Create a manual review flag for this account?", "Manual Flag", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                return;
+
+            clsFraudFlags fraudFlag = new clsFraudFlags
+            {
+                Account = _currentFraudFlag.Account,
+                FlagType = "Manual Review",
+                Details = $"Manual review requested for account {_currentFraudFlag.Account.AccountNumber}."
+            };
+
+            try
+            {
+                if (await fraudFlag.SaveAsync())
+                {
+                    MessageBox.Show("Manual flag created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await _refreshDataAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create manual flag.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to create manual flag: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnExport_Click(object sender, EventArgs e)
         {
             if (dgvFraudFlags == null || dgvFraudFlags.Rows.Count == 0)
