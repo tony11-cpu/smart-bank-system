@@ -329,7 +329,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblStatTotalValue.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.lblStatTotalValue.Location = new System.Drawing.Point(17, 37);
             this.lblStatTotalValue.Name = "lblStatTotalValue";
-            this.lblStatTotalValue.Size = new System.Drawing.Size(40, 24);
+            this.lblStatTotalValue.Size = new System.Drawing.Size(20, 24);
             this.lblStatTotalValue.TabIndex = 1;
             this.lblStatTotalValue.Text = "0";
             // 
@@ -366,7 +366,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(621, 32);
             this.tbSearch.TabIndex = 10;
-            this.tbSearch.Tag = "Idle/SearchBar/Search by account number, customer name, flag type, or details...";
+            this.tbSearch.Tag = "Search by account number, customer name, flag type, or details...";
             this.tbSearch.Text = "Search by account number, customer name, flag type, or details...";
             this.tbSearch.Enter += new System.EventHandler(this.tbSearch_EnterLeave);
             this.tbSearch.Leave += new System.EventHandler(this.tbSearch_EnterLeave);
@@ -563,6 +563,7 @@ namespace SmartBank_UI.Fraud_Flags
             // btnResolveFlag
             // 
             this.btnResolveFlag.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnResolveFlag.Enabled = false;
             this.btnResolveFlag.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnResolveFlag.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
             this.btnResolveFlag.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
@@ -579,10 +580,10 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnResolveFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnResolveFlag.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnResolveFlag.UseVisualStyleBackColor = false;
-            this.btnResolveFlag.Enabled = false;
             // 
             // btnKeepOpen
             // 
+            this.btnKeepOpen.Enabled = false;
             this.btnKeepOpen.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
             this.btnKeepOpen.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnKeepOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -595,10 +596,10 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnKeepOpen.TabIndex = 94;
             this.btnKeepOpen.Text = "Keep Open";
             this.btnKeepOpen.UseVisualStyleBackColor = true;
-            this.btnKeepOpen.Enabled = false;
             // 
             // btnViewAccount
             // 
+            this.btnViewAccount.Enabled = false;
             this.btnViewAccount.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
             this.btnViewAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnViewAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -610,7 +611,6 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnViewAccount.TabIndex = 93;
             this.btnViewAccount.Text = "View Account";
             this.btnViewAccount.UseVisualStyleBackColor = true;
-            this.btnViewAccount.Enabled = false;
             // 
             // tbResolutionNotes
             // 
@@ -866,7 +866,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblRightSub.Location = new System.Drawing.Point(18, 36);
             this.lblRightSub.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRightSub.Name = "lblRightSub";
-            this.lblRightSub.Size = new System.Drawing.Size(167, 18);
+            this.lblRightSub.Size = new System.Drawing.Size(114, 18);
             this.lblRightSub.TabIndex = 2;
             this.lblRightSub.Text = "No flag selected";
             // 
@@ -878,7 +878,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblRightTitle.Location = new System.Drawing.Point(18, 10);
             this.lblRightTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRightTitle.Name = "lblRightTitle";
-            this.lblRightTitle.Size = new System.Drawing.Size(171, 24);
+            this.lblRightTitle.Size = new System.Drawing.Size(107, 24);
             this.lblRightTitle.TabIndex = 1;
             this.lblRightTitle.Text = "Flag Details";
             // 
