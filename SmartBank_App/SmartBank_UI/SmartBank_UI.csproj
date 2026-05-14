@@ -111,15 +111,12 @@
     <Compile Include="Audit Log\ctrlAuditLogMainScreen.Designer.cs">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </Compile>
-<<<<<<< Updated upstream
-=======
     <Compile Include="Fraud Flags\frmFraudFlags.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Fraud Flags\frmFraudFlags.Designer.cs">
       <DependentUpon>frmFraudFlags.cs</DependentUpon>
     </Compile>
->>>>>>> Stashed changes
     <Compile Include="Main Forms\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Audit Log\ctrlAuditLogMainScreen.resx">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fraud Flags\frmFraudFlags.resx">
+      <DependentUpon>frmFraudFlags.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Forms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
