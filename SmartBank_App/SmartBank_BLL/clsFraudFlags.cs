@@ -35,8 +35,7 @@ namespace SmartBank_BLL
             _mode = enMode.Add;
         }
 
-        public clsFraudFlags(int flagID, clsAccounts account, string flagType, DateTime flaggedDate,
-                             string details, bool isResolved, clsUsers resolvedByUser, DateTime? resolvedDate)
+        public clsFraudFlags(int flagID, clsAccounts account, string flagType, DateTime flaggedDate, string details, bool isResolved, clsUsers resolvedByUser, DateTime? resolvedDate)
         {
             FlagID = flagID;
             Account = account;
@@ -58,14 +57,8 @@ namespace SmartBank_BLL
             if (dto == null)
                 return null;
 
-            clsAccounts account = await clsAccounts.FindAsync(dto.AccountID);
-            clsUsers resolvedByUser = null;
-
-            if (dto.ResolvedByUserID.HasValue)
-                resolvedByUser = await clsUsers.FindAsync(dto.ResolvedByUserID.Value);
-
-            return new clsFraudFlags(dto.FlagID, account, dto.FlagType, dto.FlaggedDate, dto.Details,
-                                     dto.IsResolved, resolvedByUser, dto.ResolvedDate);
+            return new clsFraudFlags(dto.FlagID, await clsAccounts.FindAsync(dto.AccountID), dto.FlagType, dto.FlaggedDate, dto.Details,
+                                     dto.IsResolved, dto.ResolvedByUserID.HasValue ? await clsUsers.FindAsync(dto.ResolvedByUserID.Value) : null, dto.ResolvedDate);
         }
 
         public static async Task<List<clsFraudFlags>> GetAllFraudFlagsAsync()
@@ -78,19 +71,14 @@ namespace SmartBank_BLL
 
             foreach (DataRow row in dt.Rows)
             {
-                clsAccounts account = await clsAccounts.FindAsync((int)row["AccountID"]);
-                clsUsers resolvedByUser = null;
-                if (row["ResolvedByUserID"] != DBNull.Value)
-                    resolvedByUser = await clsUsers.FindAsync((int)row["ResolvedByUserID"]);
-
                 fraudFlags.Add(new clsFraudFlags(
                     (int)row["FlagID"],
-                    account,
+                    await clsAccounts.FindAsync((int)row["AccountID"]),
                     row["FlagType"].ToString(),
                     (DateTime)row["FlaggedDate"],
                     row["Details"].ToString(),
                     (bool)row["IsResolved"],
-                    resolvedByUser,
+                    row["ResolvedByUserID"] != DBNull.Value ? await clsUsers.FindAsync((int)row["ResolvedByUserID"]) : null,
                     row["ResolvedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ResolvedDate"]
                 ));
             }
@@ -108,19 +96,14 @@ namespace SmartBank_BLL
 
             foreach (DataRow row in dt.Rows)
             {
-                clsAccounts account = await clsAccounts.FindAsync((int)row["AccountID"]);
-                clsUsers resolvedByUser = null;
-                if (row["ResolvedByUserID"] != DBNull.Value)
-                    resolvedByUser = await clsUsers.FindAsync((int)row["ResolvedByUserID"]);
-
                 fraudFlags.Add(new clsFraudFlags(
                     (int)row["FlagID"],
-                    account,
+                    await clsAccounts.FindAsync((int)row["AccountID"]),
                     row["FlagType"].ToString(),
                     (DateTime)row["FlaggedDate"],
                     row["Details"].ToString(),
                     (bool)row["IsResolved"],
-                    resolvedByUser,
+                    row["ResolvedByUserID"] != DBNull.Value ? await clsUsers.FindAsync((int)row["ResolvedByUserID"]) : null,
                     row["ResolvedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ResolvedDate"]
                 ));
             }
@@ -135,22 +118,17 @@ namespace SmartBank_BLL
                 return new List<clsFraudFlags>();
 
             List<clsFraudFlags> fraudFlags = new List<clsFraudFlags>();
-            clsAccounts account = await clsAccounts.FindAsync(accountID);
 
             foreach (DataRow row in dt.Rows)
             {
-                clsUsers resolvedByUser = null;
-                if (row["ResolvedByUserID"] != DBNull.Value)
-                    resolvedByUser = await clsUsers.FindAsync((int)row["ResolvedByUserID"]);
-
                 fraudFlags.Add(new clsFraudFlags(
                     (int)row["FlagID"],
-                    account,
+                    await clsAccounts.FindAsync(accountID),
                     row["FlagType"].ToString(),
                     (DateTime)row["FlaggedDate"],
                     row["Details"].ToString(),
                     (bool)row["IsResolved"],
-                    resolvedByUser,
+                    row["ResolvedByUserID"] != DBNull.Value ? await clsUsers.FindAsync((int)row["ResolvedByUserID"]) : null,
                     row["ResolvedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ResolvedDate"]
                 ));
             }
@@ -160,12 +138,10 @@ namespace SmartBank_BLL
 
         private async Task<bool> _addNewAsync()
         {
-            int userID = clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!");
-            int accountID = Account?.AccountID ?? throw new Exception("Account Is Not Set!");
 
-            int newFlagID = await clsFraudFlags_DAL.CreateFraudFlagAsync(userID, accountID,
+            int newFlagID = await clsFraudFlags_DAL.CreateFraudFlagAsync(clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!"), 
+                                                                          Account?.AccountID ?? throw new Exception("Account Is Not Set!"),
                                                                           FlagType, string.IsNullOrWhiteSpace(Details) ? "No Details" : Details);
-
             if (newFlagID == -1)
                 return false;
 
@@ -196,9 +172,7 @@ namespace SmartBank_BLL
             if (!FlagID.HasValue)
                 throw new Exception("Flag ID Is Not Set!");
 
-            int userID = clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!");
-
-            if (await clsFraudFlags_DAL.ResolveFraudFlagAsync(userID, FlagID.Value))
+            if (await clsFraudFlags_DAL.ResolveFraudFlagAsync(clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!"), FlagID.Value))
             {
                 IsResolved = true;
                 ResolvedDate = DateTime.Now;

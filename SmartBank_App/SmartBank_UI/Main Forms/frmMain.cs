@@ -3,6 +3,7 @@ using SmartBank_UI.Login;
 using SmartBank_UI.Main_Form_UC;
 using SmartBank_UI.Properties;
 using SmartBank_UI.Audit_Log;
+using SmartBank_UI.Fraud_Flags;
 using SmartBank_UI.System_Config;
 using SmartBank_UI.Transaction.Transactions_User_Controls;
 using SmartBank_UI.Users;
@@ -69,6 +70,7 @@ namespace SmartBank_UI
             lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
             btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
+            btnFraudFlags.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanViewFraudFlags);
 
             if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath)) 
                 pbUserPhoto.Image = Resources.icons8_user_50;
@@ -114,5 +116,11 @@ namespace SmartBank_UI
 
         private ctrlAuditLogMainScreen _auditLog = new ctrlAuditLogMainScreen();
         private void btnAuditLog_Click(object sender, EventArgs e) => _showView(_auditLog);
+
+        private void btnFraudFlags_Click(object sender, EventArgs e)
+        {
+            using (frmFraudFlags frm = new frmFraudFlags())
+                frm.ShowDialog();
+        }
     }
 }

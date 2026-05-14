@@ -296,6 +296,7 @@
             this.btnFraudFlags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFraudFlags.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnFraudFlags.UseVisualStyleBackColor = true;
+            this.btnFraudFlags.Click += new System.EventHandler(this.btnFraudFlags_Click);
             // 
             // label5
             // 
