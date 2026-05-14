@@ -142,6 +142,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnManualFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnManualFlag.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnManualFlag.UseVisualStyleBackColor = false;
+            this.btnManualFlag.Click += new System.EventHandler(this.btnManualFlag_Click);
             // 
             // btnExport
             // 
@@ -370,6 +371,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.tbSearch.Text = "Search by account number, customer name, flag type, or details...";
             this.tbSearch.Enter += new System.EventHandler(this.tbSearch_EnterLeave);
             this.tbSearch.Leave += new System.EventHandler(this.tbSearch_EnterLeave);
+            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
             // btnFilterAll
             // 
@@ -384,6 +386,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterAll.TabIndex = 11;
             this.btnFilterAll.Text = "All";
             this.btnFilterAll.UseVisualStyleBackColor = true;
+            this.btnFilterAll.Click += new System.EventHandler(this.btnFilterAll_Click);
             // 
             // btnFilterOpen
             // 
@@ -398,6 +401,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterOpen.TabIndex = 12;
             this.btnFilterOpen.Text = "Unresolved";
             this.btnFilterOpen.UseVisualStyleBackColor = true;
+            this.btnFilterOpen.Click += new System.EventHandler(this.btnFilterOpen_Click);
             // 
             // btnFilterResolved
             // 
@@ -412,6 +416,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterResolved.TabIndex = 13;
             this.btnFilterResolved.Text = "Resolved";
             this.btnFilterResolved.UseVisualStyleBackColor = true;
+            this.btnFilterResolved.Click += new System.EventHandler(this.btnFilterResolved_Click);
             // 
             // cbType
             // 
@@ -432,6 +437,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(172, 32);
             this.cbType.TabIndex = 14;
+            this.cbType.SelectedIndexChanged += new System.EventHandler(this.cbType_SelectedIndexChanged);
             // 
             // panelLeft
             // 
@@ -467,6 +473,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.dgvFraudFlags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFraudFlags.Size = new System.Drawing.Size(816, 524);
             this.dgvFraudFlags.TabIndex = 13;
+            this.dgvFraudFlags.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFraudFlags_CellClick);
             // 
             // colFlag
             // 
@@ -580,6 +587,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnResolveFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnResolveFlag.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnResolveFlag.UseVisualStyleBackColor = false;
+            this.btnResolveFlag.Click += new System.EventHandler(this.btnResolveFlag_Click);
             // 
             // btnKeepOpen
             // 
@@ -596,6 +604,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnKeepOpen.TabIndex = 94;
             this.btnKeepOpen.Text = "Keep Open";
             this.btnKeepOpen.UseVisualStyleBackColor = true;
+            this.btnKeepOpen.Click += new System.EventHandler(this.btnKeepOpen_Click);
             // 
             // btnViewAccount
             // 
@@ -611,6 +620,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnViewAccount.TabIndex = 93;
             this.btnViewAccount.Text = "View Account";
             this.btnViewAccount.UseVisualStyleBackColor = true;
+            this.btnViewAccount.Click += new System.EventHandler(this.btnViewAccount_Click);
             // 
             // tbResolutionNotes
             // 
@@ -910,6 +920,8 @@ namespace SmartBank_UI.Fraud_Flags
             this.Controls.Add(this.lblTitle);
             this.Name = "ctrlFraudFlagsMainScreen";
             this.Size = new System.Drawing.Size(1331, 833);
+            this.Load += new System.EventHandler(this.ctrlFraudFlagsMainScreen_Load);
+            this.VisibleChanged += new System.EventHandler(this.ctrlFraudFlagsMainScreen_VisibleChanged);
             this.panelStatOpen.ResumeLayout(false);
             this.panelStatOpen.PerformLayout();
             this.panelStatHighRisk.ResumeLayout(false);
