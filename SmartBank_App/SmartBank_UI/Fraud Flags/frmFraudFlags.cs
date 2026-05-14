@@ -27,6 +27,35 @@ namespace SmartBank_UI.Fraud_Flags
             InitializeComponent();
         }
 
+        private bool _canResolveFlags() => clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanResolveFraudFlags) ?? false;
+
+        private void _applyPermissions()
+        {
+            bool canResolveFlags = _canResolveFlags();
+            btnResolveFlag.Visible = canResolveFlags;
+            btnManualFlag.Enabled = canResolveFlags;
+        }
+
+        private async Task<List<clsFraudFlags>> _loadFraudFlagsList()
+        {
+            _allFraudFlags = await clsFraudFlags.GetAllFraudFlagsAsync();
+            return _allFraudFlags;
+        }
+
+        private bool _isHighRisk(clsFraudFlags fraudFlag)
+        {
+            string text = $"{fraudFlag?.FlagType} {fraudFlag?.Details}".ToLower();
+            return text.Contains("rapid") || text.Contains("large") || text.Contains("failed");
+        }
+
+        private void _refreshCardsNumbers()
+        {
+            lblStatTotalValue.Text = _allFraudFlags.Count.ToString();
+            lblStatOpenValue.Text = _allFraudFlags.Count(n => !n.IsResolved).ToString();
+            lblStatResolvedValue.Text = _allFraudFlags.Count(n => n.IsResolved && n.ResolvedDate.HasValue && n.ResolvedDate.Value.Date == DateTime.Today).ToString();
+            lblStatHighRiskValue.Text = _allFraudFlags.Count(_isHighRisk).ToString();
+        }
+
         private void tbSearch_EnterLeave(object sender, System.EventArgs e)
         {
             string filterTag = tbSearch.Tag.ToString();
