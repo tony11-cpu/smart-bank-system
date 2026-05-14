@@ -97,5 +97,65 @@ namespace SmartBank_BLL
 
             return fraudFlags;
         }
+
+        public static async Task<List<clsFraudFlags>> GetUnresolvedFraudFlagsAsync()
+        {
+            DataTable dt = await clsFraudFlags_DAL.GetUnresolvedFraudFlagsAsync();
+            if (dt == null || dt.Rows.Count == 0)
+                return new List<clsFraudFlags>();
+
+            List<clsFraudFlags> fraudFlags = new List<clsFraudFlags>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                clsAccounts account = await clsAccounts.FindAsync((int)row["AccountID"]);
+                clsUsers resolvedByUser = null;
+                if (row["ResolvedByUserID"] != DBNull.Value)
+                    resolvedByUser = await clsUsers.FindAsync((int)row["ResolvedByUserID"]);
+
+                fraudFlags.Add(new clsFraudFlags(
+                    (int)row["FlagID"],
+                    account,
+                    row["FlagType"].ToString(),
+                    (DateTime)row["FlaggedDate"],
+                    row["Details"].ToString(),
+                    (bool)row["IsResolved"],
+                    resolvedByUser,
+                    row["ResolvedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ResolvedDate"]
+                ));
+            }
+
+            return fraudFlags;
+        }
+
+        public static async Task<List<clsFraudFlags>> GetFraudFlagsByAccountIDAsync(int accountID)
+        {
+            DataTable dt = await clsFraudFlags_DAL.GetFraudFlagsByAccountIDAsync(accountID);
+            if (dt == null || dt.Rows.Count == 0)
+                return new List<clsFraudFlags>();
+
+            List<clsFraudFlags> fraudFlags = new List<clsFraudFlags>();
+            clsAccounts account = await clsAccounts.FindAsync(accountID);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                clsUsers resolvedByUser = null;
+                if (row["ResolvedByUserID"] != DBNull.Value)
+                    resolvedByUser = await clsUsers.FindAsync((int)row["ResolvedByUserID"]);
+
+                fraudFlags.Add(new clsFraudFlags(
+                    (int)row["FlagID"],
+                    account,
+                    row["FlagType"].ToString(),
+                    (DateTime)row["FlaggedDate"],
+                    row["Details"].ToString(),
+                    (bool)row["IsResolved"],
+                    resolvedByUser,
+                    row["ResolvedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)row["ResolvedDate"]
+                ));
+            }
+
+            return fraudFlags;
+        }
     }
 }
