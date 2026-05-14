@@ -172,6 +172,76 @@ namespace SmartBank_UI.Fraud_Flags
             _loadFraudFlagDetails(_currentFraudFlag);
         }
 
+        private void _applyFilter()
+        {
+            IEnumerable<clsFraudFlags> filtered = _allFraudFlags;
+
+            if (_statusFilter == enStatusFilter.Unresolved)
+                filtered = filtered.Where(n => !n.IsResolved);
+            else if (_statusFilter == enStatusFilter.Resolved)
+                filtered = filtered.Where(n => n.IsResolved);
+
+            if (cbType.SelectedItem != null)
+            {
+                string typeFilter = cbType.SelectedItem.ToString();
+                filtered = filtered.Where(n => _isTypeMatchingFilter(n, typeFilter));
+            }
+
+            string filterTag = tbSearch.Tag.ToString();
+            string search = tbSearch.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(search) && !string.Equals(search, filterTag, StringComparison.OrdinalIgnoreCase))
+            {
+                filtered = filtered.Where(n =>
+                {
+                    string scope = $"{n.Account?.AccountNumber} {n.Account?.Customer?.FirstName} {n.Account?.Customer?.LastName} {n.FlagType} {n.Details}";
+                    return scope.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
+                });
+            }
+
+            _bindGrid(filtered.ToList());
+        }
+
+        private async Task _refreshDataAsync()
+        {
+            if (_isRefreshingData || !Visible)
+                return;
+
+            try
+            {
+                _isRefreshingData = true;
+                await _loadFraudFlagsList();
+                _refreshCardsNumbers();
+                _applyFilter();
+            }
+            finally
+            {
+                _isRefreshingData = false;
+            }
+        }
+
+        private async void ctrlFraudFlagsMainScreen_Load(object sender, EventArgs e)
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            dgvFraudFlags.RowTemplate.Height = 35;
+            dgvFraudFlags.ColumnHeadersHeight = 40;
+
+            cbType.SelectedIndex = 0;
+            _applyPermissions();
+            _clearDetails();
+
+            await _refreshDataAsync();
+        }
+
+        private async void ctrlFraudFlagsMainScreen_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            await _refreshDataAsync();
+        }
+
         private void tbSearch_EnterLeave(object sender, System.EventArgs e)
         {
             string filterTag = tbSearch.Tag.ToString();
