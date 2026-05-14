@@ -60,20 +60,35 @@ namespace SmartBank_UI.System_Config
         private async Task _loadForm()
         {
             await _loadDefault();
-            if (clsUtil.IsDatabaseConnected())
-            {
-                lblIsDataBaseConnected.Text = "Connected";
-                lblIsDataBaseConnected.ForeColor = Color.FromArgb(0, 192, 0);
-            }
-            else
-            {
-                lblIsDataBaseConnected.Text = "Not Connected";
-                lblIsDataBaseConnected.ForeColor = Color.Red;
-            }
+            bool isDatabaseConnected = _loadDataBaseStatus();
 
             _loadServiceRunningStatus();
-            lblTotalActiveAccountsCount.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
-            lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
+
+            if (!isDatabaseConnected)
+            {
+                lblTotalActiveAccountsCount.Text = "0";
+                lblTotalUsersCount.Text = "0";
+                return;
+            }
+
+            try
+            {
+                lblTotalActiveAccountsCount.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
+                lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
+            }
+            catch
+            {
+                lblTotalActiveAccountsCount.Text = "0";
+                lblTotalUsersCount.Text = "0";
+            }
+        }
+
+        private bool _loadDataBaseStatus()
+        {
+            bool isDatabaseConnected = clsUtil.IsDatabaseConnected();
+            lblIsDataBaseConnected.Text = isDatabaseConnected ? "Connected" : "Not Connected";
+            lblIsDataBaseConnected.ForeColor = isDatabaseConnected ? Color.FromArgb(0, 192, 0) : Color.Red;
+            return isDatabaseConnected;
         }
 
         private void _loadServiceRunningStatus()
@@ -118,7 +133,18 @@ namespace SmartBank_UI.System_Config
         private async void ctrlMainSysConfigScreen_Load(object sender, EventArgs e)
         {
             _isReady = true;
-            await _loadForm();
+            try
+            {
+                await _loadForm();
+            }
+            catch
+            {
+                _loadDataBaseStatus();
+                _loadServiceRunningStatus();
+                lblTotalActiveAccountsCount.Text = "0";
+                lblTotalUsersCount.Text = "0";
+            }
+
             _serviceStatusTimer.Start();
         }
 
@@ -133,7 +159,18 @@ namespace SmartBank_UI.System_Config
                 return;
             }
 
-            await _loadForm();
+            try
+            {
+                await _loadForm();
+            }
+            catch
+            {
+                _loadDataBaseStatus();
+                _loadServiceRunningStatus();
+                lblTotalActiveAccountsCount.Text = "0";
+                lblTotalUsersCount.Text = "0";
+            }
+
             _serviceStatusTimer.Start();
         }
 
@@ -196,6 +233,10 @@ namespace SmartBank_UI.System_Config
             MessageBox.Show("All changes have been saved successfully.", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void _serviceStatusTimer_Tick(object sender, EventArgs e) => _loadServiceRunningStatus();
+        private void _serviceStatusTimer_Tick(object sender, EventArgs e)
+        {
+            _loadServiceRunningStatus();
+            _loadDataBaseStatus();
+        }
     }
 }
