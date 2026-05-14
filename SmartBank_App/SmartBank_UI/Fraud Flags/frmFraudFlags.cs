@@ -1,13 +1,27 @@
+using SmartBank;
+using SmartBank_BLL;
+using SmartBank_UI.Accounts;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SmartBank_UI.Fraud_Flags
 {
     public partial class ctrlFraudFlagsMainScreen : UserControl
     {
+        private enum enStatusFilter { All, Unresolved, Resolved }
+
+        private List<clsFraudFlags> _allFraudFlags = new List<clsFraudFlags>();
+        private List<clsFraudFlags> _fraudFlagsView = new List<clsFraudFlags>();
+        private clsFraudFlags _currentFraudFlag = null;
+        private enStatusFilter _statusFilter = enStatusFilter.All;
+        private bool _isRefreshingData = false;
+
         public ctrlFraudFlagsMainScreen()
         {
             InitializeComponent();
