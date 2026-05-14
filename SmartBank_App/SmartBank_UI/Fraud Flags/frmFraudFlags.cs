@@ -56,6 +56,49 @@ namespace SmartBank_UI.Fraud_Flags
             lblStatHighRiskValue.Text = _allFraudFlags.Count(_isHighRisk).ToString();
         }
 
+        private bool _isTypeMatchingFilter(clsFraudFlags fraudFlag, string typeFilter)
+        {
+            if (typeFilter == "All Types")
+                return true;
+
+            string flagType = fraudFlag?.FlagType?.Trim() ?? string.Empty;
+            return string.Equals(flagType, typeFilter, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string _getRiskLevel(clsFraudFlags fraudFlag)
+        {
+            string type = fraudFlag?.FlagType?.ToLower() ?? string.Empty;
+
+            if (type.Contains("large") || type.Contains("rapid"))
+                return "High";
+
+            if (type.Contains("failed"))
+                return "Medium";
+
+            if (type.Contains("manual"))
+                return "Low";
+
+            return _isHighRisk(fraudFlag) ? "High" : "Normal";
+        }
+
+        private void _clearDetails()
+        {
+            tbAccount.Text = "N/A";
+            tbCustomer.Text = "N/A";
+            tbFlaggedDate.Text = "N/A";
+            tbDetectedBy.Text = "N/A";
+            tbRisk.Text = "N/A";
+            tbAccountStatus.Text = "N/A";
+            tbDetails.Text = "No details.";
+            tbRecentActivity.Text = "No activity.";
+            tbResolutionNotes.Text = "No notes.";
+            lblRightSub.Text = "No flag selected";
+
+            btnViewAccount.Enabled = false;
+            btnKeepOpen.Enabled = false;
+            btnResolveFlag.Enabled = false;
+        }
+
         private void tbSearch_EnterLeave(object sender, System.EventArgs e)
         {
             string filterTag = tbSearch.Tag.ToString();
