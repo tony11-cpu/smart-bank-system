@@ -88,6 +88,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.panelRightHeader = new System.Windows.Forms.Panel();
             this.lblRightSub = new System.Windows.Forms.Label();
             this.lblRightTitle = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panelStatOpen.SuspendLayout();
             this.panelStatHighRisk.SuspendLayout();
             this.panelStatResolved.SuspendLayout();
@@ -157,6 +158,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnExport.Text = "Export";
             this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // panelStatOpen
             // 
@@ -880,6 +882,11 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblRightTitle.TabIndex = 1;
             this.lblRightTitle.Text = "Flag Details";
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileName = "FraudFlags_Export.csv";
+            this.saveFileDialog1.Filter = "CSV files (*.csv)|*.csv";
+            // 
             // ctrlFraudFlagsMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -985,5 +992,6 @@ namespace SmartBank_UI.Fraud_Flags
         private System.Windows.Forms.DataGridViewTextBoxColumn colDetails;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
