@@ -273,6 +273,36 @@ namespace SmartBank_UI.Fraud_Flags
 
         private void dgvFraudFlags_CellClick(object sender, DataGridViewCellEventArgs e) => _loadFraudFlagDetailsFromDGV();
 
+        private void btnKeepOpen_Click(object sender, EventArgs e)
+        {
+            if (_currentFraudFlag == null)
+            {
+                MessageBox.Show("Please select a flag first.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_currentFraudFlag.IsResolved)
+            {
+                MessageBox.Show("Selected flag is already resolved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            tbResolutionNotes.Text = "Left unresolved for additional monitoring.";
+            MessageBox.Show("Flag remains unresolved.", "Fraud Flag", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnViewAccount_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(_currentFraudFlag?.Account?.AccountNumber))
+            {
+                MessageBox.Show("No account is available for this flag.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            frmAccountShortInfo frm = new frmAccountShortInfo(_currentFraudFlag.Account.AccountNumber);
+            frm.ShowDialog();
+        }
+
         private void btnExport_Click(object sender, EventArgs e)
         {
             if (dgvFraudFlags == null || dgvFraudFlags.Rows.Count == 0)
