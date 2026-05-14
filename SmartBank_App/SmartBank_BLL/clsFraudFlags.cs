@@ -13,7 +13,7 @@ namespace SmartBank_BLL
         private enMode _mode;
 
         public int? FlagID { get; private set; }
-        public clsAccounts Account { get; private set; }
+        public clsAccounts Account { get; set; }
         public string FlagType { get; set; }
         public DateTime FlaggedDate { get; private set; }
         public string Details { get; set; }
@@ -156,6 +156,57 @@ namespace SmartBank_BLL
             }
 
             return fraudFlags;
+        }
+
+        private async Task<bool> _addNewAsync()
+        {
+            int userID = clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!");
+            int accountID = Account?.AccountID ?? throw new Exception("Account Is Not Set!");
+
+            int newFlagID = await clsFraudFlags_DAL.CreateFraudFlagAsync(userID, accountID,
+                                                                          FlagType, string.IsNullOrWhiteSpace(Details) ? "No Details" : Details);
+
+            if (newFlagID == -1)
+                return false;
+
+            FlagID = newFlagID;
+            FlaggedDate = DateTime.Now;
+            IsResolved = false;
+            _mode = enMode.Update;
+            return true;
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            switch (_mode)
+            {
+                case enMode.Add: return await _addNewAsync();
+                case enMode.Update: return true;
+
+                default:
+                    throw new InvalidOperationException("Invalid mode for saving fraud flag.");
+            }
+        }
+
+        public async Task<bool> ResolveAsync()
+        {
+            if (_mode != enMode.Update || IsResolved)
+                return false;
+
+            if (!FlagID.HasValue)
+                throw new Exception("Flag ID Is Not Set!");
+
+            int userID = clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!");
+
+            if (await clsFraudFlags_DAL.ResolveFraudFlagAsync(userID, FlagID.Value))
+            {
+                IsResolved = true;
+                ResolvedDate = DateTime.Now;
+                ResolvedByUser = clsGlobal.ActiveUser;
+                return true;
+            }
+
+            return false;
         }
     }
 }
