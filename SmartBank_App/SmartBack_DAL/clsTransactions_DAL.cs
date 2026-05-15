@@ -343,21 +343,23 @@ namespace SmartBack_DAL
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT COUNT(1)
-                      FROM Transactions
-                      WHERE AccountID = @AccountID
-                        AND TransactionDate >= @FromDate
-                        AND TransactionDate <= @ToDate
-                        AND BalanceAfter < BalanceBefore", conn))
+                using (SqlCommand cmd = new SqlCommand("sp_GetPostedDebitCountByAccountWithinWindow", conn))
                 {
-                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@AccountID", accountID);
                     cmd.Parameters.AddWithValue("@FromDate", fromDate);
                     cmd.Parameters.AddWithValue("@ToDate", toDate);
 
+                    SqlParameter pPostedDebitCount = new SqlParameter("@PostedDebitCount", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(pPostedDebitCount);
+
                     await conn.OpenAsync();
-                    return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                    await cmd.ExecuteNonQueryAsync();
+
+                    return pPostedDebitCount.Value == DBNull.Value ? 0 : (int)pPostedDebitCount.Value;
                 }
             }
             catch (SqlException ex)
@@ -375,16 +377,9 @@ namespace SmartBack_DAL
             try
             {
                 using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT TransactionID, AccountID, Amount, TransactionDate
-                      FROM Transactions
-                      WHERE IsScheduled = 1
-                        AND TransactionDate >= @FromDate
-                        AND TransactionDate <= @ToDate
-                        AND BalanceAfter < BalanceBefore
-                      ORDER BY TransactionDate, TransactionID", conn))
+                using (SqlCommand cmd = new SqlCommand("sp_GetProcessedScheduledDebitTransactions", conn))
                 {
-                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@FromDate", fromDate);
                     cmd.Parameters.AddWithValue("@ToDate", toDate);
 
