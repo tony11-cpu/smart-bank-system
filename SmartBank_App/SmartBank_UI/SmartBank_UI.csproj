@@ -111,10 +111,10 @@
     <Compile Include="Audit Log\ctrlAuditLogMainScreen.Designer.cs">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Fraud Flags\frmFraudFlags.cs">
+    <Compile Include="Fraud Flags\Fraud Flags User Controls\frmFraudFlags.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Fraud Flags\frmFraudFlags.Designer.cs">
+    <Compile Include="Fraud Flags\Fraud Flags User Controls\frmFraudFlags.Designer.cs">
       <DependentUpon>frmFraudFlags.cs</DependentUpon>
     </Compile>
     <Compile Include="Main Forms\frmLogin.cs">
@@ -215,7 +215,7 @@
     <EmbeddedResource Include="Audit Log\ctrlAuditLogMainScreen.resx">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Fraud Flags\frmFraudFlags.resx">
+    <EmbeddedResource Include="Fraud Flags\Fraud Flags User Controls\frmFraudFlags.resx">
       <DependentUpon>frmFraudFlags.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main Forms\frmLogin.resx">

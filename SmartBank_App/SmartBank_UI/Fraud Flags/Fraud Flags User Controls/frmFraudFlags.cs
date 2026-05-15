@@ -61,8 +61,7 @@ namespace SmartBank_UI.Fraud_Flags
             if (typeFilter == "All Types")
                 return true;
 
-            string flagType = fraudFlag?.FlagType?.Trim() ?? string.Empty;
-            return string.Equals(flagType, typeFilter, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(fraudFlag?.FlagType?.Trim() ?? string.Empty, typeFilter, StringComparison.OrdinalIgnoreCase);
         }
 
         private string _getRiskLevel(clsFraudFlags fraudFlag)
@@ -147,12 +146,8 @@ namespace SmartBank_UI.Fraud_Flags
             tbAccountStatus.Text = fraudFlag.Account?.Status.ToString() ?? "N/A";
             tbDetails.Text = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
             tbRecentActivity.Text = fraudFlag.IsResolved ? $"Resolved at {fraudFlag.ResolvedDate?.ToString("g")}" : "Awaiting resolution.";
-            tbResolutionNotes.Text = fraudFlag.IsResolved
-                ? $"Resolved by {fraudFlag.ResolvedByUser?.FullName ?? "Unknown"} at {fraudFlag.ResolvedDate?.ToString("g")}"
-                : "No notes.";
-
+            tbResolutionNotes.Text = fraudFlag.IsResolved ? $"Resolved by {fraudFlag.ResolvedByUser?.FullName ?? "Unknown"} at {fraudFlag.ResolvedDate?.ToString("g")}" : "No notes.";
             lblRightSub.Text = $"Selected: {fraudFlag.FlagType}";
-
             btnViewAccount.Enabled = fraudFlag.Account != null;
             btnKeepOpen.Enabled = !fraudFlag.IsResolved;
             btnResolveFlag.Enabled = !fraudFlag.IsResolved && _canResolveFlags();
@@ -167,8 +162,7 @@ namespace SmartBank_UI.Fraud_Flags
                 return;
             }
 
-            int flagID = Convert.ToInt32(dgvFraudFlags.CurrentRow.Tag);
-            _currentFraudFlag = _fraudFlagsView.FirstOrDefault(n => n.FlagID == flagID);
+            _currentFraudFlag = _fraudFlagsView.FirstOrDefault(n => n.FlagID == Convert.ToInt32(dgvFraudFlags.CurrentRow.Tag));
             _loadFraudFlagDetails(_currentFraudFlag);
         }
 
@@ -187,9 +181,8 @@ namespace SmartBank_UI.Fraud_Flags
                 filtered = filtered.Where(n => _isTypeMatchingFilter(n, typeFilter));
             }
 
-            string filterTag = tbSearch.Tag.ToString();
             string search = tbSearch.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(search) && !string.Equals(search, filterTag, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(search) && !string.Equals(search, tbSearch.Tag.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 filtered = filtered.Where(n =>
                 {
