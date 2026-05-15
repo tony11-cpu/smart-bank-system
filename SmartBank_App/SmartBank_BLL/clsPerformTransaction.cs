@@ -36,9 +36,6 @@ namespace SmartBank_BLL
 
             if (!isManagerOrAdmin && account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
-
-            if (!isManagerOrAdmin && (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.LargeWithdrawalThreshold)).Value < amount)
-                throw new ArgumentException("Withdrawal amount exceeds the large withdrawal threshold. Transaction flagged for review.");
         }
 
         public static async Task<bool> DepositAsync(int accountID, decimal amount, string description, int performedByUserID)
@@ -57,7 +54,14 @@ namespace SmartBank_BLL
             
             clsAccounts account = await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals", performedByUserID, true);
             await _validateWithdrawal(account, amount, performedByUserID);
-            return await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID);
+
+            if (await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID))
+            {
+                await clsFraudDetectionService.EvaluateDebitTransactionAsync(accountID.Value, amount, DateTime.Now);
+                return true;
+            }
+
+            return false;
         }
 
         public static async Task<bool> TransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, int performedByUserID)
@@ -75,7 +79,14 @@ namespace SmartBank_BLL
             clsAccounts toAccount = await _validateAccountAsync(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers", performedByUserID);
 
             await _validateWithdrawal(fromAccount, amount, performedByUserID);
-            return await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID);
+
+            if (await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID))
+            {
+                await clsFraudDetectionService.EvaluateDebitTransactionAsync(fromAccountID.Value, amount, DateTime.Now);
+                return true;
+            }
+
+            return false;
         }
 
         public static async Task<bool> ScheduleTransferAsync(int? fromAccountID, int? toAccountID, decimal amount, string description, DateTime scheduledDate, int performedByUserID)

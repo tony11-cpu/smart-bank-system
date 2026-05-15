@@ -136,6 +136,12 @@ namespace SmartBank_BLL
             return fraudFlags;
         }
 
+        public static async Task<int> CreateAsync(int userInActionID, int accountID, string flagType, string details)
+        {
+            return await clsFraudFlags_DAL.CreateFraudFlagAsync(userInActionID, accountID, flagType,
+                string.IsNullOrWhiteSpace(details) ? "No Details" : details);
+        }
+
         private async Task<bool> _addNewAsync()
         {
 

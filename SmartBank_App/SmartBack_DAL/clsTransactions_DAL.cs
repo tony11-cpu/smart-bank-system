@@ -337,5 +337,70 @@ namespace SmartBack_DAL
                 throw;
             }
         }
+
+        public static async Task<int> GetPostedDebitCountByAccountWithinWindowAsync(int accountID, DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT COUNT(1)
+                      FROM Transactions
+                      WHERE AccountID = @AccountID
+                        AND TransactionDate >= @FromDate
+                        AND TransactionDate <= @ToDate
+                        AND BalanceAfter < BalanceBefore", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@AccountID", accountID);
+                    cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", toDate);
+
+                    await conn.OpenAsync();
+                    return Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return 0;
+        }
+
+        public static async Task<DataTable> GetProcessedScheduledDebitTransactionsAsync(DateTime fromDate, DateTime toDate)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT TransactionID, AccountID, Amount, TransactionDate
+                      FROM Transactions
+                      WHERE IsScheduled = 1
+                        AND TransactionDate >= @FromDate
+                        AND TransactionDate <= @ToDate
+                        AND BalanceAfter < BalanceBefore
+                      ORDER BY TransactionDate, TransactionID", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@ToDate", toDate);
+
+                    await conn.OpenAsync();
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                        dt.Load(reader);
+
+                    return dt;
+                }
+            }
+            catch (SqlException ex)
+            {
+                clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+            }
+
+            return null;
+        }
     }
 }

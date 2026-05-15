@@ -46,6 +46,7 @@
     <Compile Include="clsAuditLog.cs" />
     <Compile Include="clsConfigurations.cs" />
     <Compile Include="clsCustomers.cs" />
+    <Compile Include="clsFraudDetectionService.cs" />
     <Compile Include="clsFraudFlags.cs" />
     <Compile Include="clsGlobal.cs" />
     <Compile Include="clsPermissions.cs" />
