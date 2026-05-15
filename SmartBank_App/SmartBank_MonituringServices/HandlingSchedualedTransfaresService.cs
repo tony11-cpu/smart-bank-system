@@ -20,6 +20,7 @@ namespace SmartBank_MonituringServices
         private readonly object _processLock = new object();
         private bool _isProcessingScheduledTransfers = false;
         private bool _isStoppingService = false;
+        private DateTime _lastScheduledFraudScanDate = DateTime.Now;
 
         public HandlingSchedualedTransfaresService()
         {
@@ -53,6 +54,8 @@ namespace SmartBank_MonituringServices
 
             try
             {
+                DateTime scanFrom = _lastScheduledFraudScanDate;
+                DateTime scanTo = DateTime.Now;
                 int maxRetries = await _getConfigValueAsync(clsConfigurations.enConfigKey.MaxScheduledTransferRetries, 3);
 
                 for (int retryNumber = 0; retryNumber <= maxRetries; retryNumber++)
@@ -61,6 +64,14 @@ namespace SmartBank_MonituringServices
                     {
                         int numberOfTransactionsResolved = await clsTransactions_DAL.ProcessScheduledTransfersAsync();
                         _logServiceMessage($"{numberOfTransactionsResolved} scheduled transfers processed.");
+
+                        if (numberOfTransactionsResolved > 0)
+                        {
+                            DataTable processedScheduledDebits = await clsTransactions_DAL.GetProcessedScheduledDebitTransactionsAsync(scanFrom, scanTo);
+                            await clsFraudDetectionService.EvaluateScheduledDebitTransactionsAsync(processedScheduledDebits);
+                        }
+
+                        _lastScheduledFraudScanDate = scanTo;
                         break;
                     }
                     catch (Exception ex)
@@ -90,6 +101,7 @@ namespace SmartBank_MonituringServices
             {
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
                 _isStoppingService = false;
+                _lastScheduledFraudScanDate = DateTime.Now.AddMinutes(-5);
 
                 int serviceCheckIntervalSeconds = await _getConfigValueAsync(clsConfigurations.enConfigKey.ScheduledTransferCheckIntervalSeconds, 60);
                 _scheduledTransfersTimer.Interval = TimeSpan.FromSeconds(serviceCheckIntervalSeconds).TotalMilliseconds;
