@@ -83,13 +83,10 @@ namespace SmartBank_BLL
             foreach (DataRow row in values.Rows)
             {
                 string[] fullNameParts = (row["Full Name"]?.ToString() ?? string.Empty).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                string firstName = fullNameParts.Length > 0 ? fullNameParts[0] : string.Empty;
-                string lastName = fullNameParts.Length > 1 ? string.Join(" ", fullNameParts.Skip(1)) : string.Empty;
-
                 customers.Add(new clsCustomers(
                     (int)row["Customer ID"],
-                    firstName,
-                    lastName,
+                     fullNameParts.Length > 0 ? fullNameParts[0] : string.Empty,
+                    fullNameParts.Length > 1 ? string.Join(" ", fullNameParts.Skip(1)) : string.Empty,
                     row["National ID"].ToString(),
                     Convert.ToDateTime(row["Date Of Birth"]),
                     row["Phone"].ToString(),

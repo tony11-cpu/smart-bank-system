@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +75,7 @@ namespace SmartBank_UI.Main_Form_UC
             dgvCustomersData.RowTemplate.Height = 35;
             dgvCustomersData.ColumnHeadersHeight = 40;
 
+            cbCustomerActivity.SelectedIndex = 0;
             _bindGrid(await _loadCustomersList());
         }
 
@@ -164,23 +166,31 @@ namespace SmartBank_UI.Main_Form_UC
             _bindGrid(await _loadCustomersList());
         }
 
-        private void tbSearchBar_TextChanged(object sender, EventArgs e)
+        private List<clsCustomers> _getFilteredCustomers()
         {
-            if (string.IsNullOrEmpty(tbSearchBar.Text) || tbSearchBar.Text == tbSearchBar.Tag.ToString())
+            IEnumerable<clsCustomers> filteredCustomers = _allCustomers;
+
+            if (cbCustomerActivity.SelectedIndex == 1)
+                filteredCustomers = filteredCustomers.Where(c => c.IsActive);
+            if (cbCustomerActivity.SelectedIndex == 2)
+                filteredCustomers = filteredCustomers.Where(c => !c.IsActive);
+
+            if (!string.IsNullOrEmpty(tbSearchBar.Text) && tbSearchBar.Text != tbSearchBar.Tag.ToString())
             {
-                _bindGrid(_allCustomers);
-                return;
+                string search = tbSearchBar.Text.Trim();
+                filteredCustomers = filteredCustomers.Where(n =>
+                {
+                    return (n.NationalID?.Length >= 4 && n.NationalID.Substring(n.NationalID.Length - 4).StartsWith(search, StringComparison.Ordinal)) ||
+                           n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
+                           n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
+                           n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);
+                });
             }
 
-            string search = tbSearchBar.Text.Trim();
-            _bindGrid(_allCustomers.Where(n =>
-            {
-                return (n.NationalID?.Length >= 4 && n.NationalID.Substring(n.NationalID.Length - 4).StartsWith(search, StringComparison.Ordinal)) ||
-                       n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
-                       n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
-                       n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);
-            }).ToList() , true);
+            return filteredCustomers.ToList();
         }
+
+        private void tbSearchBar_TextChanged(object sender, EventArgs e) => _bindGrid(_getFilteredCustomers(), true);
 
         private enum enCustomerStatesError { RecordNotExists = 1 , CustomerAlreadyActive = 2 , CustomerAlreadyInActive = 3 , CurrentUserNotAdminOrManager = 4 , ReadyToDeactivate = 5 , ReadyToActivate = 6 }
 
@@ -249,6 +259,48 @@ namespace SmartBank_UI.Main_Form_UC
                     MessageBox.Show("Error while activating customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void cbCustomerActivity_SelectedIndexChanged(object sender, EventArgs e) => _bindGrid(_getFilteredCustomers(), true);
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomersData == null || dgvCustomersData.Rows.Count == 0)
+            {
+                MessageBox.Show("No customer data to export.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                {
+                    var columns = dgvCustomersData.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible).ToList();
+                    sw.WriteLine(string.Join(",", columns.Select(c => c.HeaderText)));
+
+                    foreach (DataGridViewRow row in dgvCustomersData.Rows)
+                    {
+                        if (row.IsNewRow)
+                            continue;
+
+                        sw.WriteLine(string.Join(",", columns.Select(c => $"\"{(Convert.ToString(row.Cells[c.Name].Value) ?? string.Empty).Replace("\"", "\"\"")}\"")));
+                    }
+                }
+
+                MessageBox.Show("Customer data exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void saveFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }

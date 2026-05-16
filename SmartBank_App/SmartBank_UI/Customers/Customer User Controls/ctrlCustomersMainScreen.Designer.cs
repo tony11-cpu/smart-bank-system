@@ -50,6 +50,9 @@
             this.btnDeactivate = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAddCustomer = new System.Windows.Forms.Button();
+            this.cbCustomerActivity = new System.Windows.Forms.ComboBox();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctrlCustomerShortInfo1 = new SmartBank_UI.Main_Form_UC.ctrlCustomerShortInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomersData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -188,7 +191,7 @@
             this.tbSearchBar.Location = new System.Drawing.Point(13, 115);
             this.tbSearchBar.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(1308, 32);
+            this.tbSearchBar.Size = new System.Drawing.Size(704, 32);
             this.tbSearchBar.TabIndex = 5;
             this.tbSearchBar.Tag = "Search by name, phone, or last 4 digits of national ID...";
             this.tbSearchBar.Text = "Search by name, phone, or last 4 digits of national ID...";
@@ -301,16 +304,50 @@
             this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCustomer.ForeColor = System.Drawing.Color.White;
             this.btnAddCustomer.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 62);
+            this.btnAddCustomer.Location = new System.Drawing.Point(1158, 91);
             this.btnAddCustomer.Margin = new System.Windows.Forms.Padding(2);
             this.btnAddCustomer.Name = "btnAddCustomer";
-            this.btnAddCustomer.Size = new System.Drawing.Size(163, 49);
+            this.btnAddCustomer.Size = new System.Drawing.Size(163, 56);
             this.btnAddCustomer.TabIndex = 4;
             this.btnAddCustomer.Text = "Add Customer";
             this.btnAddCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAddCustomer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddCustomer.UseVisualStyleBackColor = false;
             this.btnAddCustomer.Click += new System.EventHandler(this.AddNewCutomer_Click);
+            // 
+            // cbCustomerActivity
+            // 
+            this.cbCustomerActivity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.cbCustomerActivity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCustomerActivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbCustomerActivity.ForeColor = System.Drawing.Color.White;
+            this.cbCustomerActivity.FormattingEnabled = true;
+            this.cbCustomerActivity.Items.AddRange(new object[] {
+            "All",
+            "Active",
+            "Not Active"});
+            this.cbCustomerActivity.Location = new System.Drawing.Point(722, 115);
+            this.cbCustomerActivity.Name = "cbCustomerActivity";
+            this.cbCustomerActivity.Size = new System.Drawing.Size(151, 32);
+            this.cbCustomerActivity.TabIndex = 29;
+            this.cbCustomerActivity.SelectedIndexChanged += new System.EventHandler(this.cbCustomerActivity_SelectedIndexChanged);
+            // 
+            // btnExport
+            // 
+            this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.btnExport.Image = global::SmartBank_UI.Properties.Resources.icons8_export_48;
+            this.btnExport.Location = new System.Drawing.Point(1059, 91);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(95, 56);
+            this.btnExport.TabIndex = 30;
+            this.btnExport.Text = "Export";
+            this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // ctrlCustomerShortInfo1
             // 
@@ -326,6 +363,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.Controls.Add(this.btnExport);
+            this.Controls.Add(this.cbCustomerActivity);
             this.Controls.Add(this.btnActivate);
             this.Controls.Add(this.btnDeactivate);
             this.Controls.Add(this.btnEdit);
@@ -374,5 +413,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem activateToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ComboBox cbCustomerActivity;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

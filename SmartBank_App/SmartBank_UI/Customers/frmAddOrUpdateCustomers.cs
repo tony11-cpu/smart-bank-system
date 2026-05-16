@@ -167,7 +167,6 @@ namespace SmartBank_UI
             if (!ValidateChildren())
                 return;
 
-            bool isAddOperation = _mode == enMode.Add;
             if (_fillCustomerData() && await _selectedCustomer.SaveAsync())
             {
                 _mode = enMode.Update;
@@ -175,7 +174,7 @@ namespace SmartBank_UI
                 OnAddingOrUpdatingCustomer?.Invoke(_selectedCustomer.NationalID);
                 lblAddOrUpdate.Text = "Update Customer";
                 lblInforamtionAboutForm.Text = "You can update the customer information in this form.";
-                MessageBox.Show("Customer info saved successfully.", $"{(isAddOperation ? "Added Successfuly" : "Updated Successfuly")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Customer info saved successfully.", $"{(_mode == enMode.Add ? "Added Successfuly" : "Updated Successfuly")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

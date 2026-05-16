@@ -884,12 +884,12 @@ namespace SmartBank_UI.Fraud_Flags
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewAccountToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(148, 26);
             // 
             // viewAccountToolStripMenuItem
             // 
             this.viewAccountToolStripMenuItem.Name = "viewAccountToolStripMenuItem";
-            this.viewAccountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAccountToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.viewAccountToolStripMenuItem.Text = "View Account";
             // 
             // ctrlFraudFlagsMainScreen
