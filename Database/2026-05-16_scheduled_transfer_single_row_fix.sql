@@ -8,14 +8,12 @@ GO
 
 ALTER PROCEDURE [dbo].[sp_Transfer]
 (
-    @UserInActionID INT,
-    @FromAccountID INT,
-    @ToAccountID INT,
-    @Amount DECIMAL(18,2),
-    @Description NVARCHAR(250),
-    @NewTransactionID INT OUTPUT,
-    @IsScheduledExecution BIT = 0,
-    @ScheduledTransactionID INT = NULL
+    @UserInActionID   INT,
+    @FromAccountID    INT,
+    @ToAccountID      INT,
+    @Amount           DECIMAL(18,2),
+    @Description      NVARCHAR(250),
+    @NewTransactionID INT OUTPUT
 )
 AS
 BEGIN
@@ -28,28 +26,6 @@ BEGIN
             DECLARE @ToBalanceBefore DECIMAL(18,2);
             DECLARE @ToBalanceAfter DECIMAL(18,2);
 
-            IF @Amount <= 0
-                THROW 52001, 'Transfer amount must be greater than zero.', 1;
-
-            IF @IsScheduledExecution = 1
-            BEGIN
-                IF @ScheduledTransactionID IS NULL
-                    THROW 52006, 'ScheduledTransactionID is required for scheduled execution.', 1;
-
-                IF NOT EXISTS
-                (
-                    SELECT 1
-                    FROM Transactions t WITH (UPDLOCK, HOLDLOCK)
-                    WHERE t.TransactionID = @ScheduledTransactionID
-                      AND t.AccountID = @FromAccountID
-                      AND t.RelatedAccountID = @ToAccountID
-                      AND t.TransactionDate <= GETDATE()
-                      AND t.BalanceBefore = t.BalanceAfter
-                      AND t.IsScheduled = 1
-                )
-                    THROW 52007, 'Scheduled transfer not found or already processed.', 1;
-            END
-
             SELECT @FromBalanceBefore = Balance,
                    @FromBalanceAfter = Balance - @Amount
             FROM Accounts
@@ -59,9 +35,6 @@ BEGIN
                    @ToBalanceAfter = Balance + @Amount
             FROM Accounts
             WHERE AccountID = @ToAccountID;
-
-            IF @FromBalanceBefore IS NULL OR @ToBalanceBefore IS NULL
-                THROW 52008, 'Source or destination account was not found.', 1;
 
             UPDATE Accounts
             SET Balance = @FromBalanceAfter
@@ -77,47 +50,21 @@ BEGIN
             IF @@ROWCOUNT = 0
                 THROW 52005, 'Destination account update failed.', 1;
 
-            IF @IsScheduledExecution = 1
-            BEGIN
-                UPDATE Transactions
-                SET TransactionType = 'Transfer_Out',
-                    Description = ISNULL(@Description, Description),
-                    TransactionDate = GETDATE(),
-                    ProcessedByUserID = @UserInActionID,
-                    IsScheduled = 0,
-                    BalanceBefore = @FromBalanceBefore,
-                    BalanceAfter = @FromBalanceAfter
-                WHERE TransactionID = @ScheduledTransactionID
-                  AND IsScheduled = 1
+            INSERT INTO Transactions (AccountID, TransactionType, Amount,
+                                      RelatedAccountID, Description, TransactionDate,
+                                      ProcessedByUserID, IsScheduled, BalanceBefore, BalanceAfter)
+            VALUES (@FromAccountID, 'Transfare', @Amount, @ToAccountID, @Description, GETDATE(),
+                    @UserInActionID, 0, @FromBalanceBefore, @FromBalanceAfter);
 
-                IF @@ROWCOUNT = 0
-                    THROW 52009, 'Scheduled transfer row update failed.', 1;
+            SET @NewTransactionID = SCOPE_IDENTITY();
 
-                SET @NewTransactionID = @ScheduledTransactionID;
+            IF @NewTransactionID IS NULL
+                THROW 52003, 'Transfer transaction insertion failed.', 1;
 
-                INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
-                VALUES (@UserInActionID, 'SCHEDULED_TRANSFER_EXECUTED', 'Transactions', @ScheduledTransactionID,
-                        CAST(@FromAccountID AS NVARCHAR) + ' -> ' + CAST(@ToAccountID AS NVARCHAR),
-                        CAST(@FromBalanceAfter AS NVARCHAR), GETDATE());
-            END
-            ELSE
-            BEGIN
-                INSERT INTO Transactions (AccountID, TransactionType, Amount,
-                                          RelatedAccountID, Description, TransactionDate,
-                                          ProcessedByUserID, IsScheduled, BalanceBefore, BalanceAfter)
-                VALUES (@FromAccountID, 'Transfare', @Amount, @ToAccountID, @Description, GETDATE(),
-                        @UserInActionID, 0, @FromBalanceBefore, @FromBalanceAfter);
-
-                SET @NewTransactionID = SCOPE_IDENTITY();
-
-                IF @NewTransactionID IS NULL
-                    THROW 52003, 'Transfer transaction insertion failed.', 1;
-
-                INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
-                VALUES (@UserInActionID, 'TRANSFER', 'Accounts', @FromAccountID,
-                        CAST(@FromAccountID AS NVARCHAR) + ' -> ' + CAST(@ToAccountID AS NVARCHAR),
-                        CAST(@FromBalanceAfter AS NVARCHAR), GETDATE());
-            END
+            INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+            VALUES (@UserInActionID, 'TRANSFER', 'Accounts', @FromAccountID,
+                    CAST(@FromAccountID AS NVARCHAR) + ' -> ' + CAST(@ToAccountID AS NVARCHAR),
+                    CAST(@FromBalanceAfter AS NVARCHAR), GETDATE());
 
         COMMIT TRANSACTION
     END TRY
@@ -150,36 +97,86 @@ BEGIN
             @ToAccountID INT,
             @Amount DECIMAL(18,2),
             @Description NVARCHAR(250),
-            @NewTransactionID INT;
+            @FromBalanceBefore DECIMAL(18,2),
+            @FromBalanceAfter DECIMAL(18,2),
+            @ToBalanceBefore DECIMAL(18,2),
+            @ToBalanceAfter DECIMAL(18,2);
 
     WHILE 1 = 1
     BEGIN
-        SELECT TOP 1 @TransactionID = t.TransactionID,
-               @FromAccountID = t.AccountID,
-               @ToAccountID = t.RelatedAccountID,
-               @Amount = t.Amount,
-               @Description = t.Description
-        FROM Transactions t WITH (UPDLOCK, READPAST, ROWLOCK)
-        WHERE t.IsScheduled = 1
-          AND t.BalanceBefore = t.BalanceAfter
-          AND t.TransactionDate <= GETDATE()
-        ORDER BY t.TransactionDate, t.TransactionID;
+        SELECT TOP 1 @TransactionID = TransactionID,
+                     @FromAccountID = AccountID,
+                     @ToAccountID = RelatedAccountID,
+                     @Amount = Amount,
+                     @Description = Description
+        FROM Transactions
+        WHERE IsScheduled = 1
+          AND BalanceBefore = BalanceAfter
+          AND TransactionDate <= GETDATE()
+        ORDER BY TransactionDate, TransactionID;
 
         IF @@ROWCOUNT = 0
             BREAK;
 
-        EXEC sp_Transfer
-            @UserInActionID = 1,
-            @FromAccountID = @FromAccountID,
-            @ToAccountID = @ToAccountID,
-            @Amount = @Amount,
-            @Description = @Description,
-            @NewTransactionID = @NewTransactionID OUTPUT,
-            @IsScheduledExecution = 1,
-            @ScheduledTransactionID = @TransactionID;
+        BEGIN TRY
+            BEGIN TRANSACTION
 
-        IF @NewTransactionID = @TransactionID
-            SET @ProcessedCount = @ProcessedCount + 1;
+                SELECT @FromBalanceBefore = Balance,
+                       @FromBalanceAfter = Balance - @Amount
+                FROM Accounts
+                WHERE AccountID = @FromAccountID;
+
+                SELECT @ToBalanceBefore = Balance,
+                       @ToBalanceAfter = Balance + @Amount
+                FROM Accounts
+                WHERE AccountID = @ToAccountID;
+
+                IF @FromBalanceBefore IS NULL OR @ToBalanceBefore IS NULL
+                    THROW 52008, 'Source or destination account was not found.', 1;
+
+                UPDATE Accounts
+                SET Balance = @FromBalanceAfter
+                WHERE AccountID = @FromAccountID;
+
+                IF @@ROWCOUNT = 0
+                    THROW 52004, 'Source account update failed.', 1;
+
+                UPDATE Accounts
+                SET Balance = @ToBalanceAfter
+                WHERE AccountID = @ToAccountID;
+
+                IF @@ROWCOUNT = 0
+                    THROW 52005, 'Destination account update failed.', 1;
+
+                UPDATE Transactions
+                SET TransactionType = 'Transfer_Out',
+                    Description = ISNULL(@Description, Description),
+                    TransactionDate = GETDATE(),
+                    ProcessedByUserID = 1,
+                    IsScheduled = 0,
+                    BalanceBefore = @FromBalanceBefore,
+                    BalanceAfter = @FromBalanceAfter
+                WHERE TransactionID = @TransactionID
+                  AND IsScheduled = 1
+                  AND BalanceBefore = BalanceAfter;
+
+                IF @@ROWCOUNT = 0
+                    THROW 52009, 'Scheduled transfer row update failed.', 1;
+
+                INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+                VALUES (1, 'SCHEDULED_TRANSFER_EXECUTED', 'Transactions', @TransactionID,
+                        CAST(@FromAccountID AS NVARCHAR) + ' -> ' + CAST(@ToAccountID AS NVARCHAR),
+                        CAST(@FromBalanceAfter AS NVARCHAR), GETDATE());
+
+                SET @ProcessedCount = @ProcessedCount + 1;
+
+            COMMIT TRANSACTION
+        END TRY
+        BEGIN CATCH
+            IF @@TRANCOUNT > 0
+                ROLLBACK TRANSACTION;
+            THROW;
+        END CATCH
     END
 END;
 GO
@@ -192,7 +189,7 @@ GO
 ALTER PROCEDURE [dbo].[sp_GetProcessedScheduledDebitTransactions]
 (
     @FromDate DATETIME,
-    @ToDate   DATETIME
+    @ToDate DATETIME
 )
 AS
 BEGIN
