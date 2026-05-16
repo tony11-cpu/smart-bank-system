@@ -25,10 +25,26 @@ namespace SmartBank_UI.Users
         private List<clsUsers> _allUsers = new List<clsUsers>();
         private clsUsers _currentUser = null;
 
+        private void _applyUsersContextMenuState(bool hasSelectedUser)
+        {
+            addCustomerToolStripMenuItem.Enabled = true;
+            updateCustomerToolStripMenuItem.Enabled = hasSelectedUser;
+            deactivateCustomerToolStripMenuItem.Enabled = hasSelectedUser && _currentUser != null && _currentUser.IsActive;
+            activateToolStripMenuItem.Enabled = hasSelectedUser && _currentUser != null && !_currentUser.IsActive;
+        }
+
         private void _bindGridToMainUsersDGV(List<clsUsers> usersView)
         {
-            if (!usersView.Any()) 
+            if (!usersView.Any())
+            {
+                dgvUsersData.DataSource = null;
+                lblNumberOfUsers.Text = "0";
+                lblNumberOfActiveUsers.Text = "0";
+                lblNumberOfLockedUsers.Text = "0";
+                _currentUser = null;
+                _applyUsersContextMenuState(false);
                 return;
+            }
 
             dgvUsersData.DataSource = usersView;
 
@@ -133,9 +149,13 @@ namespace SmartBank_UI.Users
                 {
                     btnActivate.Visible = !_currentUser.IsActive;
                     btnDeactivate.Visible = _currentUser.IsActive;
-                    activateToolStripMenuItem.Enabled = !_currentUser.IsActive;
-                    deactivateCustomerToolStripMenuItem.Enabled = _currentUser.IsActive;
+                    _applyUsersContextMenuState(true);
                 }
+            }
+            else
+            {
+                _currentUser = null;
+                _applyUsersContextMenuState(false);
             }
         }
 
