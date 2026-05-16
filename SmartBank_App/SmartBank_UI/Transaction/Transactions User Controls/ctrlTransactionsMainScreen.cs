@@ -23,18 +23,26 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private List<clsTransactionLog> _transactionsLogs;
         private bool _isRefreshingTransactions = false;
+        private bool _canDeposit = false;
+        private bool _canWithdraw = false;
+        private bool _canTransfer = false;
 
         private void _applyTransactionPermissions()
         {
-            bool canDeposit = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanDeposit) ?? false;
-            bool canWithdraw = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanWithdraw) ?? false;
-            bool canTransfer = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanTransfer) ?? false;
+            _canDeposit = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanDeposit) ?? false;
+            _canWithdraw = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanWithdraw) ?? false;
+            _canTransfer = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanTransfer) ?? false;
 
-            cmsNewDeposite.Enabled = canDeposit;
-            cmsNewWithdrawl.Enabled = canWithdraw;
-            cmsNewTransfare.Enabled = canTransfer;
+            btnNewTransactions.Enabled = _canDeposit || _canWithdraw || _canTransfer;
+        }
 
-            btnNewTransactions.Enabled = canDeposit || canWithdraw || canTransfer;
+        private void _applyContextMenuState(bool hasSelectedRow)
+        {
+            cmsNewDeposite.Enabled = hasSelectedRow && _canDeposit;
+            cmsNewWithdrawl.Enabled = hasSelectedRow && _canWithdraw;
+            cmsNewTransfare.Enabled = hasSelectedRow && _canTransfer;
+            cmsAccountTransactionsLog.Enabled = hasSelectedRow;
+            cmsCustomerInfo.Enabled = hasSelectedRow;
         }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
@@ -161,6 +169,8 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
         private async void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             var transactionID = dgvAllTransactions.CurrentRow?.Cells["TransactionID"]?.Value;
+            _applyContextMenuState(transactionID != null);
+
             if (transactionID == null)
                 return;
             
