@@ -81,6 +81,25 @@ namespace SmartBank_UI.Fraud_Flags
             }
         }
 
+        private string _mapStoredTypeToDisplayType(string storedType)
+        {
+            switch ((storedType ?? string.Empty).Trim().ToUpper())
+            {
+                case "RAPID_TRANSACTIONS":
+                    return "Rapid Transactions";
+                case "LARGE_WITHDRAWAL":
+                    return "Large Withdrawal";
+                case "RECONCILIATION_MISMATCH":
+                    return "Manual Review";
+                case "OFF_HOURS":
+                    return "Off Hours";
+                case "REPEATED_FAILURE":
+                    return "Repeated Failure";
+                default:
+                    return storedType ?? string.Empty;
+            }
+        }
+
         private string _getRiskLevel(clsFraudFlags fraudFlag)
         {
             string type = fraudFlag?.FlagType?.ToLower() ?? string.Empty;
@@ -91,7 +110,7 @@ namespace SmartBank_UI.Fraud_Flags
             if (type.Contains("failed"))
                 return "Medium";
 
-            if (type.Contains("manual"))
+            if (type.Contains("manual") || type.Contains("reconciliation"))
                 return "Low";
 
             return _isHighRisk(fraudFlag) ? "High" : "Normal";
@@ -125,7 +144,7 @@ namespace SmartBank_UI.Fraud_Flags
                 DataGridViewRow row = dgvFraudFlags.Rows[dgvFraudFlags.Rows.Add()];
                 row.Tag = fraudFlag.FlagID;
 
-                row.Cells["colFlag"].Value = $"{fraudFlag.FlagType} - {fraudFlag.Account?.AccountNumber ?? "N/A"}";
+                row.Cells["colFlag"].Value = $"{_mapStoredTypeToDisplayType(fraudFlag.FlagType)} - {fraudFlag.Account?.AccountNumber ?? "N/A"}";
                 row.Cells["colDetails"].Value = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
                 row.Cells["colDate"].Value = fraudFlag.FlaggedDate.ToString("g");
                 row.Cells["colStatus"].Value = fraudFlag.IsResolved ? "Resolved" : "Unresolved";
@@ -163,7 +182,7 @@ namespace SmartBank_UI.Fraud_Flags
             tbDetails.Text = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
             tbRecentActivity.Text = fraudFlag.IsResolved ? $"Resolved at {fraudFlag.ResolvedDate?.ToString("g")}" : "Awaiting resolution.";
             tbResolutionNotes.Text = fraudFlag.IsResolved ? $"Resolved by {fraudFlag.ResolvedByUser?.FullName ?? "Unknown"} at {fraudFlag.ResolvedDate?.ToString("g")}" : "No notes.";
-            lblRightSub.Text = $"Selected: {fraudFlag.FlagType}";
+            lblRightSub.Text = $"Selected: {_mapStoredTypeToDisplayType(fraudFlag.FlagType)}";
             btnViewAccount.Enabled = fraudFlag.Account != null;
             btnKeepOpen.Enabled = !fraudFlag.IsResolved;
             btnResolveFlag.Enabled = !fraudFlag.IsResolved && _canResolveFlags();
