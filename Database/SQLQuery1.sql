@@ -15,6 +15,10 @@ DBCC CHECKIDENT ('Transactions', RESEED, 0);
 go
 Delete From Customers
 DBCC CHECKIDENT ('Customers', RESEED, 0);
+go
+Delete From FraudFlags
+DBCC CHECKIDENT ('FraudFlags', RESEED, 0);
+
 
 Delete From Users
 Where UserID <> 1
