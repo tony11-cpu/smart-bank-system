@@ -27,11 +27,15 @@ namespace SmartBank_UI.Fraud_Flags
             InitializeComponent();
         }
 
+        private bool _hasViewPermissions() => clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanViewFraudFlags) ?? false;
         private bool _canResolveFlags() => clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanResolveFraudFlags) ?? false;
 
         private void _applyPermissions()
         {
+            bool canView = _hasViewPermissions();
             bool canResolveFlags = _canResolveFlags();
+
+            btnExport.Enabled = canView;
             btnResolveFlag.Visible = canResolveFlags;
         }
 
@@ -255,12 +259,25 @@ namespace SmartBank_UI.Fraud_Flags
             _applyPermissions();
             _clearDetails();
 
+            if (!_hasViewPermissions())
+            {
+                MessageBox.Show("You don't have permission to view fraud flags.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnExport.Enabled = false;
+                btnViewAccount.Enabled = false;
+                btnKeepOpen.Enabled = false;
+                btnResolveFlag.Enabled = false;
+                return;
+            }
+
             await _refreshDataAsync();
         }
 
         private async void ctrlFraudFlagsMainScreen_VisibleChanged(object sender, EventArgs e)
         {
             if (!Visible || LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
+                return;
+
+            if (!_hasViewPermissions())
                 return;
 
             await _refreshDataAsync();

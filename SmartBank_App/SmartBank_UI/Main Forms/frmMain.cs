@@ -70,7 +70,6 @@ namespace SmartBank_UI
             lblUserRole.Text = clsGlobal.ActiveUser.Permissions.PermissionPresenterString;
             lblDate.Text = DateTime.Now.ToString("MMMM dd, yyyy - hh:mm tt");
             btnUsers.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanManageUsers);
-            btnFraudFlags.Visible = clsGlobal.ActiveUser.Permissions.Has(clsPermissions.enPermission.CanViewFraudFlags);
 
             if (string.IsNullOrEmpty(clsGlobal.ActiveUser.ImagePath)) 
                 pbUserPhoto.Image = Resources.icons8_user_50;
