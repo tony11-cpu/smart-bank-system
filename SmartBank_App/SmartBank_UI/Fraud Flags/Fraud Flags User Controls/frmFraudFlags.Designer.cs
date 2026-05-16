@@ -28,6 +28,7 @@ namespace SmartBank_UI.Fraud_Flags
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblSubtitle = new System.Windows.Forms.Label();
             this.btnExport = new System.Windows.Forms.Button();
@@ -88,6 +89,8 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblRightSub = new System.Windows.Forms.Label();
             this.lblRightTitle = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viewAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelStatOpen.SuspendLayout();
             this.panelStatHighRisk.SuspendLayout();
             this.panelStatResolved.SuspendLayout();
@@ -97,6 +100,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.panelLeftFooter.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelRightHeader.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -875,6 +879,19 @@ namespace SmartBank_UI.Fraud_Flags
             this.saveFileDialog1.FileName = "FraudFlags_Export.csv";
             this.saveFileDialog1.Filter = "CSV files (*.csv)|*.csv";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewAccountToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // viewAccountToolStripMenuItem
+            // 
+            this.viewAccountToolStripMenuItem.Name = "viewAccountToolStripMenuItem";
+            this.viewAccountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewAccountToolStripMenuItem.Text = "View Account";
+            // 
             // ctrlFraudFlagsMainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -914,6 +931,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.panelRight.PerformLayout();
             this.panelRightHeader.ResumeLayout(false);
             this.panelRightHeader.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -981,5 +999,7 @@ namespace SmartBank_UI.Fraud_Flags
         private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem viewAccountToolStripMenuItem;
     }
 }

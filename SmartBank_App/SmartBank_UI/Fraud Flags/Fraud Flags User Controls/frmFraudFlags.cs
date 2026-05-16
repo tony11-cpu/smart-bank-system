@@ -33,7 +33,6 @@ namespace SmartBank_UI.Fraud_Flags
         {
             bool canResolveFlags = _canResolveFlags();
             btnResolveFlag.Visible = canResolveFlags;
-            btnManualFlag.Enabled = canResolveFlags;
         }
 
         private async Task<List<clsFraudFlags>> _loadFraudFlagsList()
@@ -366,48 +365,6 @@ namespace SmartBank_UI.Fraud_Flags
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to resolve flag: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void btnManualFlag_Click(object sender, EventArgs e)
-        {
-            if (!_canResolveFlags())
-            {
-                MessageBox.Show("You do not have permission to create manual flags.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (_currentFraudFlag?.Account == null)
-            {
-                MessageBox.Show("Select a row first to create a manual flag for its account.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (MessageBox.Show("Create a manual review flag for this account?", "Manual Flag", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
-                return;
-
-            clsFraudFlags fraudFlag = new clsFraudFlags
-            {
-                Account = _currentFraudFlag.Account,
-                FlagType = "RECONCILIATION_MISMATCH",
-                Details = $"Manual review requested for account {_currentFraudFlag.Account.AccountNumber}."
-            };
-
-            try
-            {
-                if (await fraudFlag.SaveAsync())
-                {
-                    MessageBox.Show("Manual flag created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await _refreshDataAsync();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to create manual flag.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to create manual flag: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
