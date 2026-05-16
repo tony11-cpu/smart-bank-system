@@ -82,10 +82,14 @@ namespace SmartBank_BLL
 
             foreach (DataRow row in values.Rows)
             {
+                string[] fullNameParts = (row["Full Name"]?.ToString() ?? string.Empty).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string firstName = fullNameParts.Length > 0 ? fullNameParts[0] : string.Empty;
+                string lastName = fullNameParts.Length > 1 ? string.Join(" ", fullNameParts.Skip(1)) : string.Empty;
+
                 customers.Add(new clsCustomers(
                     (int)row["Customer ID"],
-                    row["Full Name"].ToString().Split(' ')[0],
-                    row["Full Name"].ToString().Split(' ')[1],
+                    firstName,
+                    lastName,
                     row["National ID"].ToString(),
                     Convert.ToDateTime(row["Date Of Birth"]),
                     row["Phone"].ToString(),
@@ -159,7 +163,7 @@ namespace SmartBank_BLL
             if (_mode != enMode.Update || !IsActive)
                 return false;
 
-            if(CustomerID != null && (clsGlobal.ActiveUser != null || clsGlobal.ActiveUser.UserID != null) 
+            if(CustomerID != null && clsGlobal.ActiveUser != null && clsGlobal.ActiveUser.UserID != null 
                 && await clsCustomers_DAL.DeactivateCustomerAsync(CustomerID.Value, clsGlobal.ActiveUser.UserID.Value))
             {
                 IsActive = false;

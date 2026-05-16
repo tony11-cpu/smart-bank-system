@@ -25,8 +25,12 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void _bindGrid(List<clsCustomers> customerView , bool isFilter = false)
         {
-            if (!customerView.Any() && !isFilter) 
+            if (!customerView.Any())
+            {
+                dgvCustomersData.DataSource = null;
+                lblNumberOfCustomers.Text = "0";
                 return;
+            }
 
             dgvCustomersData.DataSource = customerView;
             lblNumberOfCustomers.Text = customerView.Count.ToString();
@@ -167,7 +171,7 @@ namespace SmartBank_UI.Main_Form_UC
             string search = tbSearchBar.Text.Trim();
             _bindGrid(_allCustomers.Where(n =>
             {
-                return n.NationalID.Substring(n.NationalID.Length - 4).StartsWith(search, StringComparison.Ordinal) ||
+                return (n.NationalID?.Length >= 4 && n.NationalID.Substring(n.NationalID.Length - 4).StartsWith(search, StringComparison.Ordinal)) ||
                        n.FirstName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.LastName.StartsWith(search, StringComparison.OrdinalIgnoreCase) ||
                        n.Phone.StartsWith(search, StringComparison.OrdinalIgnoreCase);

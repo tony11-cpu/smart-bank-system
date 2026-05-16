@@ -20,7 +20,17 @@ namespace SmartBank_UI.Accounts
             this.customerID = customerID;
         }
 
-        private async void frmShowAllCustomerAccounts_Load(object sender, EventArgs e) => await _loadAccountsForCustomer(customerID.Value);
+        private async void frmShowAllCustomerAccounts_Load(object sender, EventArgs e)
+        {
+            if (!customerID.HasValue)
+            {
+                MessageBox.Show("No customer selected!", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            await _loadAccountsForCustomer(customerID.Value);
+        }
 
         private async Task _loadAccountsForCustomer(int customerID)
         {
