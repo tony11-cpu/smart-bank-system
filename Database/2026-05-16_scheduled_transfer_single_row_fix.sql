@@ -111,7 +111,6 @@ BEGIN
                      @Description = Description
         FROM Transactions
         WHERE IsScheduled = 1
-          AND BalanceBefore = BalanceAfter
           AND TransactionDate <= GETDATE()
         ORDER BY TransactionDate, TransactionID;
 
@@ -157,8 +156,7 @@ BEGIN
                     BalanceBefore = @FromBalanceBefore,
                     BalanceAfter = @FromBalanceAfter
                 WHERE TransactionID = @TransactionID
-                  AND IsScheduled = 1
-                  AND BalanceBefore = BalanceAfter;
+                  AND IsScheduled = 1;
 
                 IF @@ROWCOUNT = 0
                     THROW 52009, 'Scheduled transfer row update failed.', 1;
