@@ -32,9 +32,7 @@ namespace SmartBank_BLL
 
         private static async Task _validateWithdrawal(clsAccounts account, decimal amount, int performedByUserID)
         {
-            bool isManagerOrAdmin = await _isManagerOrAdminAsync(performedByUserID);
-
-            if (!isManagerOrAdmin && account.Balance - amount < account.MinimumBalance)
+            if (!await _isManagerOrAdminAsync(performedByUserID) && account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
         }
 
@@ -51,9 +49,9 @@ namespace SmartBank_BLL
         {
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
-            
-            clsAccounts account = await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")), "Source", "process withdrawals", performedByUserID, true);
-            await _validateWithdrawal(account, amount, performedByUserID);
+
+            await _validateWithdrawal(await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")),
+                "Source", "process withdrawals", performedByUserID, true), amount, performedByUserID);
 
             if (await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID))
             {

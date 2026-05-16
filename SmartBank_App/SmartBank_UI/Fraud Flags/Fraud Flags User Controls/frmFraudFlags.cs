@@ -61,7 +61,24 @@ namespace SmartBank_UI.Fraud_Flags
             if (typeFilter == "All Types")
                 return true;
 
-            return string.Equals(fraudFlag?.FlagType?.Trim() ?? string.Empty, typeFilter, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(_mapFilterTypeToStoredType(typeFilter),
+                                 (fraudFlag?.FlagType ?? string.Empty).Trim(),
+                                 StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string _mapFilterTypeToStoredType(string filterType)
+        {
+            switch ((filterType ?? string.Empty).Trim())
+            {
+                case "Rapid Transactions":
+                    return "RAPID_TRANSACTIONS";
+                case "Large Withdrawal":
+                    return "LARGE_WITHDRAWAL";
+                case "Manual Review":
+                    return "RECONCILIATION_MISMATCH";
+                default:
+                    return (filterType ?? string.Empty).Trim();
+            }
         }
 
         private string _getRiskLevel(clsFraudFlags fraudFlag)
@@ -105,8 +122,7 @@ namespace SmartBank_UI.Fraud_Flags
 
             foreach (clsFraudFlags fraudFlag in _fraudFlagsView)
             {
-                int rowIndex = dgvFraudFlags.Rows.Add();
-                DataGridViewRow row = dgvFraudFlags.Rows[rowIndex];
+                DataGridViewRow row = dgvFraudFlags.Rows[dgvFraudFlags.Rows.Add()];
                 row.Tag = fraudFlag.FlagID;
 
                 row.Cells["colFlag"].Value = $"{fraudFlag.FlagType} - {fraudFlag.Account?.AccountNumber ?? "N/A"}";
@@ -141,7 +157,7 @@ namespace SmartBank_UI.Fraud_Flags
             tbAccount.Text = fraudFlag.Account?.AccountNumber ?? "N/A";
             tbCustomer.Text = fraudFlag.Account?.Customer == null ? "N/A" : $"{fraudFlag.Account.Customer.FirstName} {fraudFlag.Account.Customer.LastName}".Trim();
             tbFlaggedDate.Text = fraudFlag.FlaggedDate.ToString("g");
-            tbDetectedBy.Text = fraudFlag.FlagType == "Manual Review" ? "Manual Flag" : "Monitoring Service";
+            tbDetectedBy.Text = string.Equals(fraudFlag.FlagType, "RECONCILIATION_MISMATCH", StringComparison.OrdinalIgnoreCase) ? "Manual Flag" : "Monitoring Service";
             tbRisk.Text = _getRiskLevel(fraudFlag);
             tbAccountStatus.Text = fraudFlag.Account?.Status.ToString() ?? "N/A";
             tbDetails.Text = string.IsNullOrWhiteSpace(fraudFlag.Details) ? "No details." : fraudFlag.Details;
@@ -176,10 +192,7 @@ namespace SmartBank_UI.Fraud_Flags
                 filtered = filtered.Where(n => n.IsResolved);
 
             if (cbType.SelectedItem != null)
-            {
-                string typeFilter = cbType.SelectedItem.ToString();
-                filtered = filtered.Where(n => _isTypeMatchingFilter(n, typeFilter));
-            }
+                filtered = filtered.Where(n => _isTypeMatchingFilter(n, cbType.SelectedItem.ToString()));
 
             string search = tbSearch.Text.Trim();
             if (!string.IsNullOrWhiteSpace(search) && !string.Equals(search, tbSearch.Tag.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -357,7 +370,7 @@ namespace SmartBank_UI.Fraud_Flags
             clsFraudFlags fraudFlag = new clsFraudFlags
             {
                 Account = _currentFraudFlag.Account,
-                FlagType = "Manual Review",
+                FlagType = "RECONCILIATION_MISMATCH",
                 Details = $"Manual review requested for account {_currentFraudFlag.Account.AccountNumber}."
             };
 

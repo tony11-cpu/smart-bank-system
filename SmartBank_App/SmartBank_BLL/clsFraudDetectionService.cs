@@ -10,26 +10,19 @@ namespace SmartBank_BLL
 {
     public static class clsFraudDetectionService
     {
-        private const string _largeWithdrawalFlagType = "Large Withdrawal";
-        private const string _rapidTransactionsFlagType = "Rapid Transactions";
+        private const string _largeWithdrawalFlagType = "LARGE_WITHDRAWAL";
+        private const string _rapidTransactionsFlagType = "RAPID_TRANSACTIONS";
         private const int _systemUserID = 1;
 
-        private static int _getUserInActionID() => clsGlobal.ActiveUser?.UserID ?? _systemUserID;
-
-        private static async Task<bool> _isTransactionAlreadyFlaggedAsync(int accountID, string flagType, int transactionID)
-        {
-            string transactionToken = $"[TXN:{transactionID}]";
-            List<clsFraudFlags> accountFlags = await clsFraudFlags.GetFraudFlagsByAccountIDAsync(accountID);
-            return accountFlags.Any(n => n.FlagType == flagType && (n.Details ?? string.Empty).Contains(transactionToken));
-        }
+        private static async Task<bool> _isTransactionAlreadyFlaggedAsync(int accountID, string flagType, int transactionID) =>
+            (await clsFraudFlags.GetFraudFlagsByAccountIDAsync(accountID)).Any(n => n.FlagType == flagType && (n.Details ?? string.Empty).Contains($"[TXN:{transactionID}]"));
 
         private static async Task _createFraudFlagAsync(int accountID, string flagType, string details, int? transactionID = null)
         {
             if (transactionID.HasValue && await _isTransactionAlreadyFlaggedAsync(accountID, flagType, transactionID.Value))
                 return;
 
-            int newFlagID = await clsFraudFlags.CreateAsync(_getUserInActionID(), accountID, flagType, details);
-            if (newFlagID > 0)
+            if ((await clsFraudFlags.CreateAsync(clsGlobal.ActiveUser?.UserID ?? _systemUserID, accountID, flagType, details)) > 0)
                 clsGlobal.FireTransactionCompleted();
         }
 
@@ -43,21 +36,15 @@ namespace SmartBank_BLL
             int rapidTransactionWindowMinutes = (await clsConfigurations.GetConfigValueAsync(clsConfigurations.enConfigKey.RapidTransactionWindowMinutes)) ?? 10;
 
             if (amount > largeWithdrawalThreshold)
-            {
-                string transactionToken = transactionID.HasValue ? $" [TXN:{transactionID.Value}]" : string.Empty;
-                string details = $"Automatic detection: transaction amount {amount:C} exceeded configured threshold {largeWithdrawalThreshold:C}.{transactionToken}";
-                await _createFraudFlagAsync(accountID, _largeWithdrawalFlagType, details, transactionID);
-            }
+                await _createFraudFlagAsync(accountID, _largeWithdrawalFlagType, 
+                    $"Automatic detection: transaction amount {amount:C} exceeded configured threshold {largeWithdrawalThreshold:C}." +
+                    $"{(transactionID.HasValue ? $" [TXN:{transactionID.Value}]" : string.Empty)}", transactionID);
 
-            DateTime fromDate = transactionDate.AddMinutes(-rapidTransactionWindowMinutes);
-            int postedDebitCount = await clsTransactions_DAL.GetPostedDebitCountByAccountWithinWindowAsync(accountID, fromDate, transactionDate);
-
-            if (postedDebitCount == rapidTransactionMaxCount + 1)
-            {
-                string transactionToken = transactionID.HasValue ? $" [TXN:{transactionID.Value}]" : string.Empty;
-                string details = $"Automatic detection: {postedDebitCount} debit transactions within {rapidTransactionWindowMinutes} minutes (max allowed {rapidTransactionMaxCount}).{transactionToken}";
-                await _createFraudFlagAsync(accountID, _rapidTransactionsFlagType, details, transactionID);
-            }
+            int postedDebitCount = await clsTransactions_DAL.GetPostedDebitCountByAccountWithinWindowAsync(accountID, transactionDate.AddMinutes(-rapidTransactionWindowMinutes), transactionDate);
+            if (postedDebitCount >= rapidTransactionMaxCount + 1)
+                await _createFraudFlagAsync(accountID, _rapidTransactionsFlagType,
+                    $"Automatic detection: {postedDebitCount} debit transactions within {rapidTransactionWindowMinutes} minutes (max allowed {rapidTransactionMaxCount})." +
+                    $"{(transactionID.HasValue ? $" [TXN:{transactionID.Value}]" : string.Empty)}", transactionID);
         }
 
         public static async Task EvaluateScheduledDebitTransactionsAsync(DataTable processedScheduledDebits)
@@ -66,10 +53,7 @@ namespace SmartBank_BLL
                 return;
 
             foreach (DataRow row in processedScheduledDebits.Rows)
-            {
-                await EvaluateDebitTransactionAsync((int)row["AccountID"], (decimal)row["Amount"],
-                    (DateTime)row["TransactionDate"], (int)row["TransactionID"]);
-            }
+                await EvaluateDebitTransactionAsync((int)row["AccountID"], (decimal)row["Amount"], (DateTime)row["TransactionDate"], (int)row["TransactionID"]);
         }
     }
 }
