@@ -84,11 +84,20 @@ namespace SmartBank_UI.Main_Form_UC
             if (dgvCustomersData.Rows.Count > 0)
             {
                 object value = dgvCustomersData.CurrentRow?.Cells["NationalID"].Value;
-                if (value == null || value == DBNull.Value) return;
+                if (value == null || value == DBNull.Value)
+                {
+                    updateCustomerToolStripMenuItem.Enabled = false;
+                    viewCustomerAccountHistoryToolStripMenuItem.Enabled = false;
+                    activateToolStripMenuItem.Enabled = false;
+                    deactivateCustomerToolStripMenuItem.Enabled = false;
+                    return;
+                }
 
                 await ctrlCustomerShortInfo1.LoadCustomerInfoAsync(value.ToString());
                 if (ctrlCustomerShortInfo1.Customer != null)
                 {
+                    updateCustomerToolStripMenuItem.Enabled = true;
+                    viewCustomerAccountHistoryToolStripMenuItem.Enabled = true;
                     btnActivate.Visible = !ctrlCustomerShortInfo1.Customer.IsActive;
                     btnDeactivate.Visible = ctrlCustomerShortInfo1.Customer.IsActive;
                     activateToolStripMenuItem.Enabled = !ctrlCustomerShortInfo1.Customer.IsActive;
@@ -97,6 +106,8 @@ namespace SmartBank_UI.Main_Form_UC
             }
             else
             {
+                updateCustomerToolStripMenuItem.Enabled = false;
+                viewCustomerAccountHistoryToolStripMenuItem.Enabled = false;
                 activateToolStripMenuItem.Enabled = false;
                 deactivateCustomerToolStripMenuItem.Enabled = false;
             }
@@ -104,7 +115,11 @@ namespace SmartBank_UI.Main_Form_UC
 
         private void dgvCustomersData_Click(object sender, EventArgs e) => _loadCustomerFromDGV();
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) => _loadCustomerFromDGV();
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            addCustomerToolStripMenuItem.Enabled = true;
+            _loadCustomerFromDGV();
+        }
 
         private void tbSearchBar_EnterLeave(object sender, EventArgs e)
         {
