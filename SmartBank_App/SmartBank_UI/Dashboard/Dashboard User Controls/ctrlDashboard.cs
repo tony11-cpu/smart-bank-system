@@ -15,6 +15,14 @@ namespace SmartBank_UI
 {
     public partial class ctrlDashboard : UserControl
     {
+        private sealed class clsFraudFlagView
+        {
+            public string Flag { get; set; }
+            public string Details { get; set; }
+            public string Date { get; set; }
+            public string Status { get; set; }
+        }
+
         private readonly Timer _liveRefreshTimer;
         private bool _isRefreshing = false;
 
@@ -55,6 +63,16 @@ namespace SmartBank_UI
             clsGlobal.OnTransactionCompleted += _onTransactionCompleted;
             this.VisibleChanged += ctrlDashboard_VisibleChanged;
 
+            dgvRecentTransactions.RowTemplate.Height = 35;
+            dgvRecentTransactions.ColumnHeadersHeight = 40;
+            dgvFraudFlags.RowTemplate.Height = 35;
+            dgvFraudFlags.ColumnHeadersHeight = 40;
+            dgvFraudFlags.AllowUserToAddRows = false;
+            dgvFraudFlags.AllowUserToDeleteRows = false;
+            dgvFraudFlags.ReadOnly = true;
+            dgvFraudFlags.MultiSelect = false;
+            dgvFraudFlags.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
             lblMorningToUserWithName.Text = $"Good Morning, {clsGlobal.ActiveUser.FullName}. Here is everything you need to start your shift. ";
             await _refreshDashboardDataSafely();
             _liveRefreshTimer.Start();
@@ -69,9 +87,29 @@ namespace SmartBank_UI
         {
             lblActiveAccounts.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
             await _refreshTransactionWidgets();
+            await _refreshFraudWidgets();
         }
 
         private static bool _isPendingScheduledTransfer(clsTransactionLog transaction) => transaction.IsScheduled && transaction.BalanceBeforeTransaction == transaction.BalanceAfterTransaction;
+
+        private string _mapStoredTypeToDisplayType(string storedType)
+        {
+            switch ((storedType ?? string.Empty).Trim().ToUpper())
+            {
+                case "RAPID_TRANSACTIONS":
+                    return "Rapid Transactions";
+                case "LARGE_WITHDRAWAL":
+                    return "Large Withdrawal";
+                case "RECONCILIATION_MISMATCH":
+                    return "Manual Review";
+                case "OFF_HOURS":
+                    return "Off Hours";
+                case "REPEATED_FAILURE":
+                    return "Repeated Failure";
+                default:
+                    return storedType ?? string.Empty;
+            }
+        }
 
         private async Task _refreshTransactionWidgets()
         {
@@ -107,6 +145,34 @@ namespace SmartBank_UI
 
             dgvRecentTransactions.RowTemplate.Height = 35;
             dgvRecentTransactions.ColumnHeadersHeight = 40;
+        }
+
+        private void _bindFraudFlags(List<clsFraudFlags> fraudFlags)
+        {
+            fraudFlags = fraudFlags ?? new List<clsFraudFlags>();
+            lblFraudFlags.Text = fraudFlags.Count.ToString();
+
+            dgvFraudFlags.DataSource = fraudFlags.Select(n => new clsFraudFlagView
+            {
+                Flag = $"{_mapStoredTypeToDisplayType(n.FlagType)} - {n.Account?.AccountNumber ?? "N/A"}",
+                Details = string.IsNullOrWhiteSpace(n.Details) ? "No details." : n.Details,
+                Date = n.FlaggedDate.ToString("g"),
+                Status = n.IsResolved ? "Resolved" : "Unresolved"
+            }).ToList();
+
+            if (dgvFraudFlags.RowCount <= 0)
+                return;
+
+            dgvFraudFlags.Columns["Flag"].HeaderText = "Flag";
+            dgvFraudFlags.Columns["Details"].HeaderText = "Details";
+            dgvFraudFlags.Columns["Date"].HeaderText = "Date";
+            dgvFraudFlags.Columns["Status"].HeaderText = "Status";
+        }
+
+        private async Task _refreshFraudWidgets()
+        {
+            List<clsFraudFlags> unresolvedFraudFlags = await clsFraudFlags.GetUnresolvedFraudFlagsAsync();
+            _bindFraudFlags(unresolvedFraudFlags);
         }
 
         private async void ctrlDashboard_VisibleChanged(object sender, EventArgs e)
