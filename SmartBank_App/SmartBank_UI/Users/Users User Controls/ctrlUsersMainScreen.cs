@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,6 +99,7 @@ namespace SmartBank_UI.Users
 
             dgvUsersData.RowTemplate.Height = 35;
             dgvUsersData.ColumnHeadersHeight = 40;
+            btnExport.Click += btnExport_Click;
 
             _bindGridToMainUsersDGV(await _loadUsersList());
         }
@@ -292,6 +294,47 @@ namespace SmartBank_UI.Users
                 }
 
                 await _loadUser(tbUsername.Text.Trim());
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvUsersData == null || dgvUsersData.Rows.Count == 0)
+            {
+                MessageBox.Show("No users to export.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.FileName = "Users_Export.csv";
+                saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
+
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        var columns = dgvUsersData.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible).ToList();
+                        sw.WriteLine(string.Join(",", columns.Select(c => c.HeaderText)));
+
+                        foreach (DataGridViewRow row in dgvUsersData.Rows)
+                        {
+                            if (row.IsNewRow)
+                                continue;
+
+                            sw.WriteLine(string.Join(",", columns.Select(c => $"\"{(Convert.ToString(row.Cells[c.Name].Value) ?? string.Empty).Replace("\"", "\"\"")}\"")));
+                        }
+                    }
+
+                    MessageBox.Show("Users exported successfully!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
