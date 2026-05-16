@@ -187,7 +187,7 @@ namespace SmartBank_UI.Fraud_Flags
             tbResolutionNotes.Text = fraudFlag.IsResolved ? $"Resolved by {fraudFlag.ResolvedByUser?.FullName ?? "Unknown"} at {fraudFlag.ResolvedDate?.ToString("g")}" : "No notes.";
             lblRightSub.Text = $"Selected: {_mapStoredTypeToDisplayType(fraudFlag.FlagType)}";
             btnViewAccount.Enabled = fraudFlag.Account != null;
-            btnKeepOpen.Enabled = !fraudFlag.IsResolved;
+            btnKeepOpen.Enabled = _canResolveFlags();
             btnResolveFlag.Enabled = !fraudFlag.IsResolved && _canResolveFlags();
         }
 
@@ -314,7 +314,7 @@ namespace SmartBank_UI.Fraud_Flags
 
         private void dgvFraudFlags_CellClick(object sender, DataGridViewCellEventArgs e) => _loadFraudFlagDetailsFromDGV();
 
-        private void btnKeepOpen_Click(object sender, EventArgs e)
+        private async void btnKeepOpen_Click(object sender, EventArgs e)
         {
             if (_currentFraudFlag == null)
             {
@@ -324,7 +324,32 @@ namespace SmartBank_UI.Fraud_Flags
 
             if (_currentFraudFlag.IsResolved)
             {
-                MessageBox.Show("Selected flag is already resolved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!_canResolveFlags())
+                {
+                    MessageBox.Show("You do not have permission to reopen flags.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Do you want to reopen this resolved flag?", "Confirm Reopen", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                    return;
+
+                try
+                {
+                    if (await _currentFraudFlag.ReopenAsync())
+                    {
+                        MessageBox.Show("Flag reopened and kept unresolved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await _refreshDataAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to reopen flag.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to reopen flag: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 return;
             }
 

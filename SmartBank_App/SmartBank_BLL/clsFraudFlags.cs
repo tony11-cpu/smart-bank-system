@@ -188,5 +188,24 @@ namespace SmartBank_BLL
 
             return false;
         }
+
+        public async Task<bool> ReopenAsync()
+        {
+            if (_mode != enMode.Update || !IsResolved)
+                return false;
+
+            if (!FlagID.HasValue)
+                throw new Exception("Flag ID Is Not Set!");
+
+            if (await clsFraudFlags_DAL.ReopenFraudFlagAsync(clsGlobal.ActiveUser?.UserID ?? throw new Exception("No User Responsible!"), FlagID.Value))
+            {
+                IsResolved = false;
+                ResolvedDate = null;
+                ResolvedByUser = null;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -174,6 +174,39 @@ namespace SmartBack_DAL
             return false;
         }
 
+        public static async Task<bool> ReopenFraudFlagAsync(int userInActionID, int flagID)
+        {
+            using (SqlConnection conn = new SqlConnection(clsDB_Util.ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("sp_ReopenFraudFlag", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserInActionID", userInActionID);
+                cmd.Parameters.AddWithValue("@FlagID", flagID);
+
+                SqlParameter pIsUpdated = new SqlParameter("@IsUpdated", SqlDbType.Bit)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                cmd.Parameters.Add(pIsUpdated);
+
+                try
+                {
+                    await conn.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+
+                    return pIsUpdated.Value != DBNull.Value && (bool)pIsUpdated.Value;
+                }
+                catch (SqlException ex)
+                {
+                    clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                }
+            }
+
+            return false;
+        }
+
         public static async Task<DataTable> GetAllFraudFlagsAsync()
         {
             DataTable dt = new DataTable();
