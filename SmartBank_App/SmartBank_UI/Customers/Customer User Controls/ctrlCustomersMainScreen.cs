@@ -49,7 +49,11 @@ namespace SmartBank_UI.Main_Form_UC
 
             foreach (DataGridViewRow row in dgvCustomersData.Rows)
             {
-                row.Cells["FirstName"].Value = $"{row.Cells["FirstName"].Value} {row.Cells["LastName"].Value}".Trim();
+                string firstName = row.Cells["FirstName"].Value?.ToString() ?? string.Empty;
+                string lastName = row.Cells["LastName"].Value?.ToString() ?? string.Empty;
+
+                if (!string.IsNullOrWhiteSpace(lastName) && !firstName.EndsWith($" {lastName}", StringComparison.Ordinal))
+                    row.Cells["FirstName"].Value = $"{firstName} {lastName}".Trim();
             }
         }
 
