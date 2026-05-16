@@ -45,7 +45,7 @@ namespace SmartBank_UI.System_Config
         {
             foreach (var f in _fields)
             {
-                int val = (await clsConfigurations.GetConfigValueAsync(f.Key)).Value;
+                int val = (await clsConfigurations.GetConfigValueAsync(f.Key)) ?? 0;
                 f.Control.Value = val;
                 _changes[f.Key] = (val, false);
             }
@@ -217,6 +217,12 @@ namespace SmartBank_UI.System_Config
                     continue;
 
                 clsConfigurations config = await clsConfigurations.FindAsync(f.Key);
+                if (config == null)
+                {
+                    MessageBox.Show($"Configuration record for {f.Key} was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 config.ConfigValue = (int)f.Control.Value;
 
                 try

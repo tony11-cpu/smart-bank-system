@@ -54,7 +54,12 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
         private void _bindGrid(List<clsTransactionLog> transactions)
         {
+            transactions = transactions ?? new List<clsTransactionLog>();
             dgvAllTransactions.DataSource = transactions;
+
+            int count = transactions.Count;
+            lblNumberOfTransactions.Text = $"Showing {count} Transactions";
+            lblClickToShowRow.Visible = count > 0;
 
             if(dgvAllTransactions.RowCount == 0)
                 return;
@@ -71,10 +76,6 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
 
             dgvAllTransactions.RowTemplate.Height = 35;
             dgvAllTransactions.ColumnHeadersHeight = 40;
-
-            int count = transactions.Count();
-            lblNumberOfTransactions.Text = $"Showing {count} Transactions";
-            lblClickToShowRow.Visible = count > 0;
         }
 
         private async Task<List<clsTransactionLog>> _loadTransactionsLog()

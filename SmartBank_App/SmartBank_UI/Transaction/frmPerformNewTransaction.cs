@@ -21,6 +21,9 @@ namespace SmartBank_UI.Transaction
         private enTransactionType _transactionType;
         private string _fromAccountNumber;
         private string _toAccountNumber;
+        private bool _isManagerOrAdmin() => clsGlobal.ActiveUser?.Permissions != null &&
+                                            (clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Manager ||
+                                             clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin);
 
         private bool _hasPermissionForTransaction(enTransactionType transactionType)
         {
@@ -152,14 +155,14 @@ namespace SmartBank_UI.Transaction
 
             if (account.Status == clsAccounts.enStatus.Frozen)
             {
-                if (!(clsGlobal.ActiveUser.Permissions.PermissionPresenter == clsPermissions.enPermissionPresenter.Admin))
+                if (!_isManagerOrAdmin())
                 {
                     MessageBox.Show("Account is frozen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnPerformTransaction.Enabled = false;
                     return;
                 }
 
-                MessageBox.Show("Frozen account (Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Frozen account (Manager/Admin override).", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             lblAccountBalanceAfterTransaction.Text = account.Balance.ToString("C");
@@ -192,7 +195,7 @@ namespace SmartBank_UI.Transaction
                 return string.Empty;
             else if (amount > ctrlAccountShortInfo1.CurrentAccount.Balance)
                 return "Insufficient funds.";
-            else if (ctrlAccountShortInfo1.CurrentAccount.Balance - amount < ctrlAccountShortInfo1.CurrentAccount.MinimumBalance)
+            else if (!_isManagerOrAdmin() && ctrlAccountShortInfo1.CurrentAccount.Balance - amount < ctrlAccountShortInfo1.CurrentAccount.MinimumBalance)
                 return "Cannot perform this transaction because it exceeds the account minimum balance.";
 
             return string.Empty;

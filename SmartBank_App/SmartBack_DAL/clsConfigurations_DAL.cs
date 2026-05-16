@@ -71,7 +71,7 @@ namespace SmartBack_DAL
                     SqlParameter ConfigKey = new SqlParameter("@ConfigKey", SqlDbType.NVarChar, 50) { Direction = ParameterDirection.Output };
                     SqlParameter ConfigValue = new SqlParameter("@ConfigValue", SqlDbType.Int) { Direction = ParameterDirection.Output };
                     SqlParameter Description = new SqlParameter("@Description", SqlDbType.NVarChar, 255) { Direction = ParameterDirection.Output };
-                    SqlParameter LastModifiedDate = new SqlParameter("@LastModifiedDate", SqlDbType.Date) { Direction = ParameterDirection.Output };
+                    SqlParameter LastModifiedDate = new SqlParameter("@LastModifiedDate", SqlDbType.DateTime) { Direction = ParameterDirection.Output };
                     SqlParameter LastModifiedByUserID = new SqlParameter("@LastModifiedByUserID", SqlDbType.Int) { Direction = ParameterDirection.Output };
 
                     cmd.Parameters.Add(ConfigKey);
@@ -83,11 +83,18 @@ namespace SmartBack_DAL
                     await conn.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
 
-                    return new clsConfigDto(configID, ConfigKey.Value.ToString() , Convert.ToInt32(ConfigValue.Value) , Description.Value.ToString(),
-                        Convert.ToDateTime(LastModifiedDate.Value), Convert.ToInt32(LastModifiedByUserID.Value));
+                    if (ConfigKey.Value == DBNull.Value)
+                        return null;
+
+                    return new clsConfigDto(configID,
+                        ConfigKey.Value.ToString(),
+                        ConfigValue.Value == DBNull.Value ? 0 : Convert.ToInt32(ConfigValue.Value),
+                        Description.Value == DBNull.Value ? null : Description.Value.ToString(),
+                        LastModifiedDate.Value == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(LastModifiedDate.Value),
+                        LastModifiedByUserID.Value == DBNull.Value ? (int?)null : Convert.ToInt32(LastModifiedByUserID.Value));
                 }
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
             }

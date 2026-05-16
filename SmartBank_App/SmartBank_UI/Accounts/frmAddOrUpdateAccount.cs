@@ -233,6 +233,9 @@ namespace SmartBank_UI.Accounts
 
         private void nupMinBalance_ValueChanged(object sender, EventArgs e) => lblMinBalanceLiveView.Text = nupMinBalance.Value.ToString("C");
 
+        private decimal _getOpeningBalanceForValidation() => _currentMode == enMode.Update && _selectedAccount != null ?
+                                                              _selectedAccount.Balance : nupOpeningBalance.Value;
+
         private void nupMinBalance_Validating(object sender, CancelEventArgs e)
         {
             if (_accountType_Savings.HasValue && _accountType_Savings.Value && nupMinBalance.Value < 500)
@@ -241,7 +244,7 @@ namespace SmartBank_UI.Accounts
                 nupMinBalance.Minimum = 500;
                 errorProvider1.SetError(nupMinBalance, null);
             }
-            else if (nupOpeningBalance.Value > 0 && nupMinBalance.Value > nupOpeningBalance.Value)
+            else if (nupMinBalance.Value > _getOpeningBalanceForValidation())
             {
                 e.Cancel = true;
                 errorProvider1.SetError(nupMinBalance, "Minimum balance cannot exceed the opening balance.");
