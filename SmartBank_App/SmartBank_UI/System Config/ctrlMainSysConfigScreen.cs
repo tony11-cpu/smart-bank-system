@@ -68,6 +68,7 @@ namespace SmartBank_UI.System_Config
             {
                 lblTotalActiveAccountsCount.Text = "0";
                 lblTotalUsersCount.Text = "0";
+                lblUnresolvedFlags.Text = "0";
                 return;
             }
 
@@ -75,11 +76,13 @@ namespace SmartBank_UI.System_Config
             {
                 lblTotalActiveAccountsCount.Text = (await clsAccounts.NumberOfActiveAccountsAsync()).ToString();
                 lblTotalUsersCount.Text = (await clsUsers.GetAllUsersAsync()).Count.ToString();
+                lblUnresolvedFlags.Text = (await clsFraudFlags.GetUnresolvedFraudFlagsAsync()).Count.ToString();
             }
             catch
             {
                 lblTotalActiveAccountsCount.Text = "0";
                 lblTotalUsersCount.Text = "0";
+                lblUnresolvedFlags.Text = "0";
             }
         }
 
@@ -143,6 +146,7 @@ namespace SmartBank_UI.System_Config
                 _loadServiceRunningStatus();
                 lblTotalActiveAccountsCount.Text = "0";
                 lblTotalUsersCount.Text = "0";
+                lblUnresolvedFlags.Text = "0";
             }
 
             _serviceStatusTimer.Start();
@@ -169,6 +173,7 @@ namespace SmartBank_UI.System_Config
                 _loadServiceRunningStatus();
                 lblTotalActiveAccountsCount.Text = "0";
                 lblTotalUsersCount.Text = "0";
+                lblUnresolvedFlags.Text = "0";
             }
 
             _serviceStatusTimer.Start();
