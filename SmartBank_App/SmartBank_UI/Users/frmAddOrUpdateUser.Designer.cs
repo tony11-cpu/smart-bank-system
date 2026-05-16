@@ -80,6 +80,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.MidnightBlue;
             this.groupBox1.Controls.Add(this.btnRemovePhoto);
             this.groupBox1.Controls.Add(this.btnUploadPhoto);
             this.groupBox1.Controls.Add(this.pbUserPhoto);
@@ -228,6 +229,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.MidnightBlue;
             this.groupBox2.Controls.Add(this.btnUnlock);
             this.groupBox2.Controls.Add(this.btnLock);
             this.groupBox2.Controls.Add(this.lblPasswordStrength);

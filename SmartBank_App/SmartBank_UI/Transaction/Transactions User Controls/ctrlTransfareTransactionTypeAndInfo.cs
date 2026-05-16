@@ -74,7 +74,7 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
             cbScheduleTransfare.SelectedIndex = 0;
         }
 
-        private void btnFromAccountLookUp_Click(object sender, EventArgs e)
+        private async void btnFromAccountLookUp_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbFromAccountNumber.Text) || _isIdle(tbFromAccountNumber))
             {
@@ -82,12 +82,19 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            _accountNumber = tbFromAccountNumber.Text.Trim();
+            string fromAccountNumber = tbFromAccountNumber.Text.Trim();
+            if (!await clsAccounts.IsAccountExistsAsync(fromAccountNumber))
+            {
+                MessageBox.Show("Source account was not found.", "Invalid Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            _accountNumber = fromAccountNumber;
             OnFromAccountNumberChanged?.Invoke(_accountNumber);
             _enableOrDisableTransactionProps(true);
         }
 
-        private void btnLookUpToAccount_Click(object sender, EventArgs e)
+        private async void btnLookUpToAccount_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbToAccountNumber.Text) || _isIdle(tbToAccountNumber))
             {
@@ -104,9 +111,16 @@ namespace SmartBank_UI.Transaction.Transactions_User_Controls
                 return;
             }
 
-            OnToAccountNumberChanged?.Invoke(tbToAccountNumber.Text.Trim());
+            string toAccountNumber = tbToAccountNumber.Text.Trim();
+            if (!await clsAccounts.IsAccountExistsAsync(toAccountNumber))
+            {
+                MessageBox.Show("Destination account was not found.", "Invalid Account", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(tbToAccountNumber.Text, () => MessageBox.Show("Account Found!", "To Account Found", MessageBoxButtons.OK, MessageBoxIcon.Information));
+            OnToAccountNumberChanged?.Invoke(toAccountNumber);
+
+            frmAccountShortInfo toAccountInfo = new frmAccountShortInfo(toAccountNumber, () => MessageBox.Show("Account Found!", "To Account Found", MessageBoxButtons.OK, MessageBoxIcon.Information));
             toAccountInfo.ShowDialog();
         }
 

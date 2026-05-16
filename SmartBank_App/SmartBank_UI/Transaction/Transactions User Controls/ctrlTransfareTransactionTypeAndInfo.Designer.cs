@@ -158,9 +158,9 @@
             this.label11.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.label11.Location = new System.Drawing.Point(70, 13);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(146, 24);
+            this.label11.Size = new System.Drawing.Size(177, 24);
             this.label11.TabIndex = 0;
-            this.label11.Text = "Source Account";
+            this.label11.Text = "Destination Account";
             // 
             // tbRefrenceOrRemark
             // 

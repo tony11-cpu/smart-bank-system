@@ -91,10 +91,12 @@
             this.dgvFraudFlags.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFraudFlags.Location = new System.Drawing.Point(662, 213);
             this.dgvFraudFlags.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvFraudFlags.MultiSelect = false;
             this.dgvFraudFlags.Name = "dgvFraudFlags";
             this.dgvFraudFlags.RowHeadersVisible = false;
             this.dgvFraudFlags.RowHeadersWidth = 62;
             this.dgvFraudFlags.RowTemplate.Height = 28;
+            this.dgvFraudFlags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFraudFlags.Size = new System.Drawing.Size(646, 502);
             this.dgvFraudFlags.TabIndex = 6;
             // 
@@ -107,11 +109,13 @@
             this.dgvRecentTransactions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRecentTransactions.Location = new System.Drawing.Point(14, 213);
             this.dgvRecentTransactions.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvRecentTransactions.MultiSelect = false;
             this.dgvRecentTransactions.Name = "dgvRecentTransactions";
             this.dgvRecentTransactions.ReadOnly = true;
             this.dgvRecentTransactions.RowHeadersVisible = false;
             this.dgvRecentTransactions.RowHeadersWidth = 62;
             this.dgvRecentTransactions.RowTemplate.Height = 28;
+            this.dgvRecentTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRecentTransactions.Size = new System.Drawing.Size(646, 502);
             this.dgvRecentTransactions.TabIndex = 5;
             // 
