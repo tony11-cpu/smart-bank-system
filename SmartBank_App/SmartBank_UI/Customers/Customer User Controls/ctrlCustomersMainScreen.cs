@@ -297,10 +297,5 @@ namespace SmartBank_UI.Main_Form_UC
                 MessageBox.Show($"Export failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void saveFileDialog2_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
     }
 }

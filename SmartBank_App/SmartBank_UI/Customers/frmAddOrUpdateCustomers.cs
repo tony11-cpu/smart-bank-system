@@ -1,4 +1,5 @@
-﻿using SmartBank_BLL;
+﻿using SmartBank;
+using SmartBank_BLL;
 using SmartBank_UI.Properties;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace SmartBank_UI
         private clsCustomers _selectedCustomer = null;
         public static event Action<string> OnAddingOrUpdatingCustomer = null;
         private string _nationalID = null;
+        private bool _canSeeCustomerNationalID = false;
 
         public frmAddOrUpdateCustomers(string nationalID)
         {
@@ -30,6 +32,14 @@ namespace SmartBank_UI
         public frmAddOrUpdateCustomers()
         {
             InitializeComponent();
+        }
+
+        private string _getMaskedNationalID(string nationalID)
+        {
+            if (string.IsNullOrWhiteSpace(nationalID))
+                return "***-**-????";
+
+            return nationalID.Length >= 4 ? $"***-**-{nationalID.Substring(nationalID.Length - 4)}" : "***-**-????";
         }
 
         private void _loadDeafultFormValues()
@@ -68,7 +78,7 @@ namespace SmartBank_UI
             tbPhone.Text = _selectedCustomer.Phone;
             _setTextboxStates(tbPhone, false, true);
 
-            tbNationalID.Text = _selectedCustomer.NationalID;
+            tbNationalID.Text = _canSeeCustomerNationalID ? _selectedCustomer.NationalID : _getMaskedNationalID(_selectedCustomer.NationalID);
             _setTextboxStates(tbNationalID, false, true);
         }
 
@@ -101,6 +111,8 @@ namespace SmartBank_UI
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return;
+
+            _canSeeCustomerNationalID = clsGlobal.ActiveUser?.Permissions?.Has(clsPermissions.enPermission.CanViewCustomerNationalId) ?? false;
 
             if (string.IsNullOrEmpty(_nationalID) || !await clsCustomers.IsCustomerExistsAsync(_nationalID))
             {
@@ -151,7 +163,8 @@ namespace SmartBank_UI
 
             _selectedCustomer.FirstName = tbFirstName.Text.Trim();
             _selectedCustomer.LastName = tbLastName.Text.Trim();
-            _selectedCustomer.NationalID = tbNationalID.Text.Trim();
+            if (_mode == enMode.Add)
+                _selectedCustomer.NationalID = tbNationalID.Text.Trim();
             _selectedCustomer.DateOfBirth = Convert.ToDateTime(mtbDateOfBirth.Text.Trim());
             _selectedCustomer.Gender = cbGender.SelectedIndex != 0;
             _selectedCustomer.Phone = tbPhone.Text.Trim();
@@ -171,6 +184,8 @@ namespace SmartBank_UI
             {
                 _mode = enMode.Update;
                 tbNationalID.ReadOnly = true;
+                tbNationalID.Text = _canSeeCustomerNationalID ? _selectedCustomer.NationalID : _getMaskedNationalID(_selectedCustomer.NationalID);
+                _setTextboxStates(tbNationalID, false, true);
                 OnAddingOrUpdatingCustomer?.Invoke(_selectedCustomer.NationalID);
                 lblAddOrUpdate.Text = "Update Customer";
                 lblInforamtionAboutForm.Text = "You can update the customer information in this form.";

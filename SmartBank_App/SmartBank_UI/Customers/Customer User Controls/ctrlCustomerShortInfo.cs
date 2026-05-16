@@ -105,7 +105,7 @@ namespace SmartBank_UI.Main_Form_UC
             }
             else if(!_canSeeCustomerID)
             {
-                MessageBox.Show("You do not have permission to view full customer information.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You do not have permission to view full customer information.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
