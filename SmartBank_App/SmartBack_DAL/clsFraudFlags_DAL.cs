@@ -201,6 +201,7 @@ namespace SmartBack_DAL
                 catch (SqlException ex)
                 {
                     clsDB_Util.clsLogger.Log(ex.Message, EventLogEntryType.Error);
+                    throw;
                 }
             }
 

@@ -26,8 +26,12 @@ BEGIN
             IF @@ROWCOUNT = 0
                 THROW 53004, 'Fraud flag not found or already unresolved.', 1;
 
-            INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
-            VALUES (@UserInActionID, 'FRAUD_FLAG_REOPENED', 'FraudFlags', @FlagID, '1', '0', GETDATE());
+            BEGIN TRY
+                INSERT INTO AuditLog (UserID, Action, EntityType, EntityID, OldValue, NewValue, Timestamp)
+                VALUES (@UserInActionID, 'FRAUD_FLAG_REOPENED', 'FraudFlags', @FlagID, '1', '0', GETDATE());
+            END TRY
+            BEGIN CATCH
+            END CATCH
 
             SET @IsUpdated = 1;
         COMMIT TRANSACTION
@@ -41,4 +45,3 @@ BEGIN
     END CATCH
 END;
 GO
-
