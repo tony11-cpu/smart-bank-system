@@ -30,7 +30,6 @@ namespace SmartBank_UI.Fraud_Flags
         {
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblSubtitle = new System.Windows.Forms.Label();
-            this.btnManualFlag = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.panelStatOpen = new System.Windows.Forms.Panel();
             this.lblStatOpenSub = new System.Windows.Forms.Label();
@@ -123,27 +122,6 @@ namespace SmartBank_UI.Fraud_Flags
             this.lblSubtitle.Text = "Review suspicious activity detected automatically by the monitoring service and r" +
     "esolve fraud flags.";
             // 
-            // btnManualFlag
-            // 
-            this.btnManualFlag.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnManualFlag.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnManualFlag.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SkyBlue;
-            this.btnManualFlag.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SteelBlue;
-            this.btnManualFlag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnManualFlag.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnManualFlag.ForeColor = System.Drawing.Color.White;
-            this.btnManualFlag.Image = global::SmartBank_UI.Properties.Resources.icons8_plus_24;
-            this.btnManualFlag.Location = new System.Drawing.Point(1140, 184);
-            this.btnManualFlag.Margin = new System.Windows.Forms.Padding(2);
-            this.btnManualFlag.Name = "btnManualFlag";
-            this.btnManualFlag.Size = new System.Drawing.Size(163, 54);
-            this.btnManualFlag.TabIndex = 7;
-            this.btnManualFlag.Text = "Manual Flag";
-            this.btnManualFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnManualFlag.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnManualFlag.UseVisualStyleBackColor = false;
-            this.btnManualFlag.Click += new System.EventHandler(this.btnManualFlag_Click);
-            // 
             // btnExport
             // 
             this.btnExport.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
@@ -151,7 +129,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.btnExport.Image = global::SmartBank_UI.Properties.Resources.icons8_export_48;
-            this.btnExport.Location = new System.Drawing.Point(1208, 125);
+            this.btnExport.Location = new System.Drawing.Point(1208, 184);
             this.btnExport.Margin = new System.Windows.Forms.Padding(2);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(95, 54);
@@ -369,9 +347,9 @@ namespace SmartBank_UI.Fraud_Flags
             this.tbSearch.TabIndex = 10;
             this.tbSearch.Tag = "Search by account number, customer name, flag type, or details...";
             this.tbSearch.Text = "Search by account number, customer name, flag type, or details...";
+            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             this.tbSearch.Enter += new System.EventHandler(this.tbSearch_EnterLeave);
             this.tbSearch.Leave += new System.EventHandler(this.tbSearch_EnterLeave);
-            this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             // 
             // btnFilterAll
             // 
@@ -914,7 +892,6 @@ namespace SmartBank_UI.Fraud_Flags
             this.Controls.Add(this.panelStatResolved);
             this.Controls.Add(this.panelStatHighRisk);
             this.Controls.Add(this.panelStatOpen);
-            this.Controls.Add(this.btnManualFlag);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblTitle);
@@ -946,7 +923,6 @@ namespace SmartBank_UI.Fraud_Flags
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.Button btnManualFlag;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Panel panelStatOpen;
         private System.Windows.Forms.Label lblStatOpenSub;
