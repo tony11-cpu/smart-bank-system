@@ -105,10 +105,10 @@
     <Compile Include="Dashboard\Dashboard User Controls\ctrlDashboard.Designer.cs">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Audit Log\ctrlAuditLogMainScreen.cs">
+    <Compile Include="Audit Log\Audit Log User Controls\ctrlAuditLogMainScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Audit Log\ctrlAuditLogMainScreen.Designer.cs">
+    <Compile Include="Audit Log\Audit Log User Controls\ctrlAuditLogMainScreen.Designer.cs">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Fraud Flags\Fraud Flags User Controls\frmFraudFlags.cs">
@@ -131,10 +131,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System Config\ctrlMainSysConfigScreen.cs">
+    <Compile Include="System Config\System Config User Controls\ctrlMainSysConfigScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="System Config\ctrlMainSysConfigScreen.Designer.cs">
+    <Compile Include="System Config\System Config User Controls\ctrlMainSysConfigScreen.Designer.cs">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmPerformNewTransaction.cs">
@@ -212,7 +212,7 @@
     <EmbeddedResource Include="Dashboard\Dashboard User Controls\ctrlDashboard.resx">
       <DependentUpon>ctrlDashboard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Audit Log\ctrlAuditLogMainScreen.resx">
+    <EmbeddedResource Include="Audit Log\Audit Log User Controls\ctrlAuditLogMainScreen.resx">
       <DependentUpon>ctrlAuditLogMainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Fraud Flags\Fraud Flags User Controls\frmFraudFlags.resx">
@@ -229,7 +229,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="System Config\ctrlMainSysConfigScreen.resx">
+    <EmbeddedResource Include="System Config\System Config User Controls\ctrlMainSysConfigScreen.resx">
       <DependentUpon>ctrlMainSysConfigScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmPerformNewTransaction.resx">
