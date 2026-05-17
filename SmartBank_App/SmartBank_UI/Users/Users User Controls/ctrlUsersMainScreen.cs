@@ -99,7 +99,6 @@ namespace SmartBank_UI.Users
 
             dgvUsersData.RowTemplate.Height = 35;
             dgvUsersData.ColumnHeadersHeight = 40;
-            btnExport.Click += btnExport_Click;
 
             _bindGridToMainUsersDGV(await _loadUsersList());
         }
@@ -297,7 +296,9 @@ namespace SmartBank_UI.Users
             }
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
+        private async void ctrlUsersMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGridToMainUsersDGV(await _loadUsersList());
+
+        private void btnExport_Click_1(object sender, EventArgs e)
         {
             if (dgvUsersData == null || dgvUsersData.Rows.Count == 0)
             {
@@ -337,7 +338,5 @@ namespace SmartBank_UI.Users
                 }
             }
         }
-
-        private async void ctrlUsersMainScreen_VisibleChanged(object sender, EventArgs e) => _bindGridToMainUsersDGV(await _loadUsersList());
     }
 }

@@ -796,18 +796,18 @@ namespace SmartBank_UI.Audit_Log
             this.panel7.Location = new System.Drawing.Point(-1, -1);
             this.panel7.Margin = new System.Windows.Forms.Padding(2);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(472, 102);
+            this.panel7.Size = new System.Drawing.Size(471, 102);
             this.panel7.TabIndex = 0;
             // 
             // lblAuditSubTitle
             // 
             this.lblAuditSubTitle.AutoSize = true;
-            this.lblAuditSubTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAuditSubTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditSubTitle.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.lblAuditSubTitle.Location = new System.Drawing.Point(120, 55);
+            this.lblAuditSubTitle.Location = new System.Drawing.Point(113, 55);
             this.lblAuditSubTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditSubTitle.Name = "lblAuditSubTitle";
-            this.lblAuditSubTitle.Size = new System.Drawing.Size(223, 18);
+            this.lblAuditSubTitle.Size = new System.Drawing.Size(200, 16);
             this.lblAuditSubTitle.TabIndex = 2;
             this.lblAuditSubTitle.Text = "Select an audit record to inspect.";
             // 
@@ -816,7 +816,7 @@ namespace SmartBank_UI.Audit_Log
             this.lblAuditDetailTitle.AutoSize = true;
             this.lblAuditDetailTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAuditDetailTitle.ForeColor = System.Drawing.Color.White;
-            this.lblAuditDetailTitle.Location = new System.Drawing.Point(120, 25);
+            this.lblAuditDetailTitle.Location = new System.Drawing.Point(113, 25);
             this.lblAuditDetailTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAuditDetailTitle.Name = "lblAuditDetailTitle";
             this.lblAuditDetailTitle.Size = new System.Drawing.Size(191, 24);

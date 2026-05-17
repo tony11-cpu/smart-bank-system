@@ -355,7 +355,7 @@ namespace SmartBank_UI.Users
             {
                 MessageBox.Show("You cannot lock your account while you are logged in, please contact another admin to lock your account!", "Action not allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            else if (MessageBox.Show("Are you sure you want to lock this user account?", "Confirm Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            else if (MessageBox.Show("Are you sure you want to lock this user account?", "Confirm Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 if (await _selectedUser.LockAsync())
                 {

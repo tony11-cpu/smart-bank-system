@@ -133,10 +133,10 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.btnExport.Image = global::SmartBank_UI.Properties.Resources.icons8_export_48;
-            this.btnExport.Location = new System.Drawing.Point(1208, 184);
+            this.btnExport.Location = new System.Drawing.Point(1193, 184);
             this.btnExport.Margin = new System.Windows.Forms.Padding(2);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(95, 54);
+            this.btnExport.Size = new System.Drawing.Size(110, 54);
             this.btnExport.TabIndex = 6;
             this.btnExport.Text = "Export";
             this.btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -347,7 +347,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.tbSearch.Location = new System.Drawing.Point(23, 207);
             this.tbSearch.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(621, 32);
+            this.tbSearch.Size = new System.Drawing.Size(651, 32);
             this.tbSearch.TabIndex = 10;
             this.tbSearch.Tag = "Search by account number, customer name, flag type, or details...";
             this.tbSearch.Text = "Search by account number, customer name, flag type, or details...";
@@ -361,7 +361,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFilterAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFilterAll.ForeColor = System.Drawing.Color.White;
-            this.btnFilterAll.Location = new System.Drawing.Point(648, 206);
+            this.btnFilterAll.Location = new System.Drawing.Point(678, 206);
             this.btnFilterAll.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilterAll.Name = "btnFilterAll";
             this.btnFilterAll.Size = new System.Drawing.Size(73, 32);
@@ -376,7 +376,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFilterOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFilterOpen.ForeColor = System.Drawing.Color.White;
-            this.btnFilterOpen.Location = new System.Drawing.Point(725, 206);
+            this.btnFilterOpen.Location = new System.Drawing.Point(755, 206);
             this.btnFilterOpen.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilterOpen.Name = "btnFilterOpen";
             this.btnFilterOpen.Size = new System.Drawing.Size(95, 32);
@@ -391,7 +391,7 @@ namespace SmartBank_UI.Fraud_Flags
             this.btnFilterResolved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFilterResolved.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFilterResolved.ForeColor = System.Drawing.Color.White;
-            this.btnFilterResolved.Location = new System.Drawing.Point(824, 206);
+            this.btnFilterResolved.Location = new System.Drawing.Point(854, 206);
             this.btnFilterResolved.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilterResolved.Name = "btnFilterResolved";
             this.btnFilterResolved.Size = new System.Drawing.Size(95, 32);
@@ -414,7 +414,7 @@ namespace SmartBank_UI.Fraud_Flags
             "Large Withdrawal",
             "Failed Attempts",
             "Manual Review"});
-            this.cbType.Location = new System.Drawing.Point(923, 206);
+            this.cbType.Location = new System.Drawing.Point(953, 206);
             this.cbType.Margin = new System.Windows.Forms.Padding(2);
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(172, 32);
