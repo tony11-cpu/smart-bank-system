@@ -500,8 +500,8 @@ mkdir C:\SmartBank
 mkdir C:\SmartBank\SmartBankCustomers_Images
 mkdir C:\SmartBank\SchedualTransfareLogs
 ```
-
 These folders are used for customer images and service logs.
+note: folders "C:\SmartBank\SmartBankCustomers_Images" & "C:\SmartBank\SchedualTransfareLogs" will be created automatically
 
 ### 7. Open The Solution
 
