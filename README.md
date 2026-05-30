@@ -557,13 +557,7 @@ Run it as Administrator.
 From the repository root:
 
 ```bat
-%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe SmartBank_App\SmartBank_MonituringServices\bin\Release\SmartBank_MonituringServices.exe
-```
-
-If you built 32-bit only, use:
-
-```bat
-%WINDIR%\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe SmartBank_App\SmartBank_MonituringServices\bin\Release\SmartBank_MonituringServices.exe
+InstallUtil.exe SmartBank_App\SmartBank_MonituringServices\bin\Release\SmartBank_MonituringServices.exe
 ```
 
 ### 4. Confirm Service Installation
