@@ -619,7 +619,7 @@ Service check interval set to 60 seconds.
 Run as Administrator:
 
 ```bat
-%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /u SmartBank_App\SmartBank_MonituringServices\bin\Release\SmartBank_MonituringServices.exe
+InstallUtil.exe /u SmartBank_App\SmartBank_MonituringServices\bin\Release\SmartBank_MonituringServices.exe
 ```
 
 ---
