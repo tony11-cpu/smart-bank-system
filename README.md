@@ -501,7 +501,8 @@ mkdir C:\SmartBank\SmartBankCustomers_Images
 mkdir C:\SmartBank\SchedualTransfareLogs
 ```
 These folders are used for customer images and service logs.
-note: folders "C:\SmartBank\SmartBankCustomers_Images" & "C:\SmartBank\SchedualTransfareLogs" will be created automatically after the execution of the app
+note: folders "C:\SmartBank\SmartBankCustomers_Images" , "C:\SmartBank\SchedualTransfareLogs" & "C:\SmartBank"
+will be created automatically after the execution of the app
 
 ### 7. Open The Solution
 
