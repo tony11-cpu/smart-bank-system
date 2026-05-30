@@ -781,7 +781,7 @@ Check:
 Use the full path:
 
 ```bat
-%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe
 ```
 
 If that file does not exist, install the .NET Framework 4.7.2 Developer Pack or Visual Studio .NET desktop workload.
