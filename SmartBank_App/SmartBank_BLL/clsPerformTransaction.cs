@@ -30,7 +30,7 @@ namespace SmartBank_BLL
             throw new ArgumentException($"{accountType} account is {account.Status}. Only Active accounts can {action}.");
         }
 
-        private static async Task _validateWithdrawal(clsAccounts account, decimal amount, int performedByUserID)
+        private static void _validateWithdrawal(clsAccounts account, decimal amount)
         {
             if (account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
@@ -50,8 +50,8 @@ namespace SmartBank_BLL
             if (amount <= 0)
                 throw new ArgumentException("Amount must be greater than zero.");
 
-            await _validateWithdrawal(await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")),
-                "Source", "process withdrawals", performedByUserID, true), amount, performedByUserID);
+            _validateWithdrawal(await _validateAccountAsync(await clsAccounts.FindAsync(accountID ?? throw new ArgumentException("Account ID cannot be null.")),
+                "Source", "process withdrawals", performedByUserID, true), amount);
 
             if (await clsTransactions_DAL.WithdrawAsync(accountID.Value, amount, description, performedByUserID))
             {
@@ -76,7 +76,7 @@ namespace SmartBank_BLL
             clsAccounts fromAccount = await _validateAccountAsync(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "initiate transfers", performedByUserID, true);
             clsAccounts toAccount = await _validateAccountAsync(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers", performedByUserID);
 
-            await _validateWithdrawal(fromAccount, amount, performedByUserID);
+            _validateWithdrawal(fromAccount, amount);
 
             if (await clsTransactions_DAL.TransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, performedByUserID))
             {
@@ -104,7 +104,7 @@ namespace SmartBank_BLL
             clsAccounts fromAccount = await _validateAccountAsync(await clsAccounts.FindAsync(fromAccountID.Value), "Source", "schedule transfers", performedByUserID, true);
             clsAccounts toAccount = await _validateAccountAsync(await clsAccounts.FindAsync(toAccountID.Value), "Destination", "receive transfers", performedByUserID);
 
-            await _validateWithdrawal(fromAccount, amount, performedByUserID);
+            _validateWithdrawal(fromAccount, amount);
             return await clsTransactions_DAL.ScheduleTransferAsync(fromAccountID.Value, toAccountID.Value, amount, description, scheduledDate, performedByUserID);
         }
 
