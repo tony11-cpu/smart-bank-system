@@ -24,6 +24,7 @@ namespace SmartBank_UI.Users.Users_User_Controls
         {
             lblEditUserMessage.Visible = !clsGlobal.ActiveUser.Permissions.Has(enPermission.CanManageUsers);
             lblUserFullName.Text = $"Hey, {clsGlobal.ActiveUser.FullName}";
+            lblInforamtionAboutForm.Text = "Here you can view all your actions across the system.";
 
             tbFullName.Text = clsGlobal.ActiveUser.FullName;
             tbUsername.Text = clsGlobal.ActiveUser.Username;

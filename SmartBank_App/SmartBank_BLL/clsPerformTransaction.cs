@@ -32,7 +32,7 @@ namespace SmartBank_BLL
 
         private static async Task _validateWithdrawal(clsAccounts account, decimal amount, int performedByUserID)
         {
-            if (!await _isManagerOrAdminAsync(performedByUserID) && account.Balance - amount < account.MinimumBalance)
+            if (account.Balance - amount < account.MinimumBalance)
                 throw new ArgumentException("Insufficient funds to maintain minimum balance.");
         }
 
